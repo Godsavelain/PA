@@ -64,7 +64,7 @@ static int cmd_x(char *args) {
   }
   char *str_end = args + strlen(args);
   char *arg1 = strtok(args, " ");
-  printf("arg1 %s ",arg1);
+  //printf("arg1 %s ",arg1);
   int arg1_num;
   arg1_num = atoi(arg1); 
   char *arg2 = arg1 + strlen(arg1) + 1;
@@ -75,10 +75,11 @@ static int cmd_x(char *args) {
     }
   uint32_t arg2_num;
   sscanf(arg2,"%x",&arg2_num);
+  printf("%x\n",arg2_num);
   while(arg1_num > 0){
     int data;
     data = vaddr_read(arg2_num , 4);
-    printf("%x\n",data);
+    printf("%8x\n",data);
     arg1_num--;
     arg2_num = arg2_num + 4;
   }
