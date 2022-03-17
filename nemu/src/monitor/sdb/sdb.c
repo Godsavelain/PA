@@ -55,6 +55,15 @@ static int cmd_si(char *args) {
   return 0;
 }
 
+static int cmd_x(char *args) {
+  if(args == NULL)
+  {
+    printf("x operation need an argument (x N expr)\n");
+    return 0;
+  }
+  return 0;
+}
+
 
 static int cmd_info(char *args) {
   if(args == NULL)
@@ -80,7 +89,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Step one instruction exactly.", cmd_si },
   { "info", "Show all rigisters or watchpoints.", cmd_info },
-
+  { "x", "Scan Memory.", cmd_x },
   /* TODO: Add more commands */
 
 };
