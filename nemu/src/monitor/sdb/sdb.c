@@ -8,6 +8,7 @@ static int is_batch_mode = false;
 
 void init_regex();
 void init_wp_pool();
+void isa_reg_display();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -55,6 +56,15 @@ static int cmd_si(char *args) {
 }
 
 
+static int cmd_info(char *args) {
+  if(strcmp(args, "r") == 0)
+  {
+    isa_reg_display();
+  }
+  return 0;
+}
+
+
 static struct {
   const char *name;
   const char *description;
@@ -64,6 +74,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Step one instruction exactly.", cmd_si },
+  { "info", "Show all rigisters or watchpoints.", cmd_info },
 
   /* TODO: Add more commands */
 
