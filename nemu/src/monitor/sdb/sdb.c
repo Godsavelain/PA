@@ -62,11 +62,11 @@ static int cmd_x(char *args) {
     printf("x operation need two arguments (x N expr)\n");
     return 0;
   }
+  char *str_end = args + strlen(args);
   char *arg1 = strtok(args, " ");
-  printf("arg1 %s",arg1);
+  printf("arg1 %s ",arg1);
   int arg1_num;
   arg1_num = atoi(arg1); 
-  char *str_end = args + strlen(args);
   char *arg2 = arg1 + strlen(arg1) + 1;
     if (arg2 >= str_end) {
       arg2 = NULL;
