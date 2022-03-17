@@ -9,6 +9,7 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 void isa_reg_display();
+word_t vaddr_read(vaddr_t addr, int len);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -58,8 +59,27 @@ static int cmd_si(char *args) {
 static int cmd_x(char *args) {
   if(args == NULL)
   {
-    printf("x operation need an argument (x N expr)\n");
+    printf("x operation need two arguments (x N expr)\n");
     return 0;
+  }
+  char *arg1 = strtok(args, " ");
+  int arg1_num;
+  arg1_num = atoi(arg1); 
+  char *str_end = args + strlen(args);
+  char *arg2 = arg1 + strlen(arg1) + 1;
+    if (arg2 >= str_end) {
+      arg2 = NULL;
+      printf("x operation need two arguments (x N expr)\n");
+    return 0;
+    }
+  uint32_t arg2_num;
+  sscanf(arg2,"%x",&arg2_num);
+  while(arg1_num > 0){
+    int data;
+    data = vaddr_read(arg2_num , 4);
+    printf("%x\n",data);
+    arg1_num--;
+    arg2_num = arg2_num + 4;
   }
   return 0;
 }
