@@ -41,7 +41,16 @@ static int cmd_help(char *args);
 
 
 static int cmd_si(char *args) {
-  cpu_exec(1);
+  int num;
+  if(args == NULL)
+  {
+    num = 1;
+  }
+  else
+  {
+    num = atoi(args); 
+  }
+  cpu_exec(num);
   return 0;
 }
 
