@@ -63,6 +63,7 @@ static int cmd_x(char *args) {
     return 0;
   }
   char *arg1 = strtok(args, " ");
+  printf("arg1 %s",arg1);
   int arg1_num;
   arg1_num = atoi(arg1); 
   char *str_end = args + strlen(args);
