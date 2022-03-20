@@ -176,6 +176,7 @@ word_t eval(int p, int q){
   }
   int split_point;
   split_point = get_inferior(p,q);
+  printf("split_point:%d\n",split_point);
   word_t num_1 = eval(p , split_point-1);
   word_t num_2 = eval(split_point+1 , q);
   switch (tokens[split_point].type )
