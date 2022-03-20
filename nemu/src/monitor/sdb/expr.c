@@ -4,6 +4,7 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+#include <stdlib.h>
 
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NUMBER
@@ -94,7 +95,7 @@ static bool make_token(char *e) {
         }
         tokens[nr_token].type = type;
 
-
+        nr_token++;
         // switch (rules[i].token_type) {
         //   default: TODO();
         // }
@@ -112,6 +113,90 @@ static bool make_token(char *e) {
   return true;
 }
 
+int get_inferior(int begin ,int end){
+  int temp_end = end;
+  int want_left_para = 0;
+  while(temp_end > begin){
+    if(want_left_para){
+      if(tokens[temp_end].type == '('){
+        want_left_para--;
+        temp_end--;
+      }
+    }
+    switch(tokens[temp_end].type){
+      case TK_NUMBER:
+        temp_end--;
+        continue;
+      case ')':
+        want_left_para++;
+        temp_end--;
+        continue;
+      case '+':
+      case '-':
+        return temp_end;
+    }
+  }
+    assert(want_left_para != 0);
+    temp_end = end;
+    while(temp_end > begin){
+    if(want_left_para){
+      if(tokens[temp_end].type == '('){
+        want_left_para--;
+        temp_end--;
+      }
+    }
+    switch(tokens[temp_end].type){
+      case TK_NUMBER:
+        temp_end--;
+        continue;
+      case ')':
+        want_left_para++;
+        temp_end--;
+        continue;
+      case '*':
+      case '/':
+        return temp_end;
+    } 
+  }
+  assert(0);
+}
+
+word_t eval(int p, int q){
+  assert(p <= q);
+  if(q == p)
+  {
+    assert(tokens[p].type == TK_NUMBER);
+    return (word_t)atoi(tokens[p].str);
+  }
+  if((tokens[p].type == '(') && (tokens[q].type == ')'))
+  {
+    p = p+1;
+    q = q-1;
+    return eval(p,q);
+  }
+  int split_point;
+  split_point = get_inferior(p,q);
+  word_t num_1 = eval(p , split_point-1);
+  word_t num_2 = eval(split_point+1 , q);
+  switch (tokens[split_point].type )
+  {
+  case '+':
+    return num_1 + num_2;
+    break;
+  case '-':
+    return num_1 - num_2;
+    break;
+  case '*':
+    return num_1 * num_2;
+    break;
+  case '/':
+    return num_1 / num_2;
+    break;
+  
+  default:
+    assert(0);
+  }
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -121,6 +206,7 @@ word_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
+  eval(0,nr_token-1);
 
   return 0;
 }
