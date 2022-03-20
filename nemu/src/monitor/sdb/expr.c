@@ -137,6 +137,9 @@ int get_inferior(int begin ,int end){
       case '+':
       case '-':
         return temp_end;
+      default:
+        temp_end--;
+        continue;
     }
   }
     assert(want_left_para != 0);
@@ -161,6 +164,9 @@ int get_inferior(int begin ,int end){
       case '*':
       case '/':
         return temp_end;
+      default:
+        temp_end--;
+        continue;
     } 
   }
   assert(0);
