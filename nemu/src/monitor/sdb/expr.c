@@ -142,7 +142,8 @@ int get_inferior(int begin ,int end){
         continue;
     }
   }
-    assert(want_left_para == 0);
+    //assert(want_left_para == 0);
+    want_left_para = 0;
     temp_end = end;
     while(temp_end > begin){
     printf("temp_end:%d want_left:%d \n",temp_end,want_left_para);
