@@ -29,7 +29,7 @@ static struct rule {
   {"\\/", '/'},         // divide
   {"\\(", '('},         // left parentheses
   {"\\)", ')'},         // right parentheses
-  {"^(0|[1-9][0-9]*)$)",TK_NUMBER },         // number
+  {"(0|[1-9][0-9]*))",TK_NUMBER },         // number
   
 };
 
