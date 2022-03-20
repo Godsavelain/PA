@@ -121,6 +121,7 @@ int get_inferior(int begin ,int end){
       if(tokens[temp_end].type == '('){
         want_left_para--;
         temp_end--;
+        continue;
       }
     }
     switch(tokens[temp_end].type){
@@ -143,6 +144,7 @@ int get_inferior(int begin ,int end){
       if(tokens[temp_end].type == '('){
         want_left_para--;
         temp_end--;
+        continue;
       }
     }
     switch(tokens[temp_end].type){
