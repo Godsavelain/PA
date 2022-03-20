@@ -121,9 +121,10 @@ int get_inferior(int begin ,int end){
     if(want_left_para > 0){
       if(tokens[temp_end].type == '('){
         want_left_para--;
-        temp_end--;
-        continue;
       }
+      temp_end--;
+      continue;
+
     }
     switch(tokens[temp_end].type){
       case TK_NUMBER:
@@ -145,9 +146,9 @@ int get_inferior(int begin ,int end){
     if(want_left_para > 0){
       if(tokens[temp_end].type == '('){
         want_left_para--;
-        temp_end--;
-        continue;
       }
+      temp_end--;
+      continue;
     }
     switch(tokens[temp_end].type){
       case TK_NUMBER:
