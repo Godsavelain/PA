@@ -90,13 +90,26 @@ static int cmd_x(char *args) {
 static int cmd_info(char *args) {
   if(args == NULL)
   {
-    printf("info operation need an argument ([rw])\n");
+    printf("info operation needs an argument ([rw])\n");
     return 0;
   }
   if(strcmp(args, "r") == 0)
   {
     isa_reg_display();
   }
+  return 0;
+}
+
+static int cmd_p(char *args) {
+  if(args == NULL)
+  {
+    printf("p operation needs an expression input\n");
+    return 0;
+  }
+  word_t out;
+  bool success;
+  out = expr(args , &success);
+  printf("%ld\n",out);
   return 0;
 }
 
@@ -112,6 +125,7 @@ static struct {
   { "si", "Step one instruction exactly.", cmd_si },
   { "info", "Show all rigisters or watchpoints.", cmd_info },
   { "x", "Scan Memory.", cmd_x },
+  { "p", "Compute expression.", cmd_p },
   /* TODO: Add more commands */
 
 };
