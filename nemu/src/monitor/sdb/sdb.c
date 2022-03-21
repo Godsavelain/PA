@@ -2,6 +2,8 @@
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <stdio.h>
+
 #include "sdb.h"
 
 static int is_batch_mode = false;
@@ -113,6 +115,35 @@ static int cmd_p(char *args) {
   return 0;
 }
 
+static int cmd_t(char *args) {
+  char buf[65546];
+  FILE *fp = fopen("input", "r");
+  assert(fp != NULL);
+  while(fgets(buf , 65546, fp))
+      {
+          //printf("%s \n",buf);
+          char *p;
+          p = strchr(buf, ' ');
+          char *num = malloc(20);
+          int i;
+          for(i=0;(i+buf)<p;i++)
+              {
+                *(num+i) = buf[i];
+              }
+          *(num+i+1) = '\0';
+          uint number = (uint)atoi(num);
+          uint test_num;
+          bool success;
+          test_num = expr(p , &success);
+          if (test_num != number)
+          {
+            printf("error occured!\n");
+          }
+        }
+    fclose(fp);
+    return 0;
+}
+
 
 static struct {
   const char *name;
@@ -126,6 +157,7 @@ static struct {
   { "info", "Show all rigisters or watchpoints.", cmd_info },
   { "x", "Scan Memory.", cmd_x },
   { "p", "Compute expression.", cmd_p },
+  { "t", "Temp test.", cmd_t },
   /* TODO: Add more commands */
 
 };

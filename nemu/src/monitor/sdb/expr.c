@@ -57,10 +57,10 @@ void init_regex() {
 
 typedef struct token {
   int type;
-  char str[32];
+  char str[65536];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[65536] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -173,12 +173,16 @@ int get_inferior(int begin ,int end){
   assert(0);
 }
 
-word_t eval(int p, int q){
+uint32_t eval(int p, int q){
   assert(p <= q);
   if(q == p)
   {
-    assert(tokens[p].type == TK_NUMBER);
-    return (word_t)atoi(tokens[p].str);
+    if(tokens[p].type != TK_NUMBER)
+    {
+    printf("error!\n");
+    return 0;
+    }
+    return (uint32_t)atoi(tokens[p].str);
   }
   if((tokens[p].type == '(') && (tokens[q].type == ')'))
   {
@@ -189,8 +193,8 @@ word_t eval(int p, int q){
   int split_point;
   split_point = get_inferior(p,q);
   printf("split_point:%d\n",split_point);
-  word_t num_1 = eval(p , split_point-1);
-  word_t num_2 = eval(split_point+1 , q);
+  uint32_t num_1 = eval(p , split_point-1);
+  uint32_t num_2 = eval(split_point+1 , q);
   switch (tokens[split_point].type )
   {
   case '+':
@@ -203,15 +207,21 @@ word_t eval(int p, int q){
     return num_1 * num_2;
     break;
   case '/':
+    if(num_2 == 0)
+    {
+    printf("divide zero!\n");
+    return 0;
+    }
     return num_1 / num_2;
     break;
   
   default:
-    assert(0);
+    printf("error!\n");
+    return 0;
   }
 }
 
-word_t expr(char *e, bool *success) {
+uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
@@ -219,7 +229,7 @@ word_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
-  word_t ans = eval(0,nr_token-1);
+  uint32_t ans = eval(0,nr_token-1);
 
   return ans;
 }
