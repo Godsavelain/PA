@@ -2,7 +2,7 @@
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <stdio.h>
+//#include <stdio.h>
 
 #include "sdb.h"
 
