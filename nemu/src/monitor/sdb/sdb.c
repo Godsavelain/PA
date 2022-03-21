@@ -117,7 +117,7 @@ static int cmd_p(char *args) {
 
 static int cmd_t(char *args) {
   char buf[65546];
-  FILE *fp = fopen("input", "r");
+  FILE *fp = fopen("./input", "r");
   assert(fp != NULL);
   while(fgets(buf , 65546, fp))
       {
