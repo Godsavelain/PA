@@ -3,6 +3,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 //#include <stdio.h>
+#include <unistd.h>
 
 #include "sdb.h"
 
@@ -116,7 +117,14 @@ static int cmd_p(char *args) {
 }
 
 static int cmd_t(char *args) {
+  char path[255];
+  if(getcwd(path,255))
+  {
+    printf("path %s",path);
+  }
+  
   char buf[65546];
+  
   FILE *fp = fopen("./input", "r");
   assert(fp != NULL);
   while(fgets(buf , 65546, fp))
