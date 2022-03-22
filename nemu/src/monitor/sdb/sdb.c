@@ -165,7 +165,7 @@ static int cmd_t(char *args) {
           }
           j++;
         }
-        printf("wrong %d",wrong);
+        printf("wrong %d\n",wrong);
     fclose(fp);
     return 0;
 }
