@@ -156,7 +156,7 @@ static int cmd_t(char *args) {
             printf("expression %s", p);
             printf("length %d \n", (int)strlen(p));
             printf("test_num:%u real_num %u \n",test_num,number);
-            //assert(0);
+            assert(0);
             wrong++;
           }
           else
