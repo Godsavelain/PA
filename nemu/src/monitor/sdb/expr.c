@@ -120,7 +120,7 @@ int get_inferior(int begin ,int end){
   int temp_end = end;
   int want_left_para = 0;
   while(temp_end > begin){
-    //printf("temp_end:%d want_left:%d \n",temp_end,want_left_para);
+    printf("temp_end:%d want_left:%d \n",temp_end,want_left_para);
     if(want_left_para > 0){
       if(tokens[temp_end].type == '('){
         want_left_para--;
@@ -138,6 +138,7 @@ int get_inferior(int begin ,int end){
         temp_end--;
         continue;
       case '+':
+        return temp_end;
       case '-':
         return temp_end;
       default:
