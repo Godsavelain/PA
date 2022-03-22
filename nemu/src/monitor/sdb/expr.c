@@ -277,9 +277,9 @@ uint eval(int p, int q ,bool* success)
   case '/':
     if(num_2 == 0)
     {
-    printf("divide zero!\n");
-    return 0;
+    printf("divide zero!\n"); 
     *success = false;
+    return 0;
     }
     return (uint)(num_1 / num_2);
     break;
