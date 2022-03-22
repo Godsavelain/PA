@@ -149,6 +149,7 @@ static int cmd_t(char *args) {
           {
             printf("error occured at line %d\n",j);
             printf("expression %s", p);
+            printf("length %d \n", (int)strlen(p));
             printf("test_num:%d real_num %d \n",test_num,number);
             assert(0);
             //wrong++;
