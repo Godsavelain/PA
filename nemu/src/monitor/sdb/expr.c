@@ -174,7 +174,7 @@ int get_inferior(int begin ,int end){
         continue;
     } 
   }
-  printf("token end type %c \n",tokens[end].type);
+  printf("token end type %c want_left %d\n",tokens[end].type,want_left_para);
   if((want_left_para == 1) && (tokens[end].type == ')'))
   {
     begin = begin + 1;
