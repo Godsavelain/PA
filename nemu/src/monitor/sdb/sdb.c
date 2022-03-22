@@ -128,6 +128,7 @@ static int cmd_t(char *args) {
   FILE *fp = fopen("./input", "r");
   assert(fp != NULL);
   int j = 0;
+  //int wrong = 0;
   while(fgets(buf , 65546, fp))
       {
           //printf("%s \n",buf);
@@ -148,6 +149,8 @@ static int cmd_t(char *args) {
           {
             printf("error occured at line %d\n",j);
             printf("expression %s", p);
+            assert(0);
+            //wrong++;
           }
           else
           {
