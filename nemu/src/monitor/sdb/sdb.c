@@ -149,6 +149,10 @@ static int cmd_t(char *args) {
             printf("error occured at line %d\n",j);
             printf("expression %s", p);
           }
+          else
+          {
+            printf("pass line %d \n",j);
+          }
           j++;
         }
     fclose(fp);
