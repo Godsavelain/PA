@@ -249,8 +249,18 @@ uint eval(int p, int q ,bool* success)
   int split_point;
   split_point = get_inferior(p,q);
   //printf("split_point:%d character:%c\n",split_point,tokens[split_point].type);
-  uint num_1 = eval(p , split_point-1 ,success);
-  uint num_2 = eval(split_point+1 , q ,success);
+  bool success1;
+  bool success2;
+  uint num_1 = eval(p , split_point-1 ,&success1);
+  if(success1 == false)
+  {
+    return 0;
+  }
+  uint num_2 = eval(split_point+1 , q ,&success2);
+  if(success2 == false)
+  {
+    return 0;
+  }
   switch (tokens[split_point].type )
   {
   case '+':
