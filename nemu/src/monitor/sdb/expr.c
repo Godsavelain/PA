@@ -178,6 +178,15 @@ int get_inferior(int begin ,int end){
 
 uint32_t eval(int p, int q){
   assert(p <= q);
+  while(tokens[p].type == TK_NOTYPE)
+  {
+    p++;
+  }
+
+  while(tokens[q].type == TK_NOTYPE)
+  {
+    q--;
+  }
   if(q == p)
   {
     if(tokens[p].type != TK_NUMBER)
@@ -188,15 +197,7 @@ uint32_t eval(int p, int q){
     return (uint32_t)atoi(tokens[p].str);
   }
 
-  while(tokens[p].type == TK_NOTYPE)
-  {
-    p++;
-  }
-
-  while(tokens[q].type == TK_NOTYPE)
-  {
-    q--;
-  }
+  
 
   if((tokens[p].type == '(') && (tokens[q].type == ')'))
   {
