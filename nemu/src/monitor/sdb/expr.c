@@ -174,6 +174,10 @@ int get_inferior(int begin ,int end){
         continue;
     } 
   }
+  if((want_left_para == 1) && (tokens[end].type == ')'))
+  {
+    return (get_inferior(begin+1, end-1));
+  }
   assert(0);
 }
 
