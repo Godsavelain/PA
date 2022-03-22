@@ -176,7 +176,9 @@ int get_inferior(int begin ,int end){
     } 
   }
   //printf("token end type %c want_left %d\n",tokens[end].type,want_left_para);
+    printf("begin:%d end:%d \n",begin,end);
     assert(0); 
+    
 }
 
 uint32_t eval(int p, int q)
