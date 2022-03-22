@@ -139,7 +139,7 @@ static int cmd_t(char *args) {
               {
                 *(num+i) = buf[i];
               }
-          *(num+i+1) = '\0';
+          *(num+i) = '\0';
           uint number = (uint)atoi(num);
           uint test_num;
           bool success;
