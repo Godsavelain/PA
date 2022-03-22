@@ -188,7 +188,7 @@ int get_inferior(int begin ,int end){
     
 }
 
-uint32_t eval(int p, int q)
+uint eval(int p, int q)
 {
   assert(p <= q);
   while(tokens[p].type == TK_NOTYPE)
@@ -207,7 +207,7 @@ uint32_t eval(int p, int q)
     printf("error!\n");
     return 0;
     }
-    return (uint32_t)atoi(tokens[p].str);
+    return (uint)atoi(tokens[p].str);
   }
  
   if((tokens[p].type == '(') && (tokens[q].type == ')'))
@@ -248,18 +248,18 @@ uint32_t eval(int p, int q)
   int split_point;
   split_point = get_inferior(p,q);
   //printf("split_point:%d character:%c\n",split_point,tokens[split_point].type);
-  uint32_t num_1 = eval(p , split_point-1);
-  uint32_t num_2 = eval(split_point+1 , q);
+  uint num_1 = eval(p , split_point-1);
+  uint num_2 = eval(split_point+1 , q);
   switch (tokens[split_point].type )
   {
   case '+':
-    return (uint32_t)(num_1 + num_2);
+    return (uint)(num_1 + num_2);
     break;
   case '-':
-    return (uint32_t)(num_1 - num_2);
+    return (uint)(num_1 - num_2);
     break;
   case '*':
-    return (uint32_t)(num_1 * num_2);
+    return (uint)(num_1 * num_2);
     break;
   case '/':
     if(num_2 == 0)
@@ -267,7 +267,7 @@ uint32_t eval(int p, int q)
     printf("divide zero!\n");
     return 0;
     }
-    return (uint32_t)(num_1 / num_2);
+    return (uint)(num_1 / num_2);
     break;
   
   default:
@@ -277,7 +277,7 @@ uint32_t eval(int p, int q)
 
 }
 
-uint32_t expr(char *e, bool *success) {
+uint expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
@@ -285,7 +285,7 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
-  uint32_t ans = eval(0,nr_token-1);
+  uint ans = eval(0,nr_token-1);
 
   return ans;
 }
