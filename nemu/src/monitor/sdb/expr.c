@@ -181,6 +181,7 @@ int get_inferior(int begin ,int end){
 
 uint32_t eval(int p, int q)
 {
+  printf("ccccc:%c\n",tokens[0].type);
   assert(p <= q);
   while(tokens[p].type == TK_NOTYPE)
   {
