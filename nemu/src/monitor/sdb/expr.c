@@ -187,6 +187,7 @@ int get_inferior(int begin ,int end){
   {
     end--;
   }
+    printf("aaaaa\n");
     return (get_inferior(begin, end));
   }
   else
