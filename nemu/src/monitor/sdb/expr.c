@@ -176,7 +176,17 @@ int get_inferior(int begin ,int end){
   }
   if((want_left_para == 1) && (tokens[end].type == ')'))
   {
-    return (get_inferior(begin+1, end-1));
+    begin = begin + 1;
+    end = end - 1;
+    while(tokens[begin].type == TK_NOTYPE)
+  {
+    begin++;
+  }
+  while(tokens[end].type == TK_NOTYPE)
+  {
+    end--;
+  }
+    return (get_inferior(begin, end));
   }
   assert(0);
 }
