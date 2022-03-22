@@ -127,6 +127,7 @@ static int cmd_t(char *args) {
   
   FILE *fp = fopen("./input", "r");
   assert(fp != NULL);
+  int j = 0;
   while(fgets(buf , 65546, fp))
       {
           //printf("%s \n",buf);
@@ -145,8 +146,10 @@ static int cmd_t(char *args) {
           test_num = expr(p , &success);
           if (test_num != number)
           {
-            printf("error occured!\n");
+            printf("error occured at line %d\n",j);
+            printf("expression %s", p);
           }
+          j++;
         }
     fclose(fp);
     return 0;
