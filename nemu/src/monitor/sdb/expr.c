@@ -200,13 +200,14 @@ uint32_t eval(int p, int q)
     }
     return (uint32_t)atoi(tokens[p].str);
   }
-  printf("p:%d q:%d\n",p,q);
+ 
   if((tokens[p].type == '(') && (tokens[q].type == '('))
   {
     int want_left_para = 1;
     int temp_q = q-1;
     bool wrapped = true;
-    while(temp_q > p){
+    while(temp_q > p)
+    {
     //printf("temp_end:%d want_left:%d \n",temp_end,want_left_para);
     if(want_left_para > 0){
       if(tokens[temp_q].type == '('){
@@ -229,9 +230,12 @@ uint32_t eval(int p, int q)
   {
     p = p+1;
     q = q-1;
+    printf("p:%d q:%d\n",p,q);
     return(eval(p,q));
   }
   }
+  printf("p:%d q:%d\n",p,q);
+
   int split_point;
   split_point = get_inferior(p,q);
   printf("split_point:%d\n",split_point);
