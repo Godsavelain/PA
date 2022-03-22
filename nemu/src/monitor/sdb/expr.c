@@ -198,7 +198,7 @@ uint32_t eval(int p, int q){
     return (uint32_t)atoi(tokens[p].str);
   }
 
-  
+  printf("p:%d q:%d\n",p,q);
 
   if((tokens[p].type == '(') && (tokens[q].type == ')'))
   {
