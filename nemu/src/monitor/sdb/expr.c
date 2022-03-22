@@ -117,6 +117,7 @@ static bool make_token(char *e) {
 }
 
 int get_inferior(int begin ,int end){
+  printf("begin:%d end:%d \n",begin,end);
   int temp_end = end;
   int want_left_para = 0;
   while(temp_end > begin){
@@ -176,7 +177,7 @@ int get_inferior(int begin ,int end){
     } 
   }
   //printf("token end type %c want_left %d\n",tokens[end].type,want_left_para);
-    printf("begin:%d end:%d \n",begin,end);
+    
     assert(0); 
     
 }
