@@ -128,7 +128,7 @@ static int cmd_t(char *args) {
   FILE *fp = fopen("./input", "r");
   assert(fp != NULL);
   int j = 0;
-  //int wrong = 0;
+  int wrong = 0;
   while(fgets(buf , 65546, fp))
       {
           //printf("%s \n",buf);
@@ -156,8 +156,8 @@ static int cmd_t(char *args) {
             printf("expression %s", p);
             printf("length %d \n", (int)strlen(p));
             printf("test_num:%u real_num %u \n",test_num,number);
-            assert(0);
-            //wrong++;
+            //assert(0);
+            wrong++;
           }
           else
           {
@@ -165,6 +165,7 @@ static int cmd_t(char *args) {
           }
           j++;
         }
+        printf("wrong %d",wrong);
     fclose(fp);
     return 0;
 }

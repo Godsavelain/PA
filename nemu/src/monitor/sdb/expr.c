@@ -94,7 +94,7 @@ static bool make_token(char *e) {
             tokens[nr_token].str[i] = *(e + position - substr_len + i);
           }
           tokens[nr_token].str[substr_len] = '\0';
-          printf("num:%s\n",tokens[nr_token].str);
+          //printf("num:%s\n",tokens[nr_token].str);
         }
         tokens[nr_token].type = type;
 
@@ -239,11 +239,11 @@ uint eval(int p, int q)
   {
     p = p+1;
     q = q-1;
-    printf("p:%d q:%d\n",p,q);
+    //printf("p:%d q:%d\n",p,q);
     return(eval(p,q));
   }
   }
-  printf("p:%d q:%d\n",p,q);
+  //printf("p:%d q:%d\n",p,q);
 
   int split_point;
   split_point = get_inferior(p,q);
