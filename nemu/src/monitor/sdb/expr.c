@@ -149,7 +149,8 @@ int get_inferior(int begin ,int end){
     //assert(want_left_para == 0);
     want_left_para = 0;
     temp_end = end;
-    while(temp_end > begin){
+    while(temp_end > begin)
+    {
     printf("temp_end:%d want_left:%d \n",temp_end,want_left_para);
     if(want_left_para > 0){
       if(tokens[temp_end].type == '('){
@@ -175,29 +176,11 @@ int get_inferior(int begin ,int end){
     } 
   }
   //printf("token end type %c want_left %d\n",tokens[end].type,want_left_para);
-  if((tokens[begin].type == '(') && (tokens[end].type == ')'))
-  {
-    begin = begin + 1;
-    end = end - 1;
-    while(tokens[begin].type == TK_NOTYPE)
-  {
-    begin++;
-  }
-  while(tokens[end].type == TK_NOTYPE)
-  {
-    end--;
-  }
-    //printf("aaaaa\n");
-    return (get_inferior(begin, end));
-  }
-  else
-  {
-    assert(0);
-  }
-  
+    assert(0); 
 }
 
-uint32_t eval(int p, int q){
+uint32_t eval(int p, int q)
+{
   assert(p <= q);
   while(tokens[p].type == TK_NOTYPE)
   {
@@ -217,15 +200,38 @@ uint32_t eval(int p, int q){
     }
     return (uint32_t)atoi(tokens[p].str);
   }
-
   printf("p:%d q:%d\n",p,q);
-
-  // if((tokens[p].type == '(') && (tokens[q].type == ')'))
-  // {
-  //   p = p+1;
-  //   q = q-1;
-  //   return eval(p,q);
-  // }
+  if((tokens[p].type == '(') && (tokens[q].type == '('))
+  {
+    int want_left_para = 1;
+    int temp_q = q-1;
+    bool wrapped = true;
+    while(temp_q > p){
+    //printf("temp_end:%d want_left:%d \n",temp_end,want_left_para);
+    if(want_left_para > 0){
+      if(tokens[temp_q].type == '('){
+        want_left_para--;
+      }
+      else if(tokens[temp_q].type == ')')
+      {
+        want_left_para++;
+      }   
+      temp_q--;
+      continue;
+    }
+    if(want_left_para == 0)
+      {
+        wrapped = false;
+        break;
+      }
+  }
+  if(wrapped)
+  {
+    p = p+1;
+    q = q-1;
+    return(eval(p,q));
+  }
+  }
   int split_point;
   split_point = get_inferior(p,q);
   printf("split_point:%d\n",split_point);
@@ -255,6 +261,7 @@ uint32_t eval(int p, int q){
     printf("error!\n");
     return 0;
   }
+
 }
 
 uint32_t expr(char *e, bool *success) {
