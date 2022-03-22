@@ -187,6 +187,17 @@ uint32_t eval(int p, int q){
     }
     return (uint32_t)atoi(tokens[p].str);
   }
+
+  while(tokens[p].type == TK_NOTYPE)
+  {
+    p++;
+  }
+
+  while(tokens[q].type == TK_NOTYPE)
+  {
+    q--;
+  }
+
   if((tokens[p].type == '(') && (tokens[q].type == ')'))
   {
     p = p+1;
