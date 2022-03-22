@@ -150,6 +150,10 @@ static int cmd_t(char *args) {
             *temp = '\0';
           }
           test_num = expr(p , &success);
+          if(success == false){
+            j++;
+            continue;
+          }
           if (test_num != number)
           {
             printf("error occured at line %d\n",j);

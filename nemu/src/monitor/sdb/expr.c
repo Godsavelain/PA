@@ -188,8 +188,9 @@ int get_inferior(int begin ,int end){
     
 }
 
-uint eval(int p, int q)
+uint eval(int p, int q ,bool* success)
 {
+  *success = true;
   assert(p <= q);
   while(tokens[p].type == TK_NOTYPE)
   {
@@ -240,7 +241,7 @@ uint eval(int p, int q)
     p = p+1;
     q = q-1;
     //printf("p:%d q:%d\n",p,q);
-    return(eval(p,q));
+    return(eval(p,q,success));
   }
   }
   //printf("p:%d q:%d\n",p,q);
@@ -248,8 +249,8 @@ uint eval(int p, int q)
   int split_point;
   split_point = get_inferior(p,q);
   //printf("split_point:%d character:%c\n",split_point,tokens[split_point].type);
-  uint num_1 = eval(p , split_point-1);
-  uint num_2 = eval(split_point+1 , q);
+  uint num_1 = eval(p , split_point-1 ,success);
+  uint num_2 = eval(split_point+1 , q ,success);
   switch (tokens[split_point].type )
   {
   case '+':
@@ -266,12 +267,14 @@ uint eval(int p, int q)
     {
     printf("divide zero!\n");
     return 0;
+    *success = false;
     }
     return (uint)(num_1 / num_2);
     break;
   
   default:
     printf("error!\n");
+    *success = false;
     return 0;
   }
 
@@ -285,7 +288,7 @@ uint expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
-  uint ans = eval(0,nr_token-1);
+  uint ans = eval(0,nr_token-1,success);
 
   return ans;
 }
