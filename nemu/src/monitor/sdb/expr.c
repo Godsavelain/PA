@@ -181,7 +181,6 @@ int get_inferior(int begin ,int end){
 
 uint32_t eval(int p, int q)
 {
-  printf("ccccc:%c\n",tokens[0].type);
   assert(p <= q);
   while(tokens[p].type == TK_NOTYPE)
   {
@@ -202,7 +201,7 @@ uint32_t eval(int p, int q)
     return (uint32_t)atoi(tokens[p].str);
   }
  
-  if((tokens[p].type == '(') && (tokens[q].type == '('))
+  if((tokens[p].type == '(') && (tokens[q].type == ')'))
   {
     int want_left_para = 1;
     int temp_q = q-1;
