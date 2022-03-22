@@ -254,11 +254,13 @@ uint eval(int p, int q ,bool* success)
   uint num_1 = eval(p , split_point-1 ,&success1);
   if(success1 == false)
   {
+    *success = false;
     return 0;
   }
   uint num_2 = eval(split_point+1 , q ,&success2);
   if(success2 == false)
   {
+    *success = false;
     return 0;
   }
   switch (tokens[split_point].type )
