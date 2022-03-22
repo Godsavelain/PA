@@ -253,13 +253,13 @@ uint32_t eval(int p, int q)
   switch (tokens[split_point].type )
   {
   case '+':
-    return num_1 + num_2;
+    return (uint32_t)(num_1 + num_2);
     break;
   case '-':
-    return num_1 - num_2;
+    return (uint32_t)(num_1 - num_2);
     break;
   case '*':
-    return num_1 * num_2;
+    return (uint32_t)(num_1 * num_2);
     break;
   case '/':
     if(num_2 == 0)
@@ -267,7 +267,7 @@ uint32_t eval(int p, int q)
     printf("divide zero!\n");
     return 0;
     }
-    return num_1 / num_2;
+    return (uint32_t)(num_1 / num_2);
     break;
   
   default:
