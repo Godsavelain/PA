@@ -200,12 +200,12 @@ uint32_t eval(int p, int q){
 
   printf("p:%d q:%d\n",p,q);
 
-  if((tokens[p].type == '(') && (tokens[q].type == ')'))
-  {
-    p = p+1;
-    q = q-1;
-    return eval(p,q);
-  }
+  // if((tokens[p].type == '(') && (tokens[q].type == ')'))
+  // {
+  //   p = p+1;
+  //   q = q-1;
+  //   return eval(p,q);
+  // }
   int split_point;
   split_point = get_inferior(p,q);
   printf("split_point:%d\n",split_point);
