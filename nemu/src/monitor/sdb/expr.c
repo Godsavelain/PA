@@ -174,6 +174,7 @@ int get_inferior(int begin ,int end){
         continue;
     } 
   }
+  printf("token end type %c \n",tokens[end].type);
   if((want_left_para == 1) && (tokens[end].type == ')'))
   {
     begin = begin + 1;
@@ -188,7 +189,11 @@ int get_inferior(int begin ,int end){
   }
     return (get_inferior(begin, end));
   }
-  assert(0);
+  else
+  {
+    assert(0);
+  }
+  
 }
 
 uint32_t eval(int p, int q){
