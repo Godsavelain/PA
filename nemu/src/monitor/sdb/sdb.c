@@ -144,6 +144,11 @@ static int cmd_t(char *args) {
           uint number = (uint)atoi(num);
           uint test_num;
           bool success;
+          char *temp = NULL;
+          if((temp = strstr(p,"\n")))
+          {
+            *temp = '\0';
+          }
           test_num = expr(p , &success);
           if (test_num != number)
           {
