@@ -157,15 +157,15 @@ static int cmd_t(char *args) {
           if (test_num != number)
           {
             printf("error occured at line %d\n",j);
-            printf("expression %s", p);
-            printf("length %d \n", (int)strlen(p));
+            //printf("expression %s", p);
+            //printf("length %d \n", (int)strlen(p));
             printf("test_num:%u real_num %u \n",test_num,number);
             //assert(0);
             wrong++;
           }
           else
           {
-            printf("pass line %d \n",j);
+            //printf("pass line %d \n",j);
           }
           j++;
         }
