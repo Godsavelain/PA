@@ -120,7 +120,7 @@ int get_inferior(int begin ,int end){
   int temp_end = end;
   int want_left_para = 0;
   while(temp_end > begin){
-    printf("temp_end:%d want_left:%d \n",temp_end,want_left_para);
+    //printf("temp_end:%d want_left:%d \n",temp_end,want_left_para);
     if(want_left_para > 0){
       if(tokens[temp_end].type == '('){
         want_left_para--;
@@ -149,7 +149,7 @@ int get_inferior(int begin ,int end){
     want_left_para = 0;
     temp_end = end;
     while(temp_end > begin){
-    printf("temp_end:%d want_left:%d \n",temp_end,want_left_para);
+    //printf("temp_end:%d want_left:%d \n",temp_end,want_left_para);
     if(want_left_para > 0){
       if(tokens[temp_end].type == '('){
         want_left_para--;
@@ -207,7 +207,7 @@ uint32_t eval(int p, int q){
   }
   int split_point;
   split_point = get_inferior(p,q);
-  printf("split_point:%d\n",split_point);
+  //printf("split_point:%d\n",split_point);
   uint32_t num_1 = eval(p , split_point-1);
   uint32_t num_2 = eval(split_point+1 , q);
   switch (tokens[split_point].type )
