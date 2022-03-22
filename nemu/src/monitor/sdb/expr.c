@@ -301,6 +301,6 @@ uint expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
   uint ans = eval(0,nr_token-1,success);
-
+  printf("success:%d\n",*success);
   return ans;
 }
