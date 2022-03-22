@@ -89,7 +89,10 @@ static bool make_token(char *e) {
         int type = rules[i].token_type;
         if(type == TK_NUMBER){
           assert(substr_len < 32);
-          strcpy(tokens[nr_token].str, e + position - substr_len);
+          for(int i=0;i<substr_len;i++)
+          {
+            tokens[nr_token].str[i] = *(e + position - substr_len + i);
+          }
           tokens[nr_token].str[substr_len] = '\0';
           printf("num:%s\n",tokens[nr_token].str);
         }
