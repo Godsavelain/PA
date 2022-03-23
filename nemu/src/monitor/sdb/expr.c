@@ -266,12 +266,15 @@ uint eval(int p, int q ,bool* success)
   switch (tokens[split_point].type )
   {
   case '+':
+  printf("%u + %u = %u\n",num_1,num_2,(uint)(num_1 + num_2));
     return (uint)(num_1 + num_2);
     break;
   case '-':
+  printf("%u - %u = %u\n",num_1,num_2,(uint)(num_1 - num_2));
     return (uint)(num_1 - num_2);
     break;
   case '*':
+  printf("%u * %u = %u\n",num_1,num_2,(uint)(num_1 * num_2));
     return (uint)(num_1 * num_2);
     break;
   case '/':
@@ -281,6 +284,7 @@ uint eval(int p, int q ,bool* success)
     *success = false;
     return 0;
     }
+    printf("%u / %u = %u\n",num_1,num_2,(uint)(num_1 / num_2));
     return (uint)(num_1 / num_2);
     break;
   
