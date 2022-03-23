@@ -22,7 +22,8 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {" + |\\(uint\\)", TK_NOTYPE},    // spaces
+  {" +", TK_NOTYPE},    // spaces
+  {"\\(uint\\)", TK_NOTYPE}, //consider it as space
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
   {"\\-", '-'},         // minus
