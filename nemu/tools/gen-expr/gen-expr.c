@@ -59,7 +59,26 @@ static void gen_rand_expr() {
       *buf_pointer = ')';
       buf_pointer++;
       break;
-    default: 
+    default:
+    *buf_pointer = '(';
+    buf_pointer++;
+    *buf_pointer = 'u';
+    buf_pointer++;
+    *buf_pointer = 'i';
+    buf_pointer++;
+    *buf_pointer = 'n';
+    buf_pointer++;
+    *buf_pointer = 't';
+    buf_pointer++;
+    *buf_pointer = ')';
+    buf_pointer++;
+    *buf_pointer = '(';
+    buf_pointer++;
+    if((buf_pointer - buf ) >= 65500)
+    {
+      buf_pointer = buf + 65501;
+      return;
+    } 
       gen_rand_expr();
       if((buf_pointer - buf ) >= 65500)
     {
@@ -86,6 +105,13 @@ static void gen_rand_expr() {
           break;
       }
       gen_rand_expr(); 
+      *buf_pointer = ')';
+      buf_pointer++;
+      if((buf_pointer - buf ) >= 65500)
+      {
+        buf_pointer = buf + 65501;
+        return;
+      }
       break;
   }
   *buf_pointer  = ' ';
