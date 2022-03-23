@@ -117,11 +117,11 @@ static int cmd_p(char *args) {
 }
 
 static int cmd_t(char *args) {
-  char path[255];
-  if(getcwd(path,255))
-  {
-    printf("path %s",path);
-  }
+  // char path[255];
+  // if(getcwd(path,255))
+  // {
+  //   printf("path %s",path);
+  // }
   
   char buf[65546];
   
@@ -165,7 +165,7 @@ static int cmd_t(char *args) {
           }
           else
           {
-            //printf("pass line %d \n",j);
+            printf("pass line %d \n",j);
           }
           j++;
         }
