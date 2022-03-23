@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUMBER
+  TK_NOTYPE = 256, TK_EQ, TK_NUMBER ,TK_HEX_NUMBER
 
   /* TODO: Add more token types */
 
@@ -32,6 +32,11 @@ static struct rule {
   {"\\(", '('},         // left parentheses
   {"\\)", ')'},         // right parentheses
   {"0|([1-9][0-9]*)",TK_NUMBER },         // number
+  {"0x0|(0x([1-9]|[a-f]|[A-F])([0-9]|[a-f]|[A-F])*)",TK_HEX_NUMBER },         // hex number
+  {"\\)", ')'},         // right parentheses
+  {"\\)", ')'},         // right parentheses
+  {"\\)", ')'},         // right parentheses
+  {"\\)", ')'},         // right parentheses
   
 };
 
