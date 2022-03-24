@@ -344,7 +344,7 @@ int get_inferior(int begin ,int end){
     assert(0);  
 }
 
-uint eval(int p, int q ,bool* success)
+uint64_t eval(int p, int q ,bool* success)
 {
   *success = true;
   assert(p <= q);
@@ -366,15 +366,15 @@ uint eval(int p, int q ,bool* success)
     }
     if(tokens[p].type == TK_HEX_NUMBER)
     {
-      uint result = 0;
-      sscanf(tokens[p].str, "%x", &result);
+      uint64_t result = 0;
+      sscanf(tokens[p].str, "%lx", &result);
       return result;
     }
     if(tokens[p].type == TK_REG)
     {
-      uint result;
+      uint64_t result;
       bool success;
-      result = (uint)isa_reg_str2val(tokens[p].str, &success);
+      result = (uint64_t)isa_reg_str2val(tokens[p].str, &success);
       if(success)
       {
         return result;
@@ -384,7 +384,7 @@ uint eval(int p, int q ,bool* success)
         assert(0);
       }
     }
-    return (uint)atoi(tokens[p].str);
+    return (uint64_t)atoi(tokens[p].str);
   }
  
   if((tokens[p].type == '(') && (tokens[q].type == ')'))
@@ -426,7 +426,7 @@ uint eval(int p, int q ,bool* success)
   split_point = get_inferior(p,q);
   bool success1;
   bool success2;
-  uint address;
+  uint64_t address;
   if(is_depointer(split_point ,p))
   {
     address = eval(split_point+1 , q ,&success2);
@@ -436,20 +436,20 @@ uint eval(int p, int q ,bool* success)
       return 0;
     }
     word_t res;
-    printf("p read address %u \n",address);
+    //printf("p read address %u \n",address);
     res = (word_t)(vaddr_read(address , 4));
     return res;
   }
   
   //printf("split_point:%d character:%c\n",split_point,tokens[split_point].type);
   
-  uint num_1 = eval(p , split_point-1 ,&success1);
+  uint64_t num_1 = eval(p , split_point-1 ,&success1);
   if(success1 == false)
   {
     *success = false;
     return 0;
   }
-  uint num_2 = eval(split_point+1 , q ,&success2);
+  uint64_t num_2 = eval(split_point+1 , q ,&success2);
   if(success2 == false)
   {
     *success = false;
@@ -458,16 +458,16 @@ uint eval(int p, int q ,bool* success)
   switch (tokens[split_point].type )
   {
   case '+':
-  printf("%u + %u = %u\n",num_1,num_2,(uint)(num_1 + num_2));
-    return (uint)(num_1 + num_2);
+  //printf("%u + %u = %u\n",num_1,num_2,(uint64_t)(num_1 + num_2));
+    return (uint64_t)(num_1 + num_2);
     break;
   case '-':
-  printf("%u - %u = %u\n",num_1,num_2,(uint)(num_1 - num_2));
-    return (uint)(num_1 - num_2);
+  //printf("%u - %u = %u\n",num_1,num_2,(uint64_t)(num_1 - num_2));
+    return (uint64_t)(num_1 - num_2);
     break;
   case '*':
-  printf("%u * %u = %u\n",num_1,num_2,(uint)(num_1 * num_2));
-    return (uint)(num_1 * num_2);
+  //printf("%u * %u = %u\n",num_1,num_2,(uint64_t)(num_1 * num_2));
+    return (uint64_t)(num_1 * num_2);
     break;
   case '/':
     if(num_2 == 0)
@@ -476,20 +476,20 @@ uint eval(int p, int q ,bool* success)
     *success = false;
     return 0;
     }
-    printf("%u / %u = %u\n",num_1,num_2,(uint)(num_1 / num_2));
-    return (uint)(num_1 / num_2);
+    //printf("%u / %u = %u\n",num_1,num_2,(uint64_t)(num_1 / num_2));
+    return (uint64_t)(num_1 / num_2);
     break;
   
   case TK_EQ:
-    return (uint)(num_1 == num_2);
+    return (uint64_t)(num_1 == num_2);
     break;
 
   case TK_NEQ:
-    return (uint)(num_1 != num_2);
+    return (uint64_t)(num_1 != num_2);
     break;
 
   case TK_AND:
-    return (uint)((num_1 != 0) && (num_2 != 0));
+    return (uint64_t)((num_1 != 0) && (num_2 != 0));
     break;
   default:
     printf("error!\n");
