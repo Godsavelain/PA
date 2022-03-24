@@ -41,6 +41,7 @@ static struct rule {
 static regex_t re[NR_REGEX] = {};
 
 word_t isa_reg_str2val(const char *s, bool *success);
+word_t vaddr_read(vaddr_t addr, int len);
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
@@ -420,9 +421,24 @@ uint eval(int p, int q ,bool* success)
 
   int split_point;
   split_point = get_inferior(p,q);
-  //printf("split_point:%d character:%c\n",split_point,tokens[split_point].type);
   bool success1;
   bool success2;
+  uint address;
+  if(is_depointer(split_point))
+  {
+    address = eval(split_point+1 , q ,&success2);
+    if(success2 == false)
+    {
+      *success = false;
+      return 0;
+    }
+    word_t res;
+    res = (word_t)(vaddr_read(address , 1));
+    return res;
+  }
+  
+  //printf("split_point:%d character:%c\n",split_point,tokens[split_point].type);
+  
   uint num_1 = eval(p , split_point-1 ,&success1);
   if(success1 == false)
   {
@@ -460,6 +476,17 @@ uint eval(int p, int q ,bool* success)
     return (uint)(num_1 / num_2);
     break;
   
+  case TK_EQ:
+    return (uint)(num_1 == num_2);
+    break;
+
+  case TK_NEQ:
+    return (uint)(num_1 != num_2);
+    break;
+
+  case TK_AND:
+    return (uint)((num_1 != 0) && (num_2 != 0));
+    break;
   default:
     printf("error!\n");
     *success = false;

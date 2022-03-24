@@ -80,7 +80,7 @@ static int cmd_x(char *args) {
   sscanf(arg2,"%x",&arg2_num);
   printf("%x\n",arg2_num);
   while(arg1_num > 0){
-    int data;
+    uint data;
     data = vaddr_read(arg2_num , 4);
     printf("%8x\n",data);
     arg1_num--;
