@@ -14,6 +14,9 @@ void init_wp_pool();
 void isa_reg_display();
 word_t vaddr_read(vaddr_t addr, int len);
 
+// WP* new_wp();
+// void free_wp(WP* old_node)
+
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -119,12 +122,7 @@ static int cmd_p(char *args) {
 }
 
 static int cmd_t(char *args) {
-  // char path[255];
-  // if(getcwd(path,255))
-  // {
-  //   printf("path %s",path);
-  // }
-  
+
   char buf[65546];
   
   FILE *fp = fopen("./input", "r");
@@ -176,6 +174,14 @@ static int cmd_t(char *args) {
     return 0;
 }
 
+static int cmd_w(char *args) {
+  if(args == NULL)
+  {
+    printf("w operation needs an argument (expr)\n");
+    return 0;
+  }
+  return 0;
+}
 
 static struct {
   const char *name;
@@ -190,6 +196,7 @@ static struct {
   { "x", "Scan Memory.", cmd_x },
   { "p", "Compute expression.", cmd_p },
   { "t", "Temp test.", cmd_t },
+  { "w", "Watchpoints.", cmd_w },
   /* TODO: Add more commands */
 
 };
