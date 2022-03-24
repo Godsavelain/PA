@@ -82,7 +82,7 @@ static int cmd_x(char *args) {
   while(arg1_num > 0){
     uint data;
     data = vaddr_read(arg2_num , 4);
-    printf("%8x\n",data);
+    printf("%8ux\n",data);
     arg1_num--;
     arg2_num = arg2_num + 4;
   }
