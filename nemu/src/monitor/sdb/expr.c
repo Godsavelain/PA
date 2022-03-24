@@ -356,10 +356,9 @@ uint eval(int p, int q ,bool* success)
   }
   if(q == p)
   {
-    if(tokens[p].type != (TK_NUMBER || TK_HEX_NUMBER || TK_REG))
+    if((tokens[p].type != TK_NUMBER) && (tokens[p].type != TK_HEX_NUMBER) && (tokens[p].type !=  TK_REG))
     {
     printf("error!\n");
-    printf("%d\n",tokens[p].type );
     return 0;
     }
     if(tokens[p].type == TK_HEX_NUMBER)
