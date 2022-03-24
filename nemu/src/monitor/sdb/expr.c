@@ -140,10 +140,10 @@ static bool make_token(char *e) {
   return true;
 }
 
-bool is_depointer(int search_point)//to judge if a '*' is a depointer
+bool is_depointer(int search_point ,int start)//to judge if a '*' is a depointer
 {
   bool is_pointer;
-  if(search_point == 0)
+  if(search_point == start)
   { 
     is_pointer = true;
   }
@@ -288,7 +288,7 @@ int get_inferior(int begin ,int end){
         temp_end--;
         continue;
       case '*':
-        if(is_depointer(temp_end))
+        if(is_depointer(temp_end , begin))
         {
           temp_end--;
           continue;
@@ -325,7 +325,7 @@ int get_inferior(int begin ,int end){
         temp_end--;
         continue;
       case '*':
-      if(is_depointer(temp_end))
+      if(is_depointer(temp_end ,begin))
         {
           return temp_end;
         }
@@ -424,7 +424,7 @@ uint eval(int p, int q ,bool* success)
   bool success1;
   bool success2;
   uint address;
-  if(is_depointer(split_point))
+  if(is_depointer(split_point ,p))
   {
     address = eval(split_point+1 , q ,&success2);
     if(success2 == false)
