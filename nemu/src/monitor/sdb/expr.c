@@ -317,9 +317,11 @@ int get_inferior(int begin ,int end){
       }
       temp_end--;
       continue;
-
     }
+    printf("aaa\n");
+    printf("%d\n",tokens[temp_end].type);
     switch(tokens[temp_end].type){
+      
       case ')':
         want_left_para++;
         temp_end--;
