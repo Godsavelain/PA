@@ -109,10 +109,10 @@ static int cmd_p(char *args) {
     printf("p operation needs an expression input\n");
     return 0;
   }
-  word_t out;
+  uint out;
   bool success;
   out = expr(args , &success);
-  printf("%lu\n",out);
+  printf("result:%u\n",out);
   return 0;
 }
 
