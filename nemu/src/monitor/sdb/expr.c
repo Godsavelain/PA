@@ -9,19 +9,15 @@
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NUMBER ,TK_HEX_NUMBER ,TK_REG ,TK_NEQ ,TK_AND 
 
-  /* TODO: Add more token types */
-
 };
 
 static struct rule {
   const char *regex;
   int token_type;
 } rules[] = {
-
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-
   {" +", TK_NOTYPE},    // spaces
   {"\\(uint\\)", TK_NOTYPE}, //consider it as space
   {"\\+", '+'},         // plus
@@ -43,6 +39,8 @@ static struct rule {
 #define NR_REGEX ARRLEN(rules)
 
 static regex_t re[NR_REGEX] = {};
+
+word_t isa_reg_str2val(const char *s, bool *success);
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
@@ -93,7 +91,28 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
         int type = rules[i].token_type;
-        if(type == TK_NUMBER){
+        if(type == TK_NUMBER)
+        {
+          assert(substr_len < 32);
+          for(int i=0;i<substr_len;i++)
+          {
+            tokens[nr_token].str[i] = *(e + position - substr_len + i);
+          }
+          tokens[nr_token].str[substr_len] = '\0';
+          //printf("num:%s\n",tokens[nr_token].str);
+        }
+        if(type == TK_HEX_NUMBER)
+        {
+          assert(substr_len < 32);
+          for(int i=0;i<substr_len;i++)
+          {
+            tokens[nr_token].str[i] = *(e + position - substr_len + i);
+          }
+          tokens[nr_token].str[substr_len] = '\0';
+          //printf("num:%s\n",tokens[nr_token].str);
+        }
+        if(type == TK_REG)
+        {
           assert(substr_len < 32);
           for(int i=0;i<substr_len;i++)
           {
@@ -103,7 +122,6 @@ static bool make_token(char *e) {
           //printf("num:%s\n",tokens[nr_token].str);
         }
         tokens[nr_token].type = type;
-
         nr_token++;
         // switch (rules[i].token_type) {
         //   default: TODO();
@@ -337,10 +355,30 @@ uint eval(int p, int q ,bool* success)
   }
   if(q == p)
   {
-    if(tokens[p].type != TK_NUMBER)
+    if(tokens[p].type != (TK_NUMBER || TK_HEX_NUMBER || TK_REG))
     {
     printf("error!\n");
     return 0;
+    }
+    if(tokens[p].type == TK_HEX_NUMBER)
+    {
+      uint result = 0;
+      sscanf(tokens[p].str, "%x", &result);
+      return result;
+    }
+    if(tokens[p].type == TK_REG)
+    {
+      uint result;
+      bool success;
+      result = (uint)isa_reg_str2val(tokens[p].str, &success);
+      if(success)
+      {
+        return result;
+      }
+      else
+      {
+        assert(0);
+      }
     }
     return (uint)atoi(tokens[p].str);
   }

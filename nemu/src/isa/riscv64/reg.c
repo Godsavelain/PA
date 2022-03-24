@@ -1,5 +1,6 @@
 #include <isa.h>
 #include "local-include/reg.h"
+#include <string.h>
 
 const char *regs[] = {
   "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
@@ -44,5 +45,166 @@ void isa_reg_display() {
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
-  return 0;
+  word_t value = 0;
+  if(strcmp(s,"$0") == 0)
+  {
+    value = gpr(0);
+    *success = true;
+  }
+  else if(strcmp(s,"$ra") == 0)
+  {
+    value = gpr(1);
+    *success = true;
+  }
+  else if(strcmp(s,"$sp") == 0)
+  {
+    value = gpr(2);
+    *success = true;
+  }
+  else if(strcmp(s,"$gp") == 0)
+  {
+    value = gpr(3);
+    *success = true;
+  }
+  else if(strcmp(s,"$tp") == 0)
+  {
+    value = gpr(4);
+    *success = true;
+  }
+  else if(strcmp(s,"$t0") == 0)
+  {
+    value = gpr(5);
+    *success = true;
+  }
+  else if(strcmp(s,"$t1") == 0)
+  {
+    value = gpr(6);
+    *success = true;
+  }
+  else if(strcmp(s,"$t2") == 0)
+  {
+    value = gpr(7);
+    *success = true;
+  }
+  else if(strcmp(s,"$s0") == 0)
+  {
+    value = gpr(8);
+    *success = true;
+  }
+  else if(strcmp(s,"$s1") == 0)
+  {
+    value = gpr(9);
+    *success = true;
+  }
+  else if(strcmp(s,"$a0") == 0)
+  {
+    value = gpr(10);
+    *success = true;
+  }
+  else if(strcmp(s,"$a1") == 0)
+  {
+    value = gpr(11);
+    *success = true;
+  }
+  else if(strcmp(s,"$a2") == 0)
+  {
+    value = gpr(12);
+    *success = true;
+  }
+  else if(strcmp(s,"$a3") == 0)
+  {
+    value = gpr(13);
+    *success = true;
+  }
+  else if(strcmp(s,"$a4") == 0)
+  {
+    value = gpr(14);
+    *success = true;
+  }
+  else if(strcmp(s,"$a5") == 0)
+  {
+    value = gpr(15);
+    *success = true;
+  }
+  else if(strcmp(s,"$a6") == 0)
+  {
+    value = gpr(16);
+    *success = true;
+  }
+  else if(strcmp(s,"$a7") == 0)
+  {
+    value = gpr(17);
+    *success = true;
+  }
+  else if(strcmp(s,"$s2") == 0)
+  {
+    value = gpr(18);
+    *success = true;
+  }
+  else if(strcmp(s,"$s3") == 0)
+  {
+    value = gpr(19);
+    *success = true;
+  }
+  else if(strcmp(s,"$s4") == 0)
+  {
+    value = gpr(20);
+    *success = true;
+  }
+  else if(strcmp(s,"$s5") == 0)
+  {
+    value = gpr(21);
+    *success = true;
+  }
+  else if(strcmp(s,"$s6") == 0)
+  {
+    value = gpr(22);
+    *success = true;
+  }
+  else if(strcmp(s,"$s7") == 0)
+  {
+    value = gpr(23);
+    *success = true;
+  }
+  else if(strcmp(s,"$s8") == 0)
+  {
+    value = gpr(24);
+    *success = true;
+  }
+  else if(strcmp(s,"$s9") == 0)
+  {
+    value = gpr(25);
+    *success = true;
+  }
+  else if(strcmp(s,"$s10") == 0)
+  {
+    value = gpr(26);
+    *success = true;
+  }
+  else if(strcmp(s,"$s11") == 0)
+  {
+    value = gpr(27);
+    *success = true;
+  }
+  else if(strcmp(s,"$t3") == 0)
+  {
+    value = gpr(28);
+    *success = true;
+  }
+  else if(strcmp(s,"$t4") == 0)
+  {
+    value = gpr(29);
+    *success = true;
+  }
+  else if(strcmp(s,"$t5") == 0)
+  {
+    value = gpr(30);
+    *success = true;
+  }
+  else if(strcmp(s,"$t6") == 0)
+  {
+    value = gpr(31);
+    *success = true;
+  }
+  return value;
 }
