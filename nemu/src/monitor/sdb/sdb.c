@@ -81,6 +81,7 @@ static int cmd_x(char *args) {
   printf("%x\n",arg2_num);
   while(arg1_num > 0){
     uint data;
+    printf("x read address %u \n",arg2_num);
     data = vaddr_read(arg2_num , 4);
     printf("%8x\n",data);
     arg1_num--;

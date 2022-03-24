@@ -327,7 +327,7 @@ int get_inferior(int begin ,int end){
         temp_end--;
         continue;
       case '*':
-      printf("aaa");
+      //printf("aaa");
       if(is_depointer(temp_end ,begin))
         {
           return temp_end;
@@ -436,6 +436,7 @@ uint eval(int p, int q ,bool* success)
       return 0;
     }
     word_t res;
+    printf("p read address %u \n",address);
     res = (word_t)(vaddr_read(address , 1));
     return res;
   }
