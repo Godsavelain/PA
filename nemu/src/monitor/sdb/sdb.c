@@ -14,8 +14,8 @@ void init_wp_pool();
 void isa_reg_display();
 word_t vaddr_read(vaddr_t addr, int len);
 
-// WP* new_wp();
-// void free_wp(WP* old_node)
+WP* new_wp();
+void free_wp(WP* old_node);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
