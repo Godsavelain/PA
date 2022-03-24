@@ -82,7 +82,7 @@ static int cmd_x(char *args) {
   while(arg1_num > 0){
     uint data;
     data = vaddr_read(arg2_num , 4);
-    printf("%8ux\n",data);
+    printf("%8x\n",data);
     arg1_num--;
     arg2_num = arg2_num + 4;
   }
@@ -112,7 +112,7 @@ static int cmd_p(char *args) {
   word_t out;
   bool success;
   out = expr(args , &success);
-  printf("%ld\n",out);
+  printf("%lu\n",out);
   return 0;
 }
 
