@@ -325,6 +325,7 @@ int get_inferior(int begin ,int end){
         temp_end--;
         continue;
       case '*':
+      printf("aaa");
       if(is_depointer(temp_end ,begin))
         {
           return temp_end;
