@@ -437,7 +437,7 @@ uint eval(int p, int q ,bool* success)
     }
     word_t res;
     printf("p read address %u \n",address);
-    res = (word_t)(vaddr_read(address , 1));
+    res = (word_t)(vaddr_read(address , 4));
     return res;
   }
   
