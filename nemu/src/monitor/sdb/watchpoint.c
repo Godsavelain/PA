@@ -73,7 +73,7 @@ extern bool wp_check()
   {
     return false;
   }
-  while(temp_tail->next != NULL)
+  while(temp_tail != NULL)
   {
     uint64_t old_result = temp_tail->saved_result;
     bool success;
