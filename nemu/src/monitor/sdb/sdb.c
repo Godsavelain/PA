@@ -12,6 +12,7 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 void isa_reg_display();
+//int64_t expr(char *e, bool *success);
 word_t vaddr_read(vaddr_t addr, int len);
 
 WP* new_wp();
@@ -114,10 +115,10 @@ static int cmd_p(char *args) {
     printf("p operation needs an expression input\n");
     return 0;
   }
-  uint out;
+  uint64_t out;
   bool success;
   out = expr(args , &success);
-  printf("result:%u\n",out);
+  printf("result:%lu\n",out);
   return 0;
 }
 
@@ -141,8 +142,8 @@ static int cmd_t(char *args) {
                 *(num+i) = buf[i];
               }
           *(num+i) = '\0';
-          uint number = (uint)atoi(num);
-          uint test_num;
+          uint64_t number = (uint64_t)atoi(num);
+          uint64_t test_num;
           bool success;
           char *temp = NULL;
           if((temp = strstr(p,"\n")))
@@ -159,7 +160,7 @@ static int cmd_t(char *args) {
             printf("error occured at line %d\n",j);
             printf("expression %s", p);
             //printf("length %d \n", (int)strlen(p));
-            printf("test_num:%u real_num %u \n",test_num,number);
+            printf("test_num:%lu real_num %lu \n",test_num,number);
             assert(0);
             wrong++;
           }
@@ -181,7 +182,13 @@ static int cmd_w(char *args) {
     return 0;
   }
   WP* new_node = new_wp();
+  bool success;
   strcpy(new_node->expr, args);
+  new_node->saved_result = expr(args , &success);
+  if(success == false)
+  {
+    assert(0);
+  }
   return 0;
 }
 

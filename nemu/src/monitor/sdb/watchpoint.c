@@ -55,5 +55,27 @@ void init_wp_pool() {
   free_ = wp_pool;
 }
 
+extern bool wp_check()
+{
+  WP* temp_tail = head;
+  while(temp_tail->next != NULL)
+  {
+    uint64_t old_result = temp_tail->saved_result;
+    bool success;
+    uint64_t new_result = expr(temp_tail->expr,&success);
+    if(!success)
+    {
+      assert(0);
+    }
+    if(old_result != new_result)
+    {
+      printf("watchpoint:%d expression:%s old_val:%ld new_val:%ld \n",temp_tail->NO,temp_tail->expr,old_result,new_result);
+      temp_tail->saved_result = new_result;
+      return true;
+    }
+    temp_tail = temp_tail->next;
+  }
+  return false;
+}
 /* TODO: Implement the functionality of watchpoint */
 
