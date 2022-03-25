@@ -19,16 +19,17 @@ word_t vaddr_read(vaddr_t addr, int len);
 WP* new_wp()
 {
   WP* new_node = free_;
-  if(free_ == NULL)
+  if(new_node == NULL)
   {
     assert(0);
   }
+  free_ = free_->next;
   WP *tail = head;
   if(tail == NULL)
   {
     head = new_node;
     head->next = NULL;
-    free_ = free_->next;
+    
     new_node->next = NULL;
     return new_node;
   }
@@ -37,7 +38,7 @@ WP* new_wp()
     tail = tail->next;
   }
   tail->next = new_node;
-  free_ = free_->next;
+
   new_node->next = NULL;
   return new_node;
 }
