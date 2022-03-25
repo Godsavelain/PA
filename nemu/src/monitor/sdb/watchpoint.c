@@ -77,11 +77,12 @@ extern bool wp_check()
   {
     uint64_t old_result = temp_tail->saved_result;
     bool success;
-    uint64_t new_result = vaddr_read(expr(temp_tail->expr,&success),4);
+    uint64_t new_result = expr(temp_tail->expr,&success);
     if(!success)
     {
       assert(0);
     }
+    printf("watchpoint:%d expression:%s old_val:%ld new_val:%ld \n",temp_tail->NO,temp_tail->expr,old_result,new_result);
     if(old_result != new_result)
     {
       printf("watchpoint:%d expression:%s old_val:%ld new_val:%ld \n",temp_tail->NO,temp_tail->expr,old_result,new_result);
