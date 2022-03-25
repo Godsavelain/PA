@@ -58,6 +58,10 @@ void init_wp_pool() {
 extern bool wp_check()
 {
   WP* temp_tail = head;
+  if(temp_tail == NULL)
+  {
+    return false;
+  }
   while(temp_tail->next != NULL)
   {
     uint64_t old_result = temp_tail->saved_result;
