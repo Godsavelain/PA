@@ -82,7 +82,7 @@ extern bool wp_check()
     {
       assert(0);
     }
-    printf("watchpoint:%d expression:%s old_val:%ld new_val:%ld \n",temp_tail->NO,temp_tail->expr,old_result,new_result);
+    //printf("watchpoint:%d expression:%s old_val:%ld new_val:%ld \n",temp_tail->NO,temp_tail->expr,old_result,new_result);
     if(old_result != new_result)
     {
       printf("watchpoint:%d expression:%s old_val:%ld new_val:%ld \n",temp_tail->NO,temp_tail->expr,old_result,new_result);
