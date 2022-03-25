@@ -14,6 +14,8 @@
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
 
+word_t vaddr_read(vaddr_t addr, int len);
+
 WP* new_wp()
 {
   WP* new_node = free_;
@@ -75,7 +77,7 @@ extern bool wp_check()
   {
     uint64_t old_result = temp_tail->saved_result;
     bool success;
-    uint64_t new_result = expr(temp_tail->expr,&success);
+    uint64_t new_result = vaddr_read(expr(temp_tail->expr,&success),4);
     if(!success)
     {
       assert(0);

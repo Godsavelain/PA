@@ -184,7 +184,7 @@ static int cmd_w(char *args) {
   WP* new_node = new_wp();
   bool success;
   strcpy(new_node->expr, args);
-  new_node->saved_result = expr(args , &success);
+  new_node->saved_result = vaddr_read(expr(args , &success),4);
   if(success == false)
   {
     assert(0);
