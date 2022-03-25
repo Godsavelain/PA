@@ -14,6 +14,7 @@ void init_wp_pool();
 void isa_reg_display();
 //int64_t expr(char *e, bool *success);
 word_t vaddr_read(vaddr_t addr, int len);
+void wp_show();
 
 WP* new_wp();
 void free_wp(WP* old_node);
@@ -105,6 +106,10 @@ static int cmd_info(char *args) {
   if(strcmp(args, "r") == 0)
   {
     isa_reg_display();
+  }
+  if(strcmp(args, "w") == 0)
+  {
+    wp_show();
   }
   return 0;
 }

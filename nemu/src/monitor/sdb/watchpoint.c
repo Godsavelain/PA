@@ -93,5 +93,20 @@ extern bool wp_check()
   }
   return false;
 }
+
+extern void wp_show()
+{
+  WP* temp_tail = head;
+  if(temp_tail == NULL)
+  {
+    printf("no watchpoints now\n");
+    return;
+  }
+  while(temp_tail != NULL)
+  {
+    printf("watchpoint:%d expression:%s \n",temp_tail->NO,temp_tail->expr);
+    temp_tail = temp_tail->next;
+  }
+}
 /* TODO: Implement the functionality of watchpoint */
 
