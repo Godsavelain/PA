@@ -146,6 +146,7 @@ bool is_depointer(int search_point ,int start)//to judge if a '*' is a depointer
   if(search_point == start)
   { 
     is_pointer = true;
+    return is_pointer;
   }
   search_point--;
 
