@@ -108,5 +108,26 @@ extern void wp_show()
     temp_tail = temp_tail->next;
   }
 }
+
+extern void wp_del(int num)
+{
+  WP* temp_tail = head;
+  if(temp_tail == NULL)
+  {
+    printf("no watchpoints now\n");
+    return;
+  }
+  while(temp_tail != NULL)
+  {
+    if(temp_tail->NO == num)
+    {
+      free_wp(temp_tail);
+      printf("delete success\n");
+    }
+    temp_tail = temp_tail->next;
+  }
+  printf("no watchpoints of number %d now\n",num);
+  return;
+}
 /* TODO: Implement the functionality of watchpoint */
 

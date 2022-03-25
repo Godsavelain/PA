@@ -15,6 +15,7 @@ void isa_reg_display();
 //int64_t expr(char *e, bool *success);
 word_t vaddr_read(vaddr_t addr, int len);
 void wp_show();
+void wp_del(int num);
 
 WP* new_wp();
 void free_wp(WP* old_node);
@@ -197,6 +198,18 @@ static int cmd_w(char *args) {
   return 0;
 }
 
+static int cmd_d(char *args) {
+  if(args == NULL)
+  {
+    printf("d operation needs an argument (number of the watchpoint to be deleted)\n");
+    return 0;
+  }
+  int no;
+  sscanf(args, "%d", &no);
+  wp_del(no);
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -211,6 +224,7 @@ static struct {
   { "p", "Compute expression.", cmd_p },
   { "t", "Temp test.", cmd_t },
   { "w", "Watchpoints.", cmd_w },
+  { "d", "Delete watchpoints.", cmd_d },
   /* TODO: Add more commands */
 
 };
