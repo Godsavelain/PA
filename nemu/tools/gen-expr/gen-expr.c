@@ -16,8 +16,107 @@ static char *code_format =
 "  return 0; "
 "}";
 
+static char * buf_pointer = buf;
+
 static void gen_rand_expr() {
-  buf[0] = '\0';
+  uint num;
+  char *num_str = malloc(20 * sizeof(char));
+  int ret;
+
+  //assert((buf_pointer - buf ) < 65536);
+  switch (rand()%3) {
+    case 0: 
+      
+      num = rand();
+      ret = snprintf(num_str, 10, "%d", num);
+      assert(ret != -1);
+      int str_len = strlen(num_str);
+      if((buf_pointer + str_len- buf ) >= 65500)
+    {
+      buf_pointer = buf + 65501;
+      return;
+    }
+      for(int i=0; i<str_len ;i++)
+      {
+        *buf_pointer = num_str[i];
+        buf_pointer++;
+      }
+      break;
+    case 1:
+    if((buf_pointer - buf ) >= 65500)
+    {
+      buf_pointer = buf + 65501;
+      return;
+    } 
+      *buf_pointer = '(';
+      buf_pointer++;
+      gen_rand_expr(); 
+      if((buf_pointer - buf ) >= 65500)
+    {
+      buf_pointer = buf + 65501;
+      return;
+    } 
+      *buf_pointer = ')';
+      buf_pointer++;
+      break;
+    default:
+    *buf_pointer = '(';
+    buf_pointer++;
+    *buf_pointer = 'u';
+    buf_pointer++;
+    *buf_pointer = 'i';
+    buf_pointer++;
+    *buf_pointer = 'n';
+    buf_pointer++;
+    *buf_pointer = 't';
+    buf_pointer++;
+    *buf_pointer = ')';
+    buf_pointer++;
+    *buf_pointer = '(';
+    buf_pointer++;
+    if((buf_pointer - buf ) >= 65500)
+    {
+      buf_pointer = buf + 65501;
+      return;
+    } 
+      gen_rand_expr();
+      if((buf_pointer - buf ) >= 65500)
+    {
+      buf_pointer = buf + 65501;
+      return;
+    }  
+      switch (rand()%4)
+      {
+        case 0:
+          *buf_pointer = '+';
+          buf_pointer++;
+          break;
+        case 1:
+          *buf_pointer = '-';
+          buf_pointer++;
+          break;
+        case 2:
+          *buf_pointer = '*';
+          buf_pointer++;
+          break;
+        case 3:
+          *buf_pointer = '/';
+          buf_pointer++;
+          break;
+      }
+      gen_rand_expr(); 
+      *buf_pointer = ')';
+      buf_pointer++;
+      if((buf_pointer - buf ) >= 65500)
+      {
+        buf_pointer = buf + 65501;
+        return;
+      }
+      break;
+  }
+  *buf_pointer  = ' ';
+  buf_pointer++;
+  *buf_pointer  = '\0';
 }
 
 int main(int argc, char *argv[]) {
@@ -29,8 +128,15 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
+    buf_pointer = buf;
+    //printf("round %d \n",i);
     gen_rand_expr();
-
+    //printf("expression %s \n",buf);
+    if((buf_pointer - buf ) >= 65500)
+    {
+      continue;
+    }
+    //printf("length %ld \n",buf_pointer - buf);
     sprintf(code_buf, code_format, buf);
 
     FILE *fp = fopen("/tmp/.code.c", "w");
@@ -45,9 +151,11 @@ int main(int argc, char *argv[]) {
     assert(fp != NULL);
 
     int result;
-    fscanf(fp, "%d", &result);
+    int fret;
+    fret = fscanf(fp, "%d", &result);
+    assert(fret != 0);
     pclose(fp);
-
+    
     printf("%u %s\n", result, buf);
   }
   return 0;
