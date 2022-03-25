@@ -22,12 +22,21 @@ WP* new_wp()
     assert(0);
   }
   WP *tail = head;
+  if(tail == NULL)
+  {
+    head = new_node;
+    head->next = NULL;
+    free_ = free_->next;
+    new_node->next = NULL;
+    return new_node;
+  }
   while(tail->next)
   {
     tail = tail->next;
   }
   tail->next = new_node;
   free_ = free_->next;
+  new_node->next = NULL;
   return new_node;
 }
 
