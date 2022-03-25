@@ -45,13 +45,21 @@ WP* new_wp()
 void free_wp(WP* old_node)
 {
   WP *tail = head;
-  while(tail->next == old_node)
+  if(tail == old_node)
+  {
+    head = NULL;
+    old_node->next = free_;
+    free_ = old_node;
+    return;
+  }
+  while(tail->next != old_node)
   {
     tail = tail->next;
   }
   tail->next = old_node->next;
   old_node->next = free_;
   free_ = old_node;
+  return;
 }
 
 void init_wp_pool() {
@@ -123,6 +131,7 @@ extern void wp_del(int num)
     {
       free_wp(temp_tail);
       printf("delete success\n");
+      return;
     }
     temp_tail = temp_tail->next;
   }
