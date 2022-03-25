@@ -180,6 +180,8 @@ static int cmd_w(char *args) {
     printf("w operation needs an argument (expr)\n");
     return 0;
   }
+  WP* new_node = new_wp();
+  strcpy(new_node->expr, args);
   return 0;
 }
 

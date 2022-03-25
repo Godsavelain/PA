@@ -5,9 +5,10 @@
 
 typedef struct watchpoint {
   int NO;
-  bool is_empty;
   struct watchpoint *next;
   char expr[50];
+  word_t saved_result;
+
   /* TODO: Add more members if necessary */
 } WP;
 
