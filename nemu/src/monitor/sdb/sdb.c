@@ -124,7 +124,7 @@ static int cmd_p(char *args) {
   uint64_t out;
   bool success;
   out = expr(args , &success);
-  printf("result:%lu 0x%lx\n",out , out);
+  printf("result:%lu 0x%016lx\n",out , out);
   return 0;
 }
 
