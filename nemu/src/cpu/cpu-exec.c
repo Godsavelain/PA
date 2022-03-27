@@ -27,7 +27,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   if(has_wp_stall)
   {
     nemu_state.state = NEMU_STOP;
-    printf("pc%lx \n",_this->pc);
+    printf("pc:%lx \n",_this->pc);
   }
 }
 
