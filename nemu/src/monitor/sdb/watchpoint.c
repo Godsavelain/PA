@@ -94,7 +94,7 @@ extern bool wp_check()
     //printf("watchpoint:%d expression:%s old_val:%ld new_val:%ld \n",temp_tail->NO,temp_tail->expr,old_result,new_result);
     if(old_result != new_result)
     {
-      printf("watchpoint:%d expression:%s old_val:0x%lx new_val:0x%lx \n",temp_tail->NO,temp_tail->expr,old_result,new_result);
+      printf("watchpoint:%d expression:%s old_val:0x%016lx new_val:0x%016lx \n",temp_tail->NO,temp_tail->expr,old_result,new_result);
       temp_tail->saved_result = new_result;
       return true;
     }
