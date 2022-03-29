@@ -58,6 +58,7 @@ char *strcat(char *dst, const char *src) {
   while(*src != '\0')
   {
     *dst = *src;
+    src++;
   }
   *dst = '\0';
   return result;
@@ -125,6 +126,7 @@ int memcmp(const void *s1, const void *s2, size_t n) {
   size_t i = 0;
   while(i < n)
   {
+    i++;
     if(*(char*)s1 == *(char*)s2)
     {
       s1++;
