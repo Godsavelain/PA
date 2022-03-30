@@ -57,6 +57,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
       if(current->is_empty == false)
       {
         printf("%s  %u\n",current->instr_asm,current->inst);
+        printf("bbb\n");
       }
     }
   }
@@ -91,6 +92,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
     current->is_empty = false;
     strcpy(current->instr_asm,p);
     current = current->next;
+    printf("aaa\n");
   #endif  
 #endif
 }
