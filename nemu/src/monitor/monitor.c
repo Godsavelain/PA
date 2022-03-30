@@ -85,6 +85,13 @@ static int parse_args(int argc, char *argv[]) {
         exit(0);
     }
   }
+  if(img_file != NULL)
+  {
+    printf("img file name : %s\n",img_file);
+    // FILE *fp = fopen(img_file, "rb");
+    // Assert(fp, "Can not open '%s'", img_file);
+  }
+
   return 0;
 }
 
