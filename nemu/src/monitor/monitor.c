@@ -36,7 +36,7 @@ static long load_img() {
     Log("No image is given. Use the default build-in image.");
     return 4096; // built-in image size
   }
-  printf("img file name : %s\n",img_file);
+  //printf("img file name : %s\n",img_file);
   FILE *fp = fopen(img_file, "rb");
   Assert(fp, "Can not open '%s'", img_file);
 
@@ -85,14 +85,25 @@ static int parse_args(int argc, char *argv[]) {
         exit(0);
     }
   }
+
+  return 0;
+}
+
+static void parse_elf() 
+{
   if(img_file != NULL)
   {
     printf("img file name : %s\n",img_file);
-    // FILE *fp = fopen(img_file, "rb");
-    // Assert(fp, "Can not open '%s'", img_file);
+    int len = strlen(img_file);
+    char elf_file[100];
+    strcpy(elf_file,img_file);
+    elf_file[len-1] = 'f';
+    elf_file[len-2] = 'l';
+    elf_file[len-3] = 'e';
+    FILE *fp = fopen(elf_file, "rb");
+    Assert(fp, "Can not open '%s'", elf_file);
+    printf("elf file name : %s\n",elf_file);
   }
-
-  return 0;
 }
 
 void init_monitor(int argc, char *argv[]) {
@@ -100,6 +111,8 @@ void init_monitor(int argc, char *argv[]) {
 
   /* Parse arguments. */
   parse_args(argc, argv);
+
+  parse_elf();
 
   /* Set random seed. */
   init_rand();
