@@ -56,7 +56,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
     {
       if(current->is_empty == false)
       {
-        printf("%s  %8u\n",current->instr_asm,current->inst);
+        printf("%s  %08u\n",current->instr_asm,current->inst);
         //printf("bbb\n");
       }
       current = current->next;
@@ -88,10 +88,11 @@ static void exec_once(Decode *s, vaddr_t pc) {
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
+      printf("p:%s\n",p);
   #ifdef CONFIG_LOOP_ITRACE
     current->inst = s->isa.inst.val;
     current->is_empty = false;
-    printf("p:%s\n",p);
+    
     strcpy(current->instr_asm,p);
     current = current->next;
     //printf("aaa\n");
