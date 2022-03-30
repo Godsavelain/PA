@@ -8,6 +8,17 @@
  * You can modify this value as you want.
  */
 #define MAX_INST_TO_PRINT 10
+#define NR_BUFFER 20
+
+typedef struct inst_buffer_node {
+  uint inst;
+  bool is_empty;
+  struct inst_buffer_node *next;
+
+} INST_NODE;
+
+static INST_NODE inst_buffer[NR_BUFFER] = {};
+static INST_NODE *current = NULL;
 
 CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
@@ -16,6 +27,17 @@ static bool g_print_step = false;
 
 void device_update();
 bool wp_check();
+
+void init_inst_buffer()
+{
+  current = inst_buffer;
+  int i;
+  for (i = 0; i < NR_BUFFER; i ++) {
+    inst_buffer[i].inst = i;
+    inst_buffer[i].is_empty = true;
+    inst_buffer[i].next = (i == NR_BUFFER - 1 ? inst_buffer : &inst_buffer[i + 1]);
+  }
+}
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
