@@ -13,6 +13,7 @@
 typedef struct inst_buffer_node {
   uint inst;
   bool is_empty;
+  char instr_asm[30];
   struct inst_buffer_node *next;
 
 } INST_NODE;
@@ -50,6 +51,14 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   {
     nemu_state.state = NEMU_STOP;
     printf("pc:%lx \n",_this->pc);
+    current = current->next;
+    for(int i=0; i < NR_BUFFER; i++)
+    {
+      if(current->is_empty == false)
+      {
+        printf("%s  %u\n",current->instr_asm,current->inst);
+      }
+    }
   }
 }
 
@@ -77,6 +86,12 @@ static void exec_once(Decode *s, vaddr_t pc) {
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
+  #ifdef CONFIG_LOOP_ITRACE
+    current->inst = s->isa.inst.val;
+    current->is_empty = false;
+    strcpy(current->instr_asm,p);
+    current = current->next;
+  #endif  
 #endif
 }
 
