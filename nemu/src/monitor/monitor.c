@@ -155,7 +155,10 @@ static void parse_elf()
 		int j = 0;
 		for (j=0; j<(sizeof(uint8_t)*shdr[i].sh_size / sizeof(sign_data[0])); j++)
 		{
+      if(sign_data[j].st_info == STT_FUNC)
+      {
       printf("name:%u value:%lx type: %u \n",sign_data[j].st_name,sign_data[j].st_value,sign_data[j].st_info);
+      }
 		}
     free(sign_data);
 	}
