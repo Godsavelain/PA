@@ -143,7 +143,7 @@ static void parse_elf()
         break;
       }
     }
-    printf("strtab_idx:%d\n",strtab_idx);
+    //printf("strtab_idx:%d\n",strtab_idx);
 
 	// 将fp指针移到 字符串表偏移位置处
     rewind(fp);
@@ -176,7 +176,7 @@ static void parse_elf()
 		temp = temp + sign_data[j].st_name;
 
 		// printf("节的名称: %s\n", temp);
-    if(sign_data[j].st_info == STT_FUNC)
+    if(sign_data[j].st_info == 18)
       printf("name:%s value:0x%lx type: %u \n",temp,sign_data[j].st_value,sign_data[j].st_info);
       
 		}
