@@ -118,7 +118,7 @@ static void parse_elf()
 		  printf("Not a ELF file\n");
 		  assert(0);
 	  } 
-    printf("read elf\n");
+    //printf("read elf\n");
     Elf64_Shdr *shdr = (Elf64_Shdr*)malloc(sizeof(Elf64_Shdr) * elf_head.e_shnum);
     assert(shdr != NULL);
     fseek(fp, elf_head.e_shoff, SEEK_SET);
@@ -133,7 +133,8 @@ static void parse_elf()
 	  char *temp = shstrtab;
     for (int i = 0; i < elf_head.e_shnum; i++)
 	{
-		if(shdr[i].sh_type != SHT_SYMTAB)
+		printf("i:%d elf_type:%d\n",i,shdr[i].sh_type);
+    if(shdr[i].sh_type != SHT_SYMTAB)
     {
       continue;
     }
