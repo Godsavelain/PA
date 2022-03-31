@@ -124,22 +124,42 @@ static void parse_elf()
     fseek(fp, elf_head.e_shoff, SEEK_SET);
     a = fread(shdr, sizeof(Elf64_Shdr) * elf_head.e_shnum, 1, fp);
     assert( a!=0 );
-    // 重置指针位置到文件流开头
-	  rewind(fp);
-	// 将fp指针移到 字符串表偏移位置处
-	  fseek(fp, shdr[elf_head.e_shstrndx].sh_offset, SEEK_SET);
+    rewind(fp);
+    fseek(fp, shdr[elf_head.e_shstrndx].sh_offset, SEEK_SET);
 	// 第e_shstrndx项是字符串表 定义 字节 长度 char类型 数组
 	  char shstrtab[shdr[elf_head.e_shstrndx].sh_size];
-	  char *temp = shstrtab;
+	  char *temp1 = shstrtab;
+    a = fread(shstrtab, shdr[elf_head.e_shstrndx].sh_size, 1, fp);
+    assert( a!=0 );
+    // 重置指针位置到文件流开头
+	  //rewind(fp);
+    int strtab_idx;
+    for (strtab_idx = 0; strtab_idx < elf_head.e_shnum; strtab_idx++)
+    {
+      temp1 = shstrtab;
+		  temp1 = temp1 + shdr[strtab_idx].sh_name;
+      if(strcmp(temp1 , ".strtab") == 0)
+      {
+        break;
+      }
+    }
+    printf("strtab_idx:%d\n",strtab_idx);
+
+	// 将fp指针移到 字符串表偏移位置处
+    rewind(fp);
+	  fseek(fp, shdr[strtab_idx].sh_offset, SEEK_SET);
+	// 第e_shstrndx项是字符串表 定义 字节 长度 char类型 数组
+	  char strtab[shdr[strtab_idx].sh_size];
+	  char *temp = strtab;
     for (int i = 0; i < elf_head.e_shnum; i++)
-	{
+  {
 		//printf("i:%d elf_type:%d\n",i,shdr[i].sh_type);
     if(shdr[i].sh_type != SHT_SYMTAB)
     {
       continue;
     }
-    temp = shstrtab;
-		temp = temp + shdr[i].sh_name;
+    temp = strtab;
+		//temp = temp + shdr[i].sh_name;
     //if (strcmp(temp, ".dynsym") != 0) continue;//该section名称
 		// printf("节的名称: %s\n", temp);
 		// printf("节首的偏移: %x\n", (uint)shdr[i].sh_offset);
@@ -156,11 +176,11 @@ static void parse_elf()
 		for (j=0; j<(sizeof(uint8_t)*shdr[i].sh_size / sizeof(sign_data[0])); j++)
 		{
       
-    temp = shstrtab;
+    temp = strtab;
 		temp = temp + sign_data[j].st_name;
 
 		// printf("节的名称: %s\n", temp);
-      printf("name:%s value:px%lx type: %u \n",temp,sign_data[j].st_value,sign_data[j].st_info);
+      printf("name:%s value:0x%lx type: %u \n",temp,sign_data[j].st_value,sign_data[j].st_info);
       
 		}
     free(sign_data);
