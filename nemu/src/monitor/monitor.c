@@ -42,7 +42,20 @@ typedef struct func_range {
 static FUNC func_pool[NR_FUNC] = {};
 static int func_num = 0;
 
-void ftrace(word_t addr)
+void ftrace_call(word_t pc, word_t addr)
+{
+  int i;
+  for(i=1;i<func_num;i++)
+  {
+    if((func_pool[i-1].addr <= addr) && (func_pool[i].addr > addr))
+    {
+
+    }
+  }
+  //printf("pc:%ld :call[ %s@0x%lx ]\n",pc,);
+}
+
+void ftrace_ret(word_t pc, word_t addr)
 {
   //printf("abcdefg\n");
 }
