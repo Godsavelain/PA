@@ -32,13 +32,15 @@ static char *diff_so_file = NULL;
 static char *img_file = NULL;
 static int difftest_port = 1234;
 
-#define NR_FUNC 50
-typedef struct func_range {
-  char name[30];
-  uint64_t addr;
-} FUNC;
-static FUNC func_pool[NR_FUNC] = {};
-static int func_num = 0;
+// #define NR_FUNC 50
+
+// typedef struct func_range {
+//   char name[30];
+//   uint64_t addr;
+// } FUNC;
+
+// static FUNC func_pool[NR_FUNC] = {};
+// static int func_num = 0;
 
 static long load_img() {
   if (img_file == NULL) {
@@ -187,9 +189,9 @@ static void parse_elf()
     if(sign_data[j].st_info == 18)
     {
       printf("name:%s value:0x%lx type: %u \n",temp,sign_data[j].st_value,sign_data[j].st_info);
-      func_pool[func_num].addr = sign_data[j].st_value;
-      strcpy(func_pool[func_num].name,temp);
-      func_num++;
+      // func_pool[func_num].addr = sign_data[j].st_value;
+      // strcpy(func_pool[func_num].name,temp);
+      // func_num++;
 		}
     free(sign_data);
 	}
