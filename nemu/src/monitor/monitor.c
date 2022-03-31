@@ -156,8 +156,11 @@ static void parse_elf()
 		for (j=0; j<(sizeof(uint8_t)*shdr[i].sh_size / sizeof(sign_data[0])); j++)
 		{
       // if(sign_data[j].st_info == STT_FUNC)
-      
-      printf("name:%u value:%lx type: %u \n",sign_data[j].st_name,sign_data[j].st_value,sign_data[j].st_info);
+    temp = shstrtab;
+		temp = temp + sign_data[j].st_name;
+
+		// printf("节的名称: %s\n", temp);
+      printf("name:%s value:%lx type: %u \n",temp,sign_data[j].st_value,sign_data[j].st_info);
       
 		}
     free(sign_data);
