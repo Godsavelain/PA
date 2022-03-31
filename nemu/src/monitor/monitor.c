@@ -118,6 +118,7 @@ static void parse_elf()
 		  printf("Not a ELF file\n");
 		  assert(0);
 	  } 
+    printf("read elf\n");
     Elf64_Shdr *shdr = (Elf64_Shdr*)malloc(sizeof(Elf64_Shdr) * elf_head.e_shnum);
     assert(shdr != NULL);
     fseek(fp, elf_head.e_shoff, SEEK_SET);
