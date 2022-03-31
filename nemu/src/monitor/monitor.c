@@ -56,7 +56,8 @@ void ftrace_call(word_t pc, word_t addr)
       }
     }
   }
-  printf("pc:%lx :call[ %s@0x%lx ]\n",pc,func_pool[pos].name,func_pool[pos].addr);
+  printf("call pc %lx \n",addr);
+  //printf("pc:%lx :call[ %s@0x%lx ]\n",pc,func_pool[pos].name,func_pool[pos].addr);
 }
 
 void ftrace_ret(word_t pc, word_t addr)
@@ -73,7 +74,8 @@ void ftrace_ret(word_t pc, word_t addr)
       }
     }
   }
-  printf("pc:%lx :ret[ %s@0x%lx ]\n",pc,func_pool[pos].name,func_pool[pos].addr);
+  printf("ret pc %lx \n",addr);
+  //printf("pc:%lx :ret[ %s@0x%lx ]\n",pc,func_pool[pos].name,func_pool[pos].addr);
 }
 
 static long load_img() {
