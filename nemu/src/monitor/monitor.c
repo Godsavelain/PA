@@ -204,7 +204,7 @@ static void parse_elf()
 		temp = temp + sign_data[j].st_name;
 
 		// printf("节的名称: %s\n", temp);
-    if(sign_data[j].st_info % 16 == 18)
+    if(sign_data[j].st_info % 16 == STT_FUNC)
     {
       printf("name:%s value:0x%lx type: %u \n",temp,sign_data[j].st_value,sign_data[j].st_info);
       func_pool[func_num].addr = sign_data[j].st_value;
