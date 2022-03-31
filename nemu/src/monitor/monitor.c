@@ -45,19 +45,35 @@ static int func_num = 0;
 void ftrace_call(word_t pc, word_t addr)
 {
   int i;
-  for(i=1;i<func_num;i++)
+  int pos = 0;
+  for(i=0;i<func_num;i++)
   {
-    if((func_pool[i-1].addr <= addr) && (func_pool[i].addr > addr))
+    if(func_pool[i].addr <= addr)
     {
-
+      if(func_pool[i].addr > func_pool[pos].addr)
+      {
+        pos = i;
+      }
     }
   }
-  //printf("pc:%ld :call[ %s@0x%lx ]\n",pc,);
+  printf("pc:%ld :call[ %s@0x%lx ]\n",pc,func_pool[pos].name,func_pool[pos].addr);
 }
 
 void ftrace_ret(word_t pc, word_t addr)
 {
-  //printf("abcdefg\n");
+  int i;
+  int pos = 0;
+  for(i=0;i<func_num;i++)
+  {
+    if(func_pool[i].addr <= addr)
+    {
+      if(func_pool[i].addr > func_pool[pos].addr)
+      {
+        pos = i;
+      }
+    }
+  }
+  printf("pc:%ld :ret[ %s@0x%lx ]\n",pc,func_pool[pos].name,func_pool[pos].addr);
 }
 
 static long load_img() {
