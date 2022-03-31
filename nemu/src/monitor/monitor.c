@@ -155,9 +155,10 @@ static void parse_elf()
 		    printf("%x", *p);
             p++;
 		}
-    free(shdr);
-    free(sign_data);
+
 	}
+  free(shdr);
+  // free(sign_data);
   }
 }
 
