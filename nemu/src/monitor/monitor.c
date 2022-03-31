@@ -194,11 +194,13 @@ static void parse_elf()
       // func_num++;
 		}
     }
-    free(sign_data);
+  
+  free(sign_data);
 	
-  free(shdr);
-  // free(sign_data);
   }
+  // free(sign_data);
+  
+  free(shdr);
 }
 }
 
