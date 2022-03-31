@@ -46,13 +46,15 @@ void ftrace_call(word_t pc, word_t addr)
 {
   int i;
   int pos = 0;
+  word_t most = 0;
   for(i=0;i<func_num;i++)
   {
     if(func_pool[i].addr <= addr)
     {
-      if(func_pool[i].addr > func_pool[pos].addr)
+      if(func_pool[i].addr > most)
       {
         pos = i;
+        most = func_pool[i].addr;
         //printf("hhh\n");
       }
     }
@@ -65,13 +67,15 @@ void ftrace_ret(word_t pc, word_t addr)
 {
   int i;
   int pos = 0;
+  word_t most = 0;
   for(i=0;i<func_num;i++)
   {
     if(func_pool[i].addr <= addr)
     {
-      if(func_pool[i].addr > func_pool[pos].addr)
+      if(func_pool[i].addr > most)
       {
         pos = i;
+        most = func_pool[i].addr;
         //printf("hhh\n");
       }
     }
