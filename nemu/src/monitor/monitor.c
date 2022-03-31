@@ -42,6 +42,11 @@ typedef struct func_range {
 static FUNC func_pool[NR_FUNC] = {};
 static int func_num = 0;
 
+void ftrace(word_t addr)
+{
+  printf("abcdefg\n");
+}
+
 static long load_img() {
   if (img_file == NULL) {
     Log("No image is given. Use the default build-in image.");

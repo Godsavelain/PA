@@ -16,7 +16,7 @@ static word_t pmem_read(paddr_t addr, int len) {
   word_t ret = host_read(guest_to_host(addr), len);
   #ifdef CONFIG_M_ITRACE
   //printf("read %lu from addr %u \n",ret,addr);
-  Log("read %lu from addr %u", ret,addr);
+  //Log("read %lu from addr %u", ret,addr);
   #endif
   return ret;
 }
@@ -25,7 +25,7 @@ static void pmem_write(paddr_t addr, int len, word_t data) {
   host_write(guest_to_host(addr), len, data);
   #ifdef CONFIG_M_ITRACE
   //printf("write %lu to addr %u \n",data,addr);
-  Log("write %lu to addr %u \n",data,addr);
+  //Log("write %lu to addr %u \n",data,addr);
   #endif
 }
 
