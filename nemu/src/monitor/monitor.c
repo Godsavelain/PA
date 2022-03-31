@@ -161,15 +161,9 @@ static void parse_elf()
       continue;
     }
     temp = strtab;
-		//temp = temp + shdr[i].sh_name;
-    //if (strcmp(temp, ".dynsym") != 0) continue;//该section名称
-		// printf("节的名称: %s\n", temp);
-		// printf("节首的偏移: %x\n", (uint)shdr[i].sh_offset);
-		// printf("节的大小: %x\n", (uint)shdr[i].sh_size);
-    Elf64_Sym *sign_data=(Elf64_Sym*)malloc(sizeof(uint8_t)*shdr[i].sh_size);
-		// 依据此段在文件中的偏移读取出
 
-	// 将fp指针移到 字符串表偏移位置处
+    Elf64_Sym *sign_data=(Elf64_Sym*)malloc(sizeof(uint8_t)*shdr[i].sh_size);
+
 		fseek(fp, shdr[i].sh_offset, SEEK_SET);
 		a = fread(sign_data, sizeof(uint8_t)*shdr[i].sh_size, 1, fp);
     assert( a!=0 );
@@ -182,6 +176,7 @@ static void parse_elf()
 		temp = temp + sign_data[j].st_name;
 
 		// printf("节的名称: %s\n", temp);
+    if(sign_data[j].st_info == STT_FUNC)
       printf("name:%s value:0x%lx type: %u \n",temp,sign_data[j].st_value,sign_data[j].st_info);
       
 		}
