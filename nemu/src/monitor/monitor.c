@@ -133,14 +133,14 @@ static void parse_elf()
 	  char *temp = shstrtab;
     for (int i = 0; i < elf_head.e_shnum; i++)
 	{
-		printf("i:%d elf_type:%d\n",i,shdr[i].sh_type);
+		//printf("i:%d elf_type:%d\n",i,shdr[i].sh_type);
     if(shdr[i].sh_type != SHT_SYMTAB)
     {
       continue;
     }
     temp = shstrtab;
 		temp = temp + shdr[i].sh_name;
-    if (strcmp(temp, ".dynsym") != 0) continue;//该section名称
+    //if (strcmp(temp, ".dynsym") != 0) continue;//该section名称
 		printf("节的名称: %s\n", temp);
 		printf("节首的偏移: %x\n", (uint)shdr[i].sh_offset);
 		printf("节的大小: %x\n", (uint)shdr[i].sh_size);
