@@ -141,23 +141,23 @@ static void parse_elf()
     temp = shstrtab;
 		temp = temp + shdr[i].sh_name;
     //if (strcmp(temp, ".dynsym") != 0) continue;//该section名称
-		printf("节的名称: %s\n", temp);
-		printf("节首的偏移: %x\n", (uint)shdr[i].sh_offset);
-		printf("节的大小: %x\n", (uint)shdr[i].sh_size);
-    uint8_t *sign_data=(uint8_t*)malloc(sizeof(uint8_t)*shdr[i].sh_size);
+		// printf("节的名称: %s\n", temp);
+		// printf("节首的偏移: %x\n", (uint)shdr[i].sh_offset);
+		// printf("节的大小: %x\n", (uint)shdr[i].sh_size);
+    Elf64_Sym *sign_data=(Elf64_Sym*)malloc(sizeof(uint8_t)*shdr[i].sh_size);
 		// 依据此段在文件中的偏移读取出
+
+	// 将fp指针移到 字符串表偏移位置处
 		fseek(fp, shdr[i].sh_offset, SEEK_SET);
 		a = fread(sign_data, sizeof(uint8_t)*shdr[i].sh_size, 1, fp);
     assert( a!=0 );
-		// 显示读取的内容
-		uint8_t *p = sign_data;
-		int j = 0;
-		for (j=0; j<shdr[i].sh_size; j++)
-		{
-		    printf("%x", *p);
-            p++;
-		}
 
+		int j = 0;
+		for (j=0; j<(sizeof(uint8_t)*shdr[i].sh_size / sizeof(sign_data[0])); j++)
+		{
+      printf("name:%u value:%lu type:%c\n",sign_data[j].st_name,sign_data[j].st_value,sign_data[j].st_info);
+		}
+    free(sign_data);
 	}
   free(shdr);
   // free(sign_data);
