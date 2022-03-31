@@ -151,6 +151,8 @@ static void parse_elf()
 	// 第e_shstrndx项是字符串表 定义 字节 长度 char类型 数组
 	  char strtab[shdr[strtab_idx].sh_size];
 	  char *temp = strtab;
+    a = fread(strtab, shdr[strtab_idx].sh_size, 1, fp);
+    assert( a!=0 );
     for (int i = 0; i < elf_head.e_shnum; i++)
   {
 		//printf("i:%d elf_type:%d\n",i,shdr[i].sh_type);
