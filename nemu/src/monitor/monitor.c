@@ -241,13 +241,13 @@ static void parse_elf()
 		// printf("节的名称: %s\n", temp);
     if(sign_data[j].st_info % 16 == STT_FUNC)
     {
-      printf("name:%s value:0x%lx type: %u \n",temp,sign_data[j].st_value,sign_data[j].st_info);
+      //printf("name:%s value:0x%lx type: %u \n",temp,sign_data[j].st_value,sign_data[j].st_info);
       func_pool[func_num].addr = sign_data[j].st_value;
       strcpy(func_pool[func_num].name,temp);
       func_num++;
 		}
     }
-  printf("func number:%d\n",func_num);
+  //printf("func number:%d\n",func_num);
   free(sign_data);
 	
   }

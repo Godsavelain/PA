@@ -28,9 +28,6 @@ typedef MUXDEF(PMEM64, uint64_t, uint32_t) paddr_t;
 #define FMT_PADDR MUXDEF(PMEM64, "0x%016lx", "0x%08x")
 typedef uint16_t ioaddr_t;
 
-//added
-#define HAS_ITRACE_BUFFER 1
-#define HAS_MTRACE_BUFFER 1
 
 #include <debug.h>
 
