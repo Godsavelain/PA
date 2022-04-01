@@ -64,14 +64,14 @@ void ftrace_call(word_t pc, word_t addr)
   Log("pc:%lx :call[ %s@0x%lx ] addr:0x%lx\n",pc,func_pool[pos].name,func_pool[pos].addr,addr);
 }
 
-void ftrace_ret(word_t pc, word_t addr)
+void ftrace_ret(word_t pc)
 {
   int i;
   int pos = 0;
   word_t most = 0;
   for(i=0;i<func_num;i++)
   {
-    if(func_pool[i].addr <= addr)
+    if(func_pool[i].addr <= pc)
     {
       if(func_pool[i].addr > most)
       {
@@ -82,8 +82,8 @@ void ftrace_ret(word_t pc, word_t addr)
     }
   }
   //printf("ret pc %lx \n",addr);
-  printf("pc:%lx :ret[ %s ] addr:0x%lx\n",pc,func_pool[pos].name,addr);
-  Log("pc:%lx :ret[ %s ] addr:0x%lx\n",pc,func_pool[pos].name,addr);
+  printf("pc:%lx :ret[ %s ] \n",pc,func_pool[pos].name);
+  Log("pc:%lx :ret[ %s ] \n",pc,func_pool[pos].name);
 }
 
 static long load_img() {

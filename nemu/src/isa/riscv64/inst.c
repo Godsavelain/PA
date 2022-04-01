@@ -26,7 +26,7 @@ static word_t immB(uint32_t i) { return (SEXT(BITS(i, 31, 31), 1) << 12) | BITS(
 static word_t immJ(uint32_t i) { return (SEXT(BITS(i, 31, 31), 1) << 20) | BITS(i, 19, 12) <<  12 | BITS(i, 20, 20) << 11 | BITS(i, 30, 21) << 1 | 0; }
 
 void ftrace_call(word_t pc, word_t addr);
-void ftrace_ret(word_t pc, word_t addr);
+void ftrace_ret(word_t pc);
 
 static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, int type) {
   uint32_t i = s->isa.inst.val;
@@ -103,7 +103,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("0000000 ????? ????? 111 ????? 01100 11", and    , R, R(dest) = (src2 & src1)   );
   INSTPAT("0000000 ????? ????? 100 ????? 01100 11", xor    , R, R(dest) = (src2 ^ src1)   );
   INSTPAT("?????????????????????????     11011 11", jal    , J, s->dnpc = s->pc + src1; R(dest) = s->snpc; if((dest == 1) || (dest == 5) ) ftrace_call(s->pc,s->dnpc););
-  INSTPAT("????????????  ????? 000 ????? 11001 11", jalr   , I, s->dnpc = (src2 + src1) & (word_t)(-1); R(dest) = s->snpc; if((dest == 0) && (src2 == 0) && ((BITS(s->isa.inst.val, 19, 15) == 1) || BITS(s->isa.inst.val, 19, 15) == 5)) ftrace_ret(s->pc,s->dnpc); else if((dest == 1) || (dest == 5)) ftrace_call(s->pc,s->dnpc););
+  INSTPAT("????????????  ????? 000 ????? 11001 11", jalr   , I, s->dnpc = (src2 + src1) & (word_t)(-1); R(dest) = s->snpc; if((dest == 0) && (src2 == 0) && ((BITS(s->isa.inst.val, 19, 15) == 1) || BITS(s->isa.inst.val, 19, 15) == 5)) ftrace_ret(s->pc); else if((dest == 1) || (dest == 5)) ftrace_call(s->pc,s->dnpc););
   INSTPAT("????????????  ????? 000 ????? 11000 11", beq    , B, s->dnpc = (src1 == src2) ? (s->pc + dest) : s->snpc );
   INSTPAT("????????????  ????? 001 ????? 11000 11", bne    , B, s->dnpc = (src1 != src2) ? (s->pc + dest) : s->snpc );
   INSTPAT("????????????  ????? 100 ????? 11000 11", blt    , B, s->dnpc = ((long long int)src1 < (long long int)src2) ? (s->pc + dest) : s->snpc );
