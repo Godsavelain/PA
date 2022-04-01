@@ -44,6 +44,7 @@ static int func_num = 0;
 
 void ftrace_call(word_t pc, word_t addr)
 {
+  #ifdef CONFIG_FTRACE
   int i;
   int pos = 0;
   word_t most = 0;
@@ -62,10 +63,16 @@ void ftrace_call(word_t pc, word_t addr)
   //printf("call pc %lx \n",addr);
   printf("pc:%lx :call[ %s@0x%lx ] addr:0x%lx\n",pc,func_pool[pos].name,func_pool[pos].addr,addr);
   Log("pc:%lx :call[ %s@0x%lx ] addr:0x%lx\n",pc,func_pool[pos].name,func_pool[pos].addr,addr);
+  #endif
+  return;
 }
 
 void ftrace_ret(word_t pc)
 {
+  #ifdef CONFIG_FTRACE
+  //printf("read %lu from addr %u \n",ret,addr);
+  //Log("read %lu from addr %u", ret,addr);
+ 
   int i;
   int pos = 0;
   word_t most = 0;
@@ -84,6 +91,8 @@ void ftrace_ret(word_t pc)
   //printf("ret pc %lx \n",addr);
   printf("pc:%lx :ret[ %s ] \n",pc,func_pool[pos].name);
   Log("pc:%lx :ret[ %s ] \n",pc,func_pool[pos].name);
+   #endif
+   return;
 }
 
 static long load_img() {
