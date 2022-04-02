@@ -29,7 +29,7 @@ int printf(const char *fmt, ...) {
       va_end(ap);
       return num;
     }
-    if((origin_str[i] != '%') || (origin_str[i] != '\\') )
+    if((origin_str[i] != '%') && (origin_str[i] != '\\') )
     {
       putch(origin_str[i]);
       i++;
