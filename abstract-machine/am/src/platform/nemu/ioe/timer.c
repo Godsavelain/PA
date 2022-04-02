@@ -3,15 +3,15 @@
 #include <stdio.h>
 
 void __am_timer_init() {
-  outl((uintptr_t)0xa0000048, 0);
+  outl((uintptr_t)RTC_ADDR, 0);
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   uint32_t current;
   // current = 0;
   //putch('a');
-  current = inl((uintptr_t) 0xa0000048);
-  printf("current:%d\n",current);
+  current = inl((uintptr_t) RTC_ADDR);
+  printf("current:%u\n",current);
   uptime->us = current;
   //putch('b');
 }
