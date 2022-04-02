@@ -155,6 +155,10 @@ static int parse_args(int argc, char *argv[]) {
 
 static void parse_elf() 
 {
+  #ifdef CONFIG_FTRACE
+    return;
+  #endif
+  
   if(img_file != NULL)
   {
     //printf("img file name : %s\n",img_file);
@@ -264,7 +268,7 @@ void init_monitor(int argc, char *argv[]) {
   parse_args(argc, argv);
 
   parse_elf();
-
+ 
   /* Set random seed. */
   init_rand();
 
