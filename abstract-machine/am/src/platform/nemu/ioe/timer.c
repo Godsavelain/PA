@@ -9,7 +9,7 @@ void __am_timer_init() {
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   uint32_t current;
   current = inl((uintptr_t) RTC_ADDR);
-  printf("current:%u\n",current);
+  printf("current:%d \n",current);
   uptime->us = current;
 }
 
