@@ -8,12 +8,9 @@ void __am_timer_init() {
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   uint32_t current;
-  // current = 0;
-  //putch('a');
   current = inl((uintptr_t) RTC_ADDR);
   printf("current:%u\n",current);
   uptime->us = current;
-  //putch('b');
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
