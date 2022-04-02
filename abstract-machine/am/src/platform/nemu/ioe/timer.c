@@ -1,5 +1,6 @@
 #include <am.h>
 #include <nemu.h>
+#include <stdio.h>
 
 void __am_timer_init() {
   
@@ -10,6 +11,7 @@ void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   // current = 0;
   //putch('a');
   current = inl((uintptr_t) 0xa0000048);
+  printf("current:%d\n",current);
   uptime->us = current;
   //putch('b');
 }
