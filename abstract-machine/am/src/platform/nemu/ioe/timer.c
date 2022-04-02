@@ -11,7 +11,7 @@ void __am_timer_init() {
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   uint64_t current_time;
   current_time = inl((uintptr_t) RTC_ADDR);
-  //printf("current:%d \n",current);
+  printf("current:%d \n",current_time);
   uptime->us = current_time - begin_time;
 }
 
