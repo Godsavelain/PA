@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 void __am_timer_init() {
-  
+  outl((uintptr_t)0xa0000048, 0);
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
