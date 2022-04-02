@@ -7,7 +7,8 @@ void __am_timer_init() {
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   uint32_t current;
-  current = inl((uintptr_t) 0xa0000048);
+  current = 0;
+  //current = inl((uintptr_t) 0xa0000048);
   uptime->us = current;
 }
 
