@@ -2,15 +2,17 @@
 #include <nemu.h>
 #include <stdio.h>
 
+uint64_t begin_time;
+
 void __am_timer_init() {
-  outl((uintptr_t)RTC_ADDR, 0);
+  begin_time = inl((uintptr_t) RTC_ADDR);
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-  uint32_t current;
-  current = inl((uintptr_t) RTC_ADDR);
-  printf("current:%d \n",current);
-  uptime->us = current;
+  uint64_t current_time;
+  current_time = inl((uintptr_t) RTC_ADDR);
+  //printf("current:%d \n",current);
+  uptime->us = current_time - begin_time;
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
