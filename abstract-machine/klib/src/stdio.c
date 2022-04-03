@@ -131,6 +131,10 @@ int printf(const char *fmt, ...) {
         }
         if(has_std_width)
         {
+          putch('t');
+          putch('0'+std_len);
+          putch('0'+ len);
+          putch('t');
           for(int i=0;i<(std_len - len);i++)
           {
             putch('0');
