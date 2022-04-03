@@ -68,6 +68,7 @@ int printf(const char *fmt, ...) {
         i++;
         while(is_num(origin_str[i]))
         {
+          putch(origin_str[i]);
           std_len = std_len * 10 + (origin_str[i] - '0');
           i++;
         }
