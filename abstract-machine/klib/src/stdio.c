@@ -60,7 +60,13 @@ int printf(const char *fmt, ...) {
         i++;
         char inverted_num[20];
         int len = 0;
-        while(d != 0)
+        if(d == 0)
+        {
+          putch('0');
+        }
+        else
+        {
+          while(d != 0)
         {
           int res = d % 10;
           inverted_num[len] = (char)(res + 48);
@@ -70,8 +76,8 @@ int printf(const char *fmt, ...) {
         while(len > 0)
         {
           putch(inverted_num[len-1]);
-          putch('a');
           len--;
+        }
         }
       }
       if(origin_str[i] == 's')
