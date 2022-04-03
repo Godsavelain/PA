@@ -15,6 +15,7 @@ void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   current_time = *(volatile uint32_t *)RTC_ADDR;
   //printf("current:%d \n",current_time);
   uptime->us = (current_time - begin_time);
+  uptime->us = 5;
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
