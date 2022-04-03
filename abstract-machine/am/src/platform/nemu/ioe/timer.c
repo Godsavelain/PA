@@ -2,18 +2,19 @@
 #include <nemu.h>
 //#include <stdio.h>
 
-uint64_t begin_time;
+uint32_t begin_time;
 
 void __am_timer_init() {
-  begin_time = inl(RTC_ADDR);
+  //begin_time = inl(RTC_ADDR);
+  begin_time = *(volatile uint32_t *)RTC_ADDR;
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-  uint64_t current_time;
-  current_time = inl(RTC_ADDR);
+  uint32_t current_time;
+  //current_time = inl(RTC_ADDR);
+  current_time = *(volatile uint32_t *)RTC_ADDR;
   //printf("current:%d \n",current_time);
-  uptime->us = current_time - begin_time;
-  
+  uptime->us = (current_time - begin_time);
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
