@@ -7,10 +7,7 @@
 
 bool is_num(char in)
 {
-  if((in >= '0') && (in <= '9'))
-  return true;
-  else
-  return false;
+  return ((in >= '0') && (in <= '9'));
 }
 
 int printf(const char *fmt, ...) {
@@ -71,7 +68,7 @@ int printf(const char *fmt, ...) {
         i++;
         while(is_num(origin_str[i]))
         {
-          std_len = std_len * 10 + origin_str[i] - '0';
+          std_len = std_len * 10 + (origin_str[i] - '0');
           i++;
         }
       }
@@ -108,6 +105,8 @@ int printf(const char *fmt, ...) {
           len--;
         }
         }
+        has_std_width = false;
+        std_len = 0;
       }
       if(origin_str[i] == 'd')
       {
@@ -142,6 +141,8 @@ int printf(const char *fmt, ...) {
           len--;
         }
         }
+        has_std_width = false;
+        std_len = 0;
       }
       if(origin_str[i] == 's')
       {
