@@ -5,10 +5,21 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
+bool is_num(char in)
+{
+  if((in >= '0') && (in <= '9'))
+  return true;
+  else
+  return false;
+}
+
 int printf(const char *fmt, ...) {
   va_list ap;
   char *s;
   int d;
+  long long int l;
+  int std_len = 0;
+  bool has_std_width = false;
 
   va_start(ap,fmt);
 
@@ -53,6 +64,51 @@ int printf(const char *fmt, ...) {
       else
       {
         i++;
+      if(is_num(origin_str[i]))
+      {
+        std_len = origin_str[i] - '0';
+        has_std_width = true;
+        i++;
+        while(is_num(origin_str[i]))
+        {
+          std_len = std_len * 10 + origin_str[i] - '0';
+          i++;
+        }
+      }
+      if((origin_str[i] == 'l') && (origin_str[i+1] == 'd'))
+      {
+        l = va_arg(ap, long long int);
+        num++;
+        i = i+2;
+        char inverted_num[20];
+        int len = 0;
+        if(l == 0)
+        {
+          putch('0');
+        }
+        else
+        {
+          while(l != 0)
+        {
+          int res = l % 10;
+          inverted_num[len] = (char)(res + 48);
+          len++;
+          l = (l - res)/10;
+        }
+        if(has_std_width)
+        {
+          for(int i=0;i<(std_len - len);i++)
+          {
+            putch('0');
+          }
+        }
+        while(len > 0)
+        {
+          putch(inverted_num[len-1]);
+          len--;
+        }
+        }
+      }
       if(origin_str[i] == 'd')
       {
         d = va_arg(ap, int);
@@ -72,6 +128,13 @@ int printf(const char *fmt, ...) {
           inverted_num[len] = (char)(res + 48);
           len++;
           d = (d - res)/10;
+        }
+        if(has_std_width)
+        {
+          for(int i=0;i<(std_len - len);i++)
+          {
+            putch('0');
+          }
         }
         while(len > 0)
         {
