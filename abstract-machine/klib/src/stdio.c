@@ -70,6 +70,7 @@ int printf(const char *fmt, ...) {
         while(len > 0)
         {
           putch(inverted_num[len-1]);
+          putch('a');
           len--;
         }
       }
