@@ -1,6 +1,6 @@
 #include <am.h>
 #include <nemu.h>
-#include <stdio.h>
+//#include <stdio.h>
 
 uint64_t begin_time;
 
@@ -11,8 +11,9 @@ void __am_timer_init() {
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   uint64_t current_time;
   current_time = inl(RTC_ADDR);
-  printf("current:%d \n",current_time);
+  //printf("current:%d \n",current_time);
   uptime->us = current_time - begin_time;
+  
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
