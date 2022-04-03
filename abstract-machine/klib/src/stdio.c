@@ -68,7 +68,6 @@ int printf(const char *fmt, ...) {
         i++;
         while(is_num(origin_str[i]))
         {
-          putch(origin_str[i]);
           std_len = std_len * 10 + (origin_str[i] - '0');
           i++;
         }
@@ -82,6 +81,13 @@ int printf(const char *fmt, ...) {
         int len = 0;
         if(l == 0)
         {
+          if(has_std_width)
+        {
+          for(int i=0;i<(std_len);i++)
+          {
+            putch('0');
+          }
+        }
           putch('0');
         }
         else
@@ -118,7 +124,13 @@ int printf(const char *fmt, ...) {
         int len = 0;
         if(d == 0)
         {
-          putch('0');
+          if(has_std_width)
+        {
+          for(int i=0;i<(std_len);i++)
+          {
+            putch('0');
+          }
+        }
         }
         else
         {
@@ -131,10 +143,6 @@ int printf(const char *fmt, ...) {
         }
         if(has_std_width)
         {
-          putch('t');
-          putch('0'+std_len);
-          putch('0'+ len);
-          putch('t');
           for(int i=0;i<(std_len - len);i++)
           {
             putch('0');
