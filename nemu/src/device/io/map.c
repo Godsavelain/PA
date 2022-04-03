@@ -63,6 +63,7 @@ void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
   #ifdef CONFIG_DTRACE
   if(!strcmp("serial",map->name))
   {
+    printf("%s\n",map->name);
   printf("write data %ld to addr %d from %s \n",data,addr,map->name);
   }
   #endif
