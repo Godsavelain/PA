@@ -6,7 +6,7 @@
 
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   uint32_t data = *(volatile uint32_t *)(KBD_ADDR);
-  printf("data:%d",data);
+  printf("d:   %d\n",data);
   kbd->keydown = 0;
   kbd->keycode = AM_KEY_NONE;
 }
