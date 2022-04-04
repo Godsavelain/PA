@@ -83,7 +83,7 @@ int printf(const char *fmt, ...) {
         {
           if(has_std_width)
         {
-          for(int i=0;i<(std_len);i++)
+          for(int i=0;i<(std_len-1);i++)
           {
             putch('0');
           }
@@ -126,11 +126,12 @@ int printf(const char *fmt, ...) {
         {
           if(has_std_width)
         {
-          for(int i=0;i<(std_len);i++)
+          for(int i=0;i<(std_len-1);i++)
           {
             putch('0');
           }
         }
+        putch('0');
         }
         else
         {
