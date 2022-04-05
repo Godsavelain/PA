@@ -4,13 +4,15 @@
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 
 #define N   32
+int W;
+int H;
 
 void __am_gpu_init() {
    int i;
-   int w = io_read(AM_GPU_CONFIG).width ;  // TODO: get the correct width
-   int h = io_read(AM_GPU_CONFIG).height ;  // TODO: get the correct height
+   W = io_read(AM_GPU_CONFIG).width ;  // TODO: get the correct width
+   H = io_read(AM_GPU_CONFIG).height ;  // TODO: get the correct height
    uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-   for (i = 0; i < w * h; i ++) fb[i] = i;
+   for (i = 0; i < W * H; i ++) fb[i] = i;
    outl(SYNC_ADDR, 1);
 }
 
@@ -31,7 +33,25 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   if (ctl->sync) {
+    int x = ctl->x;
+    int y = ctl->y;
+    int w = ctl->w;
+    int h = ctl->h;
+    bool sync = ctl->sync;
+    char *f = ctl->pixels;
+    for(int i = y;i < (y+h);i++)
+    {
+      char *f_temp = f + i*W + x;
+      for(int j=0;j<w;j++)
+      {
+        outb(FB_ADDR + i*W + j, *f_temp );
+        f_temp++;
+      }
+    }
+    if(sync)
+    {
     outl(SYNC_ADDR, 1);
+    }
   }
 }
 
