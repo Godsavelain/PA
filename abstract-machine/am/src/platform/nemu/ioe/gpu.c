@@ -40,6 +40,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     int h = ctl->h;
     bool sync = ctl->sync;
     char *f = ctl->pixels;
+    printf("x:%d y:%d w:%d h:%d W:%d pixel%d \n",x,y,w,h,W,*f);
     for(int i = y;i < (y+h);i++)
     {
       char *f_temp = f + i*W + x;
@@ -47,7 +48,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       {
         outb(FB_ADDR + i*W + x + j, *f_temp );
         f_temp++;
-        printf("out %d to addr %d",*f_temp,FB_ADDR + i*W + x + j);
+        //printf("out %d to addr %d",*f_temp,FB_ADDR + i*W + x + j);
       }
       
     }
