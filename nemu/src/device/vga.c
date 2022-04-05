@@ -62,6 +62,7 @@ void vga_update_screen() {
   {
     update_screen();
     vgactl_port_base[1] = 0;
+    printf("update screen\n");
   }
 }
 
