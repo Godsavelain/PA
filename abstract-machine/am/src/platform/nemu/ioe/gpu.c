@@ -41,10 +41,11 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     bool sync = ctl->sync;
     printf("x:%d y:%d w:%d h:%d W:%d \n",x,y,w,h,W);
     void *f =ctl->pixels;
-    printf("f address %d\n",(uintptr_t)f);
-    printf("x:%d y:%d w:%d h:%d W:%d sync %d pixel%d \n",x,y,w,h,W,sync,inl((uintptr_t)f));
-
-    for(int i = 0;i < h;i++)
+    //printf("f address %d\n",(uintptr_t)f);
+    //printf("x:%d y:%d w:%d h:%d W:%d sync %d pixel%d \n",x,y,w,h,W,sync,inl((uintptr_t)f));
+    if(f != NULL)
+    {
+      for(int i = 0;i < h;i++)
     {
       uint32_t data;
       for(int j=0;j<w;j++)
@@ -54,6 +55,8 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       }
         //printf("out %d to addr %d",*f_temp,FB_ADDR + i*W + x + j);
     }
+    }
+    
     if(sync)
     {
     outl(SYNC_ADDR, 1);
