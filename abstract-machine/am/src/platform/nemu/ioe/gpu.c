@@ -39,16 +39,16 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     int w = ctl->w;
     int h = ctl->h;
     bool sync = ctl->sync;
-    char *f = ctl->pixels;
+    uint32_t *f =(uint32_t *)ctl->pixels;
     
-    printf("x:%d y:%d w:%d h:%d W:%d pixel%d \n",x,y,w,h,W,*(char *)f);
+    printf("x:%d y:%d w:%d h:%d W:%d pixel%d \n",x,y,w,h,W,*f);
     for(int i = y;i < (y+h);i++)
     {
-      char *f_temp = f + i*W + x;
+      uint32_t *f_temp = f + i*W* + x;
       for(int j=0;j<w;j++)
       {
-        outb(FB_ADDR + i*W + x + j, *f_temp );
-        f_temp++;
+        outb(FB_ADDR + (i*W + x + j) * sizeof(uint32_t), *f_temp );
+        f_temp = f_temp + 1;
         //printf("out %d to addr %d",*f_temp,FB_ADDR + i*W + x + j);
       }
       
