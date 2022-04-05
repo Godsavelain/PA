@@ -1,5 +1,6 @@
 #include <am.h>
 #include <nemu.h>
+#include <stdio.h>
 
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 
@@ -46,7 +47,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       {
         outb(FB_ADDR + i*W + x + j, *f_temp );
         f_temp++;
-        //printf()
+        printf("out %d to addr %d",*f_temp,FB_ADDR + i*W + x + j);
       }
       
     }
