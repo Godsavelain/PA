@@ -40,19 +40,19 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     int h = ctl->h;
     bool sync = ctl->sync;
     printf("x:%d y:%d w:%d h:%d W:%d \n",x,y,w,h,W);
-    uint32_t *f =(uint32_t *)ctl->pixels;
-    
-    printf("x:%d y:%d w:%d h:%d W:%d pixel%d \n",x,y,w,h,W,f[1]);
-    for(int i = y;i < (y+h);i++)
+    void *f =ctl->pixels;
+    printf("f address %d\n",(uintptr_t)f);
+    printf("x:%d y:%d w:%d h:%d W:%d sync %d pixel%d \n",x,y,w,h,W,sync,inl((uintptr_t)f));
+
+    for(int i = 0;i < h;i++)
     {
-      uint32_t *f_temp = f + i*W* + x;
+      uint32_t data;
       for(int j=0;j<w;j++)
       {
-        outb(FB_ADDR + (i*W + x + j) * sizeof(uint32_t), *f_temp );
-        f_temp = f_temp + 1;
-        //printf("out %d to addr %d",*f_temp,FB_ADDR + i*W + x + j);
+        data = inl((uintptr_t)f + (i*w + j)*sizeof(uint32_t));
+        outl(FB_ADDR + ((i+y)*W + x + j) * sizeof(uint32_t), data );
       }
-      
+        //printf("out %d to addr %d",*f_temp,FB_ADDR + i*W + x + j);
     }
     if(sync)
     {
