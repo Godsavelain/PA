@@ -44,9 +44,11 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       char *f_temp = f + i*W + x;
       for(int j=0;j<w;j++)
       {
-        outb(FB_ADDR + i*W + j, *f_temp );
+        outb(FB_ADDR + i*W + x + j, *f_temp );
         f_temp++;
+        //printf()
       }
+      
     }
     if(sync)
     {
