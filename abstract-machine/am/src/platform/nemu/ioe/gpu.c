@@ -42,7 +42,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     printf("x:%d y:%d w:%d h:%d W:%d \n",x,y,w,h,W);
     uint32_t *f =(uint32_t *)ctl->pixels;
     
-    printf("x:%d y:%d w:%d h:%d W:%d pixel%d \n",x,y,w,h,W,*f);
+    printf("x:%d y:%d w:%d h:%d W:%d pixel%d \n",x,y,w,h,W,f[1]);
     for(int i = y;i < (y+h);i++)
     {
       uint32_t *f_temp = f + i*W* + x;
