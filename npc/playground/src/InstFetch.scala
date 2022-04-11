@@ -29,7 +29,7 @@ class IF_Resp extends Bundle{
 }
 
 class IF_IO extends Bundle{
-  val req  = Decoupled(new IF_Req
+  val req  = Decoupled(new IF_Req)
   val resp = Flipped(Decoupled(new IF_Resp))
 }
 
