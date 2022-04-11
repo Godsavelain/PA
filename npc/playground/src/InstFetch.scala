@@ -3,6 +3,12 @@ package patchouli
 import chisel3._
 import chisel3.util._
 
+class Inst_Packet extends Bundle{
+  val pc    = Output(UInt(32.W))
+  val inst  = Output(UInt(32.W))
+  val inst_valid = Output(Bool())
+}
+
 class IF_Req extends Bundle{
   val araddr  = Output(UInt(32.W))
   val arvalid = Output(Bool())
@@ -23,19 +29,13 @@ class IF_Resp extends Bundle{
 }
 
 class IF_IO extends Bundle{
-  val req  = Decoupled(new IF_Req)
+  val req  = Decoupled(new IF_Req
   val resp = Flipped(Decoupled(new IF_Resp))
-}
-
-class Inst_Packet extends Bundle{
-  val pc    = Output(UInt(32.W))
-  val inst  = Output(UInt(32.W))
-  val inst_valid = Output(Bool())
 }
 
 class InstFetch extends Module{
   val io = IO(new Bundle{
-    val imem = new IF_IO()
+    val imem = new IF_IO
     val out  = Decoupled(new Inst_Packet())
   })
 
@@ -47,15 +47,15 @@ class InstFetch extends Module{
   val pc_base = Cat(pc(31, 2), Fill(2, 0.U))
   val npc_s = pc_base + 4.U
 
-  val stall = (!resp.rvalid || !io.out.ready)
+  val stall = (!resp.bits.rvalid || !io.out.ready)
   val npc = npc_s
   when(!stall){
     pc := npc
   }
 
-  io.out.bits.pc := resp.old_pc
-  io.out.bits.inst := resp.rdata
-  io.out.bits.inst_valid := resp.rvalid
+  io.out.bits.pc := resp.bits.old_pc
+  io.out.bits.inst := resp.bits.rdata
+  io.out.bits.inst_valid := resp.bits.rvalid
 
   req.bits.araddr  := pc_base
   req.bits.arvalid := true.B
