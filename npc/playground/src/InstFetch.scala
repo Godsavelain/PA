@@ -29,13 +29,13 @@ class IF_Resp extends Bundle{
 }
 
 class IF_IO extends Bundle{
-  val req  = Decoupled(new IF_Req)
-  val resp = Flipped(Decoupled(new IF_Resp))
+  val req  = Decoupled(new IF_Req())
+  val resp = Flipped(Decoupled(new IF_Resp()))
 }
 
 class InstFetch extends Module{
   val io = IO(new Bundle{
-    val imem = new IF_IO
+    val imem = new IF_IO()
     val out  = Decoupled(new Inst_Packet())
   })
 
@@ -62,8 +62,7 @@ class InstFetch extends Module{
   req.bits.rready := true.B
 
   req.valid      := io.out.ready
-  io.out.valid := true.B
-
+  io.out.valid   := true.B
 }
 
 
