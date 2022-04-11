@@ -62,7 +62,7 @@ class InstFetch extends Module{
   req.bits.rready := true.B
 
   req.valid      := io.out.ready
-  resp.valid := true.B
+  resp.ready     := true.B
   io.out.valid   := true.B
 }
 
