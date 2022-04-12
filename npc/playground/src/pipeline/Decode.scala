@@ -97,6 +97,9 @@ class Decode extends Module{
   val (valid : Bool)  :: fu_code :: alu_code :: jmp_code       :: mem_code :: mem_size :: csr_code :: c0 = ctrl
   val (w_type : Bool) :: rs1_src :: rs2_src  :: (rd_en : Bool) :: imm_type :: Nil                        = c0
 
+  io.out.bits.pc      := io.in.bits.pc
+  io.out.bits.inst    := io.in.bits.inst
+  io.out.bits.valid      := io.in.bits.inst_valid
   io.out.bits.fu_code := fu_code
   io.out.bits.alu_code := alu_code
   io.out.bits.jmp_code := jmp_code
