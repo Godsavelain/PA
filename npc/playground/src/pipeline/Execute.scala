@@ -2,6 +2,7 @@ package patchouli
 
 import chisel3._
 import chisel3.util._
+import patchouli.Constant._
 
 class Execute extends Module{
   val io = IO(new Bundle{
@@ -61,7 +62,7 @@ class Alu extends Module{
 //    ALU_SRA  -> (in1.asSInt() >> shamt).asUInt()
   ))
 
-  out1 := Mux(io.wtype_i, SignExt32_64(out0(31, 0)), out0)
+  out1 := Mux(io.wtype_i, Sext32_64(out0(31, 0)), out0)
   io.alu_out := out1
 }
 
