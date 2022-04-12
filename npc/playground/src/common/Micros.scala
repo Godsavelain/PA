@@ -66,3 +66,5 @@ trait Constant {
   val CSR_ECALL = 4.asUInt(3.W)
   val CSR_MRET  = 5.asUInt(3.W)
 }
+
+object Constant extends Constant { }
