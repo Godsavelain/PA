@@ -16,12 +16,12 @@ class Execute extends Module{
   val stall = !io.out.fire()
   io.in.ready := !stall
   io.out.valid := true.B
-  val ex_reg_decodeop = RegInit(0.U.asTypeOf(DecodeOp()))
+  val ex_reg_decodeop = RegInit(0.U.asTypeOf(new DecodeOp()))
   val rs1 = RegInit(0.U(64.W))
   val rs2 = RegInit(0.U(64.W))
 
   when(io.in.fire()){
-    ex_reg_decodeop := Mux(io.ex_flush ,0.U.asTypeOf(DecodeOp()), io.in.bits)
+    ex_reg_decodeop := Mux(io.ex_flush ,0.U.asTypeOf(new DecodeOp()), io.in.bits)
     rs1 := Mux(io.ex_flush , 0.U(64.W) , io.ex_rs1_i)
     rs2 := Mux(io.ex_flush , 0.U(64.W) , io.ex_rs2_i)
   }
@@ -41,7 +41,7 @@ class Alu extends Module{
     val in1 = Input(UInt(64.W))
     val in2 = Input(UInt(64.W))
     val aluop_i = Input(UInt(4.W))
-    val wtype_i = Input(UInt(1.W))
+    val wtype_i = Input(Bool())
     val alu_out = Output(UInt(64.W))
   })
 
