@@ -5,7 +5,7 @@ import chisel3.util._
 //import chisel3.util.experimental._
 //import difftest._
 
-class TestIO extends Module{
+class TestIO extends Bundle{
   val raddr = Output(UInt(32.W))
   val waddr = Output(UInt(32.W))
   val wdata = Output(UInt(64.W))

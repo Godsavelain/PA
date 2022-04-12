@@ -18,7 +18,7 @@ class CoreBusReq extends Bundle{
   val wdata   = Output(UInt(64.W))
 }
 
-class  CoreBusResp extends Bundle{
+class CoreBusResp extends Bundle{
   val rdata   = Output(UInt(64.W))
   val arready = Output(Bool())
   val rvalid  = Output(Bool())
