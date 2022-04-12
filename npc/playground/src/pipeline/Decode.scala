@@ -1,0 +1,156 @@
+//Decode logic from zhoushan
+import chisel3._
+import chisel3.util._
+
+class Decode extends Module{
+  val io = IO(new Bundle{
+    val in = Flipped(Decoupled(new Inst_Packet()))
+    val out = Decoupled(new DecodeOp())
+    val id_flush = Input(Bool())
+  })
+  val pc    = RegInit(0.U(32.W))
+  val inst  = RegInit(0.U(32.W))
+  val inst_valid = RegInit(0.U(1.W))
+
+  when(io.in.fire()){
+    pc := Mux(io.id_flush , 0.U(32.W) ,io.in.bits.pc)
+    inst := Mux(io.id_flush , 0.U(32.W) ,io.in.bits.inst)
+    inst_valid := Mux(io.id_flush , 0.B ,io.in.bits.inst_valid)
+  }
+
+  val ctrl = ListLookup(inst,
+    //   v  fu_code alu_code  jmp_code  mem_code mem_size   csr_code   w  rs1_src       rs2_src  rd_en  imm_type
+    List(N, FU_X,   ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_X,         RS_X,        N, IMM_X    ),
+    Array(
+      // RV32I
+      LUI     ->  List(Y, FU_ALU, ALU_ADD,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_ZERO, RS_FROM_IMM, Y, IMM_U    ),
+      AUIPC   ->  List(Y, FU_ALU, ALU_ADD,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_PC,   RS_FROM_IMM, Y, IMM_U    ),
+      JAL     ->  List(Y, FU_JMP, ALU_X,    JMP_JAL,  MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_PC,   RS_FROM_IMM, Y, IMM_J    ),
+      JALR    ->  List(Y, FU_JMP, ALU_X,    JMP_JALR, MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_I    ),
+      BEQ     ->  List(Y, FU_JMP, ALU_X,    JMP_BEQ,  MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_B    ),
+      BNE     ->  List(Y, FU_JMP, ALU_X,    JMP_BNE,  MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_B    ),
+      BLT     ->  List(Y, FU_JMP, ALU_X,    JMP_BLT,  MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_B    ),
+      BGE     ->  List(Y, FU_JMP, ALU_X,    JMP_BGE,  MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_B    ),
+      BLTU    ->  List(Y, FU_JMP, ALU_X,    JMP_BLTU, MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_B    ),
+      BGEU    ->  List(Y, FU_JMP, ALU_X,    JMP_BGEU, MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_B    ),
+      LB      ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_LD,  MEM_BYTE,  CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      LH      ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_LD,  MEM_HALF,  CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      LW      ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_LD,  MEM_WORD,  CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      LBU     ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_LDU, MEM_BYTE,  CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      LHU     ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_LDU, MEM_HALF,  CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      SB      ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_ST,  MEM_BYTE,  CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_S    ),
+      SH      ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_ST,  MEM_HALF,  CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_S    ),
+      SW      ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_ST,  MEM_WORD,  CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_S    ),
+      ADDI    ->  List(Y, FU_ALU, ALU_ADD,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      SLTI    ->  List(Y, FU_ALU, ALU_SLT,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      SLTIU   ->  List(Y, FU_ALU, ALU_SLTU, JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      XORI    ->  List(Y, FU_ALU, ALU_XOR,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      ORI     ->  List(Y, FU_ALU, ALU_OR,   JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      ANDI    ->  List(Y, FU_ALU, ALU_AND,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      SLLI    ->  List(Y, FU_ALU, ALU_SLL,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_SHAMT),
+      SRLI    ->  List(Y, FU_ALU, ALU_SRL,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_SHAMT),
+      SRAI    ->  List(Y, FU_ALU, ALU_SRA,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_SHAMT),
+      ADD     ->  List(Y, FU_ALU, ALU_ADD,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      SUB     ->  List(Y, FU_ALU, ALU_SUB,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      SLL     ->  List(Y, FU_ALU, ALU_SLL,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      SLT     ->  List(Y, FU_ALU, ALU_SLT,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      SLTU    ->  List(Y, FU_ALU, ALU_SLTU, JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      XOR     ->  List(Y, FU_ALU, ALU_XOR,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      SRL     ->  List(Y, FU_ALU, ALU_SRL,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      SRA     ->  List(Y, FU_ALU, ALU_SRA,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      OR      ->  List(Y, FU_ALU, ALU_OR,   JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      AND     ->  List(Y, FU_ALU, ALU_AND,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      // FENCE
+      // FENCE_I
+      ECALL   ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_ECALL, N, RS_X,         RS_X,        N, IMM_X    ),
+      // EBREAK
+      MRET    ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_MRET,  N, RS_X,         RS_X,        N, IMM_X    ),
+      WFI     ->  List(Y, FU_ALU, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_X,         RS_X,        N, IMM_X    ),
+      // RV64I
+      LWU     ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_LDU, MEM_WORD,  CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      LD      ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_LDU, MEM_DWORD, CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      SD      ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_ST,  MEM_DWORD, CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_S    ),
+      ADDIW   ->  List(Y, FU_ALU, ALU_ADD,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      SLLIW   ->  List(Y, FU_ALU, ALU_SLL,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      SRLIW   ->  List(Y, FU_ALU, ALU_SRL,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      SRAIW   ->  List(Y, FU_ALU, ALU_SRA,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      ADDW    ->  List(Y, FU_ALU, ALU_ADD,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      SUBW    ->  List(Y, FU_ALU, ALU_SUB,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      SLLW    ->  List(Y, FU_ALU, ALU_SLL,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      SRLW    ->  List(Y, FU_ALU, ALU_SRL,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      SRAW    ->  List(Y, FU_ALU, ALU_SRA,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X    ),
+      // CSR
+      CSRRW   ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_RW,    N, RS_FROM_RF,   RS_X,        Y, IMM_X    ),
+      CSRRS   ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_RS,    N, RS_FROM_RF,   RS_X,        Y, IMM_X    ),
+      CSRRC   ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_RC,    N, RS_FROM_RF,   RS_X,        Y, IMM_X    ),
+      CSRRWI  ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_RW,    N, RS_FROM_IMM,  RS_X,        Y, IMM_CSR  ),
+      CSRRSI  ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_RS,    N, RS_FROM_IMM,  RS_X,        Y, IMM_CSR  ),
+      CSRRCI  ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_RC,    N, RS_FROM_IMM,  RS_X,        Y, IMM_CSR  ),
+      // am
+      HALT    ->  List(Y, FU_X,   ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_X,         RS_X,        N, IMM_X    ),
+      PUTCH   ->  List(Y, FU_X,   ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_X,         RS_X,        N, IMM_X    )
+    )
+  )
+  val (valid : Bool)  :: fu_code :: alu_code :: jmp_code       :: mem_code :: mem_size :: csr_code :: c0 = ctrl
+  val (w_type : Bool) :: rs1_src :: rs2_src  :: (rd_en : Bool) :: imm_type :: Nil                        = c0
+
+  io.out.bits.fu_code := fu_code
+  io.out.bits.alu_code := alu_code
+  io.out.bits.jmp_code := jmp_code
+  io.out.bits.mem_code := mem_code
+  io.out.bits.mem_size := mem_size
+  io.out.bits.csr_code := csr_code
+  io.out.bits.w_type := w_type
+  io.out.bits.rs1_src := rs1_src
+  io.out.bits.rs2_src := rs2_src
+  io.out.bits.rd_en := rd_en
+  io.out.bits.rs1_addr := inst(19, 15)
+  io.out.bits.rs2_addr := inst(24, 20)
+  io.out.bits.rd_addr := inst(11, 7)
+
+  val imm_i = Cat(Fill(21, inst(31)), inst(30, 20))
+  val imm_s = Cat(Fill(21, inst(31)), inst(30, 25), inst(11, 7))
+  val imm_b = Cat(Fill(20, inst(31)), inst(7), inst(30, 25), inst(11, 8), 0.U)
+  val imm_u = Cat(inst(31, 12), Fill(12, 0.U))
+  val imm_j = Cat(Fill(12, inst(31)), inst(19, 12), inst(20), inst(30, 21), 0.U)
+  val imm_shamt = Mux(w_type, Cat(Fill(27, 0.U), inst(24, 20)), Cat(Fill(26, 0.U), inst(25, 20)))
+  val imm_csr = Cat(Fill(27, 0.U), inst(19, 15))
+
+  io.out.bits.imm := MuxLookup(imm_type, 0.U(32.W), Array(
+    IMM_I -> imm_i,
+    IMM_S -> imm_s,
+    IMM_B -> imm_b,
+    IMM_U -> imm_u,
+    IMM_J -> imm_j,
+    IMM_SHAMT -> imm_shamt,
+    IMM_CSR -> imm_csr
+  ))
+
+  val stall = !io.out.fire()
+  io.in.ready := !stall
+  io.out.valid := true.B
+}
+
+class DecodeOp extends Bundle{
+  val valid     = Bool()
+  val pc        = UInt(32.W)
+  val inst      = UInt(32.W)
+
+  val fu_code   = UInt(3.W)
+  val alu_code  = UInt(4.W)
+  val jmp_code  = UInt(4.W)
+  val mem_code  = UInt(2.W)
+  val mem_size  = UInt(2.W)
+  val csr_code  = UInt(3.W)
+  val w_type    = Bool()
+
+  val rs1_src   = UInt(3.W)
+  val rs2_src   = UInt(3.W)
+
+  val rs1_addr  = UInt(5.W)
+  val rs2_addr  = UInt(5.W)
+  val rd_addr   = UInt(5.W)
+  val rd_en     = Bool()
+
+  val imm       = UInt(32.W)
+}

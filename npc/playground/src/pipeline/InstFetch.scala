@@ -37,6 +37,7 @@ class InstFetch extends Module{
   val io = IO(new Bundle{
     val imem = new IF_IO()
     val out  = Decoupled(new Inst_Packet())
+    val if_flush = Input(Bool())
   })
 
   val req = io.imem.req
