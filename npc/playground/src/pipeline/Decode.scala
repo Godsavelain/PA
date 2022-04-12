@@ -1,6 +1,9 @@
 //Decode logic from zhoushan
+package patchouli
 import chisel3._
 import chisel3.util._
+import patchouli.Constant._
+import patchouli.Instructions._
 
 class Decode extends Module{
   val io = IO(new Bundle{
