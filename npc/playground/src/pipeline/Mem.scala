@@ -15,7 +15,7 @@ class Mem extends Module{
   })
   val stall = false.B
   io.in.ready := !stall
-  val mem_reg_decodeop = RegInit(0.U.asTypeOf(DecodeOp()))
+  val mem_reg_decodeop = RegInit(0.U.asTypeOf(new DecodeOp()))
   val waddr = RegInit(0.U(5.W))
   val wen   = RegInit(0.U(1.W))
   val wdata = RegInit(0.U(64.W))
