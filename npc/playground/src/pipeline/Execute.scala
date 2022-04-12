@@ -45,8 +45,8 @@ class Alu extends Module{
     val alu_out = Output(UInt(64.W))
   })
 
-  val out0 = WireInit(UInt(64.W))
-  val out1 = WireInit(UInt(64.W))
+  val out0 = Wire(UInt(64.W))
+  val out1 = Wire(UInt(64.W))
   val in1 = io.in1
   val in2 = io.in2
   out0 := MuxLookup(io.aluop_i, 0.U, Array(
