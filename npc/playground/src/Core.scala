@@ -26,11 +26,11 @@ class Core extends Module{
   })
 
   val fetch = Module(new InstFetch)
-  fetch.io.imem.resp.rdata := io.imem.rdata
-  fetch.io.imem.resp.old_pc := RegNext(fetch.io.imem.req.araddr)
-  fetch.io.imem.resp.rvalid := io.imem.read_ok
-  io.imem.raddr := fetch.io.imem.req.araddr
-  io.imem.ren := fetch.io.imem.req.arvalid
+  fetch.io.imem.resp.bits.rdata := io.imem.rdata
+  fetch.io.imem.resp.bits.old_pc := RegNext(fetch.io.imem.req.bits.araddr)
+  fetch.io.imem.resp.bits.rvalid := io.imem.read_ok
+  io.imem.raddr := fetch.io.imem.req.bits.araddr
+  io.imem.ren := fetch.io.imem.req.bits.arvalid
   io.imem.waddr := 0.U
   io.imem.wdata := 0.U
   io.imem.wen := false.B
