@@ -10,6 +10,10 @@ class Decode extends Module{
     val in = Flipped(Decoupled(new Inst_Packet()))
     val out = Decoupled(new DecodeOp())
     val id_flush = Input(Bool())
+    val ren1 = Output(Bool())
+    val raddr1 = Output(UInt(5.W))
+    val ren2 = Output(Bool())
+    val raddr2 = Output(UInt(5.W))
   })
   val pc    = RegInit(0.U(32.W))
   val inst  = RegInit(0.U(32.W))
@@ -66,7 +70,7 @@ class Decode extends Module{
       // FENCE
       // FENCE_I
       ECALL   ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_ECALL, N, RS_X,         RS_X,        N, IMM_X    ),
-      // EBREAK
+      EBREAK  ->  List(Y, FU_X,   ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_X,         RS_X,        N, IMM_X    ),
       MRET    ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_MRET,  N, RS_X,         RS_X,        N, IMM_X    ),
       WFI     ->  List(Y, FU_ALU, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_X,         RS_X,        N, IMM_X    ),
       // RV64I
@@ -113,6 +117,11 @@ class Decode extends Module{
   io.out.bits.rs1_addr := inst(19, 15)
   io.out.bits.rs2_addr := inst(24, 20)
   io.out.bits.rd_addr := inst(11, 7)
+
+  io.ren1 := (rs1_src === RS_FROM_RF)
+  io.ren2 := (rs2_src === RS_FROM_RF)
+  io.raddr1 := inst(19, 15)
+  io.raddr2 := inst(24, 20)
 
   val imm_i = Cat(Fill(21, inst(31)), inst(30, 20))
   val imm_s = Cat(Fill(21, inst(31)), inst(30, 25), inst(11, 7))

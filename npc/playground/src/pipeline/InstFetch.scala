@@ -48,7 +48,7 @@ class InstFetch extends Module{
   val pc_base = Cat(pc(31, 2), Fill(2, 0.U))
   val npc_s = pc_base + 4.U
 
-  val stall = (!resp.bits.rvalid || !io.out.ready)
+  val stall = (!resp.bits.rvalid || !io.out.fire())
   val npc = npc_s
   when(!stall){
     pc := npc
