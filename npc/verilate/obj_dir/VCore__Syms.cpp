@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "VInstFetch__Syms.h"
-#include "VInstFetch.h"
-#include "VInstFetch___024root.h"
+#include "VCore__Syms.h"
+#include "VCore.h"
+#include "VCore___024root.h"
 
 // FUNCTIONS
-VInstFetch__Syms::~VInstFetch__Syms()
+VCore__Syms::~VCore__Syms()
 {
 }
 
-VInstFetch__Syms::VInstFetch__Syms(VerilatedContext* contextp, const char* namep,VInstFetch* modelp)
+VCore__Syms::VCore__Syms(VerilatedContext* contextp, const char* namep,VCore* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp(modelp)

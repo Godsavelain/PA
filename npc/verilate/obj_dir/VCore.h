@@ -5,22 +5,22 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VINSTFETCH_H_
-#define VERILATED_VINSTFETCH_H_  // guard
+#ifndef VERILATED_VCORE_H_
+#define VERILATED_VCORE_H_  // guard
 
 #include "verilated_heavy.h"
 
-class VInstFetch__Syms;
-class VInstFetch___024root;
+class VCore__Syms;
+class VCore___024root;
 class VerilatedVcdC;
-class VInstFetch_VerilatedVcd;
+class VCore_VerilatedVcd;
 
 
 // This class is the main interface to the Verilated model
-class VInstFetch VL_NOT_FINAL {
+class VCore VL_NOT_FINAL {
   private:
     // Symbol table holding complete model state (owned by this class)
-    VInstFetch__Syms* const vlSymsp;
+    VCore__Syms* const vlSymsp;
 
   public:
 
@@ -29,21 +29,24 @@ class VInstFetch VL_NOT_FINAL {
     // propagate new values into/out from the Verilated model.
     VL_IN8(&clock,0,0);
     VL_IN8(&reset,0,0);
-    VL_IN8(&io_imem_req_ready,0,0);
-    VL_OUT8(&io_imem_req_valid,0,0);
-    VL_OUT(&io_imem_req_bits_araddr,31,0);
-    VL_OUT8(&io_imem_req_bits_arvalid,0,0);
-    VL_OUT8(&io_imem_req_bits_rready,0,0);
-    VL_OUT8(&io_imem_resp_ready,0,0);
-    VL_IN8(&io_imem_resp_valid,0,0);
-    VL_IN(&io_imem_resp_bits_rdata,31,0);
-    VL_IN8(&io_imem_resp_bits_rvalid,0,0);
-    VL_IN(&io_imem_resp_bits_old_pc,31,0);
-    VL_IN8(&io_out_ready,0,0);
-    VL_OUT8(&io_out_valid,0,0);
-    VL_OUT(&io_out_bits_pc,31,0);
-    VL_OUT(&io_out_bits_inst,31,0);
-    VL_OUT8(&io_out_bits_inst_valid,0,0);
+    VL_OUT(&io_imem_raddr,31,0);
+    VL_OUT(&io_imem_waddr,31,0);
+    VL_OUT64(&io_imem_wdata,63,0);
+    VL_OUT8(&io_imem_ren,0,0);
+    VL_OUT8(&io_imem_wen,0,0);
+    VL_OUT8(&io_imem_wmask,7,0);
+    VL_IN64(&io_imem_rdata,63,0);
+    VL_IN8(&io_imem_read_ok,0,0);
+    VL_IN8(&io_imem_write_ok,0,0);
+    VL_OUT(&io_dmem_raddr,31,0);
+    VL_OUT(&io_dmem_waddr,31,0);
+    VL_OUT64(&io_dmem_wdata,63,0);
+    VL_OUT8(&io_dmem_ren,0,0);
+    VL_OUT8(&io_dmem_wen,0,0);
+    VL_OUT8(&io_dmem_wmask,7,0);
+    VL_IN64(&io_dmem_rdata,63,0);
+    VL_IN8(&io_dmem_read_ok,0,0);
+    VL_IN8(&io_dmem_write_ok,0,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -51,19 +54,19 @@ class VInstFetch VL_NOT_FINAL {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    VInstFetch___024root* const rootp;
+    VCore___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit VInstFetch(VerilatedContext* contextp, const char* name = "TOP");
-    explicit VInstFetch(const char* name = "TOP");
+    explicit VCore(VerilatedContext* contextp, const char* name = "TOP");
+    explicit VCore(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~VInstFetch();
+    virtual ~VCore();
   private:
-    VL_UNCOPYABLE(VInstFetch);  ///< Copying not allowed
+    VL_UNCOPYABLE(VCore);  ///< Copying not allowed
 
   public:
     // API METHODS
