@@ -23,6 +23,7 @@ class Core extends Module{
 //    val dmem = new CoreBusIO()
       val imem = new TestIO()
       val dmem = new TestIO()
+      val regs = Vec(32,Output(UInt(64.W)))
   })
 
   val fetch = Module(new InstFetch)
@@ -71,4 +72,5 @@ class Core extends Module{
   regfile.io.waddr := mem.io.waddr_o
   regfile.io.wen := mem.io.wen_o
   regfile.io.wdata := mem.io.wdata_o
+  io.regs := regfile.io.regs
 }
