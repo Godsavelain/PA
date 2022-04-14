@@ -19,11 +19,30 @@ class Execute extends Module{
   val ex_reg_decodeop = RegInit(0.U.asTypeOf(new DecodeOp()))
   val rs1 = RegInit(0.U(64.W))
   val rs2 = RegInit(0.U(64.W))
+  val rs1_temp = Wire(0.U(64.W))
+  val rs2_temp = Wire(0.U(64.W))
+
+  rs1_temp := 0.U
+  rs2_temp := 0.U
+
+  rs1_temp := MuxLookup(io.in.bits.rs1_src, 0.U, Array(
+    RS_FROM_RF  -> io.ex_rs1_i,
+    RS_FROM_IMM -> Sext32_64(io.in.bits.imm),
+    RS_FROM_PC  -> Zext32_64(io.in.bits.pc),
+    RS_FROM_NPC -> Zext32_64(io.in.bits.pc + 4.U)
+  ))(63, 0)
+
+  rs2_temp := MuxLookup(io.in.bits.rs2_src, 0.U, Array(
+    RS_FROM_RF  -> io.ex_rs2_i,
+    RS_FROM_IMM -> Sext32_64(io.in.bits.imm),
+    RS_FROM_PC  -> Zext32_64(io.in.bits.pc),
+    RS_FROM_NPC -> Zext32_64(io.in.bits.pc + 4.U)
+  ))(63, 0)
 
   when(io.in.fire()){
     ex_reg_decodeop := Mux(io.ex_flush ,0.U.asTypeOf(new DecodeOp()), io.in.bits)
-    rs1 := Mux(io.ex_flush , 0.U(64.W) , io.ex_rs1_i)
-    rs2 := Mux(io.ex_flush , 0.U(64.W) , io.ex_rs2_i)
+    rs1 := Mux(io.ex_flush , 0.U(64.W) , rs1_temp)
+    rs2 := Mux(io.ex_flush , 0.U(64.W) , rs2_temp)
   }
 
   val alu = Module(new Alu)

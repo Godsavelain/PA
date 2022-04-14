@@ -47,6 +47,38 @@ class VCore VL_NOT_FINAL {
     VL_IN64(&io_dmem_rdata,63,0);
     VL_IN8(&io_dmem_read_ok,0,0);
     VL_IN8(&io_dmem_write_ok,0,0);
+    VL_OUT64(&io_regs_0,63,0);
+    VL_OUT64(&io_regs_1,63,0);
+    VL_OUT64(&io_regs_2,63,0);
+    VL_OUT64(&io_regs_3,63,0);
+    VL_OUT64(&io_regs_4,63,0);
+    VL_OUT64(&io_regs_5,63,0);
+    VL_OUT64(&io_regs_6,63,0);
+    VL_OUT64(&io_regs_7,63,0);
+    VL_OUT64(&io_regs_8,63,0);
+    VL_OUT64(&io_regs_9,63,0);
+    VL_OUT64(&io_regs_10,63,0);
+    VL_OUT64(&io_regs_11,63,0);
+    VL_OUT64(&io_regs_12,63,0);
+    VL_OUT64(&io_regs_13,63,0);
+    VL_OUT64(&io_regs_14,63,0);
+    VL_OUT64(&io_regs_15,63,0);
+    VL_OUT64(&io_regs_16,63,0);
+    VL_OUT64(&io_regs_17,63,0);
+    VL_OUT64(&io_regs_18,63,0);
+    VL_OUT64(&io_regs_19,63,0);
+    VL_OUT64(&io_regs_20,63,0);
+    VL_OUT64(&io_regs_21,63,0);
+    VL_OUT64(&io_regs_22,63,0);
+    VL_OUT64(&io_regs_23,63,0);
+    VL_OUT64(&io_regs_24,63,0);
+    VL_OUT64(&io_regs_25,63,0);
+    VL_OUT64(&io_regs_26,63,0);
+    VL_OUT64(&io_regs_27,63,0);
+    VL_OUT64(&io_regs_28,63,0);
+    VL_OUT64(&io_regs_29,63,0);
+    VL_OUT64(&io_regs_30,63,0);
+    VL_OUT64(&io_regs_31,63,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.

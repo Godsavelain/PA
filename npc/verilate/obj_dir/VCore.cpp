@@ -30,6 +30,38 @@ VCore::VCore(VerilatedContext* _vcontextp__, const char* _vcname__)
     , io_dmem_rdata{vlSymsp->TOP.io_dmem_rdata}
     , io_dmem_read_ok{vlSymsp->TOP.io_dmem_read_ok}
     , io_dmem_write_ok{vlSymsp->TOP.io_dmem_write_ok}
+    , io_regs_0{vlSymsp->TOP.io_regs_0}
+    , io_regs_1{vlSymsp->TOP.io_regs_1}
+    , io_regs_2{vlSymsp->TOP.io_regs_2}
+    , io_regs_3{vlSymsp->TOP.io_regs_3}
+    , io_regs_4{vlSymsp->TOP.io_regs_4}
+    , io_regs_5{vlSymsp->TOP.io_regs_5}
+    , io_regs_6{vlSymsp->TOP.io_regs_6}
+    , io_regs_7{vlSymsp->TOP.io_regs_7}
+    , io_regs_8{vlSymsp->TOP.io_regs_8}
+    , io_regs_9{vlSymsp->TOP.io_regs_9}
+    , io_regs_10{vlSymsp->TOP.io_regs_10}
+    , io_regs_11{vlSymsp->TOP.io_regs_11}
+    , io_regs_12{vlSymsp->TOP.io_regs_12}
+    , io_regs_13{vlSymsp->TOP.io_regs_13}
+    , io_regs_14{vlSymsp->TOP.io_regs_14}
+    , io_regs_15{vlSymsp->TOP.io_regs_15}
+    , io_regs_16{vlSymsp->TOP.io_regs_16}
+    , io_regs_17{vlSymsp->TOP.io_regs_17}
+    , io_regs_18{vlSymsp->TOP.io_regs_18}
+    , io_regs_19{vlSymsp->TOP.io_regs_19}
+    , io_regs_20{vlSymsp->TOP.io_regs_20}
+    , io_regs_21{vlSymsp->TOP.io_regs_21}
+    , io_regs_22{vlSymsp->TOP.io_regs_22}
+    , io_regs_23{vlSymsp->TOP.io_regs_23}
+    , io_regs_24{vlSymsp->TOP.io_regs_24}
+    , io_regs_25{vlSymsp->TOP.io_regs_25}
+    , io_regs_26{vlSymsp->TOP.io_regs_26}
+    , io_regs_27{vlSymsp->TOP.io_regs_27}
+    , io_regs_28{vlSymsp->TOP.io_regs_28}
+    , io_regs_29{vlSymsp->TOP.io_regs_29}
+    , io_regs_30{vlSymsp->TOP.io_regs_30}
+    , io_regs_31{vlSymsp->TOP.io_regs_31}
     , rootp{&(vlSymsp->TOP)}
 {
 }
@@ -76,7 +108,7 @@ static void _eval_initial_loop(VCore__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = VCore___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Core.v", 91, "",
+            VL_FATAL_MT("Core.v", 1144, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -107,7 +139,7 @@ void VCore::eval_step() {
             Verilated::debug(1);
             __Vchange = VCore___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Core.v", 91, "",
+            VL_FATAL_MT("Core.v", 1144, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {

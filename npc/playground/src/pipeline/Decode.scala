@@ -113,7 +113,7 @@ class Decode extends Module{
   io.out.bits.w_type := w_type
   io.out.bits.rs1_src := rs1_src
   io.out.bits.rs2_src := rs2_src
-  io.out.bits.rd_en := rd_en
+  io.out.bits.rd_en := Mux(io.in.bits.inst_valid, rd_en , false.B)
   io.out.bits.rs1_addr := inst(19, 15)
   io.out.bits.rs2_addr := inst(24, 20)
   io.out.bits.rd_addr := inst(11, 7)

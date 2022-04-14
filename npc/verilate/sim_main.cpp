@@ -98,8 +98,8 @@ int main(int argc, char **argv, char **env){
     else{
         top->io_imem_read_ok = false;
     }
-    addr = top->io_imem_raddr;
     top->eval();
+    addr = top->io_imem_raddr;
     m_trace->dump(sim_time);
     sim_time++;
     top->clock = 0;
