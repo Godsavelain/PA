@@ -19,11 +19,9 @@ class Execute extends Module{
   val ex_reg_decodeop = RegInit(0.U.asTypeOf(new DecodeOp()))
   val rs1 = RegInit(0.U(64.W))
   val rs2 = RegInit(0.U(64.W))
-  val rs1_temp = Wire(0.U(64.W))
-  val rs2_temp = Wire(0.U(64.W))
 
-  rs1_temp := 0.U
-  rs2_temp := 0.U
+  val rs1_temp := 0.U
+  val rs2_temp := 0.U
 
   rs1_temp := MuxLookup(io.in.bits.rs1_src, 0.U, Array(
     RS_FROM_RF  -> io.ex_rs1_i,
