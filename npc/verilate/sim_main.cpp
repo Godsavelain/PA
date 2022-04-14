@@ -1,9 +1,23 @@
 #include "VCore.h"    // Verilog模块会被编译成Vxxx
 #include "verilated.h"
+#include "svdpi.h"
+#include "VWb_Dpi_Dpi.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <verilated_vcd_c.h>
+
+void wb_info (svBitVecVal* inst, svBitVecVal* pc ,svBit ebreak)
+{
+    int instruction = *inst;
+    int pc_valie = *pc;
+    bool has_ebreak = ebreak;
+    if(has_ebreak){
+        has_end = true;
+    }
+}
+
+bool has_end = false;
 
 long long int Memory[10000];
 
@@ -89,7 +103,7 @@ int main(int argc, char **argv, char **env){
     addr = top->io_imem_raddr;
     read_en = top->io_imem_ren;
     // while (!Verilated::gotFinish()) { 
-    while (max_cycle > 0) { 
+    while (!has_end) { 
     top->clock = 1;
     if(read_en){
         top->io_imem_rdata = read_mem(addr);

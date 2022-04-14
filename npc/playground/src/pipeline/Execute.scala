@@ -12,10 +12,13 @@ class Execute extends Module{
     val ex_rs2_i = Input(UInt(64.W))
     val ex_data_o = Output(UInt(64.W))
     val ex_flush = Input(Bool())
+    val is_ebreak_i = Input(Bool())
+    val is_ebreak_o = Output(Bool())
   })
   val stall = !io.out.fire()
   io.in.ready := !stall
   io.out.valid := true.B
+  io.is_ebreak_o := RegNext(io.is_ebreak_i)
   val ex_reg_decodeop = RegInit(0.U.asTypeOf(new DecodeOp()))
   val rs1 = RegInit(0.U(64.W))
   val rs2 = RegInit(0.U(64.W))

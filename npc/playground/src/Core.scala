@@ -5,6 +5,16 @@ import chisel3.util._
 //import chisel3.util.experimental._
 //import difftest._
 
+
+class Wb_Dpi extends BlackBox {
+  val io = IO(new Bundle {
+    val inst = Input(UInt(32.W))
+    val pc = Input(UInt(32.W))
+    val ebreak = Input(Bool())
+  })
+}
+
+
 class TestIO extends Bundle{
   val raddr = Output(UInt(32.W))
   val waddr = Output(UInt(32.W))
@@ -24,6 +34,7 @@ class Core extends Module{
       val imem = new TestIO()
       val dmem = new TestIO()
       val regs = Vec(32,Output(UInt(64.W)))
+//      val is_break = Output(Bool())
   })
 
   val fetch = Module(new InstFetch)
@@ -64,13 +75,21 @@ class Core extends Module{
   execute.io.ex_rs1_i := RegNext(regfile.io.rdata1)
   execute.io.ex_rs2_i := RegNext(regfile.io.rdata2)
   execute.io.ex_flush := false.B
+  execute.io.is_ebreak_i := decode.io.is_ebreak
 
   val mem = Module(new Mem)
   mem.io.in <> execute.io.out
   mem.io.mem_data_i := execute.io.ex_data_o
   mem.io.mem_flush_i := false.B
+  mem.io.is_ebreak_i := execute.io.is_ebreak_o
   regfile.io.waddr := mem.io.waddr_o
   regfile.io.wen := mem.io.wen_o
   regfile.io.wdata := mem.io.wdata_o
   io.regs := regfile.io.regs
+//  io.is_break := RegNext(mem.io.is_ebreak_o)
+
+  val wb_dpi = Module(Wb_Dpi)
+  wb_dpi.io.inst := mem.io.out.bits.inst
+  wb_dpi.io.pc := mem.io.out.bits.pc
+  wb_dpi.io.ebreak := mem.io.is_ebreak_o
 }
