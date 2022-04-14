@@ -20,8 +20,8 @@ class Execute extends Module{
   val rs1 = RegInit(0.U(64.W))
   val rs2 = RegInit(0.U(64.W))
 
-  val rs1_temp := 0.U
-  val rs2_temp := 0.U
+  val rs1_temp = 0.U
+  val rs2_temp = 0.U
 
   rs1_temp := MuxLookup(io.in.bits.rs1_src, 0.U, Array(
     RS_FROM_RF  -> io.ex_rs1_i,
