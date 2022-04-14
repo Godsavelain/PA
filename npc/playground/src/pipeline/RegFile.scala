@@ -26,7 +26,7 @@ class RegFile extends Module{
   when((io.waddr =/= 0.U) && io.wen ){
     rf(io.waddr) := io.wdata
   }
-  regs := rf
+  io.regs := rf
 }
 
 
