@@ -88,7 +88,7 @@ class Core extends Module{
   io.regs := regfile.io.regs
 //  io.is_break := RegNext(mem.io.is_ebreak_o)
 
-  val wb_dpi = Module(Wb_Dpi)
+  val wb_dpi = Module(new Wb_Dpi)
   wb_dpi.io.inst := mem.io.out.bits.inst
   wb_dpi.io.pc := mem.io.out.bits.pc
   wb_dpi.io.ebreak := mem.io.is_ebreak_o
