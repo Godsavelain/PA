@@ -14,7 +14,6 @@ class Wb_Dpi extends BlackBox {
   })
 }
 
-
 class TestIO extends Bundle{
   val raddr = Output(UInt(32.W))
   val waddr = Output(UInt(32.W))
@@ -90,6 +89,7 @@ class Core extends Module{
 //  io.is_break := RegNext(mem.io.is_ebreak_o)
 
   val wb_dpi = Module(new Wb_Dpi)
+  wb_dpi.io.clk  := clock
   wb_dpi.io.inst := mem.io.out.bits.inst
   wb_dpi.io.pc := mem.io.out.bits.pc
   wb_dpi.io.ebreak := mem.io.is_ebreak_o
