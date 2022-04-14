@@ -8,6 +8,7 @@ import chisel3.util._
 
 class Wb_Dpi extends BlackBox {
   val io = IO(new Bundle {
+    val clk = Input(Clock())
     val inst = Input(UInt(32.W))
     val pc = Input(UInt(32.W))
     val ebreak = Input(Bool())
