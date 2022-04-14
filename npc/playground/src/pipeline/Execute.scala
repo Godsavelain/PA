@@ -23,14 +23,14 @@ class Execute extends Module{
   val rs1_temp = 0.U
   val rs2_temp = 0.U
 
-  rs1_temp := MuxLookup(io.in.bits.rs1_src, 0.U, Array(
+  rs1_temp = MuxLookup(io.in.bits.rs1_src, 0.U, Array(
     RS_FROM_RF  -> io.ex_rs1_i,
     RS_FROM_IMM -> Sext32_64(io.in.bits.imm),
     RS_FROM_PC  -> Zext32_64(io.in.bits.pc),
     RS_FROM_NPC -> Zext32_64(io.in.bits.pc + 4.U)
   ))(63, 0)
 
-  rs2_temp := MuxLookup(io.in.bits.rs2_src, 0.U, Array(
+  rs2_temp = MuxLookup(io.in.bits.rs2_src, 0.U, Array(
     RS_FROM_RF  -> io.ex_rs2_i,
     RS_FROM_IMM -> Sext32_64(io.in.bits.imm),
     RS_FROM_PC  -> Zext32_64(io.in.bits.pc),
