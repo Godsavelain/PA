@@ -82,6 +82,7 @@ class Core extends Module{
   mem.io.mem_data_i := execute.io.ex_data_o
   mem.io.mem_flush_i := false.B
   mem.io.is_ebreak_i := execute.io.is_ebreak_o
+  mem.io.out.valid := true.B
   regfile.io.waddr := mem.io.waddr_o
   regfile.io.wen := mem.io.wen_o
   regfile.io.wdata := mem.io.wdata_o

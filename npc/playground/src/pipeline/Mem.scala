@@ -17,6 +17,7 @@ class Mem extends Module{
   })
   io.is_ebreak_o := RegNext(io.is_ebreak_i)
   io.out.bits := RegNext(Mux(io.mem_flush_i ,0.U.asTypeOf(new DecodeOp()), io.in.bits))
+  io.out.ready := true.B
   val stall = false.B
   io.in.ready := !stall
   val mem_reg_decodeop = RegInit(0.U.asTypeOf(new DecodeOp()))
