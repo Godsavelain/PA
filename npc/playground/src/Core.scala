@@ -49,7 +49,7 @@ class Core extends Module{
 
   val decode = Module(new Decode)
 
-  fetch.io.out <> decode.io.in
+  decode.io.in <> fetch.io.out
   decode.io.id_flush := false.B
 
   val regfile = Module(new RegFile)
@@ -59,13 +59,13 @@ class Core extends Module{
   regfile.io.raddr2 := decode.io.raddr2
 
   val execute = Module(new Execute)
-  decode.io.out <> execute.io.in
+  execute.io.in <> decode.io.out
   execute.io.ex_rs1_i := RegNext(regfile.io.rdata1)
   execute.io.ex_rs2_i := RegNext(regfile.io.rdata2)
   execute.io.ex_flush := false.B
 
   val mem = Module(new Mem)
-  execute.io.out <> mem.io.in
+  mem.io.in <> execute.io.out
   mem.io.mem_data_i := execute.io.ex_data_o
   mem.io.mem_flush_i := false.B
   regfile.io.waddr := mem.io.waddr_o
