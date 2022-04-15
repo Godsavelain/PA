@@ -35,7 +35,7 @@ class Execute extends Module{
     RS_FROM_NPC -> Zext32_64(ex_reg_decodeop.pc + 4.U)
   ))(63, 0)
 
-  val rs2_temp = MuxLookup(io.in.bits.rs2_src, 0.U, Array(
+  val rs2_temp = MuxLookup(ex_reg_decodeop.rs2_src, 0.U, Array(
     RS_FROM_RF  -> io.ex_rs2_i,
     RS_FROM_IMM -> Sext32_64(ex_reg_decodeop.imm),
     RS_FROM_PC  -> Zext32_64(ex_reg_decodeop.pc),
