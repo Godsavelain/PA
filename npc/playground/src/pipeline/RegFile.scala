@@ -25,12 +25,12 @@ class RegFile extends Module{
     val mem_rd_data = Input(UInt(64.W))
   })
 //bypass
-  val ex_rs1_hazard = ex_rd_en && (ex_rd_addr === raddr1) && ren1
-  val ex_rs2_hazard = ex_rd_en && (ex_rd_addr === raddr2) && ren2
-  val has_ex_hazard = ex_rs1_hazard || ex_rs2_hazard
-  val mem_rs1_hazard = mem_rd_en && (mem_rd_addr === raddr1) && ren1
-  val mem_rs2_hazard = mem_rd_en && (mem_rd_addr === raddr2) && ren2
-  val has_mem_hazard = mem_rs1_hazard || mem_rs2_hazard
+  val ex_rs1_hazard = io.ex_rd_en && (io.ex_rd_addr === io.raddr1) && io.ren1
+  val ex_rs2_hazard = io.ex_rd_en && (io.ex_rd_addr === io.raddr2) && io.ren2
+  val has_ex_hazard = io.ex_rs1_hazard || io.ex_rs2_hazard
+  val mem_rs1_hazard = io.mem_rd_en && (io.mem_rd_addr === io.raddr1) && io.ren1
+  val mem_rs2_hazard = io.mem_rd_en && (io.mem_rd_addr === io.raddr2) && io.ren2
+  val has_mem_hazard = io.mem_rs1_hazard || io.mem_rs2_hazard
 
   val rf = RegInit(VecInit(Seq.fill(32)(0.U(64.W))))
 
