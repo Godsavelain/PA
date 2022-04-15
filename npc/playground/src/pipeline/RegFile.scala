@@ -34,8 +34,8 @@ class RegFile extends Module{
 
   val rf = RegInit(VecInit(Seq.fill(32)(0.U(64.W))))
 
-  io.rdata1 := Mux((io.raddr1 =/= 0.U), Mux(has_ex_hazard , ex_rd_data ,Mux(has_mem_hazard ,mem_rd_data, rf(io.raddr1))), 0.U)
-  io.rdata2 := Mux((io.raddr2 =/= 0.U), Mux(has_ex_hazard , ex_rd_data ,Mux(has_mem_hazard ,mem_rd_data, rf(io.raddr2))), 0.U)
+  io.rdata1 := Mux((io.raddr1 =/= 0.U), Mux(has_ex_hazard , io.ex_rd_data ,Mux(has_mem_hazard ,io.mem_rd_data, rf(io.raddr1))), 0.U)
+  io.rdata2 := Mux((io.raddr2 =/= 0.U), Mux(has_ex_hazard , io.ex_rd_data ,Mux(has_mem_hazard ,io.mem_rd_data, rf(io.raddr2))), 0.U)
 
   when((io.waddr =/= 0.U) && io.wen ){
     rf(io.waddr) := io.wdata
