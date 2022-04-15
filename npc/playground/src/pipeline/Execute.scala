@@ -14,6 +14,9 @@ class Execute extends Module{
     val ex_flush = Input(Bool())
     val is_ebreak_i = Input(Bool())
     val is_ebreak_o = Output(Bool())
+    //for bypass
+    val ex_rd_en = Output(Bool())
+    val ex_rd_addr = Output(UInt(32.W))
   })
   val stall = !io.out.fire()
   io.in.ready := !stall
@@ -51,6 +54,9 @@ class Execute extends Module{
   io.ex_data_o := alu.io.alu_out
 
   io.out.bits := ex_reg_decodeop
+  //for bypass
+  io.ex_rd_en   := ex_reg_decodeop.rd_en
+  io.ex_rd_addr := ex_reg_decodeop.rd_addr
 }
 
 class Alu extends Module{

@@ -14,6 +14,10 @@ class Mem extends Module{
     val wdata_o = Output(UInt(64.W))
     val is_ebreak_i = Input(Bool())
     val is_ebreak_o = Output(Bool())
+    //for bypass
+    val mem_rd_en = Output(Bool())
+    val mem_rd_addr = Output(UInt(32.W))
+    val mem_rd_data = Output(UInt(64.W))
   })
   io.is_ebreak_o := RegNext(io.is_ebreak_i)
   io.out.bits := RegNext(Mux(io.mem_flush_i ,0.U.asTypeOf(new DecodeOp()), io.in.bits))
@@ -35,4 +39,8 @@ class Mem extends Module{
   io.wen_o   := RegNext(wen)
   io.wdata_o := RegNext(wdata)
 
+  //for bypass
+  io.mem_rd_en   := mem_reg_decodeop.rd_en
+  io.mem_rd_addr := mem_reg_decodeop.rd_addr
+  io.mem_rd_data := wdata
 }

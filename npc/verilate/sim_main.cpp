@@ -9,7 +9,7 @@
 
 bool has_end = false;
 
-extern "C" void wb_info (svBitVecVal* inst, svBitVecVal* pc ,svBit ebreak)
+extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit ebreak)
 {
     int instruction = *inst;
     int pc_valie = *pc;
@@ -56,7 +56,7 @@ void write_mem(int addr,long long int data, unsigned char write_mask){
 int main(int argc, char **argv, char **env){
     write_mem(0x80000000 , 0x0020011300100093 ,0xff);
     write_mem(0x80000008 , 0x0040021300300193 ,0xff);
-    write_mem(0x8000000c , 0x0040021300100073 ,0xff);
+    write_mem(0x80000010 , 0x0040021300100073 ,0xff);
 
     VerilatedContext* contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);            // Verilator仿真运行时参数（和编译的参数不一样，详见Verilator手册第6章

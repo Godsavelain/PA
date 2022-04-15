@@ -77,16 +77,28 @@ class Core extends Module{
   execute.io.ex_flush := false.B
   execute.io.is_ebreak_i := decode.io.is_ebreak
 
+  //bypass
+  regfile.io.ex_rd_en   := execute.io.ex_rd_en
+  regfile.io.ex_rd_addr := execute.io.ex_rd_addr
+  regfile.io.ex_rd_data := execute.io.ex_data_o
+
   val mem = Module(new Mem)
   mem.io.in <> execute.io.out
   mem.io.mem_data_i := execute.io.ex_data_o
   mem.io.mem_flush_i := false.B
   mem.io.is_ebreak_i := execute.io.is_ebreak_o
   mem.io.out.ready := true.B
+
   regfile.io.waddr := mem.io.waddr_o
   regfile.io.wen := mem.io.wen_o
   regfile.io.wdata := mem.io.wdata_o
   io.regs := regfile.io.regs
+
+  //bypass
+  regfile.io.mem_rd_en   := mem.io.mem_rd_en
+  regfile.io.mem_rd_addr := mem.io.mem_rd_addr
+  regfile.io.mem_rd_data := mem.io.mem_rd_data
+
 //  io.is_break := RegNext(mem.io.is_ebreak_o)
 
   val wb_dpi = Module(new Wb_Dpi)
