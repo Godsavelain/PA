@@ -15,11 +15,17 @@ class Decode extends Module{
     val ren2 = Output(Bool())
     val raddr2 = Output(UInt(5.W))
     val is_ebreak = Output(Bool())
+    val rs1_data_i = Input(UInt(64.W))
+    val rs2_data_i = Input(UInt(64.W))
+    val rs1_data_o = Output(UInt(64.W))
+    val rs2_data_o = Output(UInt(64.W))
   })
   val pc    = RegInit(0.U(32.W))
   val inst  = RegInit(0.U(32.W))
   val inst_valid = RegInit(0.U(1.W))
 
+  io.rs1_data_o := RegNext(io.rs1_data_i)
+  io.rs2_data_o := RegNext(io.rs2_data_i)
   when(io.in.fire()){
     pc := Mux(io.id_flush , 0.U(32.W) ,io.in.bits.pc)
     inst := Mux(io.id_flush , 0.U(32.W) ,io.in.bits.inst)

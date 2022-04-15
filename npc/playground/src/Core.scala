@@ -70,10 +70,13 @@ class Core extends Module{
   regfile.io.raddr1 := decode.io.raddr1
   regfile.io.raddr2 := decode.io.raddr2
 
+  decode.io.rs1_data_i := regfile.io.rdata1
+  decode.io.rs2_data_i := regfile.io.rdata2
+
   val execute = Module(new Execute)
   execute.io.in <> decode.io.out
-  execute.io.ex_rs1_i := RegNext(regfile.io.rdata1)
-  execute.io.ex_rs2_i := RegNext(regfile.io.rdata2)
+  execute.io.ex_rs1_i := decode.io.rs1_data_o
+  execute.io.ex_rs2_i := decode.io.rs2_data_o
   execute.io.ex_flush := false.B
   execute.io.is_ebreak_i := decode.io.is_ebreak
 
