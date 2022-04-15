@@ -42,8 +42,8 @@ class Execute extends Module{
     RS_FROM_NPC -> Zext32_64(ex_reg_decodeop.pc + 4.U)
   ))(63, 0)
 
-  val rs1 := Mux(io.ex_flush , 0.U , rs1_temp)
-  val rs2 := Mux(io.ex_flush , 0.U , rs2_temp)
+  val rs1 = Mux(io.ex_flush , 0.U , rs1_temp)
+  val rs2 = Mux(io.ex_flush , 0.U , rs2_temp)
 
   val alu = Module(new Alu)
   alu.io.in1 := rs1
