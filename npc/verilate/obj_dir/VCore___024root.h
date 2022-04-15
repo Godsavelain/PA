@@ -79,16 +79,16 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__decode__DOT___ctrl_T_601;
         CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_661;
         CData/*2:0*/ Core__DOT__decode__DOT__c0_1;
+        CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_721;
         CData/*2:0*/ Core__DOT__decode__DOT__c0_2;
         CData/*0:0*/ Core__DOT__decode__DOT__c0_3;
         CData/*2:0*/ Core__DOT__decode__DOT__c0_4;
         CData/*0:0*/ Core__DOT__decode__DOT__io_is_ebreak_REG;
-        CData/*0:0*/ Core__DOT__regfile__DOT__has_ex_hazard;
-        CData/*0:0*/ Core__DOT__regfile__DOT__has_mem_hazard;
         CData/*0:0*/ Core__DOT__execute__DOT__io_is_ebreak_o_REG;
         CData/*3:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_alu_code;
         CData/*0:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_w_type;
         CData/*2:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_rs1_src;
+        CData/*2:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_rs2_src;
         CData/*4:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_rd_addr;
         CData/*0:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_rd_en;
         CData/*0:0*/ Core__DOT__mem__DOT__io_is_ebreak_o_REG;
