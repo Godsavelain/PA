@@ -57,12 +57,10 @@ class Core extends Module{
   io.dmem.wen := false.B
   io.dmem.wmask := 0.U
 
-  fetch.io.if_flush := false.B
-
   val decode = Module(new Decode)
 
   decode.io.in <> fetch.io.out
-  decode.io.id_flush := false.B
+  decode.io.p_npc_i := fetch.io.p_npc
 
   val regfile = Module(new RegFile)
   regfile.io.ren1 := decode.io.ren1
@@ -77,9 +75,10 @@ class Core extends Module{
   execute.io.in <> decode.io.out
   execute.io.ex_rs1_i := decode.io.rs1_data_o
   execute.io.ex_rs2_i := decode.io.rs2_data_o
-  execute.io.ex_flush := false.B
   execute.io.is_ebreak_i := decode.io.is_ebreak
+  execute.io.p_npc_i := decode.io.p_npc_o
 
+  fetch.io.jmp_packet_i := execute.io.jmp_packet_o
   //bypass
   regfile.io.ex_rd_en   := execute.io.ex_rd_en
   regfile.io.ex_rd_addr := execute.io.ex_rd_addr
@@ -88,7 +87,6 @@ class Core extends Module{
   val mem = Module(new Mem)
   mem.io.in <> execute.io.out
   mem.io.mem_data_i := execute.io.ex_data_o
-  mem.io.mem_flush_i := false.B
   mem.io.is_ebreak_i := execute.io.is_ebreak_o
   mem.io.out.ready := true.B
 
@@ -109,4 +107,10 @@ class Core extends Module{
   wb_dpi.io.inst := mem.io.out.bits.inst
   wb_dpi.io.pc := mem.io.out.bits.pc
   wb_dpi.io.ebreak := mem.io.is_ebreak_o
+
+  //flush control
+  fetch.io.if_flush := !execute.io.jmp_packet_o.mis
+  decode.io.id_flush := !execute.io.jmp_packet_o.mis
+  execute.io.ex_flush := false.B
+  mem.io.mem_flush_i := false.B
 }

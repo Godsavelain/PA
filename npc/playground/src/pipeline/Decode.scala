@@ -19,6 +19,8 @@ class Decode extends Module{
     val rs2_data_i = Input(UInt(64.W))
     val rs1_data_o = Output(UInt(64.W))
     val rs2_data_o = Output(UInt(64.W))
+    val p_npc_i = Input(UInt(32.W))
+    val p_npc_o = Output(UInt(32.W))
   })
   val pc    = RegInit(0.U(32.W))
   val inst  = RegInit(0.U(32.W))
@@ -130,6 +132,8 @@ class Decode extends Module{
   io.raddr1 := inst(19, 15)
   io.raddr2 := inst(24, 20)
   io.is_ebreak := RegNext(inst === EBREAK)
+
+  io.p_npc_o := RegNext(io.p_npc_i)
 
   val imm_i = Cat(Fill(21, inst(31)), inst(30, 20))
   val imm_s = Cat(Fill(21, inst(31)), inst(30, 25), inst(11, 7))

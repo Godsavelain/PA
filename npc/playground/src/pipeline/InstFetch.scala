@@ -3,6 +3,13 @@ package patchouli
 import chisel3._
 import chisel3.util._
 
+class Jmp_Packet extends Bundle{
+//  val jump = Output(Bool())
+//  val fetch_npc = Output(UInt(32.W))
+  val jmp_npc = UInt(32.W)
+  val mis = Bool()
+}
+
 class Inst_Packet extends Bundle{
   val pc    = Output(UInt(32.W))
   val inst  = Output(UInt(32.W))
@@ -38,6 +45,8 @@ class InstFetch extends Module{
     val imem = new IF_IO()
     val out  = Decoupled(new Inst_Packet())
     val if_flush = Input(Bool())
+    val p_npc = Output(UInt(32.W))
+    val jmp_packet_i = Input(new Jmp_Packet())
   })
 
   val req = io.imem.req
@@ -49,14 +58,15 @@ class InstFetch extends Module{
   val npc_s = pc_base + 4.U
 
   val stall = (!resp.bits.rvalid || !io.out.fire())
-  val npc = npc_s
+  val npc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , npc_s)
   when(!stall){
     pc := npc
   }
+  io.p_npc := RegNext(npc)
 
   io.out.bits.pc := resp.bits.old_pc
   io.out.bits.inst := resp.bits.rdata
-  io.out.bits.inst_valid := resp.bits.rvalid
+  io.out.bits.inst_valid := io.if_flush ? false.B : resp.bits.rvalid
 
   req.bits.araddr  := pc_base
   req.bits.arvalid := true.B

@@ -17,6 +17,9 @@ class Execute extends Module{
     //for bypass
     val ex_rd_en = Output(Bool())
     val ex_rd_addr = Output(UInt(32.W))
+
+    val p_npc_i = Input(UInt(32.W))
+    val jmp_packet_o = Output(new Jmp_Packet())
   })
   val stall = !io.out.fire()
   io.in.ready := !stall
@@ -50,6 +53,13 @@ class Execute extends Module{
   alu.io.in2 := rs2
   alu.io.aluop_i := ex_reg_decodeop.alu_code
   alu.io.wtype_i := ex_reg_decodeop.w_type
+  alu.io.jmp_code := ex_reg_decodeop.jmp_code
+  alu.io.imm := ex_reg_decodeop.imm
+  alu.io.pc_i := ex_reg_decodeop.pc
+
+  val real_npc = Mux(alu.io.jmp , alu.io.jmp_pc ,(io.pc + 4))
+  io.jmp_packet_o.mis := (real_npc =\= io.p_npc_i) && io.ex_reg_decodeop.valid
+  io.jmp_packet_o.jmp_npc := real_npc
   io.ex_data_o := alu.io.alu_out
 
   io.out.bits := ex_reg_decodeop
@@ -65,6 +75,11 @@ class Alu extends Module{
     val aluop_i = Input(UInt(4.W))
     val wtype_i = Input(Bool())
     val alu_out = Output(UInt(64.W))
+    val jmp = Output(Bool())
+    val jmp_code = Input(UInt(4.W))
+    val imm = Input(UInt(32.W))
+    val pc_i = Input(UInt(32.W))
+    val jmp_pc = Output(UInt(32.W))
   })
 
   val out0 = Wire(UInt(64.W))
@@ -83,6 +98,19 @@ class Alu extends Module{
 //    ALU_SRL  -> (in1.asUInt() >> shamt).asUInt(),
 //    ALU_SRA  -> (in1.asSInt() >> shamt).asUInt()
   ))
+
+  io.jmp := MuxLookup(io.jmp_code, false.B, Array(
+    JMP_JAL  -> true.B,
+    JMP_JALR -> true.B,
+    JMP_BEQ  -> (in1 === in2),
+    JMP_BNE  -> (in1 =/= in2),
+    JMP_BLT  -> (in1.asSInt() < in2.asSInt()),
+    JMP_BGE  -> (in1.asSInt() >= in2.asSInt()),
+    JMP_BLTU -> (in1.asUInt() < in2.asUInt()),
+    JMP_BGEU -> (in1.asUInt() >= in2.asUInt())
+  ))
+
+  io.jmp_pc := Mux(io.jmp_code === JMP_JALR, in1(31, 0), io.pc_i) + io.imm
 
   out1 := Mux(io.wtype_i, Sext32_64(out0(31, 0)), out0)
   io.alu_out := out1
