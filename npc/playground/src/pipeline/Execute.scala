@@ -57,7 +57,7 @@ class Execute extends Module{
   alu.io.imm := ex_reg_decodeop.imm
   alu.io.pc_i := ex_reg_decodeop.pc
 
-  val real_npc = Mux(alu.io.jmp , alu.io.jmp_pc ,(io.pc + 4))
+  val real_npc = Mux(alu.io.jmp , alu.io.jmp_pc ,(ex_reg_decodeop.pc + 4))
   io.jmp_packet_o.mis := (real_npc =\= io.p_npc_i) && io.ex_reg_decodeop.valid
   io.jmp_packet_o.jmp_npc := real_npc
   io.ex_data_o := alu.io.alu_out
