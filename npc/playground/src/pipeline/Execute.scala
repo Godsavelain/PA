@@ -86,7 +86,7 @@ class Alu extends Module{
   val out1 = Wire(UInt(64.W))
   val in1 = io.in1
   val in2 = io.in2
-  out0 := MuxLookup(io.aluop_i, 0.U, Array(
+  out0 := Mux(((io.jmp_code === JMP_JALR) || (io.jmp_code === JMP_JAL)), io.jmp_pc ,MuxLookup(io.aluop_i, 0.U, Array(
     ALU_ADD  -> (in1 + in2).asUInt(),
     ALU_SUB  -> (in1 - in2).asUInt(),
     ALU_SLT  -> (in1.asSInt() < in2.asSInt()).asUInt(),
@@ -97,7 +97,7 @@ class Alu extends Module{
 //    ALU_SLL  -> ((in1 << shamt)(63, 0)).asUInt(),
 //    ALU_SRL  -> (in1.asUInt() >> shamt).asUInt(),
 //    ALU_SRA  -> (in1.asSInt() >> shamt).asUInt()
-  ))
+  )))
 
   io.jmp := MuxLookup(io.jmp_code, false.B, Array(
     JMP_JAL  -> true.B,

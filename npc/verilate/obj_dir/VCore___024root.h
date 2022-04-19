@@ -102,7 +102,6 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_rd_en;
         CData/*4:0*/ Core__DOT__mem__DOT__io_waddr_o_REG;
         CData/*0:0*/ Core__DOT__mem__DOT__io_wen_o_REG;
-        IData/*31:0*/ Core__DOT__execute_io_jmp_packet_o_jmp_npc;
         IData/*31:0*/ Core__DOT__fetch_io_imem_resp_bits_old_pc_REG;
         IData/*31:0*/ Core__DOT__fetch__DOT__pc;
         IData/*31:0*/ Core__DOT__fetch__DOT__npc_s;
@@ -139,9 +138,9 @@ VL_MODULE(VCore___024root) {
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_14;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_15;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_16;
+        QData/*63:0*/ Core__DOT__regfile__DOT__rf_17;
     };
     struct {
-        QData/*63:0*/ Core__DOT__regfile__DOT__rf_17;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_18;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_19;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_20;

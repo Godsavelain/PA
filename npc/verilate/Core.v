@@ -46,11 +46,7 @@ module InstFetch(
         pc <= npc_s;
       end
     end
-    if (io_jmp_packet_i_mis) begin // @[InstFetch.scala 61:16]
-      io_p_npc_REG <= io_jmp_packet_i_jmp_npc;
-    end else begin
-      io_p_npc_REG <= npc_s;
-    end
+    io_p_npc_REG <= {pc_base_hi,2'h0}; // @[Cat.scala 30:58]
     io_out_bits_inst_REG <= io_imem_resp_bits_rdata; // @[InstFetch.scala 68:30]
     if (io_if_flush) begin // @[InstFetch.scala 69:40]
       io_out_bits_inst_valid_REG <= 1'h0;

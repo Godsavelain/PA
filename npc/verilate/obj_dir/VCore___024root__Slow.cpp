@@ -2139,10 +2139,6 @@ void VCore___024root___settle__TOP__3(VCore___024root* vlSelf) {
                                   ? 0xffffffffU : 0U))) 
                 << 0x20U) | (QData)((IData)(vlSelf->Core__DOT__execute__DOT__alu__DOT__out0)))
             : vlSelf->Core__DOT__execute__DOT__alu__DOT__out0);
-    vlSelf->Core__DOT__execute_io_jmp_packet_o_jmp_npc 
-        = ((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_jmp)
-            ? vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc
-            : ((IData)(4U) + vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc));
     vlSelf->Core__DOT__execute_io_jmp_packet_o_mis 
         = ((((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_jmp)
               ? vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc
@@ -2276,7 +2272,6 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->io_regs_29 = VL_RAND_RESET_Q(64);
     vlSelf->io_regs_30 = VL_RAND_RESET_Q(64);
     vlSelf->io_regs_31 = VL_RAND_RESET_Q(64);
-    vlSelf->Core__DOT__execute_io_jmp_packet_o_jmp_npc = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__execute_io_jmp_packet_o_mis = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__fetch_io_imem_resp_bits_old_pc_REG = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__fetch__DOT__pc = VL_RAND_RESET_I(32);
