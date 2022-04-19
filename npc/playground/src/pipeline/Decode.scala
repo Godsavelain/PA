@@ -24,7 +24,7 @@ class Decode extends Module{
   })
   val pc    = RegInit(0.U(32.W))
   val inst  = RegInit(0.U(32.W))
-  val inst_valid = RegInit(0.U(1.W))
+  val inst_valid = RegInit(Bool())
 
   io.rs1_data_o := RegNext(io.rs1_data_i)
   io.rs2_data_o := RegNext(io.rs2_data_i)
