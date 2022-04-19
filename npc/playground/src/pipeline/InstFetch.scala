@@ -65,8 +65,8 @@ class InstFetch extends Module{
   io.p_npc := RegNext(npc)
 
   io.out.bits.pc := resp.bits.old_pc
-  io.out.bits.inst := resp.bits.rdata
-  io.out.bits.inst_valid := Mux(io.if_flush , false.B , resp.bits.rvalid)
+  io.out.bits.inst := RegNext(resp.bits.rdata)
+  io.out.bits.inst_valid := RegNext(Mux(io.if_flush , false.B , resp.bits.rvalid))
 
   req.bits.araddr  := pc_base
   req.bits.arvalid := true.B
