@@ -109,8 +109,8 @@ class Core extends Module{
   wb_dpi.io.ebreak := mem.io.is_ebreak_o
 
   //flush control
-  fetch.io.if_flush := !execute.io.jmp_packet_o.mis
-  decode.io.id_flush := !execute.io.jmp_packet_o.mis
+  fetch.io.if_flush := execute.io.jmp_packet_o.mis
+  decode.io.id_flush := execute.io.jmp_packet_o.mis
   execute.io.ex_flush := false.B
   mem.io.mem_flush_i := false.B
 }

@@ -105,6 +105,7 @@ class Decode extends Module{
       // am
       HALT    ->  List(Y, FU_X,   ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_X,         RS_X,        N, IMM_X    ),
       PUTCH   ->  List(Y, FU_X,   ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_X,         RS_X,        N, IMM_X    )
+
     )
   )
   val (valid : Bool)  :: fu_code :: alu_code :: jmp_code       :: mem_code :: mem_size :: csr_code :: c0 = ctrl
