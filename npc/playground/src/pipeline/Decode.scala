@@ -24,14 +24,14 @@ class Decode extends Module{
   })
   val pc    = RegInit(0.U(32.W))
   val inst  = RegInit(0.U(32.W))
-  val inst_valid = RegInit(Bool())
+  val inst_valid RegInit(0.B)
 
   io.rs1_data_o := RegNext(io.rs1_data_i)
   io.rs2_data_o := RegNext(io.rs2_data_i)
   when(io.in.fire()){
     pc := Mux(io.id_flush , 0.U(32.W) ,io.in.bits.pc)
     inst := Mux(io.id_flush , 0.U(32.W) ,io.in.bits.inst)
-    inst_valid := Mux(io.id_flush , 0.B ,io.in.bits.inst_valid)
+    inst_valid = Mux(io.id_flush , 0.B ,io.in.bits.inst_valid)
   }
 
   val ctrl = ListLookup(inst,
