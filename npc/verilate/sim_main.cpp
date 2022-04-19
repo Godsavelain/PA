@@ -17,7 +17,7 @@ extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit eb
     if(has_ebreak){
         has_end = true;
     }
-    printf("pc:%d inst:%d\n",pc_valie,instruction );
+    printf("pc:%x inst:%x\n",pc_valie,instruction );
 }
 
 
@@ -64,7 +64,7 @@ int main(int argc, char **argv, char **env){
     // write_mem(0x80000008 , 0x0040821300308193 ,0xff);
     // write_mem(0x80000010 , 0x0010007300518193 ,0xff);
     write_mem(0x80000000 , 0x0020811300100093 ,0xff);
-    write_mem(0x80000008 , 0x00408213002000EF ,0xff);
+    write_mem(0x80000008 , 0x00408213008000EF ,0xff);
     write_mem(0x80000010 , 0x0010007300518193 ,0xff);
 
     VerilatedContext* contextp = new VerilatedContext;

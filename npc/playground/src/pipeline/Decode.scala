@@ -111,9 +111,9 @@ class Decode extends Module{
   val (valid : Bool)  :: fu_code :: alu_code :: jmp_code       :: mem_code :: mem_size :: csr_code :: c0 = ctrl
   val (w_type : Bool) :: rs1_src :: rs2_src  :: (rd_en : Bool) :: imm_type :: Nil                        = c0
 
-  io.out.bits.pc      := io.in.bits.pc
-  io.out.bits.inst    := io.in.bits.inst
-  io.out.bits.valid      := io.in.bits.inst_valid
+  io.out.bits.pc      := pc
+  io.out.bits.inst    := inst
+  io.out.bits.valid      := inst_valid
   io.out.bits.fu_code := fu_code
   io.out.bits.alu_code := alu_code
   io.out.bits.jmp_code := jmp_code
@@ -123,7 +123,7 @@ class Decode extends Module{
   io.out.bits.w_type := w_type
   io.out.bits.rs1_src := rs1_src
   io.out.bits.rs2_src := rs2_src
-  io.out.bits.rd_en := Mux(io.in.bits.inst_valid, rd_en , false.B)
+  io.out.bits.rd_en := Mux(inst_valid, rd_en , false.B)
   io.out.bits.rs1_addr := inst(19, 15)
   io.out.bits.rs2_addr := inst(24, 20)
   io.out.bits.rd_addr := inst(11, 7)
