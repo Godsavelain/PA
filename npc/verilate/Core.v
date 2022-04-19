@@ -18,6 +18,8 @@ module InstFetch(
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
+  reg [31:0] _RAND_2;
+  reg [31:0] _RAND_3;
 `endif // RANDOMIZE_REG_INIT
   reg [31:0] pc; // @[InstFetch.scala 55:19]
   wire [29:0] pc_base_hi = pc[31:2]; // @[InstFetch.scala 57:23]
@@ -26,11 +28,13 @@ module InstFetch(
   wire  _stall_T_1 = io_out_ready & io_out_valid; // @[Decoupled.scala 40:37]
   wire  stall = ~io_imem_resp_bits_rvalid | ~_stall_T_1; // @[InstFetch.scala 60:34]
   reg [31:0] io_p_npc_REG; // @[InstFetch.scala 65:22]
+  reg [31:0] io_out_bits_inst_REG; // @[InstFetch.scala 68:30]
+  reg  io_out_bits_inst_valid_REG; // @[InstFetch.scala 69:36]
   assign io_imem_req_bits_araddr = {pc_base_hi,2'h0}; // @[Cat.scala 30:58]
   assign io_out_valid = 1'h1; // @[InstFetch.scala 77:18]
   assign io_out_bits_pc = io_imem_resp_bits_old_pc; // @[InstFetch.scala 67:18]
-  assign io_out_bits_inst = io_imem_resp_bits_rdata; // @[InstFetch.scala 68:20]
-  assign io_out_bits_inst_valid = io_if_flush ? 1'h0 : io_imem_resp_bits_rvalid; // @[InstFetch.scala 69:32]
+  assign io_out_bits_inst = io_out_bits_inst_REG; // @[InstFetch.scala 68:20]
+  assign io_out_bits_inst_valid = io_out_bits_inst_valid_REG; // @[InstFetch.scala 69:26]
   assign io_p_npc = io_p_npc_REG; // @[InstFetch.scala 65:12]
   always @(posedge clock) begin
     if (reset) begin // @[InstFetch.scala 55:19]
@@ -46,6 +50,12 @@ module InstFetch(
       io_p_npc_REG <= io_jmp_packet_i_jmp_npc;
     end else begin
       io_p_npc_REG <= npc_s;
+    end
+    io_out_bits_inst_REG <= io_imem_resp_bits_rdata; // @[InstFetch.scala 68:30]
+    if (io_if_flush) begin // @[InstFetch.scala 69:40]
+      io_out_bits_inst_valid_REG <= 1'h0;
+    end else begin
+      io_out_bits_inst_valid_REG <= io_imem_resp_bits_rvalid;
     end
   end
 // Register and memory initialization
@@ -88,6 +98,10 @@ initial begin
   pc = _RAND_0[31:0];
   _RAND_1 = {1{`RANDOM}};
   io_p_npc_REG = _RAND_1[31:0];
+  _RAND_2 = {1{`RANDOM}};
+  io_out_bits_inst_REG = _RAND_2[31:0];
+  _RAND_3 = {1{`RANDOM}};
+  io_out_bits_inst_valid_REG = _RAND_3[0:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial

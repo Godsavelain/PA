@@ -76,6 +76,7 @@ VL_MODULE(VCore___024root) {
     // Anonymous structures to workaround compiler member-count bugs
     struct {
         CData/*0:0*/ Core__DOT__execute_io_jmp_packet_o_mis;
+        CData/*0:0*/ Core__DOT__fetch__DOT__io_out_bits_inst_valid_REG;
         CData/*0:0*/ Core__DOT__decode__DOT__inst_valid;
         CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_295;
         CData/*0:0*/ Core__DOT__decode__DOT___ctrl_T_601;
@@ -106,6 +107,7 @@ VL_MODULE(VCore___024root) {
         IData/*31:0*/ Core__DOT__fetch__DOT__pc;
         IData/*31:0*/ Core__DOT__fetch__DOT__npc_s;
         IData/*31:0*/ Core__DOT__fetch__DOT__io_p_npc_REG;
+        IData/*31:0*/ Core__DOT__fetch__DOT__io_out_bits_inst_REG;
         IData/*31:0*/ Core__DOT__decode__DOT__pc;
         IData/*31:0*/ Core__DOT__decode__DOT__inst;
         IData/*31:0*/ Core__DOT__decode__DOT__io_p_npc_o_REG;
@@ -137,10 +139,10 @@ VL_MODULE(VCore___024root) {
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_14;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_15;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_16;
-        QData/*63:0*/ Core__DOT__regfile__DOT__rf_17;
-        QData/*63:0*/ Core__DOT__regfile__DOT__rf_18;
     };
     struct {
+        QData/*63:0*/ Core__DOT__regfile__DOT__rf_17;
+        QData/*63:0*/ Core__DOT__regfile__DOT__rf_18;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_19;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_20;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_21;

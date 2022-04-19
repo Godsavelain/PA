@@ -62,7 +62,7 @@ class InstFetch extends Module{
   when(!stall){
     pc := npc
   }
-  io.p_npc := RegNext(npc)
+  io.p_npc := RegNext(pc_base)
 
   io.out.bits.pc := resp.bits.old_pc
   io.out.bits.inst := RegNext(resp.bits.rdata)
