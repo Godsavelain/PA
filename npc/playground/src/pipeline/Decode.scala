@@ -132,7 +132,7 @@ class Decode extends Module{
   io.ren2 := (rs2_src === RS_FROM_RF)
   io.raddr1 := inst(19, 15)
   io.raddr2 := inst(24, 20)
-  io.is_ebreak := Mux(io.id_flush , false.B ,Mux(inst_valid, RegNext(inst === EBREAK) ))
+  io.is_ebreak := Mux(io.id_flush , false.B ,Mux(inst_valid, RegNext(inst === EBREAK), false.B ))
 
   io.p_npc_o := RegNext(io.p_npc_i)
 
