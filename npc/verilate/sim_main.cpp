@@ -17,7 +17,7 @@ extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit eb
     if(has_ebreak){
         has_end = true;
     }
-    printf("pc:%x inst:%x\n",pc_valie,instruction );
+    printf("pc:%08x inst:%08x\n",pc_valie,instruction );
 }
 
 
@@ -55,17 +55,38 @@ void write_mem(int addr,long long int data, unsigned char write_mask){
 }
 
 void inst_load(){
-
+    FILE *p;
+    p = fopen("./tests/dummy-riscv64-npc.bin","rb");
+    if(!p){
+        printf("fail to open file\n");
+    }
+    int base_addr = 0x80000000;
+    int data = 0;
+    bool low = true;
+    while(fread(&data,sizeof(int),1,p)!=0)
+    {
+        if(low){
+            write_mem(base_addr , data ,0x0f);
+            low = false;
+        }
+        else{
+            write_mem(base_addr , ((long long int)data << 32)  ,0xf0);
+            low = true;
+        }
+        base_addr = base_addr + 4;
+        printf("read inst %08x \n",data);
+    }
 }
 
 
 int main(int argc, char **argv, char **env){
+    inst_load();
     // write_mem(0x80000000 , 0x0020811300100093 ,0xff);
     // write_mem(0x80000008 , 0x0040821300308193 ,0xff);
     // write_mem(0x80000010 , 0x0010007300518193 ,0xff);
-    write_mem(0x80000000 , 0x0020811300100093 ,0xff);
-    write_mem(0x80000008 , 0x00408213008000EF ,0xff);
-    write_mem(0x80000010 , 0x0010007300518193 ,0xff);
+    // write_mem(0x80000000 , 0x0020811300100093 ,0xff);
+    // write_mem(0x80000008 , 0x00408213008000EF ,0xff);
+    // write_mem(0x80000010 , 0x0010007300518193 ,0xff);
 
     VerilatedContext* contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);            // Verilator仿真运行时参数（和编译的参数不一样，详见Verilator手册第6章
