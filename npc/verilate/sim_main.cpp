@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include <verilated_vcd_c.h>
 
 bool has_end = false;
@@ -54,9 +55,13 @@ void write_mem(int addr,long long int data, unsigned char write_mask){
     Memory[i] = temp_data;
 }
 
-void inst_load(){
+void inst_load(char* filename){
     FILE *p;
-    p = fopen("./tests/dummy-riscv64-npc.bin","rb");
+    char real_name[100];
+    sprintf(real_name,"%s%s%s","./tests/",filename,"-riscv64-npc.bin");
+    //real_name = strcat(strcat(pre,filename),after);
+    // p = fopen("./tests/dummy-riscv64-npc.bin","rb");
+    p = fopen(real_name,"rb");
     if(!p){
         printf("fail to open file\n");
     }
@@ -80,7 +85,12 @@ void inst_load(){
 
 
 int main(int argc, char **argv, char **env){
-    inst_load();
+    //printf("name:%s",argv[1]);
+    if(argc < 1){
+        printf("need to specify test name\n");
+        return 1;
+    }
+    inst_load(argv[1]);
     // write_mem(0x80000000 , 0x0020811300100093 ,0xff);
     // write_mem(0x80000008 , 0x0040821300308193 ,0xff);
     // write_mem(0x80000010 , 0x0010007300518193 ,0xff);
