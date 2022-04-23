@@ -59,6 +59,7 @@ void inst_load(char* filename){
     FILE *p;
     char real_name[100];
     sprintf(real_name,"%s%s%s","./tests/",filename,"-riscv64-npc.bin");
+    printf("aaaaa%s\n",real_name);
     //real_name = strcat(strcat(pre,filename),after);
     // p = fopen("./tests/dummy-riscv64-npc.bin","rb");
     p = fopen(real_name,"rb");
