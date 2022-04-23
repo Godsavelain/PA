@@ -564,8 +564,9 @@ void VCore___024root__traceChgSub0(VCore___024root* vlSelf, VerilatedVcd* tracep
         tracep->chgQData(oldp+252,(vlSelf->io_regs_29),64);
         tracep->chgQData(oldp+254,(vlSelf->io_regs_30),64);
         tracep->chgQData(oldp+256,(vlSelf->io_regs_31),64);
-        tracep->chgIData(oldp+258,((IData)(vlSelf->io_imem_rdata)),32);
-        tracep->chgBit(oldp+259,((1U & (~ (IData)(vlSelf->io_imem_read_ok)))));
+        tracep->chgIData(oldp+258,(vlSelf->io_commit_pc),32);
+        tracep->chgIData(oldp+259,((IData)(vlSelf->io_imem_rdata)),32);
+        tracep->chgBit(oldp+260,((1U & (~ (IData)(vlSelf->io_imem_read_ok)))));
     }
 }
 

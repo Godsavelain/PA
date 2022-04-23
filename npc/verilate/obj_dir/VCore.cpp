@@ -63,6 +63,7 @@ VCore::VCore(VerilatedContext* _vcontextp__, const char* _vcname__)
     , io_regs_29{vlSymsp->TOP.io_regs_29}
     , io_regs_30{vlSymsp->TOP.io_regs_30}
     , io_regs_31{vlSymsp->TOP.io_regs_31}
+    , io_commit_pc{vlSymsp->TOP.io_commit_pc}
     , rootp{&(vlSymsp->TOP)}
 {
 }

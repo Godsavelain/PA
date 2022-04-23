@@ -622,6 +622,7 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                 = vlSelf->Core__DOT__mem__DOT__io_wdata_o_REG;
         }
     }
+    vlSelf->io_commit_pc = vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc;
     vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_inst 
         = ((IData)(vlSelf->reset) ? 0U : vlSelf->Core__DOT__decode__DOT__inst);
     vlSelf->Core__DOT__execute__DOT__io_is_ebreak_o_REG 

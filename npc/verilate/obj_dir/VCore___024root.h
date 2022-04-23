@@ -35,6 +35,7 @@ VL_MODULE(VCore___024root) {
     VL_OUT(io_imem_waddr,31,0);
     VL_OUT(io_dmem_raddr,31,0);
     VL_OUT(io_dmem_waddr,31,0);
+    VL_OUT(io_commit_pc,31,0);
     VL_OUT64(io_imem_wdata,63,0);
     VL_IN64(io_imem_rdata,63,0);
     VL_OUT64(io_dmem_wdata,63,0);

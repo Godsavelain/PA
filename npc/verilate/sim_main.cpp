@@ -164,13 +164,23 @@ int main(int argc, char **argv, char **env){
     top->eval();
     m_trace->dump(sim_time);
     sim_time++;
-
     max_cycle--;
+    }
 
+    int a10 = 0;
+    int success;
+    a10 = top->io_regs_10;
+    if(a10 == 0){
+        printf("HIT GOOD TRAP at at pc = 0x%016x\n",top->io_commit_pc);
+        success = 0;
+    }
+    else{
+        printf("HIT BAD TRAP at at pc = 0x%016x\n",top->io_commit_pc);
+        success = 1;
     }
 
     m_trace->close();
     delete top;
     delete contextp;
-    return 0;
+    return success;
 }
