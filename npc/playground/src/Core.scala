@@ -34,6 +34,7 @@ class Core extends Module{
       val imem = new TestIO()
       val dmem = new TestIO()
       val regs = Vec(32,Output(UInt(64.W)))
+      val commit_pc = Output(UInt(32.W))
 //      val is_break = Output(Bool())
   })
 
@@ -94,6 +95,7 @@ class Core extends Module{
   regfile.io.wen := mem.io.wen_o
   regfile.io.wdata := mem.io.wdata_o
   io.regs := regfile.io.regs
+  io.commit_pc := mem.io.out.bits.pc
 
   //bypass
   regfile.io.mem_rd_en   := mem.io.mem_rd_en
