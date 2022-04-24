@@ -33,9 +33,11 @@ class Core extends Module{
 //    val dmem = new CoreBusIO()
       val imem = new TestIO()
       val dmem = new TestIO()
-      val regs = Vec(32,Output(UInt(64.W)))
       val commit_pc = Output(UInt(32.W))
-//      val is_break = Output(Bool())
+//for difftest
+      val regs_out = Vec(32,Output(UInt(64.W)))
+      val regs_in  = Vec(32,Input(UInt(64.W)))
+      val write_regs  = Input(Bool())
   })
 
   val fetch = Module(new InstFetch)
@@ -94,7 +96,9 @@ class Core extends Module{
   regfile.io.waddr := mem.io.waddr_o
   regfile.io.wen := mem.io.wen_o
   regfile.io.wdata := mem.io.wdata_o
-  io.regs := regfile.io.regs
+  regfile.io.regs_in := io.regs_in
+  regfile.io.write_regs := io.write_regs
+  io.regs_out := regfile.io.regs
   io.commit_pc := mem.io.out.bits.pc
 
   //bypass
