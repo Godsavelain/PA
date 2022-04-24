@@ -40,9 +40,8 @@ class RegFile extends Module{
   io.rdata1 := Mux((io.raddr1 =/= 0.U), Mux(ex_rs1_hazard , io.ex_rd_data ,Mux(mem_rs1_hazard ,io.mem_rd_data, Mux(wb_rs1_hazard,io.wdata ,rf(io.raddr1)))), 0.U)
   io.rdata2 := Mux((io.raddr2 =/= 0.U), Mux(ex_rs2_hazard , io.ex_rd_data ,Mux(mem_rs2_hazard ,io.mem_rd_data, Mux(wb_rs2_hazard,io.wdata ,rf(io.raddr2)))), 0.U)
   when(io.write_regs){
-    rf := regs_in
-  }
-  otherwise((io.waddr =/= 0.U) && io.wen ){
+    rf := io.regs_in
+  }.elsewhen((io.waddr =/= 0.U) && io.wen ){
     rf(io.waddr) := io.wdata
   }
   io.regs := rf
