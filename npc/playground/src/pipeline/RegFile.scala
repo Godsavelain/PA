@@ -42,7 +42,7 @@ class RegFile extends Module{
   when(io.write_regs){
     rf := regs_in
   }
-  else when((io.waddr =/= 0.U) && io.wen ){
+  otherwise((io.waddr =/= 0.U) && io.wen ){
     rf(io.waddr) := io.wdata
   }
   io.regs := rf
