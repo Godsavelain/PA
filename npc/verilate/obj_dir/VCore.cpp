@@ -31,39 +31,72 @@ VCore::VCore(VerilatedContext* _vcontextp__, const char* _vcname__)
     , io_dmem_rdata{vlSymsp->TOP.io_dmem_rdata}
     , io_dmem_read_ok{vlSymsp->TOP.io_dmem_read_ok}
     , io_dmem_write_ok{vlSymsp->TOP.io_dmem_write_ok}
-    , io_regs_0{vlSymsp->TOP.io_regs_0}
-    , io_regs_1{vlSymsp->TOP.io_regs_1}
-    , io_regs_2{vlSymsp->TOP.io_regs_2}
-    , io_regs_3{vlSymsp->TOP.io_regs_3}
-    , io_regs_4{vlSymsp->TOP.io_regs_4}
-    , io_regs_5{vlSymsp->TOP.io_regs_5}
-    , io_regs_6{vlSymsp->TOP.io_regs_6}
-    , io_regs_7{vlSymsp->TOP.io_regs_7}
-    , io_regs_8{vlSymsp->TOP.io_regs_8}
-    , io_regs_9{vlSymsp->TOP.io_regs_9}
-    , io_regs_10{vlSymsp->TOP.io_regs_10}
-    , io_regs_11{vlSymsp->TOP.io_regs_11}
-    , io_regs_12{vlSymsp->TOP.io_regs_12}
-    , io_regs_13{vlSymsp->TOP.io_regs_13}
-    , io_regs_14{vlSymsp->TOP.io_regs_14}
-    , io_regs_15{vlSymsp->TOP.io_regs_15}
-    , io_regs_16{vlSymsp->TOP.io_regs_16}
-    , io_regs_17{vlSymsp->TOP.io_regs_17}
-    , io_regs_18{vlSymsp->TOP.io_regs_18}
-    , io_regs_19{vlSymsp->TOP.io_regs_19}
-    , io_regs_20{vlSymsp->TOP.io_regs_20}
-    , io_regs_21{vlSymsp->TOP.io_regs_21}
-    , io_regs_22{vlSymsp->TOP.io_regs_22}
-    , io_regs_23{vlSymsp->TOP.io_regs_23}
-    , io_regs_24{vlSymsp->TOP.io_regs_24}
-    , io_regs_25{vlSymsp->TOP.io_regs_25}
-    , io_regs_26{vlSymsp->TOP.io_regs_26}
-    , io_regs_27{vlSymsp->TOP.io_regs_27}
-    , io_regs_28{vlSymsp->TOP.io_regs_28}
-    , io_regs_29{vlSymsp->TOP.io_regs_29}
-    , io_regs_30{vlSymsp->TOP.io_regs_30}
-    , io_regs_31{vlSymsp->TOP.io_regs_31}
     , io_commit_pc{vlSymsp->TOP.io_commit_pc}
+    , io_regs_out_0{vlSymsp->TOP.io_regs_out_0}
+    , io_regs_out_1{vlSymsp->TOP.io_regs_out_1}
+    , io_regs_out_2{vlSymsp->TOP.io_regs_out_2}
+    , io_regs_out_3{vlSymsp->TOP.io_regs_out_3}
+    , io_regs_out_4{vlSymsp->TOP.io_regs_out_4}
+    , io_regs_out_5{vlSymsp->TOP.io_regs_out_5}
+    , io_regs_out_6{vlSymsp->TOP.io_regs_out_6}
+    , io_regs_out_7{vlSymsp->TOP.io_regs_out_7}
+    , io_regs_out_8{vlSymsp->TOP.io_regs_out_8}
+    , io_regs_out_9{vlSymsp->TOP.io_regs_out_9}
+    , io_regs_out_10{vlSymsp->TOP.io_regs_out_10}
+    , io_regs_out_11{vlSymsp->TOP.io_regs_out_11}
+    , io_regs_out_12{vlSymsp->TOP.io_regs_out_12}
+    , io_regs_out_13{vlSymsp->TOP.io_regs_out_13}
+    , io_regs_out_14{vlSymsp->TOP.io_regs_out_14}
+    , io_regs_out_15{vlSymsp->TOP.io_regs_out_15}
+    , io_regs_out_16{vlSymsp->TOP.io_regs_out_16}
+    , io_regs_out_17{vlSymsp->TOP.io_regs_out_17}
+    , io_regs_out_18{vlSymsp->TOP.io_regs_out_18}
+    , io_regs_out_19{vlSymsp->TOP.io_regs_out_19}
+    , io_regs_out_20{vlSymsp->TOP.io_regs_out_20}
+    , io_regs_out_21{vlSymsp->TOP.io_regs_out_21}
+    , io_regs_out_22{vlSymsp->TOP.io_regs_out_22}
+    , io_regs_out_23{vlSymsp->TOP.io_regs_out_23}
+    , io_regs_out_24{vlSymsp->TOP.io_regs_out_24}
+    , io_regs_out_25{vlSymsp->TOP.io_regs_out_25}
+    , io_regs_out_26{vlSymsp->TOP.io_regs_out_26}
+    , io_regs_out_27{vlSymsp->TOP.io_regs_out_27}
+    , io_regs_out_28{vlSymsp->TOP.io_regs_out_28}
+    , io_regs_out_29{vlSymsp->TOP.io_regs_out_29}
+    , io_regs_out_30{vlSymsp->TOP.io_regs_out_30}
+    , io_regs_out_31{vlSymsp->TOP.io_regs_out_31}
+    , io_regs_in_0{vlSymsp->TOP.io_regs_in_0}
+    , io_regs_in_1{vlSymsp->TOP.io_regs_in_1}
+    , io_regs_in_2{vlSymsp->TOP.io_regs_in_2}
+    , io_regs_in_3{vlSymsp->TOP.io_regs_in_3}
+    , io_regs_in_4{vlSymsp->TOP.io_regs_in_4}
+    , io_regs_in_5{vlSymsp->TOP.io_regs_in_5}
+    , io_regs_in_6{vlSymsp->TOP.io_regs_in_6}
+    , io_regs_in_7{vlSymsp->TOP.io_regs_in_7}
+    , io_regs_in_8{vlSymsp->TOP.io_regs_in_8}
+    , io_regs_in_9{vlSymsp->TOP.io_regs_in_9}
+    , io_regs_in_10{vlSymsp->TOP.io_regs_in_10}
+    , io_regs_in_11{vlSymsp->TOP.io_regs_in_11}
+    , io_regs_in_12{vlSymsp->TOP.io_regs_in_12}
+    , io_regs_in_13{vlSymsp->TOP.io_regs_in_13}
+    , io_regs_in_14{vlSymsp->TOP.io_regs_in_14}
+    , io_regs_in_15{vlSymsp->TOP.io_regs_in_15}
+    , io_regs_in_16{vlSymsp->TOP.io_regs_in_16}
+    , io_regs_in_17{vlSymsp->TOP.io_regs_in_17}
+    , io_regs_in_18{vlSymsp->TOP.io_regs_in_18}
+    , io_regs_in_19{vlSymsp->TOP.io_regs_in_19}
+    , io_regs_in_20{vlSymsp->TOP.io_regs_in_20}
+    , io_regs_in_21{vlSymsp->TOP.io_regs_in_21}
+    , io_regs_in_22{vlSymsp->TOP.io_regs_in_22}
+    , io_regs_in_23{vlSymsp->TOP.io_regs_in_23}
+    , io_regs_in_24{vlSymsp->TOP.io_regs_in_24}
+    , io_regs_in_25{vlSymsp->TOP.io_regs_in_25}
+    , io_regs_in_26{vlSymsp->TOP.io_regs_in_26}
+    , io_regs_in_27{vlSymsp->TOP.io_regs_in_27}
+    , io_regs_in_28{vlSymsp->TOP.io_regs_in_28}
+    , io_regs_in_29{vlSymsp->TOP.io_regs_in_29}
+    , io_regs_in_30{vlSymsp->TOP.io_regs_in_30}
+    , io_regs_in_31{vlSymsp->TOP.io_regs_in_31}
+    , io_write_regs{vlSymsp->TOP.io_write_regs}
     , rootp{&(vlSymsp->TOP)}
 {
 }
@@ -110,7 +143,7 @@ static void _eval_initial_loop(VCore__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = VCore___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Core.v", 1656, "",
+            VL_FATAL_MT("Core.v", 1753, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -141,7 +174,7 @@ void VCore::eval_step() {
             Verilated::debug(1);
             __Vchange = VCore___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Core.v", 1656, "",
+            VL_FATAL_MT("Core.v", 1753, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {

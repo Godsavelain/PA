@@ -110,7 +110,7 @@ int main(int argc, char **argv, char **env){
 
     vluint64_t sim_time = 0;
     int max_cycle = 10;
-    
+    top->io_write_regs = 0;
     top->reset = 1;
     for(int i=0;i<3;i++){
         top->clock = 0;
@@ -169,7 +169,7 @@ int main(int argc, char **argv, char **env){
 
     int a10 = 0;
     int success;
-    a10 = top->io_regs_10;
+    a10 = top->io_regs_out_10;
     if(a10 == 0){
         printf("HIT GOOD TRAP at at pc = 0x%016x\n",top->io_commit_pc);
         success = 0;
