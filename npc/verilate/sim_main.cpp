@@ -35,7 +35,6 @@ long long int Memory[10000];
 
 bool has_end = false;
 
-extern VCore *top;
 
 extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit ebreak)
 {
@@ -110,11 +109,6 @@ void inst_load(char* filename){
 }
 
 
-// void npc_run(){
-
-// }
-
-
 int main(int argc, char **argv, char **env){
     //printf("name:%s",argv[1]);
     if(argc < 1){
@@ -131,7 +125,7 @@ int main(int argc, char **argv, char **env){
 
     VerilatedContext* contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);            // Verilator仿真运行时参数（和编译的参数不一样，详见Verilator手册第6章
-    top = new VCore;
+    VCore *top = new VCore;
 
     Verilated::traceEverOn(true);
     VerilatedVcdC *m_trace = new VerilatedVcdC;
@@ -139,6 +133,7 @@ int main(int argc, char **argv, char **env){
     m_trace->open("waveform.vcd");
 
     vluint64_t sim_time = 0;
+    int max_cycle = 10;
     top->io_write_regs = 0;
     top->reset = 1;
     for(int i=0;i<3;i++){
@@ -193,6 +188,7 @@ int main(int argc, char **argv, char **env){
     top->eval();
     m_trace->dump(sim_time);
     sim_time++;
+    max_cycle--;
     }
 
     int a10 = 0;
