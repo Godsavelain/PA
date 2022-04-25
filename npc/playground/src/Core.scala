@@ -48,6 +48,9 @@ class Core extends Module{
   fetch.io.imem.resp.bits.rdata := io.imem.rdata(31,0)
   fetch.io.imem.resp.bits.old_pc := RegNext(fetch.io.imem.req.bits.araddr)
   fetch.io.imem.resp.bits.rvalid := io.imem.read_ok
+  fetch.io.input_pc := io.pc_in
+  fetch.io.write_regs := io.write_regs
+
   io.imem.raddr := fetch.io.imem.req.bits.araddr
   io.imem.ren := fetch.io.imem.req.bits.arvalid
   io.imem.waddr := 0.U
