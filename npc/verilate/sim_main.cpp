@@ -172,13 +172,13 @@ int main(int argc, char **argv, char **env){
     m_trace->dump(sim_time);
     sim_time++;
     int addr;
-    // bool read_en;
+    bool read_en;
     addr = top->io_imem_raddr;
-    // read_en = top->io_imem_ren;
+    read_en = top->io_imem_ren;
     // while (!Verilated::gotFinish()) { 
     while (!has_end) { 
     top->clock = 1;
-    if(top->io_imem_ren){
+    if(read_en){
         top->io_imem_rdata = read_mem(addr);
         top->io_imem_read_ok = true;
     }
