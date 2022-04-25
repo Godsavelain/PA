@@ -20,7 +20,7 @@ class Mem extends Module{
     val mem_rd_data = Output(UInt(64.W))
   })
   io.is_ebreak_o := RegNext(io.is_ebreak_i)
-  io.out.bits := RegNext(Mux(io.mem_flush_i ,0.U.asTypeOf(new DecodeOp()), io.in.bits))
+  io.out.bits := RegNext(Mux(io.mem_flush_i ,0.U.asTypeOf(new DecodeOp()), mem_reg_decodeop))
   io.out.valid := true.B
   val stall = false.B
   io.in.ready := !stall

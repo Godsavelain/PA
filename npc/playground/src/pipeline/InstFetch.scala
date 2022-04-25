@@ -47,6 +47,9 @@ class InstFetch extends Module{
     val if_flush = Input(Bool())
     val p_npc = Output(UInt(32.W))
     val jmp_packet_i = Input(new Jmp_Packet())
+    //difftest
+    val write_regs = Input(Bool())
+    val input_pc   = Input(UInt(32.W))
   })
 
   val req = io.imem.req
@@ -59,7 +62,10 @@ class InstFetch extends Module{
 
   val stall = (!resp.bits.rvalid || !io.out.fire())
   val npc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , npc_s)
-  when(!stall){
+  when(io.write_regs){
+   pc := io.input_pc
+  }
+  .elsewhen(!stall){
     pc := npc
   }
   io.p_npc := RegNext(pc_base)

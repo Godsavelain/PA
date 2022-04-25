@@ -55,12 +55,18 @@ void difftest_regcpy(void *dut, bool direction) {
       *regs = cpu.gpr[i];
       regs++;
     }
+    int *pc;
+    pc = (int *)regs;
+    *pc = cpu.pc;
   }
   else{
     for(int i=0;i<32;i++){
       cpu.gpr[i] = *regs;
       regs++;
     }
+    int *pc;
+    pc = (int *)regs;
+    cpu.pc = *pc;
   }
   //assert(0);
 }

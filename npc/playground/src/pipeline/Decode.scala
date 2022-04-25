@@ -113,7 +113,7 @@ class Decode extends Module{
 
   io.out.bits.pc      := pc
   io.out.bits.inst    := inst
-  io.out.bits.valid      := inst_valid
+  io.out.bits.valid   := inst_valid
   io.out.bits.fu_code := fu_code
   io.out.bits.alu_code := alu_code
   io.out.bits.jmp_code := jmp_code

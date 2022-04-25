@@ -8,6 +8,8 @@
 #include <string.h>
 #include <verilated_vcd_c.h>
 
+#include <dlfcn.h>
+
 bool has_end = false;
 
 extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit ebreak)

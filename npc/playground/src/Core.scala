@@ -37,7 +37,9 @@ class Core extends Module{
 //for difftest
       val regs_out = Vec(32,Output(UInt(64.W)))
       val regs_in  = Vec(32,Input(UInt(64.W)))
+      val pc_in    = Input(UInt(32.W))
       val write_regs  = Input(Bool())
+      val commit      = Output(Bool())
   })
 
   val fetch = Module(new InstFetch)
@@ -100,6 +102,7 @@ class Core extends Module{
   regfile.io.write_regs := io.write_regs
   io.regs_out := regfile.io.regs
   io.commit_pc := mem.io.out.bits.pc
+  io.commit := mem.io.out.valid
 
   //bypass
   regfile.io.mem_rd_en   := mem.io.mem_rd_en
