@@ -32,11 +32,13 @@ VL_MODULE(VCore___024root) {
     VL_IN8(io_dmem_read_ok,0,0);
     VL_IN8(io_dmem_write_ok,0,0);
     VL_IN8(io_write_regs,0,0);
+    VL_OUT8(io_commit,0,0);
     VL_OUT(io_imem_raddr,31,0);
     VL_OUT(io_imem_waddr,31,0);
     VL_OUT(io_dmem_raddr,31,0);
     VL_OUT(io_dmem_waddr,31,0);
     VL_OUT(io_commit_pc,31,0);
+    VL_IN(io_pc_in,31,0);
     VL_OUT64(io_imem_wdata,63,0);
     VL_IN64(io_imem_rdata,63,0);
     VL_OUT64(io_dmem_wdata,63,0);
@@ -149,6 +151,8 @@ VL_MODULE(VCore___024root) {
         IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_pc;
         IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_inst;
         IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_imm;
+        IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_pc;
+        IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_inst;
         IData/*31:0*/ Core__DOT__mem__DOT__io_out_bits_REG_pc;
         IData/*31:0*/ Core__DOT__mem__DOT__io_out_bits_REG_inst;
         IData/*31:0*/ Core__DOT__wb_dpi__DOT__inst1;
@@ -171,10 +175,10 @@ VL_MODULE(VCore___024root) {
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_13;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_14;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_15;
-        QData/*63:0*/ Core__DOT__regfile__DOT__rf_16;
-        QData/*63:0*/ Core__DOT__regfile__DOT__rf_17;
     };
     struct {
+        QData/*63:0*/ Core__DOT__regfile__DOT__rf_16;
+        QData/*63:0*/ Core__DOT__regfile__DOT__rf_17;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_18;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_19;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_20;

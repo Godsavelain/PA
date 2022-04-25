@@ -113,7 +113,9 @@ class VCore VL_NOT_FINAL {
     VL_IN64(&io_regs_in_29,63,0);
     VL_IN64(&io_regs_in_30,63,0);
     VL_IN64(&io_regs_in_31,63,0);
+    VL_IN(&io_pc_in,31,0);
     VL_IN8(&io_write_regs,0,0);
+    VL_OUT8(&io_commit,0,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.

@@ -586,9 +586,9 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                         : vlSelf->Core__DOT__regfile__DOT___GEN_26))))))))
             : 0ULL);
     vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc 
-        = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc;
+        = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc;
     vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_inst 
-        = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_inst;
+        = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_inst;
     vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG 
         = vlSelf->Core__DOT__execute__DOT__io_is_ebreak_o_REG;
     vlSelf->Core__DOT__fetch__DOT__io_p_npc_REG = (0xfffffffcU 
@@ -687,8 +687,15 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
         }
     }
     vlSelf->io_commit_pc = vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc;
-    vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_inst 
-        = ((IData)(vlSelf->reset) ? 0U : vlSelf->Core__DOT__decode__DOT__inst);
+    if (vlSelf->reset) {
+        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc = 0U;
+        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_inst = 0U;
+    } else {
+        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc 
+            = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc;
+        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_inst 
+            = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_inst;
+    }
     vlSelf->Core__DOT__execute__DOT__io_is_ebreak_o_REG 
         = ((~ (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)) 
            & ((IData)(vlSelf->Core__DOT__decode__DOT__inst_valid) 
@@ -703,10 +710,14 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
     vlSelf->Core__DOT__mem__DOT__io_wdata_o_REG = vlSelf->Core__DOT__mem__DOT__wdata;
     vlSelf->Core__DOT__mem__DOT__io_wen_o_REG = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en;
     vlSelf->Core__DOT__mem__DOT__io_waddr_o_REG = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_addr;
+    vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_inst 
+        = ((IData)(vlSelf->reset) ? 0U : vlSelf->Core__DOT__decode__DOT__inst);
     vlSelf->Core__DOT__decode__DOT__io_is_ebreak_REG 
         = (0x100073U == vlSelf->Core__DOT__decode__DOT__inst);
     if (vlSelf->reset) {
         vlSelf->Core__DOT__fetch__DOT__pc = 0x80000000U;
+    } else if (vlSelf->io_write_regs) {
+        vlSelf->Core__DOT__fetch__DOT__pc = vlSelf->io_pc_in;
     } else if (vlSelf->io_imem_read_ok) {
         vlSelf->Core__DOT__fetch__DOT__pc = ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)
                                               ? ((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_jmp)

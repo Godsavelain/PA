@@ -43,6 +43,7 @@ void VCore___024root___initial__TOP__1(VCore___024root* vlSelf) {
     vlSelf->io_dmem_ren = 0U;
     vlSelf->io_dmem_wen = 0U;
     vlSelf->io_dmem_wmask = 0U;
+    vlSelf->io_commit = 1U;
 }
 
 void VCore___024root___settle__TOP__3(VCore___024root* vlSelf) {
@@ -2309,7 +2310,9 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->io_regs_in_29 = VL_RAND_RESET_Q(64);
     vlSelf->io_regs_in_30 = VL_RAND_RESET_Q(64);
     vlSelf->io_regs_in_31 = VL_RAND_RESET_Q(64);
+    vlSelf->io_pc_in = VL_RAND_RESET_I(32);
     vlSelf->io_write_regs = VL_RAND_RESET_I(1);
+    vlSelf->io_commit = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__execute_io_jmp_packet_o_mis = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__fetch_io_imem_resp_bits_old_pc_REG = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__fetch__DOT__pc = VL_RAND_RESET_I(32);
@@ -2386,14 +2389,16 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_imm = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__execute__DOT__alu__DOT__out0 = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG = VL_RAND_RESET_I(1);
-    vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc = VL_RAND_RESET_I(32);
-    vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_inst = VL_RAND_RESET_I(32);
+    vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc = VL_RAND_RESET_I(32);
+    vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_inst = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_addr = VL_RAND_RESET_I(5);
     vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__mem__DOT__wdata = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__mem__DOT__io_waddr_o_REG = VL_RAND_RESET_I(5);
     vlSelf->Core__DOT__mem__DOT__io_wen_o_REG = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__mem__DOT__io_wdata_o_REG = VL_RAND_RESET_Q(64);
+    vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc = VL_RAND_RESET_I(32);
+    vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_inst = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__wb_dpi__DOT__inst1 = 0;
     vlSelf->Core__DOT__wb_dpi__DOT__pc1 = 0;
     for (int __Vi0=0; __Vi0<2; ++__Vi0) {

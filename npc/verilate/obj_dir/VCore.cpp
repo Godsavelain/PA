@@ -96,7 +96,9 @@ VCore::VCore(VerilatedContext* _vcontextp__, const char* _vcname__)
     , io_regs_in_29{vlSymsp->TOP.io_regs_in_29}
     , io_regs_in_30{vlSymsp->TOP.io_regs_in_30}
     , io_regs_in_31{vlSymsp->TOP.io_regs_in_31}
+    , io_pc_in{vlSymsp->TOP.io_pc_in}
     , io_write_regs{vlSymsp->TOP.io_write_regs}
+    , io_commit{vlSymsp->TOP.io_commit}
     , rootp{&(vlSymsp->TOP)}
 {
 }
@@ -143,7 +145,7 @@ static void _eval_initial_loop(VCore__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = VCore___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Core.v", 1753, "",
+            VL_FATAL_MT("Core.v", 1775, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -174,7 +176,7 @@ void VCore::eval_step() {
             Verilated::debug(1);
             __Vchange = VCore___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Core.v", 1753, "",
+            VL_FATAL_MT("Core.v", 1775, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {

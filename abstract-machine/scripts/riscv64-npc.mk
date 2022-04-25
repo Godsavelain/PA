@@ -11,8 +11,8 @@ AM_SRCS := riscv/npc/start.S \
            platform/dummy/mpe.c
 
 CFLAGS    += -fdata-sections -ffunction-sections
-LDFLAGS   += -T $(AM_HOME)/scripts/linker.ld --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
-LDFLAGS   += --gc-sections -e _start
+LDFLAGS   += -T $(AM_HOME)/scripts/linker.ld --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0 
+LDFLAGS   += --gc-sections -e _start 
 CFLAGS += -DMAINARGS=\"$(mainargs)\"
 .PHONY: $(AM_HOME)/am/src/riscv/npc/trm.c
 
@@ -22,7 +22,7 @@ image: $(IMAGE).elf
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
 run: image
-	cd $(NPC_HOME)/verilate && verilator --cc --trace --exe --build sim_main.cpp Core.v
+	cd $(NPC_HOME)/verilate && verilator --cc --trace --exe --build -LDFLAGS "-ldl" sim_main.cpp Core.v
 	echo $(IMAGE).bin
 	cp $(IMAGE).bin $(NPC_HOME)/verilate/tests/
 	echo $(ALL)
