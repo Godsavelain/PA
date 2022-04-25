@@ -35,7 +35,7 @@ long long int Memory[10000];
 
 bool has_end = false;
 
-VCore *top;
+extern VCore *top;
 
 extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit ebreak)
 {
