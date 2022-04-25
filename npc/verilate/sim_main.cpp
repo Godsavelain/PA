@@ -110,9 +110,9 @@ void inst_load(char* filename){
 }
 
 
-void npc_run(){
+// void npc_run(){
 
-}
+// }
 
 
 int main(int argc, char **argv, char **env){
