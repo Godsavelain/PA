@@ -8,9 +8,34 @@
 #include <string.h>
 #include <verilated_vcd_c.h>
 
-#include <dlfcn.h>
+//Log
+
+#define ASNI_FG_BLACK   "\33[1;30m"
+#define ASNI_FG_RED     "\33[1;31m"
+#define ASNI_FG_GREEN   "\33[1;32m"
+#define ASNI_FG_YELLOW  "\33[1;33m"
+#define ASNI_FG_BLUE    "\33[1;34m"
+#define ASNI_FG_MAGENTA "\33[1;35m"
+#define ASNI_FG_CYAN    "\33[1;36m"
+#define ASNI_FG_WHITE   "\33[1;37m"
+#define ASNI_BG_BLACK   "\33[1;40m"
+#define ASNI_BG_RED     "\33[1;41m"
+#define ASNI_BG_GREEN   "\33[1;42m"
+#define ASNI_BG_YELLOW  "\33[1;43m"
+#define ASNI_BG_BLUE    "\33[1;44m"
+#define ASNI_BG_MAGENTA "\33[1;35m"
+#define ASNI_BG_CYAN    "\33[1;46m"
+#define ASNI_BG_WHITE   "\33[1;47m"
+#define ASNI_NONE       "\33[0m"
+
+#define ASNI_FMT(str, fmt) fmt str ASNI_NONE
+#define TOP_REG(i) io_regs_out_##i
+
+long long int Memory[10000];
 
 bool has_end = false;
+
+VCore *top;
 
 extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit ebreak)
 {
@@ -23,8 +48,6 @@ extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit eb
     printf("pc:%08x inst:%08x\n",pc_valie,instruction );
 }
 
-
-long long int Memory[10000];
 
 long long int read_mem(int addr){
     int offset = (addr - 0x80000000);
@@ -87,6 +110,11 @@ void inst_load(char* filename){
 }
 
 
+void npc_run(){
+
+}
+
+
 int main(int argc, char **argv, char **env){
     //printf("name:%s",argv[1]);
     if(argc < 1){
@@ -103,7 +131,7 @@ int main(int argc, char **argv, char **env){
 
     VerilatedContext* contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);            // Verilator仿真运行时参数（和编译的参数不一样，详见Verilator手册第6章
-    VCore *top = new VCore;
+    top = new VCore;
 
     Verilated::traceEverOn(true);
     VerilatedVcdC *m_trace = new VerilatedVcdC;
@@ -111,7 +139,6 @@ int main(int argc, char **argv, char **env){
     m_trace->open("waveform.vcd");
 
     vluint64_t sim_time = 0;
-    int max_cycle = 10;
     top->io_write_regs = 0;
     top->reset = 1;
     for(int i=0;i<3;i++){
@@ -145,13 +172,13 @@ int main(int argc, char **argv, char **env){
     m_trace->dump(sim_time);
     sim_time++;
     int addr;
-    bool read_en;
+    // bool read_en;
     addr = top->io_imem_raddr;
-    read_en = top->io_imem_ren;
+    // read_en = top->io_imem_ren;
     // while (!Verilated::gotFinish()) { 
     while (!has_end) { 
     top->clock = 1;
-    if(read_en){
+    if(top->io_imem_ren){
         top->io_imem_rdata = read_mem(addr);
         top->io_imem_read_ok = true;
     }
@@ -166,7 +193,6 @@ int main(int argc, char **argv, char **env){
     top->eval();
     m_trace->dump(sim_time);
     sim_time++;
-    max_cycle--;
     }
 
     int a10 = 0;
