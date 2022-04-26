@@ -135,7 +135,7 @@ static void checkregs(riscv64_CPU_state *ref, int pc) {
         (top->io_regs_out_24 != ref->gpr[24]) || (top->io_regs_out_25 != ref->gpr[25]) ||(top->io_regs_out_26 != ref->gpr[26]) ||(top->io_regs_out_27 != ref->gpr[27]) ||\
         (top->io_regs_out_28 != ref->gpr[28]) || (top->io_regs_out_29 != ref->gpr[29]) ||(top->io_regs_out_30 != ref->gpr[30]) ||(top->io_regs_out_31 != ref->gpr[31]))
     {
-        bool same = false;
+        same = false;
     }
     if(pc != ref->pc){
         same = false;

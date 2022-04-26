@@ -87,7 +87,7 @@ class Alu extends Module{
   val in1 = io.in1
   val in2 = io.in2
   out0 := Mux(((io.jmp_code === JMP_JALR) || (io.jmp_code === JMP_JAL)), (io.pc_i + 4.U) ,MuxLookup(io.aluop_i, 0.U, Array(
-    ALU_ADD  -> (in1 + in2 + 1.U).asUInt(),
+    ALU_ADD  -> (in1 + in2).asUInt(),
     ALU_SUB  -> (in1 - in2).asUInt(),
     ALU_SLT  -> (in1.asSInt() < in2.asSInt()).asUInt(),
     ALU_SLTU -> (in1 < in2).asUInt(),
