@@ -35,6 +35,7 @@
 long long int Memory[10000];
 
 bool has_end = false;
+bool has_error = false;
 
 VCore *top;
 VerilatedVcdC *m_trace;
@@ -42,6 +43,9 @@ int npc_addr;
 vluint64_t sim_time;
 
 //difftest
+
+static char diff_so_file[100];
+static int difftest_port = 1234;
 
 typedef struct {
   long unsigned int gpr[32];
@@ -73,7 +77,6 @@ void difftest_skip_ref() {
 
 void difftest_skip_dut(int nr_ref, int nr_dut) {
   skip_dut_nr_inst += nr_dut;
-
   while (nr_ref -- > 0) {
     difftest_exec(1);
   }
@@ -83,8 +86,11 @@ void difftest_skip_dut(int nr_ref, int nr_dut) {
 void init_difftest(char *ref_so_file, long img_size, int port) {
   assert(ref_so_file != NULL);
 
+  printf("ref file %s \n",ref_so_file);
+
   void *handle;
-  handle = dlopen(ref_so_file, RTLD_LAZY | RTLD_DEEPBIND);
+  // handle = dlopen(ref_so_file, RTLD_LAZY | RTLD_DEEPBIND);
+  handle = dlopen(ref_so_file, RTLD_LAZY );
   assert(handle);
   difftest_memcpy = (diff_memcpy)dlsym(handle, "difftest_memcpy");
   assert(difftest_memcpy);
@@ -118,7 +124,7 @@ void init_difftest(char *ref_so_file, long img_size, int port) {
 }
 
 
-static void checkregs(riscv64_CPU_state *ref, int pc, VCore* top) {
+static void checkregs(riscv64_CPU_state *ref, int pc) {
     bool same = true;
     if( (top->io_regs_out_0 != ref->gpr[0]) || (top->io_regs_out_1 != ref->gpr[1]) ||(top->io_regs_out_2 != ref->gpr[2]) ||(top->io_regs_out_3 != ref->gpr[3]) ||\
         (top->io_regs_out_4 != ref->gpr[4]) || (top->io_regs_out_5 != ref->gpr[5]) ||(top->io_regs_out_6 != ref->gpr[6]) ||(top->io_regs_out_7 != ref->gpr[7]) ||\
@@ -169,7 +175,38 @@ static void checkregs(riscv64_CPU_state *ref, int pc, VCore* top) {
         printf("reg31 ref: %016lx  dut: %016lx \n", ref->gpr[31], top->io_regs_out_31 );
         printf("pc ref: %08x  dut: %08x \n", ref->pc, pc );
         has_end = true;
+        has_error = true;
     }
+}
+
+void difftest_step(int pc, int npc) {
+  riscv64_CPU_state ref_r;
+
+  if (skip_dut_nr_inst > 0) {
+    difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+    if (ref_r.pc == npc) {
+      skip_dut_nr_inst = 0;
+      checkregs(&ref_r, npc);
+      return;
+    }
+    skip_dut_nr_inst --;
+    if (skip_dut_nr_inst == 0)
+      printf("can not catch up with ref.pc = 0x%08x  at pc = 0x%08x \n", ref_r.pc, pc);
+    return;
+  }
+
+  if (is_skip_ref) {
+    // to skip the checking of an instruction, just copy the reg state to reference design
+    difftest_regcpy(&cpu, DIFFTEST_TO_REF);
+    is_skip_ref = false;
+    return;
+  }
+
+  difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+  difftest_exec(1);
+  //difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+
+  checkregs(&cpu, ref_r.pc);
 }
 
 extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit ebreak)
@@ -214,11 +251,11 @@ void write_mem(int addr,long long int data, unsigned char write_mask){
     Memory[i] = temp_data;
 }
 
-void inst_load(char* filename){
+long inst_load(char* filename){
     FILE *p;
     char real_name[100];
     sprintf(real_name,"%s%s%s","./tests/",filename,"-riscv64-npc.bin");
-    printf("aaaaa%s\n",real_name);
+    //printf("aaaaa%s\n",real_name);
     //real_name = strcat(strcat(pre,filename),after);
     // p = fopen("./tests/dummy-riscv64-npc.bin","rb");
     p = fopen(real_name,"rb");
@@ -228,6 +265,7 @@ void inst_load(char* filename){
     int base_addr = 0x80000000;
     int data = 0;
     bool low = true;
+    long size = 0;
     while(fread(&data,sizeof(int),1,p)!=0)
     {
         if(low){
@@ -240,8 +278,12 @@ void inst_load(char* filename){
         }
         base_addr = base_addr + 4;
         printf("read inst %08x \n",data);
+        size = size + 4;
     }
+    return size;
 }
+
+
 
 void npc_step(){
     top->clock = 1;
@@ -295,8 +337,10 @@ void npc_step(){
         cpu.gpr[29] = top->io_regs_out_29;
         cpu.gpr[30] = top->io_regs_out_30;
         cpu.gpr[31] = top->io_regs_out_31;
+
+        difftest_step(top->io_commit_pc,0);
+
     }
-    
 }
 
 
@@ -306,13 +350,19 @@ int main(int argc, char **argv, char **env){
         printf("need to specify test name\n");
         return 1;
     }
-    inst_load(argv[1]);
+    long img_size = inst_load(argv[1]);
+    printf("size:%ld\n",img_size);
     // write_mem(0x80000000 , 0x0020811300100093 ,0xff);
     // write_mem(0x80000008 , 0x0040821300308193 ,0xff);
     // write_mem(0x80000010 , 0x0010007300518193 ,0xff);
     // write_mem(0x80000000 , 0x0020811300100093 ,0xff);
     // write_mem(0x80000008 , 0x00408213008000EF ,0xff);
     // write_mem(0x80000010 , 0x0010007300518193 ,0xff);
+
+    // diff_so_file = "riscv64-nemu-interpreter-so";
+
+    strcpy(diff_so_file , "./difftest/riscv64-nemu-interpreter-so");
+    init_difftest(diff_so_file, img_size, difftest_port);
 
     VerilatedContext* contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);            // Verilator仿真运行时参数（和编译的参数不一样，详见Verilator手册第6章
@@ -365,7 +415,7 @@ int main(int argc, char **argv, char **env){
     int a10 = 0;
     int success;
     a10 = top->io_regs_out_10;
-    if(a10 == 0){
+    if((a10 == 0) && (has_error == false)){
         printf("HIT GOOD TRAP at at pc = 0x%016x\n",top->io_commit_pc);
         success = 0;
     }

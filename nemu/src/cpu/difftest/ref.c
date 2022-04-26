@@ -6,11 +6,11 @@
 void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   int word_num = n / 8;
   int remain = n % 8;
-  long long int *buffer;
-  buffer = (long long int *)buf;
+  long unsigned int *buffer;
+  buffer = (long unsigned int *)buf;
   if(direction == DIFFTEST_TO_DUT){
     while(word_num > 0){
-      long long int ref_data = paddr_read(addr, 8);
+      long unsigned int ref_data = paddr_read(addr, 8);
       *buffer = ref_data;
       buffer++;
       addr = addr + 8;
@@ -28,7 +28,7 @@ void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   }
   else{
     while(word_num > 0){
-      long long int dut_data = *buffer;
+      long unsigned int dut_data = *buffer;
       paddr_write(addr, 8 , dut_data);
       buffer++;
       addr = addr + 8;
@@ -48,15 +48,15 @@ void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
 }
 
 void difftest_regcpy(void *dut, bool direction) {
-  long long int *regs;
-  regs = (long long int *)dut;
+  long unsigned int *regs;
+  regs = (long unsigned int *)dut;
   if(direction == DIFFTEST_TO_DUT){
     for(int i=0;i<32;i++){
       *regs = cpu.gpr[i];
       regs++;
     }
-    int *pc;
-    pc = (int *)regs;
+    uint *pc;
+    pc = (uint *)regs;
     *pc = cpu.pc;
   }
   else{
@@ -64,8 +64,8 @@ void difftest_regcpy(void *dut, bool direction) {
       cpu.gpr[i] = *regs;
       regs++;
     }
-    int *pc;
-    pc = (int *)regs;
+    uint *pc;
+    pc = (uint *)regs;
     cpu.pc = *pc;
   }
   //assert(0);
