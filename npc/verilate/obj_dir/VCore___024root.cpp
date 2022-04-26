@@ -43,8 +43,8 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
     CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_798;
     CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_814;
     CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_829;
-    CData/*0:0*/ Core__DOT__execute__DOT__alu__DOT___out0_T_13;
-    CData/*0:0*/ Core__DOT__execute__DOT__alu__DOT___out0_T_14;
+    CData/*0:0*/ Core__DOT__execute__DOT__alu__DOT___out0_T_11;
+    CData/*0:0*/ Core__DOT__execute__DOT__alu__DOT___out0_T_12;
     IData/*31:0*/ __Vdly__Core__DOT__execute__DOT__ex_reg_decodeop_pc;
     QData/*63:0*/ Core__DOT__regfile__DOT___GEN_13;
     QData/*63:0*/ Core__DOT__regfile__DOT___GEN_45;
@@ -792,9 +792,9 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
              ? (IData)(vlSelf->Core__DOT__execute__DOT__alu_io_in1)
              : vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc) 
            + vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_imm);
-    Core__DOT__execute__DOT__alu__DOT___out0_T_13 = 
+    Core__DOT__execute__DOT__alu__DOT___out0_T_11 = 
         VL_LTS_IQQ(1,64,64, vlSelf->Core__DOT__execute__DOT__alu_io_in1, vlSelf->Core__DOT__execute__DOT__alu_io_in2);
-    Core__DOT__execute__DOT__alu__DOT___out0_T_14 = 
+    Core__DOT__execute__DOT__alu__DOT___out0_T_12 = 
         (vlSelf->Core__DOT__execute__DOT__alu_io_in1 
          < vlSelf->Core__DOT__execute__DOT__alu_io_in2);
     vlSelf->Core__DOT__execute__DOT__alu__DOT__out0 
@@ -811,15 +811,15 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                         ? (vlSelf->Core__DOT__execute__DOT__alu_io_in1 
                            ^ vlSelf->Core__DOT__execute__DOT__alu_io_in2)
                         : ((4U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_alu_code))
-                            ? (QData)((IData)(Core__DOT__execute__DOT__alu__DOT___out0_T_14))
+                            ? (QData)((IData)(Core__DOT__execute__DOT__alu__DOT___out0_T_12))
                             : ((3U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_alu_code))
-                                ? (QData)((IData)(Core__DOT__execute__DOT__alu__DOT___out0_T_13))
+                                ? (QData)((IData)(Core__DOT__execute__DOT__alu__DOT___out0_T_11))
                                 : ((2U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_alu_code))
                                     ? (vlSelf->Core__DOT__execute__DOT__alu_io_in1 
                                        - vlSelf->Core__DOT__execute__DOT__alu_io_in2)
                                     : ((1U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_alu_code))
-                                        ? (1ULL + (vlSelf->Core__DOT__execute__DOT__alu_io_in1 
-                                                   + vlSelf->Core__DOT__execute__DOT__alu_io_in2))
+                                        ? (vlSelf->Core__DOT__execute__DOT__alu_io_in1 
+                                           + vlSelf->Core__DOT__execute__DOT__alu_io_in2)
                                         : 0ULL))))))));
     vlSelf->Core__DOT__execute__DOT__alu_io_jmp = (
                                                    (8U 
@@ -830,7 +830,7 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                     : 
                                                    ((7U 
                                                      == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_jmp_code))
-                                                     ? (IData)(Core__DOT__execute__DOT__alu__DOT___out0_T_14)
+                                                     ? (IData)(Core__DOT__execute__DOT__alu__DOT___out0_T_12)
                                                      : 
                                                     ((6U 
                                                       == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_jmp_code))
@@ -839,7 +839,7 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                       : 
                                                      ((5U 
                                                        == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_jmp_code))
-                                                       ? (IData)(Core__DOT__execute__DOT__alu__DOT___out0_T_13)
+                                                       ? (IData)(Core__DOT__execute__DOT__alu__DOT___out0_T_11)
                                                        : 
                                                       ((4U 
                                                         == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_jmp_code))
