@@ -104,8 +104,8 @@ class Core extends Module{
   regfile.io.regs_in := io.regs_in
   regfile.io.write_regs := io.write_regs
   io.regs_out := regfile.io.regs
-  io.commit_pc := mem.io.out.bits.pc
-  io.commit := mem.io.out.bits.valid
+  io.commit_pc := RegNext(mem.io.out.bits.pc)
+  io.commit := RegNext(mem.io.out.bits.valid)
 
   //bypass
   regfile.io.mem_rd_en   := mem.io.mem_rd_en
