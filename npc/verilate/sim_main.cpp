@@ -203,10 +203,11 @@ void difftest_step(int pc, int npc) {
   }
 
   difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+  int temp_pc = ref_r.pc;
   difftest_exec(1);
-  //difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
-
-  checkregs(&cpu, ref_r.pc);
+  difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+  ref_r.pc = temp_pc;
+  checkregs(&ref_r,pc);
 }
 
 extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit ebreak)

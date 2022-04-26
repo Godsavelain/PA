@@ -112,8 +112,8 @@ class Decode extends Module{
   val (w_type : Bool) :: rs1_src :: rs2_src  :: (rd_en : Bool) :: imm_type :: Nil                        = c0
 
   io.out.bits.pc      := pc
-  io.out.bits.inst    := Mux(io.id_flush , false.B ,inst)
-  io.out.bits.valid   := inst_valid
+  io.out.bits.inst    := inst
+  io.out.bits.valid   := Mux(io.id_flush , false.B ,inst_valid)
   io.out.bits.fu_code := fu_code
   io.out.bits.alu_code := alu_code
   io.out.bits.jmp_code := jmp_code
