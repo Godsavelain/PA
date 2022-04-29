@@ -117,7 +117,7 @@ class Core extends Module{
   mem.io.dmem.resp.bits.rready := io.dmem.read_ok
   mem.io.dmem.resp.bits.wready := io.dmem.write_ok
 
-  mem.io.dmem.req.ready ;= true.B
+  mem.io.dmem.req.ready := true.B
   mem.io.dmem.resp.valid := true.B
   //bypass
   regfile.io.mem_rd_en   := mem.io.mem_rd_en
