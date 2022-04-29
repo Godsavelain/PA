@@ -115,7 +115,7 @@ class Mem extends Module{
   val ld_data_raw = resp.bits.rdata >> (reg_addr_offset << 3)
 
   val ld_data = Mux(mem_reg_decodeop.mem_code === MEM_LD, MuxLookup(mem_reg_decodeop.mem_size, 0.U, Array(
-    MEM_BYTE  -> Cat(Fill(56, (7)), ld_data_raw(7, 0)),
+    MEM_BYTE  -> Cat(Fill(56, ld_data_raw(7)), ld_data_raw(7, 0)),
     MEM_HALF  -> Cat(Fill(48, ld_data_raw(15)), ld_data_raw(15, 0)),
     MEM_WORD  -> Cat(Fill(32, ld_data_raw(31)), ld_data_raw(31, 0)),
     MEM_DWORD -> ld_data_raw

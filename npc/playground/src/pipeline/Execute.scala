@@ -76,7 +76,7 @@ class Execute extends Module{
   val is_load = (io.in.bits.mem_code === MEM_LD) || (io.in.bits.mem_code === MEM_LDU)
   val is_store = (io.in.bits.mem_code === MEM_ST)
 
-  io.ex_wdata_o := ex_rs2_i
+  io.ex_wdata_o := io.ex_rs2_i
   io.ex_rwaddr_o := alu.io.alu_out(31, 0)
   io.ex_rvalid_o := is_load
   io.ex_wvalid_o := is_store
@@ -114,7 +114,7 @@ class Alu extends Module{
     ALU_SLTU -> (in1 < in2).asUInt(),
     ALU_XOR  -> (in1 ^ in2).asUInt(),
     ALU_OR   -> (in1 | in2).asUInt(),
-    ALU_AND  -> (in1 & in2).asUInt()
+    ALU_AND  -> (in1 & in2).asUInt(),
     ALU_SLL  -> ((in1 << shamt)(63, 0)).asUInt(),
     ALU_SRL  -> (in1.asUInt() >> shamt).asUInt(),
     ALU_SRA  -> (in1.asSInt() >> shamt).asUInt()
