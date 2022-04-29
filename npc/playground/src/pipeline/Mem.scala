@@ -136,9 +136,9 @@ class Mem extends Module{
 
   resp.ready     := true.B
 
-  val wait = (is_load && !resp.bits.rready ) || (is_store && !resp.bits.wready)
-  io.dmem_wait  := wait
-  val stall = wait
+  val req_wait = ((is_load && !resp.bits.rready ) || (is_store && !resp.bits.wready))
+  io.dmem_wait  := req_wait
+  val stall = req_wait
   req.valid    := !stall
 
   //out
