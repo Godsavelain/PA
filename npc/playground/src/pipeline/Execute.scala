@@ -14,6 +14,13 @@ class Execute extends Module{
     val ex_flush = Input(Bool())
     val is_ebreak_i = Input(Bool())
     val is_ebreak_o = Output(Bool())
+    //for dmem
+    //these signals should be transfered to MEM stage without RegNext()
+    val ex_rwaddr_o  = Output(UInt(32.W))
+    val ex_rvalid_o  = Output(Bool())
+    val ex_wvalid_o  = Output(Bool())
+    val ex_wdata_o  = Output(UInt(64.W))
+
     //for bypass
     val ex_rd_en = Output(Bool())
     val ex_rd_addr = Output(UInt(32.W))
@@ -63,6 +70,17 @@ class Execute extends Module{
   io.ex_data_o := alu.io.alu_out
 
   io.out.bits := ex_reg_decodeop
+
+  //for mem
+
+  val is_load = (io.in.bits.mem_code === MEM_LD) || (io.in.bits.mem_code === MEM_LDU)
+  val is_store = (io.in.bits.mem_code === MEM_ST)
+
+  io.ex_wdata_o := ex_rs2_i
+  io.ex_rwaddr_o := alu.io.alu_out(31, 0)
+  io.ex_rvalid_o := is_load
+  io.ex_wvalid_o := is_store
+
   //for bypass
   io.ex_rd_en   := ex_reg_decodeop.rd_en
   io.ex_rd_addr := ex_reg_decodeop.rd_addr
@@ -86,6 +104,9 @@ class Alu extends Module{
   val out1 = Wire(UInt(64.W))
   val in1 = io.in1
   val in2 = io.in2
+
+  val shamt = Mux(io.wtype_i, in2(4, 0).asUInt(), in2(5, 0))
+
   out0 := Mux(((io.jmp_code === JMP_JALR) || (io.jmp_code === JMP_JAL)), (io.pc_i + 4.U) ,MuxLookup(io.aluop_i, 0.U, Array(
     ALU_ADD  -> (in1 + in2).asUInt(),
     ALU_SUB  -> (in1 - in2).asUInt(),
@@ -94,9 +115,9 @@ class Alu extends Module{
     ALU_XOR  -> (in1 ^ in2).asUInt(),
     ALU_OR   -> (in1 | in2).asUInt(),
     ALU_AND  -> (in1 & in2).asUInt()
-//    ALU_SLL  -> ((in1 << shamt)(63, 0)).asUInt(),
-//    ALU_SRL  -> (in1.asUInt() >> shamt).asUInt(),
-//    ALU_SRA  -> (in1.asSInt() >> shamt).asUInt()
+    ALU_SLL  -> ((in1 << shamt)(63, 0)).asUInt(),
+    ALU_SRL  -> (in1.asUInt() >> shamt).asUInt(),
+    ALU_SRA  -> (in1.asSInt() >> shamt).asUInt()
   )))
 
   io.jmp := MuxLookup(io.jmp_code, false.B, Array(

@@ -58,13 +58,6 @@ class Core extends Module{
   io.imem.wen := false.B
   io.imem.wmask := 0.U
 
-  io.dmem.raddr := 0.U
-  io.dmem.ren := false.B
-  io.dmem.waddr := 0.U
-  io.dmem.wdata := 0.U
-  io.dmem.wen := false.B
-  io.dmem.wmask := 0.U
-
   val decode = Module(new Decode)
 
   decode.io.in <> fetch.io.out
@@ -98,6 +91,12 @@ class Core extends Module{
   mem.io.is_ebreak_i := execute.io.is_ebreak_o
   mem.io.out.ready := true.B
 
+  mem.io.mem_rwaddr_i  := execute.io.ex_rwaddr_o
+  mem.io.mem_rvalid_i  := execute.io.ex_rvalid_o
+  mem.io.mem_wvalid_i  := execute.io.ex_wvalid_o
+  mem.io.mem_wdata_i   := execute.io.ex_wdata_o
+  mem.io.reg_mem_addr_i := RegNext(mem.io.dmem.req.bits.arwaddr)
+
   regfile.io.waddr := mem.io.waddr_o
   regfile.io.wen := mem.io.wen_o
   regfile.io.wdata := mem.io.wdata_o
@@ -107,10 +106,24 @@ class Core extends Module{
   io.commit_pc := RegNext(mem.io.out.bits.pc)
   io.commit := RegNext(mem.io.out.bits.valid)
 
+  io.dmem.raddr := mem.io.dmem.req.bits.arwaddr
+  io.dmem.ren := mem.io.dmem.req.bits.rvalid
+  io.dmem.waddr := mem.io.dmem.req.bits.arwaddr
+  io.dmem.wdata := mem.io.dmem.req.bits.wdata
+  io.dmem.wen := mem.io.dmem.req.bits.wvalid
+  io.dmem.wmask := mem.io.dmem.req.bits.wmask
+
+  mem.io.dmem.resp.bits.rdata := io.dmem.rdata
+  mem.io.dmem.resp.bits.rready := io.dmem.read_ok
+  mem.io.dmem.resp.bits.wready := io.dmem.write_ok
+
+  mem.io.dmem.req.ready ;= true.B
+  mem.io.dmem.resp.valid := true.B
   //bypass
   regfile.io.mem_rd_en   := mem.io.mem_rd_en
   regfile.io.mem_rd_addr := mem.io.mem_rd_addr
   regfile.io.mem_rd_data := mem.io.mem_rd_data
+
 
 //  io.is_break := RegNext(mem.io.is_ebreak_o)
 
