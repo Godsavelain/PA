@@ -3500,12 +3500,12 @@ VL_INLINE_OPT void VCore___024root___combo__TOP__4(VCore___024root* vlSelf) {
                                                 (0x38U 
                                                  & (vlSelf->Core__DOT__mem__DOT__reg_mem_addr 
                                                     << 3U)));
-    vlSelf->Core__DOT__mem__DOT__req_wait = (((IData)(vlSelf->Core__DOT__mem__DOT__is_load) 
-                                              & (~ (IData)(vlSelf->io_dmem_read_ok))) 
-                                             | (((3U 
+    vlSelf->Core__DOT__mem__DOT__req_wait = ((((IData)(vlSelf->Core__DOT__mem__DOT__is_load) 
+                                               & (~ (IData)(vlSelf->io_dmem_read_ok))) 
+                                              | ((3U 
                                                   == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code)) 
-                                                 & (~ (IData)(vlSelf->io_dmem_write_ok))) 
-                                                & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid)));
+                                                 & (~ (IData)(vlSelf->io_dmem_write_ok)))) 
+                                             & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid));
     vlSelf->Core__DOT__mem__DOT___ld_data_T_15 = ((3U 
                                                    == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
                                                    ? vlSelf->Core__DOT__mem__DOT__ld_data_raw
@@ -3563,10 +3563,10 @@ VL_INLINE_OPT void VCore___024root___combo__TOP__4(VCore___024root* vlSelf) {
     vlSelf->io_dmem_ren = ((~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)) 
                            & (((1U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code)) 
                                | (2U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code))) 
-                              & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid)));
+                              & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)));
     vlSelf->io_dmem_wen = ((~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)) 
                            & ((3U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code)) 
-                              & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid)));
+                              & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)));
     vlSelf->Core__DOT__mem_io_mem_rd_data = ((IData)(vlSelf->Core__DOT__mem__DOT__is_load)
                                               ? ((2U 
                                                   == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code))
