@@ -60,7 +60,8 @@ class InstFetch extends Module{
   val pc_base = Cat(pc(31, 2), Fill(2, 0.U))
   val npc_s = pc_base + 4.U
 
-  val stall = (!resp.bits.rvalid || !io.out.fire())
+  val imem_stall = !resp.bits.rvalid
+  val stall = (imem_stall || !io.out.fire())
   val npc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , npc_s)
   when(io.write_regs){
    pc := io.input_pc
@@ -71,8 +72,8 @@ class InstFetch extends Module{
   io.p_npc := RegNext(pc_base)
 
   io.out.bits.pc := resp.bits.old_pc
-  io.out.bits.inst := RegNext(resp.bits.rdata)
-  io.out.bits.inst_valid := RegNext(Mux(io.if_flush , false.B , resp.bits.rvalid))
+  io.out.bits.inst := RegNext(Mux(imem_stall , 0.U , resp.bits.rdata))
+  io.out.bits.inst_valid := RegNext(Mux((io.if_flush || imem_stall) , false.B , resp.bits.rvalid))
 
   req.bits.araddr  := pc_base
   req.bits.arvalid := true.B

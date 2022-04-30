@@ -83,9 +83,9 @@ class Decode extends Module{
       MRET    ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_MRET,  N, RS_X,         RS_X,        N, IMM_X    ),
       WFI     ->  List(Y, FU_ALU, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_X,     N, RS_X,         RS_X,        N, IMM_X    ),
       // RV64I
-      LWU     ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_LDU, MEM_WORD,  CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
-      LD      ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_LDU, MEM_DWORD, CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
-      SD      ->  List(Y, FU_MEM, ALU_X,    JMP_X,    MEM_ST,  MEM_DWORD, CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_S    ),
+      LWU     ->  List(Y, FU_MEM, ALU_ADD,    JMP_X,    MEM_LDU, MEM_WORD,  CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      LD      ->  List(Y, FU_MEM, ALU_ADD,    JMP_X,    MEM_LDU, MEM_DWORD, CSR_X,     N, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
+      SD      ->  List(Y, FU_MEM, ALU_ADD,    JMP_X,    MEM_ST,  MEM_DWORD, CSR_X,     N, RS_FROM_RF,   RS_FROM_RF,  N, IMM_S    ),
       ADDIW   ->  List(Y, FU_ALU, ALU_ADD,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
       SLLIW   ->  List(Y, FU_ALU, ALU_SLL,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),
       SRLIW   ->  List(Y, FU_ALU, ALU_SRL,  JMP_X,    MEM_X,   MEM_X,     CSR_X,     Y, RS_FROM_RF,   RS_FROM_IMM, Y, IMM_I    ),

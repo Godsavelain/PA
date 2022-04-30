@@ -32,7 +32,7 @@
 
 #define ASNI_FMT(str, fmt) fmt str ASNI_NONE
 
-long long int Memory[10000];
+long long unsigned int Memory[100000];
 
 bool has_end = false;
 bool has_error = false;
@@ -237,12 +237,13 @@ long long int read_mem(unsigned int addr){
     else{
         result = Memory[i];
     }
-    //printf("read %llu to address %u \n",result,addr);
+    //printf("read %llx to address %x \n",result,addr);
 
     return result;
 }
 
 void write_mem(unsigned int addr,long long unsigned int data, unsigned char write_mask){
+    printf("Addr %x Data %llx Mask: %u \n",addr ,data , write_mask);
     int offset = (addr - 0x80000000);
     int i = offset / 8;
     long long int old_data = Memory[i];
@@ -257,7 +258,8 @@ void write_mem(unsigned int addr,long long unsigned int data, unsigned char writ
         write_mask = write_mask/2;
     }
     Memory[i] = temp_data;
-    printf("write %llu to address %u \n",data,addr);
+    printf("write to Memory %d ",i);
+    printf("write %llx to address %x \n",data,addr);
 }
 
 long inst_load(char* filename){
@@ -324,21 +326,25 @@ void npc_step(){
 
     top->eval();
 
+    npc_addr = top->io_imem_raddr;
+    
+
     if(top->io_dmem_ren){
+        raddr = top->io_dmem_raddr;
         d_ren = true;
         d_read_data = read_mem(raddr);
     }
 
     if(top->io_dmem_wen){
         d_wen = true;
+        waddr = top->io_dmem_waddr;
         unsigned char temp_mask;      
         temp_mask = top->io_dmem_wmask;
-        write_mem(waddr, top->io_dmem_wdata , temp_mask);
+        long long unsigned int wdata = top->io_dmem_wdata;
+        // write_mem(waddr, wdata , temp_mask);
     }
 
-    npc_addr = top->io_imem_raddr;
-    raddr = top->io_dmem_raddr;
-    waddr = top->io_dmem_waddr;
+
     m_trace->dump(sim_time);
     sim_time++;
     top->clock = 0;
@@ -395,12 +401,6 @@ int main(int argc, char **argv, char **env){
     }
     long img_size = inst_load(argv[1]);
     printf("size:%ld\n",img_size);
-    // write_mem(0x80000000 , 0x0020811300100093 ,0xff);
-    // write_mem(0x80000008 , 0x0040821300308193 ,0xff);
-    // write_mem(0x80000010 , 0x0010007300518193 ,0xff);
-    // write_mem(0x80000000 , 0x0020811300100093 ,0xff);
-    // write_mem(0x80000008 , 0x00408213008000EF ,0xff);
-    // write_mem(0x80000010 , 0x0010007300518193 ,0xff);
 
     // diff_so_file = "riscv64-nemu-interpreter-so";
 

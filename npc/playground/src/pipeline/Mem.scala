@@ -41,7 +41,6 @@ class Mem extends Module{
     val mem_rvalid_i  = Input(Bool())
     val mem_wvalid_i  = Input(Bool())
     val mem_wdata_i   = Input(UInt(64.W))
-    val dmem_wait     = Output(Bool())
     val reg_mem_addr_i = Input(UInt(32.W))
 
     //for bypass
@@ -71,9 +70,13 @@ class Mem extends Module{
   }
 
   //Mem
+  val is_load  = (mem_reg_decodeop.mem_code === MEM_LD) || (mem_reg_decodeop.mem_code === MEM_LDU)
+  val is_store = (mem_reg_decodeop.mem_code === MEM_ST)
+
+  val req_wait = ((is_load && !resp.bits.rready ) || (is_store && !resp.bits.wready))
+  val stall = req_wait
+
   //pre MEM stage
-  val is_load  = (io.in.bits.mem_code === MEM_LD) || (io.in.bits.mem_code === MEM_LDU)
-  val is_store = (io.in.bits.mem_code === MEM_ST)
 
   val addr_offset = io.mem_rwaddr_i(2, 0)
   val reg_addr_offset = reg_mem_addr(2, 0)
@@ -96,10 +99,10 @@ class Mem extends Module{
   ))
 
   req.bits.arwaddr  := Cat(io.mem_rwaddr_i(31, 3), Fill(3, 0.U))
-  req.bits.rvalid   := io.mem_rvalid_i
+  req.bits.rvalid   := Mux(stall , false.B, io.mem_rvalid_i)
   req.bits.wdata    := (io.mem_wdata_i << (addr_offset << 3))(63, 0)
   req.bits.wmask    := mask & ((wmask << addr_offset)(7, 0))
-  req.bits.wvalid   := io.mem_wvalid_i
+  req.bits.wvalid   := Mux(stall , false.B, io.mem_wvalid_i)
 
   //In Mem stage
 //现阶段MEM之后不会产生阻塞，因此可以视为MEM段随时可以响应
@@ -136,23 +139,19 @@ class Mem extends Module{
 
   resp.ready     := true.B
 
-  val req_wait = ((is_load && !resp.bits.rready ) || (is_store && !resp.bits.wready))
-  io.dmem_wait  := req_wait
-  val stall = req_wait
-  req.valid    := !stall
-
   //out
   io.out.bits := RegNext(Mux(io.mem_flush_i ,0.U.asTypeOf(new DecodeOp()), mem_reg_decodeop))
   io.out.valid := true.B
   io.waddr_o := RegNext(waddr)
-  io.wen_o   := RegNext(wen)
-  io.wdata_o := Mux(is_load , load_data , RegNext(wdata))
+  io.wen_o   := RegNext(Mux(req_wait , false.B ,wen))
+  val final_wdata = Mux(is_load , load_data , wdata)
+  io.wdata_o := RegNext(final_wdata)
 
   //for bypass
   io.mem_rd_en   := mem_reg_decodeop.rd_en
   io.mem_rd_addr := mem_reg_decodeop.rd_addr
-  io.mem_rd_data := wdata
+  io.mem_rd_data := final_wdata
 
   io.in.ready := !stall
-
+  req.valid    := true.B
 }
