@@ -73,8 +73,8 @@ class Execute extends Module{
 
   //for mem
 
-  val is_load = (ex_reg_decodeop.mem_code === MEM_LD) || (ex_reg_decodeop.mem_code === MEM_LDU)
-  val is_store = (ex_reg_decodeop.mem_code === MEM_ST)
+  val is_load = ((ex_reg_decodeop.mem_code === MEM_LD) || (ex_reg_decodeop.mem_code === MEM_LDU)) && ex_reg_decodeop.valid
+  val is_store = (ex_reg_decodeop.mem_code === MEM_ST) && ex_reg_decodeop.valid
 
   io.ex_wdata_o := io.ex_rs2_i
   io.ex_rwaddr_o := alu.io.alu_out(31, 0)

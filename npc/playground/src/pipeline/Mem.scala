@@ -73,7 +73,7 @@ class Mem extends Module{
   val is_load  = ((mem_reg_decodeop.mem_code === MEM_LD) || (mem_reg_decodeop.mem_code === MEM_LDU))
   val is_store = (mem_reg_decodeop.mem_code === MEM_ST)
 
-  val req_wait = ((is_load && !resp.bits.rready ) || (is_store && !resp.bits.wready) && mem_reg_decodeop.valid)
+  val req_wait = (((is_load && !resp.bits.rready ) || (is_store && !resp.bits.wready)) && mem_reg_decodeop.valid)
   val stall = req_wait
 
   //pre MEM stage
@@ -99,10 +99,10 @@ class Mem extends Module{
   ))
 
   req.bits.arwaddr  := Cat(io.mem_rwaddr_i(31, 3), Fill(3, 0.U))
-  req.bits.rvalid   := Mux(stall , false.B, (io.mem_rvalid_i && mem_reg_decodeop.valid))
+  req.bits.rvalid   := Mux(stall , false.B, io.mem_rvalid_i )
   req.bits.wdata    := (io.mem_wdata_i << (addr_offset << 3))(63, 0)
   req.bits.wmask    := mask & ((wmask << addr_offset)(7, 0))
-  req.bits.wvalid   := Mux(stall , false.B, (io.mem_wvalid_i && mem_reg_decodeop.valid))
+  req.bits.wvalid   := Mux(stall , false.B, io.mem_wvalid_i )
 
   //In Mem stage
 //现阶段MEM之后不会产生阻塞，因此可以视为MEM段随时可以响应
