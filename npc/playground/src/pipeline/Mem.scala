@@ -143,7 +143,7 @@ class Mem extends Module{
   io.out.bits := RegNext(Mux(io.mem_flush_i ,0.U.asTypeOf(new DecodeOp()), mem_reg_decodeop))
   io.out.valid := true.B
   io.waddr_o := RegNext(waddr)
-  io.wen_o   := RegNext(Mux(req_wait , false.B ,(wen && mem_reg_decodeop.valid )))
+  io.wen_o   := RegNext(Mux((req_wait || mem_reg_decodeop.valid) , false.B ,wen))
   val final_wdata = Mux(is_load , load_data , wdata)
   io.wdata_o := RegNext(final_wdata)
 
