@@ -99,10 +99,10 @@ class Mem extends Module{
   ))
 
   req.bits.arwaddr  := Cat(io.mem_rwaddr_i(31, 3), Fill(3, 0.U))
-  req.bits.rvalid   := Mux(stall , false.B, io.mem_rvalid_i)
+  req.bits.rvalid   := Mux(stall , false.B, (io.mem_rvalid_i && mem_reg_decodeop.valid))
   req.bits.wdata    := (io.mem_wdata_i << (addr_offset << 3))(63, 0)
   req.bits.wmask    := mask & ((wmask << addr_offset)(7, 0))
-  req.bits.wvalid   := Mux(stall , false.B, io.mem_wvalid_i)
+  req.bits.wvalid   := Mux(stall , false.B, (io.mem_wvalid_i && mem_reg_decodeop.valid))
 
   //In Mem stage
 //现阶段MEM之后不会产生阻塞，因此可以视为MEM段随时可以响应
@@ -143,7 +143,7 @@ class Mem extends Module{
   io.out.bits := RegNext(Mux(io.mem_flush_i ,0.U.asTypeOf(new DecodeOp()), mem_reg_decodeop))
   io.out.valid := true.B
   io.waddr_o := RegNext(waddr)
-  io.wen_o   := RegNext(Mux(req_wait , false.B ,wen))
+  io.wen_o   := RegNext(Mux(req_wait , false.B ,(wen && mem_reg_decodeop.valid )))
   val final_wdata = Mux(is_load , load_data , wdata)
   io.wdata_o := RegNext(final_wdata)
 

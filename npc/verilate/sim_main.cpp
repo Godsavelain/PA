@@ -8,7 +8,12 @@
 #include <string.h>
 #include <verilated_vcd_c.h>
 #include <dlfcn.h>
+
+#include <iostream>
+#include <fstream>
 //Log
+
+std::ofstream fout;
 
 #define ASNI_FG_BLACK   "\33[1;30m"
 #define ASNI_FG_RED     "\33[1;31m"
@@ -238,6 +243,9 @@ long long int read_mem(unsigned int addr){
         result = Memory[i];
     }
     //printf("read %llx to address %x \n",result,addr);
+    char log[200];
+    sprintf(log, "read %llx to address %x \n", result,addr);
+    fout << log ;
 
     return result;
 }
@@ -258,7 +266,9 @@ void write_mem(unsigned int addr,long long unsigned int data, unsigned char writ
         write_mask = write_mask/2;
     }
     Memory[i] = temp_data;
-    printf("write %llx to address %x \n",data,addr);
+    char log[200];
+    sprintf(log, "write %llx to address %x \n", data,addr);
+    fout << log ;
 }
 
 long inst_load(char* filename){
@@ -351,7 +361,10 @@ void npc_step(){
     m_trace->dump(sim_time);
     sim_time++;
     if(top->io_commit ){
-        printf("commit pc %08x\n",top->io_commit_pc);
+        char log[200];
+        sprintf(log, "commit pc %08x\n", top->io_commit_pc);
+        fout << log ;
+        //printf("commit pc %08x\n",top->io_commit_pc);
         cpu.pc = top->io_commit_pc;
         cpu.gpr[ 0] = top->io_regs_out_0; 
         cpu.gpr[ 1] = top->io_regs_out_1; 
@@ -400,6 +413,8 @@ int main(int argc, char **argv, char **env){
     }
     long img_size = inst_load(argv[1]);
     printf("size:%ld\n",img_size);
+
+    fout.open("./log.txt");
 
     // diff_so_file = "riscv64-nemu-interpreter-so";
 
@@ -474,5 +489,8 @@ int main(int argc, char **argv, char **env){
     m_trace->close();
     delete top;
     delete contextp;
+
+    fout.close();
+
     return success;
 }
