@@ -40,6 +40,11 @@ bool has_error = false;
 VCore *top;
 VerilatedVcdC *m_trace;
 int npc_addr;
+int raddr;
+int waddr;
+bool d_ren;
+bool d_wen;
+long long unsigned int d_read_data;
 vluint64_t sim_time;
 
 //difftest
@@ -221,21 +226,23 @@ extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit eb
     printf("pc:%08x inst:%08x\n",pc_valie,instruction );
 }
 
-long long int read_mem(int addr){
+long long int read_mem(unsigned int addr){
     int offset = (addr - 0x80000000);
     int i = offset / 8;
     int j = offset % 8;
-    long long int result = 0;
+    long long unsigned int result = 0;
     if(j == 4){
         result = Memory[i]>>32;
     }
     else{
         result = Memory[i];
     }
+    //printf("read %llu to address %u \n",result,addr);
+
     return result;
 }
 
-void write_mem(int addr,long long int data, unsigned char write_mask){
+void write_mem(unsigned int addr,long long unsigned int data, unsigned char write_mask){
     int offset = (addr - 0x80000000);
     int i = offset / 8;
     long long int old_data = Memory[i];
@@ -250,6 +257,7 @@ void write_mem(int addr,long long int data, unsigned char write_mask){
         write_mask = write_mask/2;
     }
     Memory[i] = temp_data;
+    printf("write %llu to address %u \n",data,addr);
 }
 
 long inst_load(char* filename){
@@ -288,6 +296,7 @@ long inst_load(char* filename){
 
 void npc_step(){
     top->clock = 1;
+
     if(top->io_imem_ren){
         top->io_imem_rdata = read_mem(npc_addr);
         top->io_imem_read_ok = true;
@@ -295,8 +304,41 @@ void npc_step(){
     else{
         top->io_imem_read_ok = false;
     }
+
+    if(d_ren){
+        top->io_dmem_read_ok = true;
+        top->io_dmem_rdata = d_read_data;
+        d_ren = false;
+    }
+    else{
+        top->io_dmem_read_ok = false;
+    }
+
+    if(d_wen){
+        top->io_dmem_write_ok = true;
+        d_wen = false;
+    }
+    else{
+        top->io_dmem_write_ok = false;
+    }
+
     top->eval();
+
+    if(top->io_dmem_ren){
+        d_ren = true;
+        d_read_data = read_mem(raddr);
+    }
+
+    if(top->io_dmem_wen){
+        d_wen = true;
+        unsigned char temp_mask;      
+        temp_mask = top->io_dmem_wmask;
+        write_mem(waddr, top->io_dmem_wdata , temp_mask);
+    }
+
     npc_addr = top->io_imem_raddr;
+    raddr = top->io_dmem_raddr;
+    waddr = top->io_dmem_waddr;
     m_trace->dump(sim_time);
     sim_time++;
     top->clock = 0;
@@ -374,6 +416,9 @@ int main(int argc, char **argv, char **env){
     top->trace(m_trace, 20);
     m_trace->open("waveform.vcd");
 
+    d_ren = false;
+    d_wen = false;
+
     sim_time = 0;
     top->io_write_regs = 0;
     top->reset = 1;
@@ -408,6 +453,8 @@ int main(int argc, char **argv, char **env){
     m_trace->dump(sim_time);
     sim_time++;
     npc_addr = top->io_imem_raddr;
+    raddr = top->io_dmem_raddr;
+    waddr = top->io_dmem_waddr;
     // while (!Verilated::gotFinish()) { 
     while (!has_end) { 
     npc_step();
