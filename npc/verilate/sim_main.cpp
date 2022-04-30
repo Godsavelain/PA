@@ -258,7 +258,6 @@ void write_mem(unsigned int addr,long long unsigned int data, unsigned char writ
         write_mask = write_mask/2;
     }
     Memory[i] = temp_data;
-    printf("write to Memory %d ",i);
     printf("write %llx to address %x \n",data,addr);
 }
 
@@ -341,7 +340,7 @@ void npc_step(){
         unsigned char temp_mask;      
         temp_mask = top->io_dmem_wmask;
         long long unsigned int wdata = top->io_dmem_wdata;
-        // write_mem(waddr, wdata , temp_mask);
+        write_mem(waddr, wdata , temp_mask);
     }
 
 
