@@ -70,10 +70,10 @@ class Mem extends Module{
   }
 
   //Mem
-  val is_load  = (mem_reg_decodeop.mem_code === MEM_LD) || (mem_reg_decodeop.mem_code === MEM_LDU)
+  val is_load  = ((mem_reg_decodeop.mem_code === MEM_LD) || (mem_reg_decodeop.mem_code === MEM_LDU))
   val is_store = (mem_reg_decodeop.mem_code === MEM_ST)
 
-  val req_wait = ((is_load && !resp.bits.rready ) || (is_store && !resp.bits.wready))
+  val req_wait = ((is_load && !resp.bits.rready ) || (is_store && !resp.bits.wready) && mem_reg_decodeop.valid)
   val stall = req_wait
 
   //pre MEM stage
