@@ -137,3 +137,14 @@ class Alu extends Module{
   io.alu_out := out1
 }
 
+//class Mdu extends Module{
+//  val io = IO(new Bundle{
+//    val in1 = Input(UInt(64.W))
+//    val in2 = Input(UInt(64.W))
+//    val mduop_i = Input(UInt(4.W))
+//    val mdu_valid = Input(Bool())
+//    val mdu_ready = Output(Bool())
+//  })
+
+}
+
