@@ -115,13 +115,13 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__io_commit_REG;
         CData/*0:0*/ Core__DOT__fetch__DOT__io_out_bits_inst_valid_REG;
         CData/*0:0*/ Core__DOT__decode__DOT__inst_valid;
-        CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_295;
-        CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_409;
-        CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_469;
-        CData/*0:0*/ Core__DOT__decode__DOT___ctrl_T_601;
-        CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_661;
+        CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_356;
+        CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_494;
+        CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_566;
+        CData/*0:0*/ Core__DOT__decode__DOT___ctrl_T_793;
+        CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_865;
         CData/*2:0*/ Core__DOT__decode__DOT__c0_1;
-        CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_721;
+        CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_937;
         CData/*2:0*/ Core__DOT__decode__DOT__c0_2;
         CData/*0:0*/ Core__DOT__decode__DOT__c0_3;
         CData/*2:0*/ Core__DOT__decode__DOT__c0_4;
@@ -153,7 +153,6 @@ VL_MODULE(VCore___024root) {
         CData/*4:0*/ Core__DOT__mem__DOT__io_waddr_o_REG;
         CData/*0:0*/ Core__DOT__mem__DOT__io_wen_o_REG;
         IData/*31:0*/ Core__DOT__fetch_io_imem_resp_bits_old_pc_REG;
-        IData/*31:0*/ Core__DOT__mem_io_reg_mem_addr_i_REG;
         IData/*31:0*/ Core__DOT__io_commit_pc_REG;
         IData/*31:0*/ Core__DOT__fetch__DOT__pc;
         IData/*31:0*/ Core__DOT__fetch__DOT__npc_s;
@@ -175,9 +174,9 @@ VL_MODULE(VCore___024root) {
         IData/*31:0*/ Core__DOT__wb_dpi__DOT__inst1;
         IData/*31:0*/ Core__DOT__wb_dpi__DOT__pc1;
         QData/*63:0*/ Core__DOT__mem_io_mem_rd_data;
+        QData/*63:0*/ Core__DOT__decode__DOT__io_rs1_data_o_REG;
     };
     struct {
-        QData/*63:0*/ Core__DOT__decode__DOT__io_rs1_data_o_REG;
         QData/*63:0*/ Core__DOT__decode__DOT__io_rs2_data_o_REG;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_0;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_1;
