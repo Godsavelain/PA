@@ -107,9 +107,9 @@ class Core extends Module{
   io.commit_pc := RegNext(mem.io.out.bits.pc)
   io.commit := RegNext(mem.io.out.bits.valid)
 
-  io.dmem.raddr := mem.io.dmem.req.bits.arwaddr
+  io.dmem.raddr := Cat(mem.io.dmem.req.bits.arwaddr(31, 3), Fill(3, 0.U))
   io.dmem.ren := mem.io.dmem.req.bits.rvalid
-  io.dmem.waddr := mem.io.dmem.req.bits.arwaddr
+  io.dmem.waddr := Cat(mem.io.dmem.req.bits.arwaddr(31, 3), Fill(3, 0.U))
   io.dmem.wdata := mem.io.dmem.req.bits.wdata
   io.dmem.wen := mem.io.dmem.req.bits.wvalid
   io.dmem.wmask := mem.io.dmem.req.bits.wmask

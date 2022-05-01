@@ -98,7 +98,7 @@ class Mem extends Module{
     MEM_DWORD -> "b11111111".U(8.W)
   ))
 
-  req.bits.arwaddr  := Cat(io.mem_rwaddr_i(31, 3), Fill(3, 0.U))
+  req.bits.arwaddr  := io.mem_rwaddr_i
   req.bits.rvalid   := Mux(stall , false.B, io.mem_rvalid_i )
   req.bits.wdata    := (io.mem_wdata_i << (addr_offset << 3))(63, 0)
   req.bits.wmask    := mask & ((wmask << addr_offset)(7, 0))
