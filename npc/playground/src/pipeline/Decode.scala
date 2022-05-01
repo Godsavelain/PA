@@ -135,6 +135,7 @@ class Decode extends Module{
   io.out.bits.mem_code := mem_code
   io.out.bits.mem_size := mem_size
   io.out.bits.csr_code := csr_code
+  io.out.bits.mdu_code := mdu_code
   io.out.bits.w_type := w_type
   io.out.bits.rs1_src := rs1_src
   io.out.bits.rs2_src := rs2_src
