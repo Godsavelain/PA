@@ -71,7 +71,7 @@ trait Constant {
   val MDU_MUL     = 1.asUInt(4.W)
   val MDU_MULH    = 2.asUInt(4.W)
   val MDU_MULHSU  = 3.asUInt(4.W)
-  val MDU_MULU    = 4.asUInt(4.W)
+  val MDU_MULHU   = 4.asUInt(4.W)
   val MDU_DIV     = 5.asUInt(4.W)
   val MDU_DIVU    = 6.asUInt(4.W)
   val MDU_REM     = 7.asUInt(4.W)
