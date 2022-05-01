@@ -60,6 +60,13 @@ trait Constant {
   val MEM_WORD  = 2.asUInt(2.W)
   val MEM_DWORD = 3.asUInt(2.W)
 
+  val CSR_X     = 0.asUInt(3.W)
+  val CSR_RW    = 1.asUInt(3.W)
+  val CSR_RS    = 2.asUInt(3.W)
+  val CSR_RC    = 3.asUInt(3.W)
+  val CSR_ECALL = 4.asUInt(3.W)
+  val CSR_MRET  = 5.asUInt(3.W)
+
   val MDU_X       = 0.asUInt(4.W)
   val MDU_MUL     = 1.asUInt(4.W)
   val MDU_MULH    = 2.asUInt(4.W)
@@ -74,13 +81,6 @@ trait Constant {
   val MDU_DIVUW   = 11.asUInt(4.W)
   val MDU_REMW    = 12.asUInt(4.W)
   val MDU_REMUW   = 13.asUInt(4.W)
-
-  val CSR_X     = 0.asUInt(3.W)
-  val CSR_RW    = 1.asUInt(3.W)
-  val CSR_RS    = 2.asUInt(3.W)
-  val CSR_RC    = 3.asUInt(3.W)
-  val CSR_ECALL = 4.asUInt(3.W)
-  val CSR_MRET  = 5.asUInt(3.W)
 }
 
 object Constant extends Constant { }
