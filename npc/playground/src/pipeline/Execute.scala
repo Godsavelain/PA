@@ -19,7 +19,8 @@ class Execute extends Module{
     val ex_rwaddr_o  = Output(UInt(32.W))
     val ex_rvalid_o  = Output(Bool())
     val ex_wvalid_o  = Output(Bool())
-    val ex_wdata_o  = Output(UInt(64.W))
+    val ex_wdata_o   = Output(UInt(64.W))
+    val ex_wsize_o   = Output(UInt(2.W))
 
     //for bypass
     val ex_rd_en = Output(Bool())
@@ -76,10 +77,11 @@ class Execute extends Module{
   val is_load = ((ex_reg_decodeop.mem_code === MEM_LD) || (ex_reg_decodeop.mem_code === MEM_LDU)) && ex_reg_decodeop.valid
   val is_store = (ex_reg_decodeop.mem_code === MEM_ST) && ex_reg_decodeop.valid
 
-  io.ex_wdata_o := io.ex_rs2_i
+  io.ex_wdata_o  := io.ex_rs2_i
   io.ex_rwaddr_o := alu.io.alu_out(31, 0)
   io.ex_rvalid_o := is_load
   io.ex_wvalid_o := is_store
+  io.ex_wsize_o  := io.mem_size
 
   //for bypass
   io.ex_rd_en   := ex_reg_decodeop.rd_en

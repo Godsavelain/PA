@@ -95,6 +95,7 @@ class Core extends Module{
   mem.io.mem_rvalid_i  := execute.io.ex_rvalid_o
   mem.io.mem_wvalid_i  := execute.io.ex_wvalid_o
   mem.io.mem_wdata_i   := execute.io.ex_wdata_o
+  mem.io.mem_wsize_i   := execute.io.ex_wsize_o
 //  mem.io.reg_mem_addr_i := RegNext(mem.io.dmem.req.bits.arwaddr)
   mem.io.reg_mem_addr_i := mem.io.dmem.req.bits.arwaddr
 

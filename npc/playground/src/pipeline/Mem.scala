@@ -41,6 +41,7 @@ class Mem extends Module{
     val mem_rvalid_i  = Input(Bool())
     val mem_wvalid_i  = Input(Bool())
     val mem_wdata_i   = Input(UInt(64.W))
+    val mem_wsize_i   = Input(UInt(2.W))
     val reg_mem_addr_i = Input(UInt(32.W))
 
     //for bypass
@@ -91,7 +92,7 @@ class Mem extends Module{
     "b110".U -> "b11000000".U(8.W),
     "b111".U -> "b10000000".U(8.W)
   ))
-  val wmask = MuxLookup(mem_reg_decodeop.mem_size, 0.U, Array(
+  val wmask = MuxLookup(io.mem_wsize_i, 0.U, Array(
     MEM_BYTE  -> "b00000001".U(8.W),
     MEM_HALF  -> "b00000011".U(8.W),
     MEM_WORD  -> "b00001111".U(8.W),
@@ -143,7 +144,8 @@ class Mem extends Module{
   io.out.bits := RegNext(Mux(io.mem_flush_i ,0.U.asTypeOf(new DecodeOp()), mem_reg_decodeop))
   io.out.valid := true.B
   io.waddr_o := RegNext(waddr)
-  io.wen_o   := RegNext(Mux((req_wait || !mem_reg_decodeop.valid) , false.B ,wen))
+//  io.wen_o   := RegNext(Mux((req_wait || !mem_reg_decodeop.valid) , false.B ,wen))
+  io.wen_o   := RegNext(Mux(req_wait , false.B ,wen))
   val final_wdata = Mux(is_load , load_data , wdata)
   io.wdata_o := RegNext(final_wdata)
 

@@ -111,18 +111,18 @@ VL_MODULE(VCore___024root) {
     // LOCAL SIGNALS
     // Anonymous structures to workaround compiler member-count bugs
     struct {
+        CData/*0:0*/ Core__DOT__decode_io_ren2;
         CData/*0:0*/ Core__DOT__execute_io_jmp_packet_o_mis;
         CData/*0:0*/ Core__DOT__io_commit_REG;
         CData/*0:0*/ Core__DOT__fetch__DOT__io_out_bits_inst_valid_REG;
         CData/*0:0*/ Core__DOT__decode__DOT__inst_valid;
         CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_356;
-        CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_494;
+        CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_505;
         CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_566;
         CData/*0:0*/ Core__DOT__decode__DOT___ctrl_T_793;
         CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_865;
         CData/*2:0*/ Core__DOT__decode__DOT__c0_1;
         CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_937;
-        CData/*2:0*/ Core__DOT__decode__DOT__c0_2;
         CData/*0:0*/ Core__DOT__decode__DOT__c0_3;
         CData/*2:0*/ Core__DOT__decode__DOT__c0_4;
         CData/*0:0*/ Core__DOT__decode__DOT__io_is_ebreak_REG;
