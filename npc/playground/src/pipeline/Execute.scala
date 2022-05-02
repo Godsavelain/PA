@@ -102,8 +102,8 @@ class Alu extends Module{
 
   val out0 = Wire(UInt(64.W))
   val out1 = Wire(UInt(64.W))
-  val in1 = io.in1
-  val in2 = io.in2
+  val in1 = Mux(io.wtype_i, Zext32_64(io.in1(31, 0)), io.in1)
+  val in2 = Mux(io.wtype_i, Zext32_64(io.in2(31, 0)), io.in2)
 
   val shamt = Mux(io.wtype_i, in2(4, 0).asUInt(), in2(5, 0))
 
@@ -137,13 +137,103 @@ class Alu extends Module{
   io.alu_out := out1
 }
 
-//class Mdu extends Module{
-//  val io = IO(new Bundle{
-//    val in1 = Input(UInt(64.W))
-//    val in2 = Input(UInt(64.W))
-//    val mduop_i = Input(UInt(4.W))
-//    val mdu_valid = Input(Bool())
-//    val mdu_ready = Output(Bool())
-//  })
-//}
+class Mdu extends Module{
+  val io = IO(new Bundle{
+    val in1 = Input(UInt(64.W))
+    val in2 = Input(UInt(64.W))
+    val mduop_i = Input(UInt(4.W))
+    val mdu_valid = Input(Bool())
+    val mdu_ready = Output(Bool())
+  })
 
+  //mul   div   divu
+  val s_idle :: s_wait_m :: s_wait_d :: s_wait_du:: Nil = Enum(4)
+  val state = RegInit(s_idle)
+  val reg_mduop = RegInit(0.U(4.W))
+  val is_mul = Wire(Bool())
+  val is_div = Wire(Bool())
+  val is_divu = Wire(Bool())
+  val in1_sign = Wire(Bool())
+  val in2_sign = Wire(Bool())
+
+  is_div := (reg_mduop == MDU_DIV) || (reg_mduop == MDU_REM) || (reg_mduop == MDU_DIVW) || (reg_mduop == MDU_REMW)
+
+  is_divu := (reg_mduop == MDU_DIVU) || (reg_mduop == MDU_REMU) || (reg_mduop == MDU_DIVUW) || (reg_mduop == MDU_REMUW)
+
+  is_mul := !(is_div || is_divu || (reg_mduop == MDU_X))
+
+  in1_sign := Mux(((reg_mduop == MDU_MUL) || (reg_mduop == MDU_MULH) || (reg_mduop == MDU_MULHSU)) , io.in1(63) ,0.B)
+
+  in2_sign := Mux(((reg_mduop == MDU_MUL) || (reg_mduop == MDU_MULH) ) , io.in2(63) ,0.B)
+
+  switch(state){
+    is(s_idle){
+      when(io.mdu_valid){
+        reg_mduop := io.mduop_i
+      }
+    }
+  }
+
+}
+
+class Mul extends Module{
+  val io = IO(new Bundle{
+    val in1 = Input(UInt(64.W))
+    val in2 = Input(UInt(64.W))
+    val in1_sign = Input(Bool())
+    val in2_sign = Input(Bool())
+    val out = Output(UInt(64.W))
+    val mul_valid = Input(Bool())
+    val mul_ready = Output(Bool())
+  })
+
+  val s_idle :: s_1 :: s_2 :: s_3:: Nil = Enum(4)
+  val state = RegInit(s_idle)
+  val reg_in1 = RegInit(0.U(64.W))
+  val reg_in2 = RegInit(0.U(64.W))
+  val reg_in1_sign = RegInit(0.B))
+  val reg_in2_sign = RegInit(0.B)
+  val ready_o = WireDefault(false.B)
+  val out_o = WireDefault(0.U(64.W))
+  io.mul_ready := ready_o
+  io.out := out_o
+
+  switch(state){
+    is(s_idle){
+      when(io.mul_valid){
+        state := s_1
+        ready_o := false.B
+        reg_in1 := io.in1
+        reg_in2 := io.in2
+        reg_in1_sign := io.in1_sign
+        reg_in2_sign := io.in2_sign
+      }
+    }
+    is(s_1){
+      state := s_2
+      ready_o := false.B
+    }
+    is(s_2){
+      state := s_2
+      ready_o := false.B
+    }
+    is(s_3){
+      state := s_idle
+      ready_o := true.B
+    }
+  }
+
+}
+
+class Div extends Module{
+  val io = IO(new Bundle{
+    val in1 = Input(UInt(64.W))
+    val in2 = Input(UInt(64.W))
+    val out_div = Output(UInt(64.W))
+    val out_rem = Output(UInt(64.W))
+    val is_signed = Input(Bool())
+    val div_valid = Input(Bool())
+    val div_ready = Output(Bool())
+  })
+
+}
