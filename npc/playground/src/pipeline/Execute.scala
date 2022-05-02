@@ -102,8 +102,10 @@ class Alu extends Module{
 
   val out0 = Wire(UInt(64.W))
   val out1 = Wire(UInt(64.W))
-  val in1 = Mux(io.wtype_i, Zext32_64(io.in1(31, 0)), io.in1)
-  val in2 = Mux(io.wtype_i, Zext32_64(io.in2(31, 0)), io.in2)
+  val in1 = io.in1
+  val in2 = io.in2
+//  val in1 = Mux(io.wtype_i, Zext32_64(io.in1(31, 0)), io.in1)
+//  val in2 = Mux(io.wtype_i, Zext32_64(io.in2(31, 0)), io.in2)
 
   val shamt = Mux(io.wtype_i, in2(4, 0).asUInt(), in2(5, 0))
 
@@ -116,7 +118,7 @@ class Alu extends Module{
     ALU_OR   -> (in1 | in2).asUInt(),
     ALU_AND  -> (in1 & in2).asUInt(),
     ALU_SLL  -> ((in1 << shamt)(63, 0)).asUInt(),
-    ALU_SRL  -> (in1.asUInt() >> shamt).asUInt(),
+    ALU_SRL  -> Mux(io.wtype_i , (Zext32_64(in1(31, 0)).asUInt() >> shamt).asUInt() , (in1.asUInt() >> shamt).asUInt()),
     ALU_SRA  -> (in1.asSInt() >> shamt).asUInt()
   )))
 
