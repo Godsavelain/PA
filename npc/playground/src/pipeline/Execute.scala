@@ -156,15 +156,15 @@ class Mdu extends Module{
   val in1_sign = Wire(Bool())
   val in2_sign = Wire(Bool())
 
-  is_div := (reg_mduop == MDU_DIV) || (reg_mduop == MDU_REM) || (reg_mduop == MDU_DIVW) || (reg_mduop == MDU_REMW)
+  is_div := (reg_mduop === MDU_DIV) || (reg_mduop === MDU_REM) || (reg_mduop === MDU_DIVW) || (reg_mduop === MDU_REMW)
 
-  is_divu := (reg_mduop == MDU_DIVU) || (reg_mduop == MDU_REMU) || (reg_mduop == MDU_DIVUW) || (reg_mduop == MDU_REMUW)
+  is_divu := (reg_mduop === MDU_DIVU) || (reg_mduop === MDU_REMU) || (reg_mduop === MDU_DIVUW) || (reg_mduop === MDU_REMUW)
 
-  is_mul := !(is_div || is_divu || (reg_mduop == MDU_X))
+  is_mul := !(is_div || is_divu || (reg_mduop === MDU_X))
 
-  in1_sign := Mux(((reg_mduop == MDU_MUL) || (reg_mduop == MDU_MULH) || (reg_mduop == MDU_MULHSU)) , io.in1(63) ,0.B)
+  in1_sign := Mux(((reg_mduop === MDU_MUL) || (reg_mduop === MDU_MULH) || (reg_mduop === MDU_MULHSU)) , io.in1(63) ,0.B)
 
-  in2_sign := Mux(((reg_mduop == MDU_MUL) || (reg_mduop == MDU_MULH) ) , io.in2(63) ,0.B)
+  in2_sign := Mux(((reg_mduop === MDU_MUL) || (reg_mduop === MDU_MULH) ) , io.in2(63) ,0.B)
 
   switch(state){
     is(s_idle){
