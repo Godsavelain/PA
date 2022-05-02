@@ -145,7 +145,7 @@ class Decode extends Module{
   io.out.bits.rd_addr := inst(11, 7)
 
   io.ren1 := (rs1_src === RS_FROM_RF)
-  io.ren2 := (rs2_src === RS_FROM_RF)
+  io.ren2 := ((rs2_src === RS_FROM_RF) || (mem_code === MEM_ST))
   io.raddr1 := inst(19, 15)
   io.raddr2 := inst(24, 20)
   io.is_ebreak := Mux(io.id_flush , false.B ,Mux(inst_valid, RegNext(inst === EBREAK), false.B ))

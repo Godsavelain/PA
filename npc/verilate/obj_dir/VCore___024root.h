@@ -215,8 +215,6 @@ VL_MODULE(VCore___024root) {
         QData/*63:0*/ Core__DOT__execute__DOT__alu_io_in1;
         QData/*63:0*/ Core__DOT__execute__DOT__alu_io_in2;
         QData/*63:0*/ Core__DOT__execute__DOT__alu_io_alu_out;
-        QData/*63:0*/ Core__DOT__execute__DOT__alu__DOT__in2;
-        QData/*63:0*/ Core__DOT__execute__DOT__alu__DOT___out0_T_9;
         QData/*63:0*/ Core__DOT__execute__DOT__alu__DOT__out0;
         QData/*63:0*/ Core__DOT__mem__DOT__wdata;
         QData/*63:0*/ Core__DOT__mem__DOT__ld_data_raw;
