@@ -128,7 +128,7 @@ class Decode extends Module{
   val (valid : Bool)  :: fu_code :: alu_code :: jmp_code       :: mem_code :: mem_size :: csr_code :: mdu_code :: c0 = ctrl
   val (w_type : Bool) :: rs1_src :: rs2_src  :: (rd_en : Bool) :: imm_type :: Nil                        = c0
 
-  val stall = !io.out.fire() || decode_rf_stall_i
+  val stall = !io.out.fire() || io.decode_rf_stall_i
 
   io.out.bits.pc      := pc
   io.out.bits.inst    := inst

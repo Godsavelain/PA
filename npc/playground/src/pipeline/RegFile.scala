@@ -40,7 +40,7 @@ class RegFile extends Module{
 
   val rf = RegInit(VecInit(Seq.fill(32)(0.U(64.W))))
 
-  io.rf_stall := ( (ex_is_load_i && (ex_rs1_hazard || ex_rs2_hazard)) || (mem_is_load_i && (mem_rs1_hazard || mem_rs2_hazard)) )
+  io.rf_stall := ( (io.ex_is_load_i && (ex_rs1_hazard || ex_rs2_hazard)) || (io.mem_is_load_i && (mem_rs1_hazard || mem_rs2_hazard)) )
   io.rdata1 := Mux((io.raddr1 =/= 0.U), Mux(ex_rs1_hazard , io.ex_rd_data ,Mux(mem_rs1_hazard ,io.mem_rd_data, Mux(wb_rs1_hazard,io.wdata ,rf(io.raddr1)))), 0.U)
   io.rdata2 := Mux((io.raddr2 =/= 0.U), Mux(ex_rs2_hazard , io.ex_rd_data ,Mux(mem_rs2_hazard ,io.mem_rd_data, Mux(wb_rs2_hazard,io.wdata ,rf(io.raddr2)))), 0.U)
   when(io.write_regs){
