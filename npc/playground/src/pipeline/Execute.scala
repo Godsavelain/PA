@@ -191,7 +191,7 @@ class Mul extends Module{
   val state = RegInit(s_idle)
   val reg_in1 = RegInit(0.U(64.W))
   val reg_in2 = RegInit(0.U(64.W))
-  val reg_in1_sign = RegInit(0.B))
+  val reg_in1_sign = RegInit(0.B)
   val reg_in2_sign = RegInit(0.B)
   val ready_o = WireDefault(false.B)
   val out_o = WireDefault(0.U(64.W))
