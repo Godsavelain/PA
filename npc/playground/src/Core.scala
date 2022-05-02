@@ -80,12 +80,17 @@ class Core extends Module{
   execute.io.p_npc_i := decode.io.p_npc_o
 
   fetch.io.jmp_packet_i := execute.io.jmp_packet_o
-  //bypass
-  regfile.io.ex_rd_en   := execute.io.ex_rd_en
-  regfile.io.ex_rd_addr := execute.io.ex_rd_addr
-  regfile.io.ex_rd_data := execute.io.ex_data_o
 
   val mem = Module(new Mem)
+
+  //bypass
+  regfile.io.ex_rd_en          := execute.io.ex_rd_en
+  regfile.io.ex_rd_addr        := execute.io.ex_rd_addr
+  regfile.io.ex_rd_data        := execute.io.ex_data_o
+  regfile.io.ex_is_load_i      := execute.io.ex_is_load
+  regfile.io.mem_is_load_i     := mem.io.mem_is_load
+  decode.io.decode_rf_stall_i  := regfile.io.rf_stall
+
   mem.io.in <> execute.io.out
   mem.io.mem_data_i := execute.io.ex_data_o
   mem.io.is_ebreak_i := execute.io.is_ebreak_o

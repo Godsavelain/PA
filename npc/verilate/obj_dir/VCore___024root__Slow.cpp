@@ -3092,14 +3092,14 @@ void VCore___024root___settle__TOP__3(VCore___024root* vlSelf) {
                                                        & (IData)(vlSelf->Core__DOT__execute__DOT__alu_io_alu_out)))
                                                       ? 0xfeU
                                                       : 0xffU))))))) 
-                                        & (((3U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                        & (((3U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                              ? 0xffU
                                              : ((2U 
-                                                 == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                                 == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                                  ? 0xfU
                                                  : 
                                                 ((1U 
-                                                  == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                                  == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                                   ? 3U
                                                   : 1U))) 
                                            << (7U & (IData)(vlSelf->Core__DOT__execute__DOT__alu_io_alu_out)))));

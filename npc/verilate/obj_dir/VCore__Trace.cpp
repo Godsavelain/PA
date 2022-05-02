@@ -352,15 +352,15 @@ void VCore___024root__traceChgSub0(VCore___024root* vlSelf, VerilatedVcd* tracep
                                                            ? 0xfeU
                                                            : 0xffU))))))) 
                                                    & (((3U 
-                                                        == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                                        == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                                         ? 0xffU
                                                         : 
                                                        ((2U 
-                                                         == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                                         == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                                          ? 0xfU
                                                          : 
                                                         ((1U 
-                                                          == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                                          == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                                           ? 3U
                                                           : 1U))) 
                                                       << 
@@ -568,11 +568,11 @@ void VCore___024root__traceChgSub0(VCore___024root* vlSelf, VerilatedVcd* tracep
                                                       & (IData)(vlSelf->Core__DOT__execute__DOT__alu_io_alu_out)))
                                                      ? 0xfeU
                                                      : 0xffU)))))))),8);
-            tracep->chgCData(oldp+193,(((3U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+            tracep->chgCData(oldp+193,(((3U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                          ? 0xffU : 
-                                        ((2U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                        ((2U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                           ? 0xfU : 
-                                         ((1U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                         ((1U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                            ? 3U : 1U)))),8);
             tracep->chgIData(oldp+194,(vlSelf->Core__DOT__wb_dpi__DOT__inst1),32);
             tracep->chgIData(oldp+195,(vlSelf->Core__DOT__wb_dpi__DOT__pc1),32);

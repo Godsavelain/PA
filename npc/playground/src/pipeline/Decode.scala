@@ -21,6 +21,8 @@ class Decode extends Module{
     val rs2_data_o = Output(UInt(64.W))
     val p_npc_i = Input(UInt(32.W))
     val p_npc_o = Output(UInt(32.W))
+
+    val decode_rf_stall_i = Input(Bool())
   })
   val pc    = RegInit(0.U(32.W))
   val inst  = RegInit(0.U(32.W))
@@ -126,9 +128,11 @@ class Decode extends Module{
   val (valid : Bool)  :: fu_code :: alu_code :: jmp_code       :: mem_code :: mem_size :: csr_code :: mdu_code :: c0 = ctrl
   val (w_type : Bool) :: rs1_src :: rs2_src  :: (rd_en : Bool) :: imm_type :: Nil                        = c0
 
+  val stall = !io.out.fire() || decode_rf_stall_i
+
   io.out.bits.pc      := pc
   io.out.bits.inst    := inst
-  io.out.bits.valid   := Mux(io.id_flush , false.B ,inst_valid)
+  io.out.bits.valid   := Mux((io.id_flush || stall) , false.B ,inst_valid)
   io.out.bits.fu_code := fu_code
   io.out.bits.alu_code := alu_code
   io.out.bits.jmp_code := jmp_code
@@ -170,7 +174,6 @@ class Decode extends Module{
     IMM_CSR -> imm_csr
   ))
 
-  val stall = !io.out.fire()
   io.in.ready := !stall
   io.out.valid := true.B
 }

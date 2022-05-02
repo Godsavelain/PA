@@ -48,6 +48,7 @@ class Mem extends Module{
     val mem_rd_en = Output(Bool())
     val mem_rd_addr = Output(UInt(32.W))
     val mem_rd_data = Output(UInt(64.W))
+    val mem_is_load = Output(Bool())
   })
 
   val req = io.dmem.req
@@ -153,6 +154,7 @@ class Mem extends Module{
   io.mem_rd_en   := mem_reg_decodeop.rd_en
   io.mem_rd_addr := mem_reg_decodeop.rd_addr
   io.mem_rd_data := final_wdata
+  io.mem_is_load := ((mem_reg_decodeop.mem_code === MEM_LD) || (mem_reg_decodeop.mem_code === MEM_LDU))
 
   io.in.ready := !stall
   req.valid    := true.B

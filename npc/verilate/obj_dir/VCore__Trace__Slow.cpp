@@ -364,6 +364,7 @@ void VCore___024root__traceInitSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->declBit(c+113,"Core execute_io_ex_rvalid_o", false,-1);
         tracep->declBit(c+114,"Core execute_io_ex_wvalid_o", false,-1);
         tracep->declQuad(c+28,"Core execute_io_ex_wdata_o", false,-1, 63,0);
+        tracep->declBus(c+109,"Core execute_io_ex_wsize_o", false,-1, 1,0);
         tracep->declBit(c+99,"Core execute_io_ex_rd_en", false,-1);
         tracep->declBus(c+100,"Core execute_io_ex_rd_addr", false,-1, 31,0);
         tracep->declBus(c+30,"Core execute_io_p_npc_i", false,-1, 31,0);
@@ -400,6 +401,7 @@ void VCore___024root__traceInitSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->declBit(c+113,"Core mem_io_mem_rvalid_i", false,-1);
         tracep->declBit(c+114,"Core mem_io_mem_wvalid_i", false,-1);
         tracep->declQuad(c+28,"Core mem_io_mem_wdata_i", false,-1, 63,0);
+        tracep->declBus(c+109,"Core mem_io_mem_wsize_i", false,-1, 1,0);
         tracep->declBus(c+112,"Core mem_io_reg_mem_addr_i", false,-1, 31,0);
         tracep->declBit(c+103,"Core mem_io_mem_rd_en", false,-1);
         tracep->declBus(c+104,"Core mem_io_mem_rd_addr", false,-1, 31,0);
@@ -658,6 +660,7 @@ void VCore___024root__traceInitSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->declBit(c+113,"Core execute io_ex_rvalid_o", false,-1);
         tracep->declBit(c+114,"Core execute io_ex_wvalid_o", false,-1);
         tracep->declQuad(c+28,"Core execute io_ex_wdata_o", false,-1, 63,0);
+        tracep->declBus(c+109,"Core execute io_ex_wsize_o", false,-1, 1,0);
         tracep->declBit(c+99,"Core execute io_ex_rd_en", false,-1);
         tracep->declBus(c+100,"Core execute io_ex_rd_addr", false,-1, 31,0);
         tracep->declBus(c+30,"Core execute io_p_npc_i", false,-1, 31,0);
@@ -737,6 +740,7 @@ void VCore___024root__traceInitSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->declBit(c+113,"Core mem io_mem_rvalid_i", false,-1);
         tracep->declBit(c+114,"Core mem io_mem_wvalid_i", false,-1);
         tracep->declQuad(c+28,"Core mem io_mem_wdata_i", false,-1, 63,0);
+        tracep->declBus(c+109,"Core mem io_mem_wsize_i", false,-1, 1,0);
         tracep->declBus(c+112,"Core mem io_reg_mem_addr_i", false,-1, 31,0);
         tracep->declBit(c+103,"Core mem io_mem_rd_en", false,-1);
         tracep->declBus(c+104,"Core mem io_mem_rd_addr", false,-1, 31,0);
@@ -1130,15 +1134,15 @@ void VCore___024root__traceFullSub0(VCore___024root* vlSelf, VerilatedVcd* trace
                                                         ? 0xfeU
                                                         : 0xffU))))))) 
                                                 & (((3U 
-                                                     == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                                     == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                                      ? 0xffU
                                                      : 
                                                     ((2U 
-                                                      == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                                      == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                                       ? 0xfU
                                                       : 
                                                      ((1U 
-                                                       == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                                       == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                                        ? 3U
                                                        : 1U))) 
                                                    << 
@@ -1340,13 +1344,13 @@ void VCore___024root__traceFullSub0(VCore___024root* vlSelf, VerilatedVcd* trace
                                                         & (IData)(vlSelf->Core__DOT__execute__DOT__alu_io_alu_out)))
                                                        ? 0xfeU
                                                        : 0xffU)))))))),8);
-        tracep->fullCData(oldp+194,(((3U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+        tracep->fullCData(oldp+194,(((3U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                       ? 0xffU : ((2U 
-                                                  == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                                  == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                                   ? 0xfU
                                                   : 
                                                  ((1U 
-                                                   == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size))
+                                                   == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_size))
                                                    ? 3U
                                                    : 1U)))),8);
         tracep->fullIData(oldp+195,(vlSelf->Core__DOT__wb_dpi__DOT__inst1),32);
