@@ -81,7 +81,7 @@ class Execute extends Module{
   io.ex_rwaddr_o := alu.io.alu_out(31, 0)
   io.ex_rvalid_o := is_load
   io.ex_wvalid_o := is_store
-  io.ex_wsize_o  := io.mem_size
+  io.ex_wsize_o  := ex_reg_decodeop.mem_size
 
   //for bypass
   io.ex_rd_en   := ex_reg_decodeop.rd_en
