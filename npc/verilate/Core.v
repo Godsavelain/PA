@@ -869,12 +869,12 @@ module RegFile(
   output [63:0] io_regs_30,
   output [63:0] io_regs_31,
   input         io_ex_rd_en,
-  input  [31:0] io_ex_rd_addr,
+  input  [4:0]  io_ex_rd_addr,
   input  [63:0] io_ex_rd_data,
   input         io_ex_is_load_i,
   input         io_mem_is_load_i,
   input         io_mem_rd_en,
-  input  [31:0] io_mem_rd_addr,
+  input  [4:0]  io_mem_rd_addr,
   input  [63:0] io_mem_rd_data,
   output        io_rf_stall,
   input  [63:0] io_regs_in_0,
@@ -945,12 +945,10 @@ module RegFile(
   reg [63:0] _RAND_30;
   reg [63:0] _RAND_31;
 `endif // RANDOMIZE_REG_INIT
-  wire [31:0] _GEN_160 = {{27'd0}, io_raddr1}; // @[RegFile.scala 34:53]
-  wire  ex_rs1_hazard = io_ex_rd_en & io_ex_rd_addr == _GEN_160 & io_ren1; // @[RegFile.scala 34:68]
-  wire [31:0] _GEN_161 = {{27'd0}, io_raddr2}; // @[RegFile.scala 35:53]
-  wire  ex_rs2_hazard = io_ex_rd_en & io_ex_rd_addr == _GEN_161 & io_ren2; // @[RegFile.scala 35:68]
-  wire  mem_rs1_hazard = io_mem_rd_en & io_mem_rd_addr == _GEN_160 & io_ren1; // @[RegFile.scala 36:71]
-  wire  mem_rs2_hazard = io_mem_rd_en & io_mem_rd_addr == _GEN_161 & io_ren2; // @[RegFile.scala 37:71]
+  wire  ex_rs1_hazard = io_ex_rd_en & io_ex_rd_addr == io_raddr1 & io_ren1; // @[RegFile.scala 34:68]
+  wire  ex_rs2_hazard = io_ex_rd_en & io_ex_rd_addr == io_raddr2 & io_ren2; // @[RegFile.scala 35:68]
+  wire  mem_rs1_hazard = io_mem_rd_en & io_mem_rd_addr == io_raddr1 & io_ren1; // @[RegFile.scala 36:71]
+  wire  mem_rs2_hazard = io_mem_rd_en & io_mem_rd_addr == io_raddr2 & io_ren2; // @[RegFile.scala 37:71]
   wire  wb_rs1_hazard = io_wen & io_waddr == io_raddr1 & io_ren1; // @[RegFile.scala 38:58]
   wire  wb_rs2_hazard = io_wen & io_waddr == io_raddr2 & io_ren2; // @[RegFile.scala 39:58]
   reg [63:0] rf_0; // @[RegFile.scala 41:19]
@@ -1582,7 +1580,7 @@ module Execute(
   output [63:0] io_ex_wdata_o,
   output [1:0]  io_ex_wsize_o,
   output        io_ex_rd_en,
-  output [31:0] io_ex_rd_addr,
+  output [4:0]  io_ex_rd_addr,
   output        io_ex_is_load,
   input  [31:0] io_p_npc_i,
   output [31:0] io_jmp_packet_o_jmp_npc,
@@ -1672,8 +1670,8 @@ module Execute(
   assign io_ex_wvalid_o = ex_reg_decodeop_mem_code == 2'h3 & ex_reg_decodeop_valid; // @[Execute.scala 79:56]
   assign io_ex_wdata_o = io_ex_rs2_i; // @[Execute.scala 81:18]
   assign io_ex_wsize_o = ex_reg_decodeop_mem_size; // @[Execute.scala 85:18]
-  assign io_ex_rd_en = ex_reg_decodeop_valid ? 1'h0 : ex_reg_decodeop_rd_en; // @[Execute.scala 88:23]
-  assign io_ex_rd_addr = {{27'd0}, ex_reg_decodeop_rd_addr}; // @[Execute.scala 89:17]
+  assign io_ex_rd_en = ~ex_reg_decodeop_valid ? 1'h0 : ex_reg_decodeop_rd_en; // @[Execute.scala 88:23]
+  assign io_ex_rd_addr = ex_reg_decodeop_rd_addr; // @[Execute.scala 89:17]
   assign io_ex_is_load = _is_load_T | _is_load_T_1; // @[Execute.scala 90:59]
   assign io_jmp_packet_o_jmp_npc = alu_io_jmp ? alu_io_jmp_pc : rs1_temp_lo; // @[Execute.scala 69:21]
   assign io_jmp_packet_o_mis = real_npc != io_p_npc_i & ex_reg_decodeop_valid; // @[Execute.scala 70:52]
@@ -1859,7 +1857,7 @@ module Mem(
   input  [1:0]  io_mem_wsize_i,
   input  [31:0] io_reg_mem_addr_i,
   output        io_mem_rd_en,
-  output [31:0] io_mem_rd_addr,
+  output [4:0]  io_mem_rd_addr,
   output [63:0] io_mem_rd_data,
   output        io_mem_is_load
 );
@@ -1962,7 +1960,7 @@ module Mem(
   assign io_dmem_req_bits_wdata = _io_dmem_req_bits_wdata_T_1[63:0]; // @[Mem.scala 105:62]
   assign io_dmem_req_bits_wmask = mask & _io_dmem_req_bits_wmask_T[7:0]; // @[Mem.scala 106:29]
   assign io_mem_rd_en = mem_reg_decodeop_valid ? 1'h0 : mem_reg_decodeop_rd_en; // @[Mem.scala 154:24]
-  assign io_mem_rd_addr = {{27'd0}, mem_reg_decodeop_rd_addr}; // @[Mem.scala 155:18]
+  assign io_mem_rd_addr = mem_reg_decodeop_rd_addr; // @[Mem.scala 155:18]
   assign io_mem_rd_data = is_load ? load_data : wdata; // @[Mem.scala 150:24]
   assign io_mem_is_load = _is_load_T | _is_load_T_1; // @[Mem.scala 157:61]
   always @(posedge clock) begin
@@ -2323,12 +2321,12 @@ module Core(
   wire [63:0] regfile_io_regs_30; // @[Core.scala 66:23]
   wire [63:0] regfile_io_regs_31; // @[Core.scala 66:23]
   wire  regfile_io_ex_rd_en; // @[Core.scala 66:23]
-  wire [31:0] regfile_io_ex_rd_addr; // @[Core.scala 66:23]
+  wire [4:0] regfile_io_ex_rd_addr; // @[Core.scala 66:23]
   wire [63:0] regfile_io_ex_rd_data; // @[Core.scala 66:23]
   wire  regfile_io_ex_is_load_i; // @[Core.scala 66:23]
   wire  regfile_io_mem_is_load_i; // @[Core.scala 66:23]
   wire  regfile_io_mem_rd_en; // @[Core.scala 66:23]
-  wire [31:0] regfile_io_mem_rd_addr; // @[Core.scala 66:23]
+  wire [4:0] regfile_io_mem_rd_addr; // @[Core.scala 66:23]
   wire [63:0] regfile_io_mem_rd_data; // @[Core.scala 66:23]
   wire  regfile_io_rf_stall; // @[Core.scala 66:23]
   wire [63:0] regfile_io_regs_in_0; // @[Core.scala 66:23]
@@ -2400,7 +2398,7 @@ module Core(
   wire [63:0] execute_io_ex_wdata_o; // @[Core.scala 75:23]
   wire [1:0] execute_io_ex_wsize_o; // @[Core.scala 75:23]
   wire  execute_io_ex_rd_en; // @[Core.scala 75:23]
-  wire [31:0] execute_io_ex_rd_addr; // @[Core.scala 75:23]
+  wire [4:0] execute_io_ex_rd_addr; // @[Core.scala 75:23]
   wire  execute_io_ex_is_load; // @[Core.scala 75:23]
   wire [31:0] execute_io_p_npc_i; // @[Core.scala 75:23]
   wire [31:0] execute_io_jmp_packet_o_jmp_npc; // @[Core.scala 75:23]
@@ -2439,7 +2437,7 @@ module Core(
   wire [1:0] mem_io_mem_wsize_i; // @[Core.scala 84:19]
   wire [31:0] mem_io_reg_mem_addr_i; // @[Core.scala 84:19]
   wire  mem_io_mem_rd_en; // @[Core.scala 84:19]
-  wire [31:0] mem_io_mem_rd_addr; // @[Core.scala 84:19]
+  wire [4:0] mem_io_mem_rd_addr; // @[Core.scala 84:19]
   wire [63:0] mem_io_mem_rd_data; // @[Core.scala 84:19]
   wire  mem_io_mem_is_load; // @[Core.scala 84:19]
   wire  wb_dpi_clk; // @[Core.scala 137:22]
