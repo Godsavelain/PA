@@ -18,12 +18,12 @@ class RegFile extends Module{
     val regs = Vec(32,Output(UInt(64.W)))
     //for bypass
     val ex_rd_en = Input(Bool())
-    val ex_rd_addr = Input(UInt(32.W))
+    val ex_rd_addr = Input(UInt(5.W))
     val ex_rd_data = Input(UInt(64.W))
     val ex_is_load_i = Input(Bool())
     val mem_is_load_i = Input(Bool())
     val mem_rd_en = Input(Bool())
-    val mem_rd_addr = Input(UInt(32.W))
+    val mem_rd_addr = Input(UInt(5.W))
     val mem_rd_data = Input(UInt(64.W))
     val rf_stall = Output(Bool())
     //for difftest

@@ -22,9 +22,6 @@ module InstFetch(
   reg [31:0] _RAND_2;
   reg [31:0] _RAND_3;
   reg [31:0] _RAND_4;
-  reg [31:0] _RAND_5;
-  reg [31:0] _RAND_6;
-  reg [31:0] _RAND_7;
 `endif // RANDOMIZE_REG_INIT
   reg [31:0] pc_out; // @[InstFetch.scala 58:26]
   reg [31:0] inst_out; // @[InstFetch.scala 59:26]
@@ -38,14 +35,11 @@ module InstFetch(
   wire  stall = imem_stall | ~_stall_T; // @[InstFetch.scala 68:27]
   wire  _T_1 = ~stall | io_if_flush; // @[InstFetch.scala 73:20]
   reg [31:0] io_p_npc_REG; // @[InstFetch.scala 76:22]
-  reg [31:0] io_out_bits_pc_REG; // @[InstFetch.scala 84:28]
-  reg [31:0] io_out_bits_inst_REG; // @[InstFetch.scala 85:30]
-  reg  io_out_bits_inst_valid_REG; // @[InstFetch.scala 86:36]
   assign io_imem_req_bits_araddr = {pc_base_hi,2'h0}; // @[Cat.scala 30:58]
   assign io_out_valid = 1'h1; // @[InstFetch.scala 94:18]
-  assign io_out_bits_pc = io_out_bits_pc_REG; // @[InstFetch.scala 84:18]
-  assign io_out_bits_inst = io_out_bits_inst_REG; // @[InstFetch.scala 85:20]
-  assign io_out_bits_inst_valid = io_out_bits_inst_valid_REG; // @[InstFetch.scala 86:26]
+  assign io_out_bits_pc = pc_out; // @[InstFetch.scala 84:18]
+  assign io_out_bits_inst = imem_stall ? 32'h0 : inst_out; // @[InstFetch.scala 85:26]
+  assign io_out_bits_inst_valid = imem_stall ? 1'h0 : valid_out; // @[InstFetch.scala 86:32]
   assign io_p_npc = io_p_npc_REG; // @[InstFetch.scala 76:12]
   always @(posedge clock) begin
     if (reset) begin // @[InstFetch.scala 58:26]
@@ -87,17 +81,6 @@ module InstFetch(
       end
     end
     io_p_npc_REG <= {pc_base_hi,2'h0}; // @[Cat.scala 30:58]
-    io_out_bits_pc_REG <= pc_out; // @[InstFetch.scala 84:28]
-    if (imem_stall) begin // @[InstFetch.scala 85:34]
-      io_out_bits_inst_REG <= 32'h0;
-    end else begin
-      io_out_bits_inst_REG <= inst_out;
-    end
-    if (imem_stall) begin // @[InstFetch.scala 86:40]
-      io_out_bits_inst_valid_REG <= 1'h0;
-    end else begin
-      io_out_bits_inst_valid_REG <= valid_out;
-    end
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -145,12 +128,6 @@ initial begin
   pc = _RAND_3[31:0];
   _RAND_4 = {1{`RANDOM}};
   io_p_npc_REG = _RAND_4[31:0];
-  _RAND_5 = {1{`RANDOM}};
-  io_out_bits_pc_REG = _RAND_5[31:0];
-  _RAND_6 = {1{`RANDOM}};
-  io_out_bits_inst_REG = _RAND_6[31:0];
-  _RAND_7 = {1{`RANDOM}};
-  io_out_bits_inst_valid_REG = _RAND_7[0:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial

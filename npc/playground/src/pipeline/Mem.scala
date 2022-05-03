@@ -46,7 +46,7 @@ class Mem extends Module{
 
     //for bypass
     val mem_rd_en = Output(Bool())
-    val mem_rd_addr = Output(UInt(32.W))
+    val mem_rd_addr = Output(UInt(5.W))
     val mem_rd_data = Output(UInt(64.W))
     val mem_is_load = Output(Bool())
   })

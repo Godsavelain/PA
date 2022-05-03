@@ -119,7 +119,6 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__fetch__DOT__valid_out;
         CData/*0:0*/ Core__DOT__fetch__DOT__stall;
         CData/*0:0*/ Core__DOT__fetch__DOT___T_1;
-        CData/*0:0*/ Core__DOT__fetch__DOT__io_out_bits_inst_valid_REG;
         CData/*0:0*/ Core__DOT__decode__DOT__inst_valid;
         CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_356;
         CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_505;
@@ -168,18 +167,16 @@ VL_MODULE(VCore___024root) {
         IData/*31:0*/ Core__DOT__fetch__DOT__pc;
         IData/*31:0*/ Core__DOT__fetch__DOT__npc_s;
         IData/*31:0*/ Core__DOT__fetch__DOT__io_p_npc_REG;
-        IData/*31:0*/ Core__DOT__fetch__DOT__io_out_bits_pc_REG;
-        IData/*31:0*/ Core__DOT__fetch__DOT__io_out_bits_inst_REG;
         IData/*31:0*/ Core__DOT__decode__DOT__pc;
         IData/*31:0*/ Core__DOT__decode__DOT__inst;
         IData/*31:0*/ Core__DOT__decode__DOT__io_p_npc_o_REG;
         IData/*31:0*/ Core__DOT__decode__DOT___io_out_bits_imm_T_9;
         IData/*31:0*/ Core__DOT__execute__DOT__alu_io_jmp_pc;
-    };
-    struct {
         IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_pc;
         IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_inst;
         IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_imm;
+    };
+    struct {
         IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_pc;
         IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_inst;
         IData/*31:0*/ Core__DOT__mem__DOT__reg_mem_addr;

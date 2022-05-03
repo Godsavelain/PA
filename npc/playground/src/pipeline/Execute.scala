@@ -24,7 +24,7 @@ class Execute extends Module{
 
     //for bypass
     val ex_rd_en = Output(Bool())
-    val ex_rd_addr = Output(UInt(32.W))
+    val ex_rd_addr = Output(UInt(5.W))
     val ex_is_load = Output(Bool())
 
     val p_npc_i = Input(UInt(32.W))
@@ -85,7 +85,7 @@ class Execute extends Module{
   io.ex_wsize_o  := ex_reg_decodeop.mem_size
 
   //for bypass
-  io.ex_rd_en   := Mux(ex_reg_decodeop.valid, false.B, ex_reg_decodeop.rd_en)
+  io.ex_rd_en   := Mux(!ex_reg_decodeop.valid, false.B, ex_reg_decodeop.rd_en)
   io.ex_rd_addr := ex_reg_decodeop.rd_addr
   io.ex_is_load := ((ex_reg_decodeop.mem_code === MEM_LD) || (ex_reg_decodeop.mem_code === MEM_LDU))
 }
