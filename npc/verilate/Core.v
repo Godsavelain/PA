@@ -22,7 +22,6 @@ module InstFetch(
   reg [31:0] _RAND_2;
   reg [31:0] _RAND_3;
   reg [31:0] _RAND_4;
-  reg [31:0] _RAND_5;
 `endif // RANDOMIZE_REG_INIT
   reg [31:0] pc_out; // @[InstFetch.scala 58:26]
   reg [31:0] inst_out; // @[InstFetch.scala 59:26]
@@ -36,13 +35,12 @@ module InstFetch(
   wire  _stall_T = io_out_ready & io_out_valid; // @[Decoupled.scala 40:37]
   wire  stall = imem_stall | ~_stall_T; // @[InstFetch.scala 70:27]
   wire  _T_1 = ~stall | io_if_flush; // @[InstFetch.scala 75:20]
-  reg [31:0] io_p_npc_REG; // @[InstFetch.scala 79:22]
   assign io_imem_req_bits_araddr = {pc_base_hi,2'h0}; // @[Cat.scala 30:58]
   assign io_out_valid = 1'h1; // @[InstFetch.scala 97:18]
   assign io_out_bits_pc = pc_out; // @[InstFetch.scala 87:18]
   assign io_out_bits_inst = imem_stall ? 32'h0 : inst_out; // @[InstFetch.scala 88:26]
   assign io_out_bits_inst_valid = imem_stall ? 1'h0 : valid_out; // @[InstFetch.scala 89:32]
-  assign io_p_npc = io_p_npc_REG; // @[InstFetch.scala 79:12]
+  assign io_p_npc = reg_pnpc; // @[InstFetch.scala 79:12]
   always @(posedge clock) begin
     if (reset) begin // @[InstFetch.scala 58:26]
       pc_out <= 32'h0; // @[InstFetch.scala 58:26]
@@ -89,7 +87,6 @@ module InstFetch(
         pc <= npc_s;
       end
     end
-    io_p_npc_REG <= reg_pnpc; // @[InstFetch.scala 79:22]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -137,8 +134,6 @@ initial begin
   reg_pnpc = _RAND_3[31:0];
   _RAND_4 = {1{`RANDOM}};
   pc = _RAND_4[31:0];
-  _RAND_5 = {1{`RANDOM}};
-  io_p_npc_REG = _RAND_5[31:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial

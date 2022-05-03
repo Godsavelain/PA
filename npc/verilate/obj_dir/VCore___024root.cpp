@@ -84,7 +84,7 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                       | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))) {
         vlSelf->Core__DOT__decode__DOT__reg_pnpc = 
             ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)
-              ? 0U : vlSelf->Core__DOT__fetch__DOT__io_p_npc_REG);
+              ? 0U : vlSelf->Core__DOT__fetch__DOT__reg_pnpc);
     }
     if (vlSelf->reset) {
         __Vdly__Core__DOT__execute__DOT__ex_reg_decodeop_pc = 0U;
@@ -608,7 +608,15 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
     vlSelf->io_commit_pc = vlSelf->Core__DOT__io_commit_pc_REG;
     vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc 
         = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc;
-    vlSelf->Core__DOT__fetch__DOT__io_p_npc_REG = vlSelf->Core__DOT__fetch__DOT__reg_pnpc;
+    if (vlSelf->reset) {
+        vlSelf->Core__DOT__fetch__DOT__reg_pnpc = 0U;
+    } else if ((1U & (~ (IData)(vlSelf->io_write_regs)))) {
+        if ((1U & ((~ (IData)(vlSelf->Core__DOT__fetch__DOT__stall)) 
+                   | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))) {
+            vlSelf->Core__DOT__fetch__DOT__reg_pnpc 
+                = (0xfffffffcU & vlSelf->Core__DOT__fetch__DOT__pc);
+        }
+    }
     if (vlSelf->reset) {
         vlSelf->Core__DOT__decode__DOT__pc = 0U;
     } else if ((1U & ((~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)) 
@@ -723,15 +731,6 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
     } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
         vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc 
             = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc;
-    }
-    if (vlSelf->reset) {
-        vlSelf->Core__DOT__fetch__DOT__reg_pnpc = 0U;
-    } else if ((1U & (~ (IData)(vlSelf->io_write_regs)))) {
-        if ((1U & ((~ (IData)(vlSelf->Core__DOT__fetch__DOT__stall)) 
-                   | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))) {
-            vlSelf->Core__DOT__fetch__DOT__reg_pnpc 
-                = (0xfffffffcU & vlSelf->Core__DOT__fetch__DOT__pc);
-        }
     }
     if (vlSelf->reset) {
         vlSelf->Core__DOT__fetch__DOT__pc_out = 0U;
