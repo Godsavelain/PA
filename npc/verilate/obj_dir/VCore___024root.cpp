@@ -611,7 +611,8 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                    & vlSelf->Core__DOT__fetch__DOT__pc);
     if (vlSelf->reset) {
         vlSelf->Core__DOT__decode__DOT__pc = 0U;
-    } else if ((1U & (~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)))) {
+    } else if ((1U & ((~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)) 
+                      | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))) {
         vlSelf->Core__DOT__decode__DOT__pc = ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)
                                                ? 0U
                                                : vlSelf->Core__DOT__fetch_io_imem_resp_bits_old_pc_REG);
@@ -1039,14 +1040,16 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                     : 0ULL)))))))))));
     if (vlSelf->reset) {
         vlSelf->Core__DOT__decode__DOT__inst_valid = 0U;
-    } else if ((1U & (~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)))) {
+    } else if ((1U & ((~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)) 
+                      | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))) {
         vlSelf->Core__DOT__decode__DOT__inst_valid 
             = ((~ (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)) 
                & (IData)(vlSelf->Core__DOT__fetch__DOT__io_out_bits_inst_valid_REG));
     }
     if (vlSelf->reset) {
         vlSelf->Core__DOT__decode__DOT__inst = 0U;
-    } else if ((1U & (~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)))) {
+    } else if ((1U & ((~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)) 
+                      | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))) {
         vlSelf->Core__DOT__decode__DOT__inst = ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)
                                                  ? 0U
                                                  : vlSelf->Core__DOT__fetch__DOT__io_out_bits_inst_REG);

@@ -66,7 +66,7 @@ class InstFetch extends Module{
   when(io.write_regs){
    pc := io.input_pc
   }
-  .elsewhen(!stall){
+  .elsewhen(!stall || io.jmp_packet_i.mis){
     pc := npc
   }
   io.p_npc := RegNext(pc_base)

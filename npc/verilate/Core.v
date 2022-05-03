@@ -715,7 +715,7 @@ module Decode(
   always @(posedge clock) begin
     if (reset) begin // @[Decode.scala 27:22]
       pc <= 32'h0; // @[Decode.scala 27:22]
-    end else if (io_in_ready) begin // @[Decode.scala 33:21]
+    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 33:36]
       if (io_id_flush) begin // @[Decode.scala 34:14]
         pc <= 32'h0;
       end else begin
@@ -724,7 +724,7 @@ module Decode(
     end
     if (reset) begin // @[Decode.scala 28:22]
       inst <= 32'h0; // @[Decode.scala 28:22]
-    end else if (io_in_ready) begin // @[Decode.scala 33:21]
+    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 33:36]
       if (io_id_flush) begin // @[Decode.scala 35:16]
         inst <= 32'h0;
       end else begin
@@ -733,7 +733,7 @@ module Decode(
     end
     if (reset) begin // @[Decode.scala 29:27]
       inst_valid <= 1'h0; // @[Decode.scala 29:27]
-    end else if (io_in_ready) begin // @[Decode.scala 33:21]
+    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 33:36]
       if (io_id_flush) begin // @[Decode.scala 36:22]
         inst_valid <= 1'h0;
       end else begin
@@ -1667,67 +1667,67 @@ module Execute(
     io_is_ebreak_o_REG <= io_is_ebreak_i; // @[Execute.scala 36:28]
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_valid <= 1'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_valid <= io_in_bits_valid; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_pc <= 32'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_pc <= io_in_bits_pc; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_inst <= 32'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_inst <= io_in_bits_inst; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_alu_code <= 4'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_alu_code <= io_in_bits_alu_code; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_jmp_code <= 4'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_jmp_code <= io_in_bits_jmp_code; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_mem_code <= 2'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_mem_code <= io_in_bits_mem_code; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_mem_size <= 2'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_mem_size <= io_in_bits_mem_size; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_w_type <= 1'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_w_type <= io_in_bits_w_type; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_rs1_src <= 3'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_rs1_src <= io_in_bits_rs1_src; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_rs2_src <= 3'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_rs2_src <= io_in_bits_rs2_src; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_rd_addr <= 5'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_rd_addr <= io_in_bits_rd_addr; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_rd_en <= 1'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_rd_en <= io_in_bits_rd_en; // @[Execute.scala 40:21]
     end
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_imm <= 32'h0; // @[Execute.scala 37:32]
-    end else if (io_in_ready) begin // @[Execute.scala 39:21]
+    end else if (io_in_ready) begin // @[Execute.scala 39:36]
       ex_reg_decodeop_imm <= io_in_bits_imm; // @[Execute.scala 40:21]
     end
   end
@@ -1948,57 +1948,57 @@ module Mem(
     io_is_ebreak_o_REG <= io_is_ebreak_i; // @[Mem.scala 57:28]
     if (reset) begin // @[Mem.scala 59:33]
       mem_reg_decodeop_valid <= 1'h0; // @[Mem.scala 59:33]
-    end else if (io_in_ready) begin // @[Mem.scala 66:21]
+    end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_valid <= io_in_bits_valid; // @[Mem.scala 67:22]
     end
     if (reset) begin // @[Mem.scala 59:33]
       mem_reg_decodeop_pc <= 32'h0; // @[Mem.scala 59:33]
-    end else if (io_in_ready) begin // @[Mem.scala 66:21]
+    end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_pc <= io_in_bits_pc; // @[Mem.scala 67:22]
     end
     if (reset) begin // @[Mem.scala 59:33]
       mem_reg_decodeop_inst <= 32'h0; // @[Mem.scala 59:33]
-    end else if (io_in_ready) begin // @[Mem.scala 66:21]
+    end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_inst <= io_in_bits_inst; // @[Mem.scala 67:22]
     end
     if (reset) begin // @[Mem.scala 59:33]
       mem_reg_decodeop_mem_code <= 2'h0; // @[Mem.scala 59:33]
-    end else if (io_in_ready) begin // @[Mem.scala 66:21]
+    end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_mem_code <= io_in_bits_mem_code; // @[Mem.scala 67:22]
     end
     if (reset) begin // @[Mem.scala 59:33]
       mem_reg_decodeop_mem_size <= 2'h0; // @[Mem.scala 59:33]
-    end else if (io_in_ready) begin // @[Mem.scala 66:21]
+    end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_mem_size <= io_in_bits_mem_size; // @[Mem.scala 67:22]
     end
     if (reset) begin // @[Mem.scala 59:33]
       mem_reg_decodeop_rd_addr <= 5'h0; // @[Mem.scala 59:33]
-    end else if (io_in_ready) begin // @[Mem.scala 66:21]
+    end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_rd_addr <= io_in_bits_rd_addr; // @[Mem.scala 67:22]
     end
     if (reset) begin // @[Mem.scala 59:33]
       mem_reg_decodeop_rd_en <= 1'h0; // @[Mem.scala 59:33]
-    end else if (io_in_ready) begin // @[Mem.scala 66:21]
+    end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_rd_en <= io_in_bits_rd_en; // @[Mem.scala 67:22]
     end
     if (reset) begin // @[Mem.scala 60:22]
       waddr <= 5'h0; // @[Mem.scala 60:22]
-    end else if (io_in_ready) begin // @[Mem.scala 66:21]
+    end else if (io_in_ready) begin // @[Mem.scala 66:39]
       waddr <= io_in_bits_rd_addr; // @[Mem.scala 68:11]
     end
     if (reset) begin // @[Mem.scala 61:22]
       wen <= 1'h0; // @[Mem.scala 61:22]
-    end else if (io_in_ready) begin // @[Mem.scala 66:21]
+    end else if (io_in_ready) begin // @[Mem.scala 66:39]
       wen <= io_in_bits_rd_en; // @[Mem.scala 69:11]
     end
     if (reset) begin // @[Mem.scala 62:22]
       wdata <= 64'h0; // @[Mem.scala 62:22]
-    end else if (io_in_ready) begin // @[Mem.scala 66:21]
+    end else if (io_in_ready) begin // @[Mem.scala 66:39]
       wdata <= io_mem_data_i; // @[Mem.scala 70:11]
     end
     if (reset) begin // @[Mem.scala 64:29]
       reg_mem_addr <= 32'h0; // @[Mem.scala 64:29]
-    end else if (io_in_ready) begin // @[Mem.scala 66:21]
+    end else if (io_in_ready) begin // @[Mem.scala 66:39]
       reg_mem_addr <= io_reg_mem_addr_i; // @[Mem.scala 71:18]
     end
     io_out_bits_REG_valid <= mem_reg_decodeop_valid; // @[Mem.scala 145:29]
