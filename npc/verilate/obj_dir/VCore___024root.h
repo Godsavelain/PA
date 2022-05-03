@@ -120,6 +120,7 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__fetch__DOT__stall;
         CData/*0:0*/ Core__DOT__fetch__DOT___T_1;
         CData/*0:0*/ Core__DOT__decode__DOT__inst_valid;
+        CData/*0:0*/ Core__DOT__decode__DOT__reg_pnpc;
         CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_356;
         CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_505;
         CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_566;
@@ -131,6 +132,7 @@ VL_MODULE(VCore___024root) {
         CData/*2:0*/ Core__DOT__decode__DOT__c0_4;
         CData/*0:0*/ Core__DOT__decode__DOT__stall;
         CData/*0:0*/ Core__DOT__decode__DOT__io_is_ebreak_REG;
+        CData/*0:0*/ Core__DOT__decode__DOT__io_p_npc_o_REG;
         CData/*0:0*/ Core__DOT__regfile__DOT__ex_rs1_hazard;
         CData/*0:0*/ Core__DOT__regfile__DOT__ex_rs2_hazard;
         CData/*0:0*/ Core__DOT__regfile__DOT__mem_rs1_hazard;
@@ -169,14 +171,14 @@ VL_MODULE(VCore___024root) {
         IData/*31:0*/ Core__DOT__fetch__DOT__io_p_npc_REG;
         IData/*31:0*/ Core__DOT__decode__DOT__pc;
         IData/*31:0*/ Core__DOT__decode__DOT__inst;
-        IData/*31:0*/ Core__DOT__decode__DOT__io_p_npc_o_REG;
+        IData/*31:0*/ Core__DOT__decode__DOT___GEN_3;
         IData/*31:0*/ Core__DOT__decode__DOT___io_out_bits_imm_T_9;
         IData/*31:0*/ Core__DOT__execute__DOT__alu_io_jmp_pc;
         IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_pc;
-        IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_inst;
-        IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_imm;
     };
     struct {
+        IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_inst;
+        IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_imm;
         IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_pc;
         IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_inst;
         IData/*31:0*/ Core__DOT__mem__DOT__reg_mem_addr;

@@ -33,7 +33,7 @@ class Execute extends Module{
   val stall = !io.out.fire()
   io.in.ready := !stall
   io.out.valid := true.B
-  io.is_ebreak_o := RegNext(io.is_ebreak_i)
+  io.is_ebreak_o := RegNext(Mux(io.ex_flush , false.B ,io.is_ebreak_i))
   val ex_reg_decodeop = RegInit(0.U.asTypeOf(new DecodeOp()))
 
   when(io.in.fire() || io.ex_flush){
