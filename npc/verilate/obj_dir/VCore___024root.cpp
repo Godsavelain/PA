@@ -781,8 +781,9 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
         vlSelf->Core__DOT__fetch__DOT__pc = 0x80000000U;
     } else if (vlSelf->io_write_regs) {
         vlSelf->Core__DOT__fetch__DOT__pc = vlSelf->io_pc_in;
-    } else if ((1U & (~ ((~ (IData)(vlSelf->io_imem_read_ok)) 
-                         | (IData)(vlSelf->Core__DOT__decode__DOT__stall))))) {
+    } else if ((1U & ((~ ((~ (IData)(vlSelf->io_imem_read_ok)) 
+                          | (IData)(vlSelf->Core__DOT__decode__DOT__stall))) 
+                      | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))) {
         vlSelf->Core__DOT__fetch__DOT__pc = ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)
                                               ? ((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_jmp)
                                                   ? vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc

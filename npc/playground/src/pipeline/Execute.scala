@@ -85,7 +85,7 @@ class Execute extends Module{
   io.ex_wsize_o  := ex_reg_decodeop.mem_size
 
   //for bypass
-  io.ex_rd_en   := ex_reg_decodeop.rd_en
+  io.ex_rd_en   := Mux(ex_reg_decodeop.valid, false.B, ex_reg_decodeop.rd_en)
   io.ex_rd_addr := ex_reg_decodeop.rd_addr
   io.ex_is_load := ((ex_reg_decodeop.mem_code === MEM_LD) || (ex_reg_decodeop.mem_code === MEM_LDU))
 }

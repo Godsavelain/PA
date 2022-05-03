@@ -55,6 +55,10 @@ class InstFetch extends Module{
   val req = io.imem.req
   val resp = io.imem.resp
 
+  val pc_out    = RegInit(0.U(32.W))
+  val inst_out  = RegInit(0.U(32.W))
+  val valid_out = RegInit(false.B)
+
   val pc = RegInit("h80000000".U(32.W))
   //val pc_valid = RegInit("b1".U(1.W))
   val pc_base = Cat(pc(31, 2), Fill(2, 0.U))
@@ -66,14 +70,20 @@ class InstFetch extends Module{
   when(io.write_regs){
    pc := io.input_pc
   }
-  .elsewhen(!stall || io.jmp_packet_i.mis){
+  .elsewhen(!stall || io.if_flush){
     pc := npc
   }
   io.p_npc := RegNext(pc_base)
 
-  io.out.bits.pc := resp.bits.old_pc
-  io.out.bits.inst := RegNext(Mux(imem_stall , 0.U , resp.bits.rdata))
-  io.out.bits.inst_valid := RegNext(Mux((io.if_flush || imem_stall) , false.B , resp.bits.rvalid))
+  when(!stall || io.if_flush){
+    pc_out    := Mux(io.if_flush , 0.U , resp.bits.old_pc)
+    inst_out  := Mux(io.if_flush , 0.U , resp.bits.rdata)
+    valid_out := Mux(io.if_flush , 0.U , resp.bits.rvalid)
+  }
+
+  io.out.bits.pc := pc_out
+  io.out.bits.inst := RegNext(Mux(imem_stall , 0.U , inst_out))
+  io.out.bits.inst_valid := RegNext(Mux(imem_stall , false.B , valid_out))
 
   req.bits.araddr  := pc_base
   req.bits.arvalid := true.B
@@ -83,6 +93,4 @@ class InstFetch extends Module{
   resp.ready     := true.B
   io.out.valid   := true.B
 }
-
-
 

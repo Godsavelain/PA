@@ -44,7 +44,7 @@ module InstFetch(
       pc <= 32'h80000000; // @[InstFetch.scala 58:19]
     end else if (io_write_regs) begin // @[InstFetch.scala 66:22]
       pc <= io_input_pc; // @[InstFetch.scala 67:7]
-    end else if (~stall) begin // @[InstFetch.scala 69:20]
+    end else if (~stall | io_jmp_packet_i_mis) begin // @[InstFetch.scala 69:43]
       if (io_jmp_packet_i_mis) begin // @[InstFetch.scala 65:16]
         pc <= io_jmp_packet_i_jmp_npc;
       end else begin
