@@ -27,6 +27,7 @@ class Decode extends Module{
   val pc    = RegInit(0.U(32.W))
   val inst  = RegInit(0.U(32.W))
   val inst_valid = RegInit(0.B)
+  val reg_pnpc = RegInit(0.B)
 
   io.rs1_data_o := RegNext(io.rs1_data_i)
   io.rs2_data_o := RegNext(io.rs2_data_i)
@@ -34,6 +35,7 @@ class Decode extends Module{
     pc := Mux(io.id_flush , 0.U(32.W) ,io.in.bits.pc)
     inst := Mux(io.id_flush , 0.U(32.W) ,io.in.bits.inst)
     inst_valid := Mux(io.id_flush , 0.B ,io.in.bits.inst_valid)
+    reg_pnpc := Mux(io.id_flush , 0.B ,io.p_npc_i)
   }
 
   val ctrl = ListLookup(inst,
@@ -110,8 +112,6 @@ class Decode extends Module{
       REMW    ->  List(Y, FU_ALU, ALU_X,  JMP_X,    MEM_X,   MEM_X,     CSR_X, MDU_REMW  ,     Y, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X   ),
       REMUW   ->  List(Y, FU_ALU, ALU_X,  JMP_X,    MEM_X,   MEM_X,     CSR_X, MDU_REMUW ,     Y, RS_FROM_RF,   RS_FROM_RF,  Y, IMM_X   ),
 
-
-
       // CSR
       CSRRW   ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_RW, MDU_X ,    N, RS_FROM_RF,   RS_X,        Y, IMM_X   ),
       CSRRS   ->  List(Y, FU_CSR, ALU_X,    JMP_X,    MEM_X,   MEM_X,     CSR_RS, MDU_X ,    N, RS_FROM_RF,   RS_X,        Y, IMM_X   ),
@@ -154,7 +154,7 @@ class Decode extends Module{
   io.raddr2 := inst(24, 20)
   io.is_ebreak := Mux(io.id_flush , false.B ,Mux(inst_valid, RegNext(inst === EBREAK), false.B ))
 
-  io.p_npc_o := RegNext(io.p_npc_i)
+  io.p_npc_o := RegNext(reg_pnpc)
 
   val imm_i = Cat(Fill(21, inst(31)), inst(30, 20))
   val imm_s = Cat(Fill(21, inst(31)), inst(30, 25), inst(11, 7))

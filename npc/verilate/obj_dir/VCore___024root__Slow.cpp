@@ -122,7 +122,7 @@ void VCore___024root___settle__TOP__3(VCore___024root* vlSelf) {
                                                 (0x38U 
                                                  & (vlSelf->Core__DOT__mem__DOT__reg_mem_addr 
                                                     << 3U)));
-    vlSelf->Core__DOT__mem_io_mem_rd_en = ((~ (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid)) 
+    vlSelf->Core__DOT__mem_io_mem_rd_en = ((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid) 
                                            & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en));
     vlSelf->io_imem_raddr = (0xfffffffcU & vlSelf->Core__DOT__fetch__DOT__pc);
     vlSelf->Core__DOT__fetch__DOT__npc_s = ((IData)(4U) 

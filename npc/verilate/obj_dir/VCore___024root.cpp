@@ -776,7 +776,7 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
         vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_inst 
             = vlSelf->Core__DOT__decode__DOT__inst;
     }
-    vlSelf->Core__DOT__mem_io_mem_rd_en = ((~ (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid)) 
+    vlSelf->Core__DOT__mem_io_mem_rd_en = ((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid) 
                                            & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en));
     if (vlSelf->reset) {
         vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid = 0U;

@@ -1959,7 +1959,7 @@ module Mem(
   assign io_dmem_req_bits_wvalid = req_wait ? 1'h0 : io_mem_wvalid_i; // @[Mem.scala 107:27]
   assign io_dmem_req_bits_wdata = _io_dmem_req_bits_wdata_T_1[63:0]; // @[Mem.scala 105:62]
   assign io_dmem_req_bits_wmask = mask & _io_dmem_req_bits_wmask_T[7:0]; // @[Mem.scala 106:29]
-  assign io_mem_rd_en = mem_reg_decodeop_valid ? 1'h0 : mem_reg_decodeop_rd_en; // @[Mem.scala 154:24]
+  assign io_mem_rd_en = ~mem_reg_decodeop_valid ? 1'h0 : mem_reg_decodeop_rd_en; // @[Mem.scala 154:24]
   assign io_mem_rd_addr = mem_reg_decodeop_rd_addr; // @[Mem.scala 155:18]
   assign io_mem_rd_data = is_load ? load_data : wdata; // @[Mem.scala 150:24]
   assign io_mem_is_load = _is_load_T | _is_load_T_1; // @[Mem.scala 157:61]
