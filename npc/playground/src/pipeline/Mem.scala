@@ -61,7 +61,7 @@ class Mem extends Module{
 
   val reg_mem_addr = RegInit(0.U(32.W))
 
-  io.is_ebreak_o := Mux((io.mem_flush_i || !mem_reg_decodeop.valid) , false.B ,RegNext(io.is_ebreak_i))
+  io.is_ebreak_o := RegNext(Mux((io.mem_flush_i || !mem_reg_decodeop.valid) , false.B ,io.is_ebreak_i))
 
   when(io.in.fire() || io.mem_flush_i){
     mem_reg_decodeop := Mux(io.mem_flush_i ,0.U.asTypeOf(new DecodeOp()), io.in.bits)

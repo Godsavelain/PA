@@ -3366,7 +3366,6 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_imm = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__execute__DOT__alu__DOT__shamt = VL_RAND_RESET_I(6);
     vlSelf->Core__DOT__execute__DOT__alu__DOT__out0 = VL_RAND_RESET_Q(64);
-    vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_inst = VL_RAND_RESET_I(32);
@@ -3378,6 +3377,7 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->Core__DOT__mem__DOT__wen = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__mem__DOT__wdata = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__mem__DOT__reg_mem_addr = VL_RAND_RESET_I(32);
+    vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__mem__DOT__is_load = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__mem__DOT__req_wait = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__mem__DOT__ld_data_raw = VL_RAND_RESET_Q(64);

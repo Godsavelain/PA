@@ -685,7 +685,7 @@ module Decode(
   wire [2:0] c0_4 = _ctrl_T_1 ? 3'h4 : _ctrl_T_1081; // @[Lookup.scala 33:37]
   wire  _stall_T = io_out_ready & io_out_valid; // @[Decoupled.scala 40:37]
   wire  stall = ~_stall_T | io_decode_rf_stall_i; // @[Decode.scala 131:30]
-  reg  io_is_ebreak_REG; // @[Decode.scala 155:69]
+  reg  io_is_ebreak_REG; // @[Decode.scala 155:26]
   reg  io_p_npc_o_REG; // @[Decode.scala 157:24]
   wire [20:0] imm_i_hi = inst[31] ? 21'h1fffff : 21'h0; // @[Bitwise.scala 72:12]
   wire [10:0] imm_i_lo = inst[30:20]; // @[Decode.scala 159:43]
@@ -733,7 +733,7 @@ module Decode(
   assign io_raddr1 = inst[19:15]; // @[Decode.scala 153:20]
   assign io_ren2 = c0_2 == 3'h1 | ctrl_4 == 2'h3; // @[Decode.scala 152:40]
   assign io_raddr2 = inst[24:20]; // @[Decode.scala 154:20]
-  assign io_is_ebreak = io_id_flush ? 1'h0 : inst_valid & io_is_ebreak_REG; // @[Decode.scala 155:22]
+  assign io_is_ebreak = io_is_ebreak_REG; // @[Decode.scala 155:16]
   assign io_rs1_data_o = io_rs1_data_o_REG; // @[Decode.scala 32:17]
   assign io_rs2_data_o = io_rs2_data_o_REG; // @[Decode.scala 33:17]
   assign io_p_npc_o = {{31'd0}, io_p_npc_o_REG}; // @[Decode.scala 157:14]
@@ -772,7 +772,11 @@ module Decode(
     end
     io_rs1_data_o_REG <= io_rs1_data_i; // @[Decode.scala 32:27]
     io_rs2_data_o_REG <= io_rs2_data_i; // @[Decode.scala 33:27]
-    io_is_ebreak_REG <= 32'h100073 == inst; // @[Decode.scala 155:75]
+    if (io_id_flush) begin // @[Decode.scala 155:30]
+      io_is_ebreak_REG <= 1'h0;
+    end else begin
+      io_is_ebreak_REG <= inst_valid & _ctrl_T_77;
+    end
     io_p_npc_o_REG <= reg_pnpc; // @[Decode.scala 157:24]
   end
 // Register and memory initialization
@@ -1694,7 +1698,7 @@ module Execute(
   assign alu_io_imm = ex_reg_decodeop_imm; // @[Execute.scala 66:14]
   assign alu_io_pc_i = ex_reg_decodeop_pc; // @[Execute.scala 67:15]
   always @(posedge clock) begin
-    io_is_ebreak_o_REG <= io_is_ebreak_i; // @[Execute.scala 36:28]
+    io_is_ebreak_o_REG <= io_is_ebreak_i; // @[Execute.scala 36:32]
     if (reset) begin // @[Execute.scala 37:32]
       ex_reg_decodeop_valid <= 1'h0; // @[Execute.scala 37:32]
     end else if (io_in_ready) begin // @[Execute.scala 39:36]
@@ -1882,8 +1886,8 @@ module Mem(
   reg [31:0] _RAND_6;
   reg [31:0] _RAND_7;
   reg [31:0] _RAND_8;
-  reg [31:0] _RAND_9;
-  reg [63:0] _RAND_10;
+  reg [63:0] _RAND_9;
+  reg [31:0] _RAND_10;
   reg [31:0] _RAND_11;
   reg [31:0] _RAND_12;
   reg [31:0] _RAND_13;
@@ -1892,18 +1896,19 @@ module Mem(
   reg [31:0] _RAND_16;
   reg [63:0] _RAND_17;
 `endif // RANDOMIZE_REG_INIT
-  reg  io_is_ebreak_o_REG; // @[Mem.scala 57:28]
-  reg  mem_reg_decodeop_valid; // @[Mem.scala 59:33]
-  reg [31:0] mem_reg_decodeop_pc; // @[Mem.scala 59:33]
-  reg [31:0] mem_reg_decodeop_inst; // @[Mem.scala 59:33]
-  reg [1:0] mem_reg_decodeop_mem_code; // @[Mem.scala 59:33]
-  reg [1:0] mem_reg_decodeop_mem_size; // @[Mem.scala 59:33]
-  reg [4:0] mem_reg_decodeop_rd_addr; // @[Mem.scala 59:33]
-  reg  mem_reg_decodeop_rd_en; // @[Mem.scala 59:33]
-  reg [4:0] waddr; // @[Mem.scala 60:22]
-  reg  wen; // @[Mem.scala 61:22]
-  reg [63:0] wdata; // @[Mem.scala 62:22]
-  reg [31:0] reg_mem_addr; // @[Mem.scala 64:29]
+  reg  mem_reg_decodeop_valid; // @[Mem.scala 57:33]
+  reg [31:0] mem_reg_decodeop_pc; // @[Mem.scala 57:33]
+  reg [31:0] mem_reg_decodeop_inst; // @[Mem.scala 57:33]
+  reg [1:0] mem_reg_decodeop_mem_code; // @[Mem.scala 57:33]
+  reg [1:0] mem_reg_decodeop_mem_size; // @[Mem.scala 57:33]
+  reg [4:0] mem_reg_decodeop_rd_addr; // @[Mem.scala 57:33]
+  reg  mem_reg_decodeop_rd_en; // @[Mem.scala 57:33]
+  reg [4:0] waddr; // @[Mem.scala 58:22]
+  reg  wen; // @[Mem.scala 59:22]
+  reg [63:0] wdata; // @[Mem.scala 60:22]
+  reg [31:0] reg_mem_addr; // @[Mem.scala 62:29]
+  wire  _io_is_ebreak_o_T = ~mem_reg_decodeop_valid; // @[Mem.scala 64:44]
+  reg  io_is_ebreak_o_REG; // @[Mem.scala 64:87]
   wire  _is_load_T = mem_reg_decodeop_mem_code == 2'h1; // @[Mem.scala 75:46]
   wire  _is_load_T_1 = mem_reg_decodeop_mem_code == 2'h2; // @[Mem.scala 75:88]
   wire  is_load = mem_reg_decodeop_mem_code == 2'h1 | mem_reg_decodeop_mem_code == 2'h2; // @[Mem.scala 75:58]
@@ -1964,73 +1969,73 @@ module Mem(
   assign io_waddr_o = io_waddr_o_REG; // @[Mem.scala 147:14]
   assign io_wen_o = io_wen_o_REG; // @[Mem.scala 149:14]
   assign io_wdata_o = io_wdata_o_REG; // @[Mem.scala 151:14]
-  assign io_is_ebreak_o = io_is_ebreak_o_REG; // @[Mem.scala 57:18]
+  assign io_is_ebreak_o = ~mem_reg_decodeop_valid ? 1'h0 : io_is_ebreak_o_REG; // @[Mem.scala 64:24]
   assign io_dmem_req_bits_arwaddr = io_mem_rwaddr_i; // @[Mem.scala 103:21]
   assign io_dmem_req_bits_rvalid = req_wait ? 1'h0 : io_mem_rvalid_i; // @[Mem.scala 104:27]
   assign io_dmem_req_bits_wvalid = req_wait ? 1'h0 : io_mem_wvalid_i; // @[Mem.scala 107:27]
   assign io_dmem_req_bits_wdata = _io_dmem_req_bits_wdata_T_1[63:0]; // @[Mem.scala 105:62]
   assign io_dmem_req_bits_wmask = mask & _io_dmem_req_bits_wmask_T[7:0]; // @[Mem.scala 106:29]
-  assign io_mem_rd_en = ~mem_reg_decodeop_valid ? 1'h0 : mem_reg_decodeop_rd_en; // @[Mem.scala 154:24]
+  assign io_mem_rd_en = _io_is_ebreak_o_T ? 1'h0 : mem_reg_decodeop_rd_en; // @[Mem.scala 154:24]
   assign io_mem_rd_addr = mem_reg_decodeop_rd_addr; // @[Mem.scala 155:18]
   assign io_mem_rd_data = is_load ? load_data : wdata; // @[Mem.scala 150:24]
   assign io_mem_is_load = _is_load_T | _is_load_T_1; // @[Mem.scala 157:61]
   always @(posedge clock) begin
-    io_is_ebreak_o_REG <= io_is_ebreak_i; // @[Mem.scala 57:28]
-    if (reset) begin // @[Mem.scala 59:33]
-      mem_reg_decodeop_valid <= 1'h0; // @[Mem.scala 59:33]
+    if (reset) begin // @[Mem.scala 57:33]
+      mem_reg_decodeop_valid <= 1'h0; // @[Mem.scala 57:33]
     end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_valid <= io_in_bits_valid; // @[Mem.scala 67:22]
     end
-    if (reset) begin // @[Mem.scala 59:33]
-      mem_reg_decodeop_pc <= 32'h0; // @[Mem.scala 59:33]
+    if (reset) begin // @[Mem.scala 57:33]
+      mem_reg_decodeop_pc <= 32'h0; // @[Mem.scala 57:33]
     end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_pc <= io_in_bits_pc; // @[Mem.scala 67:22]
     end
-    if (reset) begin // @[Mem.scala 59:33]
-      mem_reg_decodeop_inst <= 32'h0; // @[Mem.scala 59:33]
+    if (reset) begin // @[Mem.scala 57:33]
+      mem_reg_decodeop_inst <= 32'h0; // @[Mem.scala 57:33]
     end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_inst <= io_in_bits_inst; // @[Mem.scala 67:22]
     end
-    if (reset) begin // @[Mem.scala 59:33]
-      mem_reg_decodeop_mem_code <= 2'h0; // @[Mem.scala 59:33]
+    if (reset) begin // @[Mem.scala 57:33]
+      mem_reg_decodeop_mem_code <= 2'h0; // @[Mem.scala 57:33]
     end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_mem_code <= io_in_bits_mem_code; // @[Mem.scala 67:22]
     end
-    if (reset) begin // @[Mem.scala 59:33]
-      mem_reg_decodeop_mem_size <= 2'h0; // @[Mem.scala 59:33]
+    if (reset) begin // @[Mem.scala 57:33]
+      mem_reg_decodeop_mem_size <= 2'h0; // @[Mem.scala 57:33]
     end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_mem_size <= io_in_bits_mem_size; // @[Mem.scala 67:22]
     end
-    if (reset) begin // @[Mem.scala 59:33]
-      mem_reg_decodeop_rd_addr <= 5'h0; // @[Mem.scala 59:33]
+    if (reset) begin // @[Mem.scala 57:33]
+      mem_reg_decodeop_rd_addr <= 5'h0; // @[Mem.scala 57:33]
     end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_rd_addr <= io_in_bits_rd_addr; // @[Mem.scala 67:22]
     end
-    if (reset) begin // @[Mem.scala 59:33]
-      mem_reg_decodeop_rd_en <= 1'h0; // @[Mem.scala 59:33]
+    if (reset) begin // @[Mem.scala 57:33]
+      mem_reg_decodeop_rd_en <= 1'h0; // @[Mem.scala 57:33]
     end else if (io_in_ready) begin // @[Mem.scala 66:39]
       mem_reg_decodeop_rd_en <= io_in_bits_rd_en; // @[Mem.scala 67:22]
     end
-    if (reset) begin // @[Mem.scala 60:22]
-      waddr <= 5'h0; // @[Mem.scala 60:22]
+    if (reset) begin // @[Mem.scala 58:22]
+      waddr <= 5'h0; // @[Mem.scala 58:22]
     end else if (io_in_ready) begin // @[Mem.scala 66:39]
       waddr <= io_in_bits_rd_addr; // @[Mem.scala 68:11]
     end
-    if (reset) begin // @[Mem.scala 61:22]
-      wen <= 1'h0; // @[Mem.scala 61:22]
+    if (reset) begin // @[Mem.scala 59:22]
+      wen <= 1'h0; // @[Mem.scala 59:22]
     end else if (io_in_ready) begin // @[Mem.scala 66:39]
       wen <= io_in_bits_rd_en; // @[Mem.scala 69:11]
     end
-    if (reset) begin // @[Mem.scala 62:22]
-      wdata <= 64'h0; // @[Mem.scala 62:22]
+    if (reset) begin // @[Mem.scala 60:22]
+      wdata <= 64'h0; // @[Mem.scala 60:22]
     end else if (io_in_ready) begin // @[Mem.scala 66:39]
       wdata <= io_mem_data_i; // @[Mem.scala 70:11]
     end
-    if (reset) begin // @[Mem.scala 64:29]
-      reg_mem_addr <= 32'h0; // @[Mem.scala 64:29]
+    if (reset) begin // @[Mem.scala 62:29]
+      reg_mem_addr <= 32'h0; // @[Mem.scala 62:29]
     end else if (io_in_ready) begin // @[Mem.scala 66:39]
       reg_mem_addr <= io_reg_mem_addr_i; // @[Mem.scala 71:18]
     end
+    io_is_ebreak_o_REG <= io_is_ebreak_i; // @[Mem.scala 64:87]
     io_out_bits_REG_valid <= mem_reg_decodeop_valid; // @[Mem.scala 145:29]
     io_out_bits_REG_pc <= mem_reg_decodeop_pc; // @[Mem.scala 145:29]
     io_out_bits_REG_inst <= mem_reg_decodeop_inst; // @[Mem.scala 145:29]
@@ -2101,29 +2106,29 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  io_is_ebreak_o_REG = _RAND_0[0:0];
+  mem_reg_decodeop_valid = _RAND_0[0:0];
   _RAND_1 = {1{`RANDOM}};
-  mem_reg_decodeop_valid = _RAND_1[0:0];
+  mem_reg_decodeop_pc = _RAND_1[31:0];
   _RAND_2 = {1{`RANDOM}};
-  mem_reg_decodeop_pc = _RAND_2[31:0];
+  mem_reg_decodeop_inst = _RAND_2[31:0];
   _RAND_3 = {1{`RANDOM}};
-  mem_reg_decodeop_inst = _RAND_3[31:0];
+  mem_reg_decodeop_mem_code = _RAND_3[1:0];
   _RAND_4 = {1{`RANDOM}};
-  mem_reg_decodeop_mem_code = _RAND_4[1:0];
+  mem_reg_decodeop_mem_size = _RAND_4[1:0];
   _RAND_5 = {1{`RANDOM}};
-  mem_reg_decodeop_mem_size = _RAND_5[1:0];
+  mem_reg_decodeop_rd_addr = _RAND_5[4:0];
   _RAND_6 = {1{`RANDOM}};
-  mem_reg_decodeop_rd_addr = _RAND_6[4:0];
+  mem_reg_decodeop_rd_en = _RAND_6[0:0];
   _RAND_7 = {1{`RANDOM}};
-  mem_reg_decodeop_rd_en = _RAND_7[0:0];
+  waddr = _RAND_7[4:0];
   _RAND_8 = {1{`RANDOM}};
-  waddr = _RAND_8[4:0];
-  _RAND_9 = {1{`RANDOM}};
-  wen = _RAND_9[0:0];
-  _RAND_10 = {2{`RANDOM}};
-  wdata = _RAND_10[63:0];
+  wen = _RAND_8[0:0];
+  _RAND_9 = {2{`RANDOM}};
+  wdata = _RAND_9[63:0];
+  _RAND_10 = {1{`RANDOM}};
+  reg_mem_addr = _RAND_10[31:0];
   _RAND_11 = {1{`RANDOM}};
-  reg_mem_addr = _RAND_11[31:0];
+  io_is_ebreak_o_REG = _RAND_11[0:0];
   _RAND_12 = {1{`RANDOM}};
   io_out_bits_REG_valid = _RAND_12[0:0];
   _RAND_13 = {1{`RANDOM}};

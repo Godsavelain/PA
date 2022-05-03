@@ -491,27 +491,27 @@ void VCore___024root__traceInitSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->declBit(c+133,"Core decode c0_3", false,-1);
         tracep->declBus(c+134,"Core decode c0_4", false,-1, 2,0);
         tracep->declBit(c+219,"Core decode stall", false,-1);
-        tracep->declBit(c+135,"Core decode io_is_ebreak_REG", false,-1);
-        tracep->declBit(c+136,"Core decode io_p_npc_o_REG", false,-1);
-        tracep->declBus(c+137,"Core decode imm_i_hi", false,-1, 20,0);
-        tracep->declBus(c+138,"Core decode imm_i_lo", false,-1, 10,0);
-        tracep->declBus(c+139,"Core decode imm_i", false,-1, 31,0);
-        tracep->declBus(c+140,"Core decode imm_s_hi_lo", false,-1, 5,0);
-        tracep->declBus(c+141,"Core decode imm_s", false,-1, 31,0);
-        tracep->declBus(c+142,"Core decode imm_b_hi_hi_hi", false,-1, 19,0);
-        tracep->declBit(c+143,"Core decode imm_b_hi_hi_lo", false,-1);
-        tracep->declBus(c+144,"Core decode imm_b_lo_hi", false,-1, 3,0);
-        tracep->declBus(c+145,"Core decode imm_b", false,-1, 31,0);
-        tracep->declBus(c+146,"Core decode imm_u_hi", false,-1, 19,0);
-        tracep->declBus(c+147,"Core decode imm_u", false,-1, 31,0);
-        tracep->declBus(c+148,"Core decode imm_j_hi_hi_hi", false,-1, 11,0);
-        tracep->declBus(c+149,"Core decode imm_j_hi_hi_lo", false,-1, 7,0);
-        tracep->declBit(c+150,"Core decode imm_j_hi_lo", false,-1);
-        tracep->declBus(c+151,"Core decode imm_j_lo_hi", false,-1, 9,0);
-        tracep->declBus(c+152,"Core decode imm_j", false,-1, 31,0);
-        tracep->declBus(c+153,"Core decode imm_shamt_lo_1", false,-1, 5,0);
-        tracep->declBus(c+154,"Core decode imm_shamt", false,-1, 31,0);
-        tracep->declBus(c+155,"Core decode imm_csr", false,-1, 31,0);
+        tracep->declBit(c+22,"Core decode io_is_ebreak_REG", false,-1);
+        tracep->declBit(c+135,"Core decode io_p_npc_o_REG", false,-1);
+        tracep->declBus(c+136,"Core decode imm_i_hi", false,-1, 20,0);
+        tracep->declBus(c+137,"Core decode imm_i_lo", false,-1, 10,0);
+        tracep->declBus(c+138,"Core decode imm_i", false,-1, 31,0);
+        tracep->declBus(c+139,"Core decode imm_s_hi_lo", false,-1, 5,0);
+        tracep->declBus(c+140,"Core decode imm_s", false,-1, 31,0);
+        tracep->declBus(c+141,"Core decode imm_b_hi_hi_hi", false,-1, 19,0);
+        tracep->declBit(c+142,"Core decode imm_b_hi_hi_lo", false,-1);
+        tracep->declBus(c+143,"Core decode imm_b_lo_hi", false,-1, 3,0);
+        tracep->declBus(c+144,"Core decode imm_b", false,-1, 31,0);
+        tracep->declBus(c+145,"Core decode imm_u_hi", false,-1, 19,0);
+        tracep->declBus(c+146,"Core decode imm_u", false,-1, 31,0);
+        tracep->declBus(c+147,"Core decode imm_j_hi_hi_hi", false,-1, 11,0);
+        tracep->declBus(c+148,"Core decode imm_j_hi_hi_lo", false,-1, 7,0);
+        tracep->declBit(c+149,"Core decode imm_j_hi_lo", false,-1);
+        tracep->declBus(c+150,"Core decode imm_j_lo_hi", false,-1, 9,0);
+        tracep->declBus(c+151,"Core decode imm_j", false,-1, 31,0);
+        tracep->declBus(c+152,"Core decode imm_shamt_lo_1", false,-1, 5,0);
+        tracep->declBus(c+153,"Core decode imm_shamt", false,-1, 31,0);
+        tracep->declBus(c+154,"Core decode imm_csr", false,-1, 31,0);
         tracep->declBit(c+231,"Core regfile clock", false,-1);
         tracep->declBit(c+232,"Core regfile reset", false,-1);
         tracep->declBit(c+18,"Core regfile io_ren1", false,-1);
@@ -597,12 +597,12 @@ void VCore___024root__traceInitSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->declQuad(c+380,"Core regfile io_regs_in_30", false,-1, 63,0);
         tracep->declQuad(c+382,"Core regfile io_regs_in_31", false,-1, 63,0);
         tracep->declBit(c+385,"Core regfile io_write_regs", false,-1);
-        tracep->declBit(c+156,"Core regfile ex_rs1_hazard", false,-1);
-        tracep->declBit(c+157,"Core regfile ex_rs2_hazard", false,-1);
-        tracep->declBit(c+158,"Core regfile mem_rs1_hazard", false,-1);
-        tracep->declBit(c+159,"Core regfile mem_rs2_hazard", false,-1);
-        tracep->declBit(c+160,"Core regfile wb_rs1_hazard", false,-1);
-        tracep->declBit(c+161,"Core regfile wb_rs2_hazard", false,-1);
+        tracep->declBit(c+155,"Core regfile ex_rs1_hazard", false,-1);
+        tracep->declBit(c+156,"Core regfile ex_rs2_hazard", false,-1);
+        tracep->declBit(c+157,"Core regfile mem_rs1_hazard", false,-1);
+        tracep->declBit(c+158,"Core regfile mem_rs2_hazard", false,-1);
+        tracep->declBit(c+159,"Core regfile wb_rs1_hazard", false,-1);
+        tracep->declBit(c+160,"Core regfile wb_rs2_hazard", false,-1);
         tracep->declQuad(c+33,"Core regfile rf_0", false,-1, 63,0);
         tracep->declQuad(c+35,"Core regfile rf_1", false,-1, 63,0);
         tracep->declQuad(c+37,"Core regfile rf_2", false,-1, 63,0);
@@ -676,49 +676,49 @@ void VCore___024root__traceInitSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->declBus(c+27,"Core execute io_p_npc_i", false,-1, 31,0);
         tracep->declBus(c+5,"Core execute io_jmp_packet_o_jmp_npc", false,-1, 31,0);
         tracep->declBit(c+3,"Core execute io_jmp_packet_o_mis", false,-1);
-        tracep->declQuad(c+162,"Core execute alu_io_in1", false,-1, 63,0);
-        tracep->declQuad(c+164,"Core execute alu_io_in2", false,-1, 63,0);
-        tracep->declBus(c+166,"Core execute alu_io_aluop_i", false,-1, 3,0);
-        tracep->declBit(c+167,"Core execute alu_io_wtype_i", false,-1);
+        tracep->declQuad(c+161,"Core execute alu_io_in1", false,-1, 63,0);
+        tracep->declQuad(c+163,"Core execute alu_io_in2", false,-1, 63,0);
+        tracep->declBus(c+165,"Core execute alu_io_aluop_i", false,-1, 3,0);
+        tracep->declBit(c+166,"Core execute alu_io_wtype_i", false,-1);
         tracep->declQuad(c+99,"Core execute alu_io_alu_out", false,-1, 63,0);
-        tracep->declBit(c+168,"Core execute alu_io_jmp", false,-1);
-        tracep->declBus(c+169,"Core execute alu_io_jmp_code", false,-1, 3,0);
-        tracep->declBus(c+170,"Core execute alu_io_imm", false,-1, 31,0);
+        tracep->declBit(c+167,"Core execute alu_io_jmp", false,-1);
+        tracep->declBus(c+168,"Core execute alu_io_jmp_code", false,-1, 3,0);
+        tracep->declBus(c+169,"Core execute alu_io_imm", false,-1, 31,0);
         tracep->declBus(c+106,"Core execute alu_io_pc_i", false,-1, 31,0);
-        tracep->declBus(c+171,"Core execute alu_io_jmp_pc", false,-1, 31,0);
+        tracep->declBus(c+170,"Core execute alu_io_jmp_pc", false,-1, 31,0);
         tracep->declBit(c+220,"Core execute stall", false,-1);
         tracep->declBit(c+111,"Core execute io_is_ebreak_o_REG", false,-1);
         tracep->declBit(c+105,"Core execute ex_reg_decodeop_valid", false,-1);
         tracep->declBus(c+106,"Core execute ex_reg_decodeop_pc", false,-1, 31,0);
         tracep->declBus(c+107,"Core execute ex_reg_decodeop_inst", false,-1, 31,0);
-        tracep->declBus(c+166,"Core execute ex_reg_decodeop_alu_code", false,-1, 3,0);
-        tracep->declBus(c+169,"Core execute ex_reg_decodeop_jmp_code", false,-1, 3,0);
+        tracep->declBus(c+165,"Core execute ex_reg_decodeop_alu_code", false,-1, 3,0);
+        tracep->declBus(c+168,"Core execute ex_reg_decodeop_jmp_code", false,-1, 3,0);
         tracep->declBus(c+108,"Core execute ex_reg_decodeop_mem_code", false,-1, 1,0);
         tracep->declBus(c+109,"Core execute ex_reg_decodeop_mem_size", false,-1, 1,0);
-        tracep->declBit(c+167,"Core execute ex_reg_decodeop_w_type", false,-1);
-        tracep->declBus(c+172,"Core execute ex_reg_decodeop_rs1_src", false,-1, 2,0);
-        tracep->declBus(c+173,"Core execute ex_reg_decodeop_rs2_src", false,-1, 2,0);
+        tracep->declBit(c+166,"Core execute ex_reg_decodeop_w_type", false,-1);
+        tracep->declBus(c+171,"Core execute ex_reg_decodeop_rs1_src", false,-1, 2,0);
+        tracep->declBus(c+172,"Core execute ex_reg_decodeop_rs2_src", false,-1, 2,0);
         tracep->declBus(c+98,"Core execute ex_reg_decodeop_rd_addr", false,-1, 4,0);
         tracep->declBit(c+110,"Core execute ex_reg_decodeop_rd_en", false,-1);
-        tracep->declBus(c+170,"Core execute ex_reg_decodeop_imm", false,-1, 31,0);
-        tracep->declBus(c+174,"Core execute rs1_temp_hi", false,-1, 31,0);
-        tracep->declBus(c+175,"Core execute rs1_temp_lo", false,-1, 31,0);
+        tracep->declBus(c+169,"Core execute ex_reg_decodeop_imm", false,-1, 31,0);
+        tracep->declBus(c+173,"Core execute rs1_temp_hi", false,-1, 31,0);
+        tracep->declBus(c+174,"Core execute rs1_temp_lo", false,-1, 31,0);
         tracep->declBus(c+5,"Core execute real_npc", false,-1, 31,0);
-        tracep->declQuad(c+162,"Core execute alu io_in1", false,-1, 63,0);
-        tracep->declQuad(c+164,"Core execute alu io_in2", false,-1, 63,0);
-        tracep->declBus(c+166,"Core execute alu io_aluop_i", false,-1, 3,0);
-        tracep->declBit(c+167,"Core execute alu io_wtype_i", false,-1);
+        tracep->declQuad(c+161,"Core execute alu io_in1", false,-1, 63,0);
+        tracep->declQuad(c+163,"Core execute alu io_in2", false,-1, 63,0);
+        tracep->declBus(c+165,"Core execute alu io_aluop_i", false,-1, 3,0);
+        tracep->declBit(c+166,"Core execute alu io_wtype_i", false,-1);
         tracep->declQuad(c+99,"Core execute alu io_alu_out", false,-1, 63,0);
-        tracep->declBit(c+168,"Core execute alu io_jmp", false,-1);
-        tracep->declBus(c+169,"Core execute alu io_jmp_code", false,-1, 3,0);
-        tracep->declBus(c+170,"Core execute alu io_imm", false,-1, 31,0);
+        tracep->declBit(c+167,"Core execute alu io_jmp", false,-1);
+        tracep->declBus(c+168,"Core execute alu io_jmp_code", false,-1, 3,0);
+        tracep->declBus(c+169,"Core execute alu io_imm", false,-1, 31,0);
         tracep->declBus(c+106,"Core execute alu io_pc_i", false,-1, 31,0);
-        tracep->declBus(c+171,"Core execute alu io_jmp_pc", false,-1, 31,0);
-        tracep->declBus(c+176,"Core execute alu shamt", false,-1, 5,0);
-        tracep->declBus(c+177,"Core execute alu out0_lo", false,-1, 31,0);
-        tracep->declQuad(c+178,"Core execute alu out0", false,-1, 63,0);
-        tracep->declBus(c+180,"Core execute alu out1_lo", false,-1, 31,0);
-        tracep->declBus(c+181,"Core execute alu out1_hi", false,-1, 31,0);
+        tracep->declBus(c+170,"Core execute alu io_jmp_pc", false,-1, 31,0);
+        tracep->declBus(c+175,"Core execute alu shamt", false,-1, 5,0);
+        tracep->declBus(c+176,"Core execute alu out0_lo", false,-1, 31,0);
+        tracep->declQuad(c+177,"Core execute alu out0", false,-1, 63,0);
+        tracep->declBus(c+179,"Core execute alu out1_lo", false,-1, 31,0);
+        tracep->declBus(c+180,"Core execute alu out1_hi", false,-1, 31,0);
         tracep->declBit(c+231,"Core mem clock", false,-1);
         tracep->declBit(c+232,"Core mem reset", false,-1);
         tracep->declBit(c+215,"Core mem io_in_ready", false,-1);
@@ -756,18 +756,18 @@ void VCore___024root__traceInitSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->declBus(c+104,"Core mem io_mem_rd_addr", false,-1, 4,0);
         tracep->declQuad(c+216,"Core mem io_mem_rd_data", false,-1, 63,0);
         tracep->declBit(c+102,"Core mem io_mem_is_load", false,-1);
-        tracep->declBit(c+118,"Core mem io_is_ebreak_o_REG", false,-1);
-        tracep->declBit(c+182,"Core mem mem_reg_decodeop_valid", false,-1);
-        tracep->declBus(c+183,"Core mem mem_reg_decodeop_pc", false,-1, 31,0);
-        tracep->declBus(c+184,"Core mem mem_reg_decodeop_inst", false,-1, 31,0);
-        tracep->declBus(c+185,"Core mem mem_reg_decodeop_mem_code", false,-1, 1,0);
-        tracep->declBus(c+186,"Core mem mem_reg_decodeop_mem_size", false,-1, 1,0);
+        tracep->declBit(c+181,"Core mem mem_reg_decodeop_valid", false,-1);
+        tracep->declBus(c+182,"Core mem mem_reg_decodeop_pc", false,-1, 31,0);
+        tracep->declBus(c+183,"Core mem mem_reg_decodeop_inst", false,-1, 31,0);
+        tracep->declBus(c+184,"Core mem mem_reg_decodeop_mem_code", false,-1, 1,0);
+        tracep->declBus(c+185,"Core mem mem_reg_decodeop_mem_size", false,-1, 1,0);
         tracep->declBus(c+104,"Core mem mem_reg_decodeop_rd_addr", false,-1, 4,0);
-        tracep->declBit(c+187,"Core mem mem_reg_decodeop_rd_en", false,-1);
-        tracep->declBus(c+188,"Core mem waddr", false,-1, 4,0);
-        tracep->declBit(c+189,"Core mem wen", false,-1);
-        tracep->declQuad(c+190,"Core mem wdata", false,-1, 63,0);
-        tracep->declBus(c+192,"Core mem reg_mem_addr", false,-1, 31,0);
+        tracep->declBit(c+186,"Core mem mem_reg_decodeop_rd_en", false,-1);
+        tracep->declBus(c+187,"Core mem waddr", false,-1, 4,0);
+        tracep->declBit(c+188,"Core mem wen", false,-1);
+        tracep->declQuad(c+189,"Core mem wdata", false,-1, 63,0);
+        tracep->declBus(c+191,"Core mem reg_mem_addr", false,-1, 31,0);
+        tracep->declBit(c+192,"Core mem io_is_ebreak_o_REG", false,-1);
         tracep->declBit(c+193,"Core mem is_load", false,-1);
         tracep->declBit(c+194,"Core mem is_store", false,-1);
         tracep->declBit(c+220,"Core mem req_wait", false,-1);
@@ -1023,9 +1023,7 @@ void VCore___024root__traceFullSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->fullBit(oldp+20,(vlSelf->Core__DOT__decode_io_ren2));
         tracep->fullCData(oldp+21,((0x1fU & (vlSelf->Core__DOT__decode__DOT__inst 
                                              >> 0x14U))),5);
-        tracep->fullBit(oldp+22,(((~ (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)) 
-                                  & ((IData)(vlSelf->Core__DOT__decode__DOT__inst_valid) 
-                                     & (IData)(vlSelf->Core__DOT__decode__DOT__io_is_ebreak_REG)))));
+        tracep->fullBit(oldp+22,(vlSelf->Core__DOT__decode__DOT__io_is_ebreak_REG));
         tracep->fullQData(oldp+23,(vlSelf->Core__DOT__decode__DOT__io_rs1_data_o_REG),64);
         tracep->fullQData(oldp+25,(vlSelf->Core__DOT__decode__DOT__io_rs2_data_o_REG),64);
         tracep->fullIData(oldp+27,(vlSelf->Core__DOT__decode__DOT__io_p_npc_o_REG),32);
@@ -1097,7 +1095,8 @@ void VCore___024root__traceFullSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->fullBit(oldp+115,(vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_valid));
         tracep->fullIData(oldp+116,(vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc),32);
         tracep->fullIData(oldp+117,(vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_inst),32);
-        tracep->fullBit(oldp+118,(vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG));
+        tracep->fullBit(oldp+118,(((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid) 
+                                   & (IData)(vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG))));
         VL_EXTEND_WQ(127,64, __Vtemp18, vlSelf->Core__DOT__decode__DOT__io_rs2_data_o_REG);
         VL_SHIFTL_WWI(127,127,6, __Vtemp19, __Vtemp18, 
                       (0x38U & ((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_alu_out) 
@@ -1180,21 +1179,20 @@ void VCore___024root__traceFullSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->fullCData(oldp+132,(vlSelf->Core__DOT__decode__DOT__c0_1),3);
         tracep->fullBit(oldp+133,(vlSelf->Core__DOT__decode__DOT__c0_3));
         tracep->fullCData(oldp+134,(vlSelf->Core__DOT__decode__DOT__c0_4),3);
-        tracep->fullBit(oldp+135,(vlSelf->Core__DOT__decode__DOT__io_is_ebreak_REG));
-        tracep->fullBit(oldp+136,(vlSelf->Core__DOT__decode__DOT__io_p_npc_o_REG));
-        tracep->fullIData(oldp+137,(((vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullBit(oldp+135,(vlSelf->Core__DOT__decode__DOT__io_p_npc_o_REG));
+        tracep->fullIData(oldp+136,(((vlSelf->Core__DOT__decode__DOT__inst 
                                       >> 0x1fU) ? 0x1fffffU
                                       : 0U)),21);
-        tracep->fullSData(oldp+138,((0x7ffU & (vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullSData(oldp+137,((0x7ffU & (vlSelf->Core__DOT__decode__DOT__inst 
                                                >> 0x14U))),11);
-        tracep->fullIData(oldp+139,(((((vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullIData(oldp+138,(((((vlSelf->Core__DOT__decode__DOT__inst 
                                         >> 0x1fU) ? 0x1fffffU
                                         : 0U) << 0xbU) 
                                      | (0x7ffU & (vlSelf->Core__DOT__decode__DOT__inst 
                                                   >> 0x14U)))),32);
-        tracep->fullCData(oldp+140,((0x3fU & (vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullCData(oldp+139,((0x3fU & (vlSelf->Core__DOT__decode__DOT__inst 
                                               >> 0x19U))),6);
-        tracep->fullIData(oldp+141,(((((vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullIData(oldp+140,(((((vlSelf->Core__DOT__decode__DOT__inst 
                                         >> 0x1fU) ? 0x1fffffU
                                         : 0U) << 0xbU) 
                                      | ((0x7e0U & (vlSelf->Core__DOT__decode__DOT__inst 
@@ -1202,14 +1200,14 @@ void VCore___024root__traceFullSub0(VCore___024root* vlSelf, VerilatedVcd* trace
                                         | (0x1fU & 
                                            (vlSelf->Core__DOT__decode__DOT__inst 
                                             >> 7U))))),32);
-        tracep->fullIData(oldp+142,(((vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullIData(oldp+141,(((vlSelf->Core__DOT__decode__DOT__inst 
                                       >> 0x1fU) ? 0xfffffU
                                       : 0U)),20);
-        tracep->fullBit(oldp+143,((1U & (vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullBit(oldp+142,((1U & (vlSelf->Core__DOT__decode__DOT__inst 
                                          >> 7U))));
-        tracep->fullCData(oldp+144,((0xfU & (vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullCData(oldp+143,((0xfU & (vlSelf->Core__DOT__decode__DOT__inst 
                                              >> 8U))),4);
-        tracep->fullIData(oldp+145,(((((vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullIData(oldp+144,(((((vlSelf->Core__DOT__decode__DOT__inst 
                                         >> 0x1fU) ? 0xfffffU
                                         : 0U) << 0xcU) 
                                      | ((0x800U & (vlSelf->Core__DOT__decode__DOT__inst 
@@ -1220,19 +1218,19 @@ void VCore___024root__traceFullSub0(VCore___024root* vlSelf, VerilatedVcd* trace
                                            | (0x1eU 
                                               & (vlSelf->Core__DOT__decode__DOT__inst 
                                                  >> 7U)))))),32);
-        tracep->fullIData(oldp+146,((vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullIData(oldp+145,((vlSelf->Core__DOT__decode__DOT__inst 
                                      >> 0xcU)),20);
-        tracep->fullIData(oldp+147,((0xfffff000U & vlSelf->Core__DOT__decode__DOT__inst)),32);
-        tracep->fullSData(oldp+148,(((vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullIData(oldp+146,((0xfffff000U & vlSelf->Core__DOT__decode__DOT__inst)),32);
+        tracep->fullSData(oldp+147,(((vlSelf->Core__DOT__decode__DOT__inst 
                                       >> 0x1fU) ? 0xfffU
                                       : 0U)),12);
-        tracep->fullCData(oldp+149,((0xffU & (vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullCData(oldp+148,((0xffU & (vlSelf->Core__DOT__decode__DOT__inst 
                                               >> 0xcU))),8);
-        tracep->fullBit(oldp+150,((1U & (vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullBit(oldp+149,((1U & (vlSelf->Core__DOT__decode__DOT__inst 
                                          >> 0x14U))));
-        tracep->fullSData(oldp+151,((0x3ffU & (vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullSData(oldp+150,((0x3ffU & (vlSelf->Core__DOT__decode__DOT__inst 
                                                >> 0x15U))),10);
-        tracep->fullIData(oldp+152,(((((vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullIData(oldp+151,(((((vlSelf->Core__DOT__decode__DOT__inst 
                                         >> 0x1fU) ? 0xfffU
                                         : 0U) << 0x14U) 
                                      | ((0xff000U & vlSelf->Core__DOT__decode__DOT__inst) 
@@ -1242,66 +1240,67 @@ void VCore___024root__traceFullSub0(VCore___024root* vlSelf, VerilatedVcd* trace
                                            | (0x7feU 
                                               & (vlSelf->Core__DOT__decode__DOT__inst 
                                                  >> 0x14U)))))),32);
-        tracep->fullCData(oldp+153,((0x3fU & (vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullCData(oldp+152,((0x3fU & (vlSelf->Core__DOT__decode__DOT__inst 
                                               >> 0x14U))),6);
-        tracep->fullIData(oldp+154,((((0x37U != (0x7fU 
+        tracep->fullIData(oldp+153,((((0x37U != (0x7fU 
                                                  & vlSelf->Core__DOT__decode__DOT__inst)) 
                                       & (IData)(vlSelf->Core__DOT__decode__DOT___ctrl_T_793))
                                       ? (0x1fU & (vlSelf->Core__DOT__decode__DOT__inst 
                                                   >> 0x14U))
                                       : (0x3fU & (vlSelf->Core__DOT__decode__DOT__inst 
                                                   >> 0x14U)))),32);
-        tracep->fullIData(oldp+155,((0x1fU & (vlSelf->Core__DOT__decode__DOT__inst 
+        tracep->fullIData(oldp+154,((0x1fU & (vlSelf->Core__DOT__decode__DOT__inst 
                                               >> 0xfU))),32);
-        tracep->fullBit(oldp+156,(vlSelf->Core__DOT__regfile__DOT__ex_rs1_hazard));
-        tracep->fullBit(oldp+157,(vlSelf->Core__DOT__regfile__DOT__ex_rs2_hazard));
-        tracep->fullBit(oldp+158,(vlSelf->Core__DOT__regfile__DOT__mem_rs1_hazard));
-        tracep->fullBit(oldp+159,(vlSelf->Core__DOT__regfile__DOT__mem_rs2_hazard));
-        tracep->fullBit(oldp+160,((((IData)(vlSelf->Core__DOT__mem__DOT__io_wen_o_REG) 
+        tracep->fullBit(oldp+155,(vlSelf->Core__DOT__regfile__DOT__ex_rs1_hazard));
+        tracep->fullBit(oldp+156,(vlSelf->Core__DOT__regfile__DOT__ex_rs2_hazard));
+        tracep->fullBit(oldp+157,(vlSelf->Core__DOT__regfile__DOT__mem_rs1_hazard));
+        tracep->fullBit(oldp+158,(vlSelf->Core__DOT__regfile__DOT__mem_rs2_hazard));
+        tracep->fullBit(oldp+159,((((IData)(vlSelf->Core__DOT__mem__DOT__io_wen_o_REG) 
                                     & ((IData)(vlSelf->Core__DOT__mem__DOT__io_waddr_o_REG) 
                                        == (0x1fU & 
                                            (vlSelf->Core__DOT__decode__DOT__inst 
                                             >> 0xfU)))) 
                                    & (1U == (IData)(vlSelf->Core__DOT__decode__DOT__c0_1)))));
-        tracep->fullBit(oldp+161,((((IData)(vlSelf->Core__DOT__mem__DOT__io_wen_o_REG) 
+        tracep->fullBit(oldp+160,((((IData)(vlSelf->Core__DOT__mem__DOT__io_wen_o_REG) 
                                     & ((IData)(vlSelf->Core__DOT__mem__DOT__io_waddr_o_REG) 
                                        == (0x1fU & 
                                            (vlSelf->Core__DOT__decode__DOT__inst 
                                             >> 0x14U)))) 
                                    & (IData)(vlSelf->Core__DOT__decode_io_ren2))));
-        tracep->fullQData(oldp+162,(vlSelf->Core__DOT__execute__DOT__alu_io_in1),64);
-        tracep->fullQData(oldp+164,(vlSelf->Core__DOT__execute__DOT__alu_io_in2),64);
-        tracep->fullCData(oldp+166,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_alu_code),4);
-        tracep->fullBit(oldp+167,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_w_type));
-        tracep->fullBit(oldp+168,(vlSelf->Core__DOT__execute__DOT__alu_io_jmp));
-        tracep->fullCData(oldp+169,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_jmp_code),4);
-        tracep->fullIData(oldp+170,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_imm),32);
-        tracep->fullIData(oldp+171,(vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc),32);
-        tracep->fullCData(oldp+172,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rs1_src),3);
-        tracep->fullCData(oldp+173,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rs2_src),3);
-        tracep->fullIData(oldp+174,(((vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_imm 
+        tracep->fullQData(oldp+161,(vlSelf->Core__DOT__execute__DOT__alu_io_in1),64);
+        tracep->fullQData(oldp+163,(vlSelf->Core__DOT__execute__DOT__alu_io_in2),64);
+        tracep->fullCData(oldp+165,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_alu_code),4);
+        tracep->fullBit(oldp+166,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_w_type));
+        tracep->fullBit(oldp+167,(vlSelf->Core__DOT__execute__DOT__alu_io_jmp));
+        tracep->fullCData(oldp+168,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_jmp_code),4);
+        tracep->fullIData(oldp+169,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_imm),32);
+        tracep->fullIData(oldp+170,(vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc),32);
+        tracep->fullCData(oldp+171,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rs1_src),3);
+        tracep->fullCData(oldp+172,(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rs2_src),3);
+        tracep->fullIData(oldp+173,(((vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_imm 
                                       >> 0x1fU) ? 0xffffffffU
                                       : 0U)),32);
-        tracep->fullIData(oldp+175,(((IData)(4U) + vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc)),32);
-        tracep->fullCData(oldp+176,(vlSelf->Core__DOT__execute__DOT__alu__DOT__shamt),6);
-        tracep->fullIData(oldp+177,((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_in1)),32);
-        tracep->fullQData(oldp+178,(vlSelf->Core__DOT__execute__DOT__alu__DOT__out0),64);
-        tracep->fullIData(oldp+180,((IData)(vlSelf->Core__DOT__execute__DOT__alu__DOT__out0)),32);
-        tracep->fullIData(oldp+181,(((1U & (IData)(
+        tracep->fullIData(oldp+174,(((IData)(4U) + vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc)),32);
+        tracep->fullCData(oldp+175,(vlSelf->Core__DOT__execute__DOT__alu__DOT__shamt),6);
+        tracep->fullIData(oldp+176,((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_in1)),32);
+        tracep->fullQData(oldp+177,(vlSelf->Core__DOT__execute__DOT__alu__DOT__out0),64);
+        tracep->fullIData(oldp+179,((IData)(vlSelf->Core__DOT__execute__DOT__alu__DOT__out0)),32);
+        tracep->fullIData(oldp+180,(((1U & (IData)(
                                                    (vlSelf->Core__DOT__execute__DOT__alu__DOT__out0 
                                                     >> 0x1fU)))
                                       ? 0xffffffffU
                                       : 0U)),32);
-        tracep->fullBit(oldp+182,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid));
-        tracep->fullIData(oldp+183,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc),32);
-        tracep->fullIData(oldp+184,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_inst),32);
-        tracep->fullCData(oldp+185,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code),2);
-        tracep->fullCData(oldp+186,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size),2);
-        tracep->fullBit(oldp+187,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en));
-        tracep->fullCData(oldp+188,(vlSelf->Core__DOT__mem__DOT__waddr),5);
-        tracep->fullBit(oldp+189,(vlSelf->Core__DOT__mem__DOT__wen));
-        tracep->fullQData(oldp+190,(vlSelf->Core__DOT__mem__DOT__wdata),64);
-        tracep->fullIData(oldp+192,(vlSelf->Core__DOT__mem__DOT__reg_mem_addr),32);
+        tracep->fullBit(oldp+181,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid));
+        tracep->fullIData(oldp+182,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc),32);
+        tracep->fullIData(oldp+183,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_inst),32);
+        tracep->fullCData(oldp+184,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code),2);
+        tracep->fullCData(oldp+185,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_size),2);
+        tracep->fullBit(oldp+186,(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en));
+        tracep->fullCData(oldp+187,(vlSelf->Core__DOT__mem__DOT__waddr),5);
+        tracep->fullBit(oldp+188,(vlSelf->Core__DOT__mem__DOT__wen));
+        tracep->fullQData(oldp+189,(vlSelf->Core__DOT__mem__DOT__wdata),64);
+        tracep->fullIData(oldp+191,(vlSelf->Core__DOT__mem__DOT__reg_mem_addr),32);
+        tracep->fullBit(oldp+192,(vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG));
         tracep->fullBit(oldp+193,(vlSelf->Core__DOT__mem__DOT__is_load));
         tracep->fullBit(oldp+194,((3U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code))));
         tracep->fullCData(oldp+195,((7U & (IData)(vlSelf->Core__DOT__execute__DOT__alu_io_alu_out))),3);

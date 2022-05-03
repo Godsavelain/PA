@@ -150,7 +150,6 @@ VL_MODULE(VCore___024root) {
         CData/*4:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_rd_addr;
         CData/*0:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_rd_en;
         CData/*5:0*/ Core__DOT__execute__DOT__alu__DOT__shamt;
-        CData/*0:0*/ Core__DOT__mem__DOT__io_is_ebreak_o_REG;
         CData/*0:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_valid;
         CData/*1:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_mem_code;
         CData/*1:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_mem_size;
@@ -158,6 +157,7 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_rd_en;
         CData/*4:0*/ Core__DOT__mem__DOT__waddr;
         CData/*0:0*/ Core__DOT__mem__DOT__wen;
+        CData/*0:0*/ Core__DOT__mem__DOT__io_is_ebreak_o_REG;
         CData/*0:0*/ Core__DOT__mem__DOT__is_load;
         CData/*0:0*/ Core__DOT__mem__DOT__req_wait;
         CData/*0:0*/ Core__DOT__mem__DOT__io_out_bits_REG_valid;
