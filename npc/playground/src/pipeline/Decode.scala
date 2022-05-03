@@ -154,7 +154,7 @@ class Decode extends Module{
   io.raddr2 := inst(24, 20)
   io.is_ebreak := RegNext(Mux(io.id_flush , false.B ,Mux(inst_valid, (inst === EBREAK), false.B )))
 
-  io.p_npc_o := RegNext(reg_pnpc)
+  io.p_npc_o := reg_pnpc
 
   val imm_i = Cat(Fill(21, inst(31)), inst(30, 20))
   val imm_s = Cat(Fill(21, inst(31)), inst(30, 25), inst(11, 7))
