@@ -122,12 +122,16 @@ void VCore___024root___settle__TOP__3(VCore___024root* vlSelf) {
                                                 (0x38U 
                                                  & (vlSelf->Core__DOT__mem__DOT__reg_mem_addr 
                                                     << 3U)));
+    vlSelf->Core__DOT__mem_io_mem_rd_en = ((~ (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid)) 
+                                           & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en));
+    vlSelf->Core__DOT__mem__DOT__is_load = ((1U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code)) 
+                                            | (2U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code)));
     vlSelf->io_imem_raddr = (0xfffffffcU & vlSelf->Core__DOT__fetch__DOT__pc);
     vlSelf->Core__DOT__fetch__DOT__npc_s = ((IData)(4U) 
                                             + (0xfffffffcU 
                                                & vlSelf->Core__DOT__fetch__DOT__pc));
-    vlSelf->Core__DOT__mem__DOT__is_load = ((1U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code)) 
-                                            | (2U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code)));
+    vlSelf->Core__DOT__execute_io_ex_rd_en = ((~ (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)) 
+                                              & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rd_en));
     Core__DOT__decode__DOT___ctrl_T_551 = ((0x33U == 
                                             (0xfe00707fU 
                                              & vlSelf->Core__DOT__decode__DOT__inst))
@@ -3104,22 +3108,22 @@ void VCore___024root___settle__TOP__3(VCore___024root* vlSelf) {
                                                     ? 0U
                                                     : (IData)(vlSelf->Core__DOT__decode__DOT___ctrl_T_505))));
     vlSelf->Core__DOT__regfile__DOT__ex_rs1_hazard 
-        = (((IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rd_en) 
+        = (((IData)(vlSelf->Core__DOT__execute_io_ex_rd_en) 
             & ((IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rd_addr) 
                == (0x1fU & (vlSelf->Core__DOT__decode__DOT__inst 
                             >> 0xfU)))) & (1U == (IData)(vlSelf->Core__DOT__decode__DOT__c0_1)));
     vlSelf->Core__DOT__regfile__DOT__mem_rs1_hazard 
-        = (((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en) 
+        = (((IData)(vlSelf->Core__DOT__mem_io_mem_rd_en) 
             & ((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_addr) 
                == (0x1fU & (vlSelf->Core__DOT__decode__DOT__inst 
                             >> 0xfU)))) & (1U == (IData)(vlSelf->Core__DOT__decode__DOT__c0_1)));
     vlSelf->Core__DOT__regfile__DOT__ex_rs2_hazard 
-        = (((IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rd_en) 
+        = (((IData)(vlSelf->Core__DOT__execute_io_ex_rd_en) 
             & ((IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rd_addr) 
                == (0x1fU & (vlSelf->Core__DOT__decode__DOT__inst 
                             >> 0x14U)))) & (IData)(vlSelf->Core__DOT__decode_io_ren2));
     vlSelf->Core__DOT__regfile__DOT__mem_rs2_hazard 
-        = (((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en) 
+        = (((IData)(vlSelf->Core__DOT__mem_io_mem_rd_en) 
             & ((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_addr) 
                == (0x1fU & (vlSelf->Core__DOT__decode__DOT__inst 
                             >> 0x14U)))) & (IData)(vlSelf->Core__DOT__decode_io_ren2));
@@ -3136,6 +3140,10 @@ void VCore___024root___settle__TOP__3(VCore___024root* vlSelf) {
                                                        == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code))) 
                                                    & ((IData)(vlSelf->Core__DOT__regfile__DOT__mem_rs1_hazard) 
                                                       | (IData)(vlSelf->Core__DOT__regfile__DOT__mem_rs2_hazard)))));
+    vlSelf->Core__DOT__fetch__DOT__stall = (1U & ((~ (IData)(vlSelf->io_imem_read_ok)) 
+                                                  | (IData)(vlSelf->Core__DOT__decode__DOT__stall)));
+    vlSelf->Core__DOT__fetch__DOT___T_1 = (1U & ((~ (IData)(vlSelf->Core__DOT__fetch__DOT__stall)) 
+                                                 | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)));
 }
 
 void VCore___024root___eval_initial(VCore___024root* vlSelf) {
@@ -3258,13 +3266,20 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->io_write_regs = VL_RAND_RESET_I(1);
     vlSelf->io_commit = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__decode_io_ren2 = VL_RAND_RESET_I(1);
+    vlSelf->Core__DOT__execute_io_ex_rd_en = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__execute_io_jmp_packet_o_mis = VL_RAND_RESET_I(1);
+    vlSelf->Core__DOT__mem_io_mem_rd_en = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__mem_io_mem_rd_data = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__fetch_io_imem_resp_bits_old_pc_REG = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__io_commit_pc_REG = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__io_commit_REG = VL_RAND_RESET_I(1);
+    vlSelf->Core__DOT__fetch__DOT__pc_out = VL_RAND_RESET_I(32);
+    vlSelf->Core__DOT__fetch__DOT__inst_out = VL_RAND_RESET_I(32);
+    vlSelf->Core__DOT__fetch__DOT__valid_out = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__fetch__DOT__pc = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__fetch__DOT__npc_s = VL_RAND_RESET_I(32);
+    vlSelf->Core__DOT__fetch__DOT__stall = VL_RAND_RESET_I(1);
+    vlSelf->Core__DOT__fetch__DOT___T_1 = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__fetch__DOT__io_p_npc_REG = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__fetch__DOT__io_out_bits_inst_REG = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__fetch__DOT__io_out_bits_inst_valid_REG = VL_RAND_RESET_I(1);

@@ -232,6 +232,11 @@ extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit eb
 }
 
 long long int read_mem(unsigned int addr){
+    //printf("read addr %x \n",addr);
+    if(addr < 0x80000000){
+        printf("read mem addr error!\n");
+        return 0;
+    }
     int offset = (addr - 0x80000000);
     int i = offset / 8;
     int j = offset % 8;
@@ -242,9 +247,9 @@ long long int read_mem(unsigned int addr){
     else{
         result = Memory[i];
     }
-    //printf("read %llx to address %x \n",result,addr);
+    //printf("read %llx from address %x \n",result,addr);
     char log[200];
-    sprintf(log, "read %llx to address %x \n", result,addr);
+    sprintf(log, "read %llx from address %x \n", result,addr);
     fout << log ;
 
     return result;
@@ -309,6 +314,7 @@ void npc_step(){
     top->clock = 1;
 
     if(top->io_imem_ren){
+        //printf("imem read addr %x \n",npc_addr);
         top->io_imem_rdata = read_mem(npc_addr);
         top->io_imem_read_ok = true;
     }
