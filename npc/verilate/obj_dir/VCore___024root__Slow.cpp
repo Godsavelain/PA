@@ -2894,7 +2894,7 @@ void VCore___024root___settle__TOP__3(VCore___024root* vlSelf) {
         = ((((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_jmp)
               ? vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc
               : ((IData)(4U) + vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc)) 
-            != (IData)(vlSelf->Core__DOT__decode__DOT__io_p_npc_o_REG)) 
+            != vlSelf->Core__DOT__decode__DOT__io_p_npc_o_REG) 
            & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid));
     vlSelf->Core__DOT__execute__DOT__alu_io_alu_out 
         = ((IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_w_type)
@@ -3140,13 +3140,6 @@ void VCore___024root___settle__TOP__3(VCore___024root* vlSelf) {
                                                        == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code))) 
                                                    & ((IData)(vlSelf->Core__DOT__regfile__DOT__mem_rs1_hazard) 
                                                       | (IData)(vlSelf->Core__DOT__regfile__DOT__mem_rs2_hazard)))));
-    vlSelf->Core__DOT__decode__DOT___GEN_3 = ((1U & 
-                                               ((~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)) 
-                                                | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))
-                                               ? ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)
-                                                   ? 0U
-                                                   : vlSelf->Core__DOT__fetch__DOT__io_p_npc_REG)
-                                               : (IData)(vlSelf->Core__DOT__decode__DOT__reg_pnpc));
     vlSelf->Core__DOT__fetch__DOT__stall = (1U & ((~ (IData)(vlSelf->io_imem_read_ok)) 
                                                   | (IData)(vlSelf->Core__DOT__decode__DOT__stall)));
     vlSelf->Core__DOT__fetch__DOT___T_1 = (1U & ((~ (IData)(vlSelf->Core__DOT__fetch__DOT__stall)) 
@@ -3290,10 +3283,9 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->Core__DOT__decode__DOT__pc = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__decode__DOT__inst = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__decode__DOT__inst_valid = VL_RAND_RESET_I(1);
-    vlSelf->Core__DOT__decode__DOT__reg_pnpc = VL_RAND_RESET_I(1);
+    vlSelf->Core__DOT__decode__DOT__reg_pnpc = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__decode__DOT__io_rs1_data_o_REG = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__decode__DOT__io_rs2_data_o_REG = VL_RAND_RESET_Q(64);
-    vlSelf->Core__DOT__decode__DOT___GEN_3 = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__decode__DOT___ctrl_T_356 = VL_RAND_RESET_I(4);
     vlSelf->Core__DOT__decode__DOT___ctrl_T_505 = VL_RAND_RESET_I(2);
     vlSelf->Core__DOT__decode__DOT___ctrl_T_566 = VL_RAND_RESET_I(2);
@@ -3305,7 +3297,7 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->Core__DOT__decode__DOT__c0_4 = VL_RAND_RESET_I(3);
     vlSelf->Core__DOT__decode__DOT__stall = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__decode__DOT__io_is_ebreak_REG = VL_RAND_RESET_I(1);
-    vlSelf->Core__DOT__decode__DOT__io_p_npc_o_REG = VL_RAND_RESET_I(1);
+    vlSelf->Core__DOT__decode__DOT__io_p_npc_o_REG = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__decode__DOT___io_out_bits_imm_T_9 = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__regfile__DOT__ex_rs1_hazard = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__regfile__DOT__ex_rs2_hazard = VL_RAND_RESET_I(1);

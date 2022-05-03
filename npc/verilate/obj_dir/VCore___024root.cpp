@@ -65,11 +65,7 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
         = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc;
     vlSelf->Core__DOT__wb_dpi__DOT__inst1 = vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_inst;
     vlSelf->Core__DOT__wb_dpi__DOT__pc1 = vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc;
-    VCore___024root____Vdpiimwrap_Core__DOT__wb_dpi__DOT__wb_info_TOP(vlSelf->Core__DOT__wb_dpi__DOT__inst1, vlSelf->Core__DOT__wb_dpi__DOT__pc1, 
-                                                                      ((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid) 
-                                                                       & (IData)(vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG)));
-    vlSelf->Core__DOT__decode__DOT__io_p_npc_o_REG 
-        = vlSelf->Core__DOT__decode__DOT__reg_pnpc;
+    VCore___024root____Vdpiimwrap_Core__DOT__wb_dpi__DOT__wb_info_TOP(vlSelf->Core__DOT__wb_dpi__DOT__inst1, vlSelf->Core__DOT__wb_dpi__DOT__pc1, (IData)(vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG));
     if (vlSelf->reset) {
         vlSelf->Core__DOT__mem__DOT__reg_mem_addr = 0U;
     } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
@@ -81,10 +77,9 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
         vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en 
             = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rd_en;
     }
-    vlSelf->Core__DOT__io_commit_REG = vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_valid;
     vlSelf->Core__DOT__io_commit_pc_REG = vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc;
-    vlSelf->Core__DOT__fetch__DOT__io_p_npc_REG = (0xfffffffcU 
-                                                   & vlSelf->Core__DOT__fetch__DOT__pc);
+    vlSelf->Core__DOT__decode__DOT__io_p_npc_o_REG 
+        = vlSelf->Core__DOT__decode__DOT__reg_pnpc;
     if (vlSelf->reset) {
         __Vdly__Core__DOT__execute__DOT__ex_reg_decodeop_pc = 0U;
     } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
@@ -176,6 +171,7 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
         vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_addr 
             = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rd_addr;
     }
+    vlSelf->Core__DOT__io_commit_REG = vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_valid;
     if (vlSelf->reset) {
         vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rs1_src = 0U;
     } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
@@ -601,19 +597,19 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                          ? vlSelf->Core__DOT__regfile__DOT__rf_27
                                                          : vlSelf->Core__DOT__regfile__DOT___GEN_58))))))))
             : 0ULL);
-    vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG 
-        = vlSelf->Core__DOT__execute__DOT__io_is_ebreak_o_REG;
     vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_inst 
         = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_inst;
-    vlSelf->Core__DOT__decode__DOT__reg_pnpc = (1U 
-                                                & ((~ (IData)(vlSelf->reset)) 
-                                                   & vlSelf->Core__DOT__decode__DOT___GEN_3));
-    vlSelf->io_commit = vlSelf->Core__DOT__io_commit_REG;
-    vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_valid 
-        = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid;
     vlSelf->io_commit_pc = vlSelf->Core__DOT__io_commit_pc_REG;
     vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc 
         = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc;
+    if (vlSelf->reset) {
+        vlSelf->Core__DOT__decode__DOT__reg_pnpc = 0U;
+    } else if ((1U & ((~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)) 
+                      | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))) {
+        vlSelf->Core__DOT__decode__DOT__reg_pnpc = 
+            ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)
+              ? 0U : vlSelf->Core__DOT__fetch__DOT__io_p_npc_REG);
+    }
     if (vlSelf->reset) {
         vlSelf->Core__DOT__decode__DOT__pc = 0U;
     } else if ((1U & ((~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)) 
@@ -622,6 +618,12 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                ? 0U
                                                : vlSelf->Core__DOT__fetch__DOT__pc_out);
     }
+    vlSelf->io_commit = vlSelf->Core__DOT__io_commit_REG;
+    vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG 
+        = ((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid) 
+           & (IData)(vlSelf->Core__DOT__execute__DOT__io_is_ebreak_o_REG));
+    vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_valid 
+        = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid;
     Core__DOT__execute__DOT___rs1_temp_T_2 = (((QData)((IData)(
                                                                ((vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_imm 
                                                                  >> 0x1fU)
@@ -711,8 +713,6 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                 = vlSelf->Core__DOT__mem__DOT__io_wdata_o_REG;
         }
     }
-    vlSelf->Core__DOT__execute__DOT__io_is_ebreak_o_REG 
-        = vlSelf->Core__DOT__decode__DOT__io_is_ebreak_REG;
     if (vlSelf->reset) {
         vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_inst = 0U;
     } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
@@ -720,17 +720,13 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
             = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_inst;
     }
     if (vlSelf->reset) {
-        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid = 0U;
-    } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
-        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid 
-            = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid;
-    }
-    if (vlSelf->reset) {
         vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc = 0U;
     } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
         vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc 
             = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc;
     }
+    vlSelf->Core__DOT__fetch__DOT__io_p_npc_REG = (0xfffffffcU 
+                                                   & vlSelf->Core__DOT__fetch__DOT__pc);
     if (vlSelf->reset) {
         vlSelf->Core__DOT__fetch__DOT__pc_out = 0U;
     } else if (vlSelf->Core__DOT__fetch__DOT___T_1) {
@@ -740,6 +736,14 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                  (0xfffffffcU 
                                                   & vlSelf->Core__DOT__fetch__DOT__pc));
     }
+    if (vlSelf->reset) {
+        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid = 0U;
+    } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
+        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid 
+            = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid;
+    }
+    vlSelf->Core__DOT__execute__DOT__io_is_ebreak_o_REG 
+        = vlSelf->Core__DOT__decode__DOT__io_is_ebreak_REG;
     vlSelf->io_regs_out_31 = vlSelf->Core__DOT__regfile__DOT__rf_31;
     vlSelf->io_regs_out_30 = vlSelf->Core__DOT__regfile__DOT__rf_30;
     vlSelf->io_regs_out_29 = vlSelf->Core__DOT__regfile__DOT__rf_29;
@@ -771,25 +775,11 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                        : 0ULL)
                                                       : 0ULL))
                                                     : vlSelf->Core__DOT__mem__DOT__wdata);
-    vlSelf->Core__DOT__decode__DOT__io_is_ebreak_REG 
-        = ((~ (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)) 
-           & ((IData)(vlSelf->Core__DOT__decode__DOT__inst_valid) 
-              & (0x100073U == vlSelf->Core__DOT__decode__DOT__inst)));
     if (vlSelf->reset) {
         vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_inst = 0U;
     } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
         vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_inst 
             = vlSelf->Core__DOT__decode__DOT__inst;
-    }
-    vlSelf->Core__DOT__mem_io_mem_rd_en = ((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid) 
-                                           & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en));
-    if (vlSelf->reset) {
-        vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid = 0U;
-    } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
-        vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid 
-            = ((~ ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis) 
-                   | (IData)(vlSelf->Core__DOT__decode__DOT__stall))) 
-               & (IData)(vlSelf->Core__DOT__decode__DOT__inst_valid));
     }
     if (vlSelf->reset) {
         vlSelf->Core__DOT__fetch__DOT__pc = 0x80000000U;
@@ -805,6 +795,20 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                   + vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc))
                                               : vlSelf->Core__DOT__fetch__DOT__npc_s);
     }
+    vlSelf->Core__DOT__mem_io_mem_rd_en = ((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid) 
+                                           & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en));
+    if (vlSelf->reset) {
+        vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid = 0U;
+    } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
+        vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid 
+            = ((~ ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis) 
+                   | (IData)(vlSelf->Core__DOT__decode__DOT__stall))) 
+               & (IData)(vlSelf->Core__DOT__decode__DOT__inst_valid));
+    }
+    vlSelf->Core__DOT__decode__DOT__io_is_ebreak_REG 
+        = ((~ (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)) 
+           & ((IData)(vlSelf->Core__DOT__decode__DOT__inst_valid) 
+              & (0x100073U == vlSelf->Core__DOT__decode__DOT__inst)));
     if (vlSelf->reset) {
         vlSelf->Core__DOT__mem__DOT__wen = 0U;
     } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__req_wait)))) {
@@ -2027,7 +2031,7 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
         = ((((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_jmp)
               ? vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc
               : ((IData)(4U) + vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc)) 
-            != (IData)(vlSelf->Core__DOT__decode__DOT__io_p_npc_o_REG)) 
+            != vlSelf->Core__DOT__decode__DOT__io_p_npc_o_REG) 
            & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid));
     vlSelf->Core__DOT__decode__DOT___ctrl_T_566 = (
                                                    (0x2003U 
@@ -3978,13 +3982,6 @@ VL_INLINE_OPT void VCore___024root___combo__TOP__4(VCore___024root* vlSelf) {
                                                     : 0ULL)
                                                    : 0ULL))
                                               : vlSelf->Core__DOT__mem__DOT__wdata);
-    vlSelf->Core__DOT__decode__DOT___GEN_3 = ((1U & 
-                                               ((~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)) 
-                                                | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))
-                                               ? ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)
-                                                   ? 0U
-                                                   : vlSelf->Core__DOT__fetch__DOT__io_p_npc_REG)
-                                               : (IData)(vlSelf->Core__DOT__decode__DOT__reg_pnpc));
     vlSelf->Core__DOT__fetch__DOT__stall = (1U & ((~ (IData)(vlSelf->io_imem_read_ok)) 
                                                   | (IData)(vlSelf->Core__DOT__decode__DOT__stall)));
     vlSelf->Core__DOT__fetch__DOT___T_1 = (1U & ((~ (IData)(vlSelf->Core__DOT__fetch__DOT__stall)) 
