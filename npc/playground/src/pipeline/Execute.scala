@@ -36,7 +36,7 @@ class Execute extends Module{
   io.is_ebreak_o := RegNext(io.is_ebreak_i)
   val ex_reg_decodeop = RegInit(0.U.asTypeOf(new DecodeOp()))
 
-  when(io.in.fire()){
+  when(io.in.fire() || io.ex_flush){
     ex_reg_decodeop := Mux(io.ex_flush ,0.U.asTypeOf(new DecodeOp()), io.in.bits)
   }
 

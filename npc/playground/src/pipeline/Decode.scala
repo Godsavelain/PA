@@ -30,7 +30,7 @@ class Decode extends Module{
 
   io.rs1_data_o := RegNext(io.rs1_data_i)
   io.rs2_data_o := RegNext(io.rs2_data_i)
-  when(io.in.fire()){
+  when(io.in.fire() || io.id_flush){
     pc := Mux(io.id_flush , 0.U(32.W) ,io.in.bits.pc)
     inst := Mux(io.id_flush , 0.U(32.W) ,io.in.bits.inst)
     inst_valid := Mux(io.id_flush , 0.B ,io.in.bits.inst_valid)

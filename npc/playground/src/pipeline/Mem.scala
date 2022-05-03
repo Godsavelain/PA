@@ -63,7 +63,7 @@ class Mem extends Module{
 
   val reg_mem_addr = RegInit(0.U(32.W))
 
-  when(io.in.fire()){
+  when(io.in.fire() || io.mem_flush_i){
     mem_reg_decodeop := Mux(io.mem_flush_i ,0.U.asTypeOf(new DecodeOp()), io.in.bits)
     waddr := io.in.bits.rd_addr
     wen   := Mux(io.mem_flush_i , 0.B ,io.in.bits.rd_en)
