@@ -54,14 +54,14 @@ class Mem extends Module{
   val req = io.dmem.req
   val resp = io.dmem.resp
 
-  io.is_ebreak_o := Mux((io.mem_flush_i || !mem_reg_decodeop.valid) , false.B ,RegNext(io.is_ebreak_i))
-
   val mem_reg_decodeop = RegInit(0.U.asTypeOf(new DecodeOp()))
   val waddr = RegInit(0.U(5.W))
   val wen   = RegInit(0.U(1.W))
   val wdata = RegInit(0.U(64.W))
 
   val reg_mem_addr = RegInit(0.U(32.W))
+
+  io.is_ebreak_o := Mux((io.mem_flush_i || !mem_reg_decodeop.valid) , false.B ,RegNext(io.is_ebreak_i))
 
   when(io.in.fire() || io.mem_flush_i){
     mem_reg_decodeop := Mux(io.mem_flush_i ,0.U.asTypeOf(new DecodeOp()), io.in.bits)
