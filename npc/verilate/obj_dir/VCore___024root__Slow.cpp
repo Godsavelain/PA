@@ -124,12 +124,12 @@ void VCore___024root___settle__TOP__3(VCore___024root* vlSelf) {
                                                     << 3U)));
     vlSelf->Core__DOT__mem_io_mem_rd_en = ((~ (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid)) 
                                            & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en));
-    vlSelf->Core__DOT__mem__DOT__is_load = ((1U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code)) 
-                                            | (2U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code)));
     vlSelf->io_imem_raddr = (0xfffffffcU & vlSelf->Core__DOT__fetch__DOT__pc);
     vlSelf->Core__DOT__fetch__DOT__npc_s = ((IData)(4U) 
                                             + (0xfffffffcU 
                                                & vlSelf->Core__DOT__fetch__DOT__pc));
+    vlSelf->Core__DOT__mem__DOT__is_load = ((1U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code)) 
+                                            | (2U == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code)));
     vlSelf->Core__DOT__execute_io_ex_rd_en = ((~ (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)) 
                                               & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rd_en));
     Core__DOT__decode__DOT___ctrl_T_551 = ((0x33U == 
@@ -3270,7 +3270,6 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->Core__DOT__execute_io_jmp_packet_o_mis = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__mem_io_mem_rd_en = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__mem_io_mem_rd_data = VL_RAND_RESET_Q(64);
-    vlSelf->Core__DOT__fetch_io_imem_resp_bits_old_pc_REG = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__io_commit_pc_REG = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__io_commit_REG = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__fetch__DOT__pc_out = VL_RAND_RESET_I(32);

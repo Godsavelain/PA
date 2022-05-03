@@ -4,7 +4,6 @@ module InstFetch(
   output [31:0] io_imem_req_bits_araddr,
   input  [31:0] io_imem_resp_bits_rdata,
   input         io_imem_resp_bits_rvalid,
-  input  [31:0] io_imem_resp_bits_old_pc,
   input         io_out_ready,
   output        io_out_valid,
   output [31:0] io_out_bits_pc,
@@ -53,7 +52,7 @@ module InstFetch(
       if (io_if_flush) begin // @[InstFetch.scala 79:21]
         pc_out <= 32'h0;
       end else begin
-        pc_out <= io_imem_resp_bits_old_pc;
+        pc_out <= pc_base;
       end
     end
     if (reset) begin // @[InstFetch.scala 59:26]
@@ -2247,14 +2246,12 @@ module Core(
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
-  reg [31:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
   wire  fetch_clock; // @[Core.scala 45:21]
   wire  fetch_reset; // @[Core.scala 45:21]
   wire [31:0] fetch_io_imem_req_bits_araddr; // @[Core.scala 45:21]
   wire [31:0] fetch_io_imem_resp_bits_rdata; // @[Core.scala 45:21]
   wire  fetch_io_imem_resp_bits_rvalid; // @[Core.scala 45:21]
-  wire [31:0] fetch_io_imem_resp_bits_old_pc; // @[Core.scala 45:21]
   wire  fetch_io_out_ready; // @[Core.scala 45:21]
   wire  fetch_io_out_valid; // @[Core.scala 45:21]
   wire [31:0] fetch_io_out_bits_pc; // @[Core.scala 45:21]
@@ -2467,7 +2464,6 @@ module Core(
   wire [31:0] wb_dpi_inst; // @[Core.scala 137:22]
   wire [31:0] wb_dpi_pc; // @[Core.scala 137:22]
   wire  wb_dpi_ebreak; // @[Core.scala 137:22]
-  reg [31:0] fetch_io_imem_resp_bits_old_pc_REG; // @[Core.scala 49:44]
   reg [31:0] io_commit_pc_REG; // @[Core.scala 113:26]
   reg  io_commit_REG; // @[Core.scala 114:23]
   wire [28:0] io_dmem_raddr_hi = mem_io_dmem_req_bits_arwaddr[31:3]; // @[Core.scala 116:52]
@@ -2477,7 +2473,6 @@ module Core(
     .io_imem_req_bits_araddr(fetch_io_imem_req_bits_araddr),
     .io_imem_resp_bits_rdata(fetch_io_imem_resp_bits_rdata),
     .io_imem_resp_bits_rvalid(fetch_io_imem_resp_bits_rvalid),
-    .io_imem_resp_bits_old_pc(fetch_io_imem_resp_bits_old_pc),
     .io_out_ready(fetch_io_out_ready),
     .io_out_valid(fetch_io_out_valid),
     .io_out_bits_pc(fetch_io_out_bits_pc),
@@ -2751,7 +2746,6 @@ module Core(
   assign fetch_reset = reset;
   assign fetch_io_imem_resp_bits_rdata = io_imem_rdata[31:0]; // @[Core.scala 48:49]
   assign fetch_io_imem_resp_bits_rvalid = io_imem_read_ok; // @[Core.scala 50:34]
-  assign fetch_io_imem_resp_bits_old_pc = fetch_io_imem_resp_bits_old_pc_REG; // @[Core.scala 49:34]
   assign fetch_io_out_ready = decode_io_in_ready; // @[Core.scala 63:16]
   assign fetch_io_if_flush = execute_io_jmp_packet_o_mis; // @[Core.scala 144:21]
   assign fetch_io_jmp_packet_i_jmp_npc = execute_io_jmp_packet_o_jmp_npc; // @[Core.scala 82:25]
@@ -2864,7 +2858,6 @@ module Core(
   assign wb_dpi_pc = mem_io_out_bits_pc; // @[Core.scala 140:16]
   assign wb_dpi_ebreak = mem_io_is_ebreak_o; // @[Core.scala 141:20]
   always @(posedge clock) begin
-    fetch_io_imem_resp_bits_old_pc_REG <= fetch_io_imem_req_bits_araddr; // @[Core.scala 49:44]
     io_commit_pc_REG <= mem_io_out_bits_pc; // @[Core.scala 113:26]
     io_commit_REG <= mem_io_out_bits_valid; // @[Core.scala 114:23]
   end
@@ -2905,11 +2898,9 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  fetch_io_imem_resp_bits_old_pc_REG = _RAND_0[31:0];
+  io_commit_pc_REG = _RAND_0[31:0];
   _RAND_1 = {1{`RANDOM}};
-  io_commit_pc_REG = _RAND_1[31:0];
-  _RAND_2 = {1{`RANDOM}};
-  io_commit_REG = _RAND_2[0:0];
+  io_commit_REG = _RAND_1[0:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
