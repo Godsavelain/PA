@@ -59,6 +59,8 @@ class InstFetch extends Module{
   val inst_out  = RegInit(0.U(32.W))
   val valid_out = RegInit(false.B)
 
+  val reg_pnpc = RegInit(0.U(32.W))
+
   val pc = RegInit("h80000000".U(32.W))
   //val pc_valid = RegInit("b1".U(1.W))
   val pc_base = Cat(pc(31, 2), Fill(2, 0.U))
@@ -72,8 +74,9 @@ class InstFetch extends Module{
   }
   .elsewhen(!stall || io.if_flush){
     pc := npc
+    reg_pnpc := pc_base
   }
-  io.p_npc := RegNext(pc_base)
+  io.p_npc := RegNext(reg_pnpc)
 
   when(!stall || io.if_flush){
     pc_out    := Mux(io.if_flush , 0.U , pc_base)

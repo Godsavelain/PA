@@ -170,14 +170,13 @@ VL_MODULE(VCore___024root) {
         IData/*31:0*/ Core__DOT__decode__DOT__pc;
         IData/*31:0*/ Core__DOT__decode__DOT__inst;
         IData/*31:0*/ Core__DOT__decode__DOT__reg_pnpc;
-        IData/*31:0*/ Core__DOT__decode__DOT__io_p_npc_o_REG;
         IData/*31:0*/ Core__DOT__decode__DOT___io_out_bits_imm_T_9;
         IData/*31:0*/ Core__DOT__execute__DOT__alu_io_jmp_pc;
         IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_pc;
         IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_inst;
+        IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_imm;
     };
     struct {
-        IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_imm;
         IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_pc;
         IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_inst;
         IData/*31:0*/ Core__DOT__mem__DOT__reg_mem_addr;
