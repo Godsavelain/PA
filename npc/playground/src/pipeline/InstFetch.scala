@@ -76,7 +76,7 @@ class InstFetch extends Module{
     pc := npc
     reg_pnpc := pc_base
   }
-  io.p_npc := RegNext(reg_pnpc)
+  io.p_npc := reg_pnpc
 
   when(!stall || io.if_flush){
     pc_out    := Mux(io.if_flush , 0.U , pc_base)

@@ -164,6 +164,7 @@ VL_MODULE(VCore___024root) {
         IData/*31:0*/ Core__DOT__io_commit_pc_REG;
         IData/*31:0*/ Core__DOT__fetch__DOT__pc_out;
         IData/*31:0*/ Core__DOT__fetch__DOT__inst_out;
+        IData/*31:0*/ Core__DOT__fetch__DOT__reg_pnpc;
         IData/*31:0*/ Core__DOT__fetch__DOT__pc;
         IData/*31:0*/ Core__DOT__fetch__DOT__npc_s;
         IData/*31:0*/ Core__DOT__fetch__DOT__io_p_npc_REG;
@@ -174,9 +175,9 @@ VL_MODULE(VCore___024root) {
         IData/*31:0*/ Core__DOT__execute__DOT__alu_io_jmp_pc;
         IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_pc;
         IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_inst;
-        IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_imm;
     };
     struct {
+        IData/*31:0*/ Core__DOT__execute__DOT__ex_reg_decodeop_imm;
         IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_pc;
         IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_inst;
         IData/*31:0*/ Core__DOT__mem__DOT__reg_mem_addr;
