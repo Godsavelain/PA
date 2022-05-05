@@ -400,7 +400,7 @@ class Div extends Module{
     val io = IO(new Bundle{
       val in1 = Input(UInt(64.W))
       val in2 = Input(UInt(64.W))
-      val is_sign = Input(UInt(4.W))
+      val is_sign = Input(Bool())
       val mdu_valid = Input(Bool())
       val mdu_ready = Output(Bool())
       val out = Output(UInt(64.W))
