@@ -23,7 +23,7 @@ class Booth extends Module{
     "b101".U -> Cat( Fill(63, x_neg(64)), x_neg),
     "b110".U -> Cat( Fill(63, x_neg(64)), x_neg),
     "b111".U -> 0.U
-  )
+  ))
 
   io.c := MuxLookup(io.y, 0.U(2.W), Array(
     "b000".U -> 0.U,
@@ -34,7 +34,7 @@ class Booth extends Module{
     "b101".U -> "b01".U,
     "b110".U -> "b01".U,
     "b111".U -> 0.U
-  )
+  ))
 }
 
 class Csa extends Module{
