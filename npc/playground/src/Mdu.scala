@@ -172,6 +172,8 @@ class Mul extends Module {
   csa(0).io.x := pp(0)(127,0)
   csa(0).io.y := Cat(pp(1)(125, 0), Fill(2, "b0".U))
   csa(0).io.z := Cat(pp(2)(123, 0), Fill(4, "b0".U))
+  s_l1(0) := csa(0).io.s
+  c_l1(0) := csa(0).io.c
   for (i <- 1 until 11) {
     csa(i).io.x := Cat(pp(i * 3)(127 - 6 * i, 0), Fill(6 * i, "b0".U))
     csa(i).io.y := Cat(pp(i * 3 + 1)(125 - 6 * i, 0), Fill(6 * i + 2, "b0".U))
