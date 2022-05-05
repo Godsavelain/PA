@@ -13,7 +13,7 @@ class Booth extends Module{
     val z = Output(UInt(128.W)) //部分积
     val c = Output(UInt(2.W)) //进位
   })
-  val x_neg = ~x
+  val x_neg = ~io.x
   io.z := MuxLookup(io.y, 0.U(129.W), Array(
     "b000".U -> 0.U,
     "b001".U -> Cat( Fill(63, io.x(64)), io.x),
@@ -229,16 +229,16 @@ class Mul extends Module {
   csa(22).io.y := c_l2(5);
   csa(22).io.z := s_l2(6);
 
-  s_l3(0) := csa(18).s;
-  c_l3(0) := csa(18).c;
-  s_l3(1) := csa(19).s;
-  c_l3(1) := csa(19).c;
-  s_l3(2) := csa(20).s;
-  c_l3(2) := csa(20).c;
-  s_l3(3) := csa(21).s;
-  c_l3(3) := csa(21).c;
-  s_l3(4) := csa(22).s;
-  c_l3(4) := csa(22).c;
+  s_l3(0) := csa(18).io.s;
+  c_l3(0) := csa(18).io.c;
+  s_l3(1) := csa(19).io.s;
+  c_l3(1) := csa(19).io.c;
+  s_l3(2) := csa(20).io.s;
+  c_l3(2) := csa(20).io.c;
+  s_l3(3) := csa(21).io.s;
+  c_l3(3) := csa(21).io.c;
+  s_l3(4) := csa(22).io.s;
+  c_l3(4) := csa(22).io.c;
 
   //level 4
   csa(23).io.x := c_l2(6);
@@ -251,12 +251,12 @@ class Mul extends Module {
   csa(25).io.y := s_l3(3);
   csa(25).io.z := s_l3(3);
 
-  s_l4(0) := csa(23).s;
-  c_l4(0) := csa(23).c;
-  s_l4(1) := csa(24).s;
-  c_l4(1) := csa(24).c;
-  s_l4(2) := csa(25).s;
-  c_l4(2) := csa(25).c;
+  s_l4(0) := csa(23).io.s;
+  c_l4(0) := csa(23).io.c;
+  s_l4(1) := csa(24).io.s;
+  c_l4(1) := csa(24).io.c;
+  s_l4(2) := csa(25).io.s;
+  c_l4(2) := csa(25).io.c;
 
   //register these 8 values in pp_l2
 
@@ -268,10 +268,10 @@ class Mul extends Module {
   csa(27).io.y := pp_l2(4);
   csa(27).io.z := pp_l2(5);
 
-  s_l5(0) := csa(26).s;
-  c_l5(0) := csa(26).c;
-  s_l5(1) := csa(27).s;
-  c_l5(1) := csa(27).c;
+  s_l5(0) := csa(26).io.s;
+  c_l5(0) := csa(26).io.c;
+  s_l5(1) := csa(27).io.s;
+  c_l5(1) := csa(27).io.c;
 
   //level 6
   csa(28).io.x := pp_l2(6);
@@ -281,26 +281,26 @@ class Mul extends Module {
   csa(29).io.y := c_l5(0);
   csa(29).io.z := c_l5(0);
 
-  s_l6(0) := csa(28).s;
-  c_l6(0) := csa(28).c;
-  s_l6(1) := csa(29).s;
-  c_l6(1) := csa(29).c;
+  s_l6(0) := csa(28).io.s;
+  c_l6(0) := csa(28).io.c;
+  s_l6(1) := csa(29).io.s;
+  c_l6(1) := csa(29).io.c;
 
   //level 7
   csa(30).io.x := s_l6(0);
   csa(30).io.y := s_l6(1);
   csa(30).io.z := c_l6(0);
 
-  s_l7 := csa(30).s;
-  c_l7 := csa(30).c;
+  s_l7 := csa(30).io.s;
+  c_l7 := csa(30).io.c;
 
   //level 8
   csa(31).io.x := s_l7;
   csa(31).io.y := c_l7;
   csa(31).io.z := c_l6(1);
 
-  s_l8 := csa(31).s;
-  c_l8 := csa(31).c;
+  s_l8 := csa(31).io.s;
+  c_l8 := csa(31).io.c;
   temp_out := s_l8 + c_l8
 
   //csas
