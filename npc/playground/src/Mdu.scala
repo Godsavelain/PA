@@ -170,9 +170,9 @@ class Mul extends Module {
   val temp_out = Wire(UInt(128.W))
 
   for (i <- 0 until 11) {
-    csa(i).io.x := Cat(pp(i * 3)(127 - 6 * i, 0), Fill(6 * i, 0.U(1.W)))
-    csa(i).io.y := Cat(pp(i * 3 + 1)(125 - 6 * i, 0), Fill(6 * i + 2, 0.U))
-    csa(i).io.z := Cat(pp(i * 3 + 2)(123 - 6 * i, 0), Fill(6 * i + 4, 0.U))
+    csa(i).io.x := Cat(pp(i * 3)(127 - 6 * i, 0), Fill(6 * i, "b0".U))
+    csa(i).io.y := Cat(pp(i * 3 + 1)(125 - 6 * i, 0), Fill(6 * i + 2, "b0".U))
+    csa(i).io.z := Cat(pp(i * 3 + 2)(123 - 6 * i, 0), Fill(6 * i + 4, "b0".U))
     s_l1(i) := csa(i).io.s
     c_l1(i) := csa(i).io.c
   }
@@ -356,7 +356,7 @@ class Mul extends Module {
     is(s_1) {
       when(true.B) {
         state := s_2
-        pp33 := Cat(Fill(62, 0.U), c.asUInt)
+        pp33 := Cat(Fill(62, "b0".U), c.asUInt)
         for (i <- 0 until 33) {
           pp(i) := booth(i).io.z
         }
