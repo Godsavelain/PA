@@ -16,12 +16,12 @@ class Booth extends Module{
   val x_neg = ~x
   io.z := MuxLookup(io.y, 0.U(129.W), Array(
     "b000".U -> 0.U,
-    "b001".U -> Cat( Fill(63, io.x[64]), io.x),
-    "b010".U -> Cat( Fill(63, io.x[64]), io.x),
-    "b011".U -> Cat( Fill(62, io.x[64]), io.x ,"b0".U),
-    "b100".U -> Cat( Fill(62, x_neg[64]), x_neg ,"b0".U),
-    "b101".U -> Cat( Fill(63, x_neg[64]), x_neg),
-    "b110".U -> Cat( Fill(63, x_neg[64]), x_neg),
+    "b001".U -> Cat( Fill(63, io.x(64)), io.x),
+    "b010".U -> Cat( Fill(63, io.x(64)), io.x),
+    "b011".U -> Cat( Fill(62, io.x(64)), io.x ,"b0".U),
+    "b100".U -> Cat( Fill(62, x_neg(64)), x_neg ,"b0".U),
+    "b101".U -> Cat( Fill(63, x_neg(64)), x_neg),
+    "b110".U -> Cat( Fill(63, x_neg(64)), x_neg),
     "b111".U -> 0.U
   )
 
@@ -344,7 +344,7 @@ class Div extends Module{
     val is_sign := io.is_sign
     mul.in1 := Mux( is_sign, Cat(io.in1(63) , io.in1) ,Cat( "b0".U , io.in1) )
     mul.in2 := Mux( is_sign, Cat(io.in2(63) , io.in2) ,Cat( "b0".U , io.in2) )
-    mul.mul_valid :=io.mdu_valid
+    mul.mul_valid := io.mdu_valid
     val out := mul.out
   }
 
