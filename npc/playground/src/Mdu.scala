@@ -318,7 +318,7 @@ class Mul extends Module {
       when(io.mul_valid) {
         state := s_1
         reg_in1 := io.in1
-        reg_in2 := Cat(io.in2(64), io.in2(64,0), "b0".U)
+        reg_in2 := Cat(io.in2(64), io.in2, "b0".U)
       }
     }
     is(s_1) {
