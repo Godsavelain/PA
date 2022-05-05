@@ -170,8 +170,7 @@ class Mul extends Module {
   val temp_out = Wire(UInt(128.W))
 
   for (i <- 0 until 11) {
-    val temp_x = Cat(pp(i * 3)(127 - 6 * i, 0), Fill(6 * i, 0.U))
-    csa(i).io.x := temp_x
+    csa(i).io.x := Cat(pp(i * 3)(127 - 6 * i, 0), Fill(6 * i, Wire(0.U(1.W))))
     csa(i).io.y := Cat(pp(i * 3 + 1)(125 - 6 * i, 0), Fill(6 * i + 2, 0.U))
     csa(i).io.z := Cat(pp(i * 3 + 2)(123 - 6 * i, 0), Fill(6 * i + 4, 0.U))
     s_l1(i) := csa(i).io.s
