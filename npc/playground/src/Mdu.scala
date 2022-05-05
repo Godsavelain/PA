@@ -169,11 +169,11 @@ class Mul extends Module {
 
   val temp_out = Wire(UInt(128.W))
 
-  for (i <- 0 until 11) {
-    val pp_1 = pp(i * 3)(127 - 6 * i, 0)
-    val pp_2 = pp(i * 3 + 1)(125 - 6 * i, 0)
-    val pp_3 = pp(i * 3 + 2)(123 - 6 * i, 0)
-    csa(i).io.x := Cat(pp_1, Fill(6 * i, "b0".U))
+  csa(0).io.x := pp(0)(127,0)
+  csa(0).io.y := Cat(pp(1)(125, 0), Fill(2, "b0".U))
+  csa(0).io.z := Cat(pp(2)(123, 0), Fill(4, "b0".U))
+  for (i <- 1 until 11) {
+    csa(i).io.x := Cat(pp(i * 3)(127 - 6 * i, 0), Fill(6 * i, "b0".U))
     csa(i).io.y := Cat(pp(i * 3 + 1)(125 - 6 * i, 0), Fill(6 * i + 2, "b0".U))
     csa(i).io.z := Cat(pp(i * 3 + 2)(123 - 6 * i, 0), Fill(6 * i + 4, "b0".U))
     s_l1(i) := csa(i).io.s
