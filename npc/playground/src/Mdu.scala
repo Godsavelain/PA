@@ -409,7 +409,6 @@ class Div extends Module{
       val in2 = Input(UInt(64.W))
       val is_sign = Input(Bool())
       val mdu_valid = Input(Bool())
-      val mdu_ready = Output(Bool())
       val out = Output(UInt(64.W))
     })
     val mul = Module(new Mul)
