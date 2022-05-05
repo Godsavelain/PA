@@ -14,7 +14,7 @@ class Booth extends Module{
     val c = Output(UInt(2.W)) //进位
   })
   val x_neg = ~io.x
-  io.z := MuxLookup(io.y, 0.U(129.W), Array(
+  io.z := MuxLookup(io.y, 0.U(128.W), Array(
     "b000".U -> 0.U,
     "b001".U -> Cat( Fill(63, io.x(64)), io.x),
     "b010".U -> Cat( Fill(63, io.x(64)), io.x),
@@ -149,7 +149,7 @@ class Mul extends Module {
     s_l5
   }
   val c_l5 = for (i <- 0 until 2) yield {
-    val c_l5 = Wire(UInt(130.W))
+    val c_l5 = Wire(UInt(128.W))
     c_l5
   }
 
@@ -310,43 +310,6 @@ class Mul extends Module {
   c_l8 := csa(31).io.c;
   temp_out := s_l8 + c_l8
 
-  //csas
-
-  //  val pp0 = RegInit(0.U(130.W))
-  //  val pp1 = RegInit(0.U(130.W))
-  //  val pp2 = RegInit(0.U(130.W))
-  //  val pp3 = RegInit(0.U(130.W))
-  //  val pp4 = RegInit(0.U(130.W))
-  //  val pp5 = RegInit(0.U(130.W))
-  //  val pp6 = RegInit(0.U(130.W))
-  //  val pp7 = RegInit(0.U(130.W))
-  //  val pp8 = RegInit(0.U(130.W))
-  //  val pp9 = RegInit(0.U(130.W))
-  //  val pp10 = RegInit(0.U(130.W))
-  //  val pp11 = RegInit(0.U(130.W))
-  //  val pp12 = RegInit(0.U(130.W))
-  //  val pp13 = RegInit(0.U(130.W))
-  //  val pp14 = RegInit(0.U(130.W))
-  //  val pp15 = RegInit(0.U(130.W))
-  //  val pp16 = RegInit(0.U(130.W))
-  //  val pp17 = RegInit(0.U(130.W))
-  //  val pp18 = RegInit(0.U(130.W))
-  //  val pp19 = RegInit(0.U(130.W))
-  //  val pp20 = RegInit(0.U(130.W))
-  //  val pp21 = RegInit(0.U(130.W))
-  //  val pp22 = RegInit(0.U(130.W))
-  //  val pp23 = RegInit(0.U(130.W))
-  //  val pp24 = RegInit(0.U(130.W))
-  //  val pp25 = RegInit(0.U(130.W))
-  //  val pp26 = RegInit(0.U(130.W))
-  //  val pp27 = RegInit(0.U(130.W))
-  //  val pp28 = RegInit(0.U(130.W))
-  //  val pp29 = RegInit(0.U(130.W))
-  //  val pp30 = RegInit(0.U(130.W))
-  //  val pp31 = RegInit(0.U(130.W))
-  //  val pp32 = RegInit(0.U(130.W))
-
-
   io.mul_ready := (state === s_idle)
   io.out := reg_out
 
@@ -355,7 +318,7 @@ class Mul extends Module {
       when(io.mul_valid) {
         state := s_1
         reg_in1 := io.in1
-        reg_in2 := Cat(io.in2(64), io.in2, "b0".U)
+        reg_in2 := Cat(io.in2(64), io.in2(64,0), "b0".U)
       }
     }
     is(s_1) {
@@ -369,7 +332,7 @@ class Mul extends Module {
     }
     is(s_2) {
       when(true.B) {
-        state := s_2
+        state := s_3
         pp_l2(0) := s_l4(0)
         pp_l2(1) := s_l4(1)
         pp_l2(2) := s_l4(2)
