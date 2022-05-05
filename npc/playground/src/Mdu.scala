@@ -63,7 +63,7 @@ class Mul extends Module {
   val reg_in1 = RegInit(0.U(65.W))
   val reg_in2 = RegInit(0.U(67.W))
 
-  val c = Wire(UInt(66.W))
+  val c = Vec(66, UInt(1.W))
 
   val pp = for (i <- 0 until 33) yield {
     val pp = RegInit(0.U(128.W))
@@ -95,7 +95,9 @@ class Mul extends Module {
   for (i <- 0 until 33) {
     booth(i).io.x := reg_in1
     booth(i).io.y := reg_in2(i * 2 + 2, i * 2)
-    c(i * 2 + 1, i * 2) := booth(i).io.c
+    c(i * 2 + 1) := booth(i).io.c(1)
+    c(i * 2) := booth(i).io.c(0)
+//    c(i * 2 + 1, i * 2) := booth(i).io.c
   }
 
   val pp33 = RegInit(0.U(128.W))
@@ -354,7 +356,7 @@ class Mul extends Module {
     is(s_1) {
       when(true.B) {
         state := s_2
-        pp33 := Cat(Fill(62, 0.U), c)
+        pp33 := Cat(Fill(62, 0.U), c.asUInt)
         for (i <- 0 until 33) {
           pp(i) := booth(i).io.z
         }
