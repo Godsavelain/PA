@@ -407,10 +407,10 @@ class Div extends Module{
     })
     val mul = Module(new Mul)
     val is_sign = io.is_sign
-    mul.in1 := Mux( is_sign, Cat(io.in1(63) , io.in1) ,Cat( "b0".U , io.in1) )
-    mul.in2 := Mux( is_sign, Cat(io.in2(63) , io.in2) ,Cat( "b0".U , io.in2) )
-    mul.mul_valid := io.mdu_valid
-    io.out := mul.out
+    mul.io.in1 := Mux( is_sign, Cat(io.in1(63) , io.in1) ,Cat( "b0".U , io.in1) )
+    mul.io.in2 := Mux( is_sign, Cat(io.in2(63) , io.in2) ,Cat( "b0".U , io.in2) )
+    mul.io.mul_valid := io.mdu_valid
+    io.out := mul.io.out
   }
 
 //  class Mdu extends Module{
