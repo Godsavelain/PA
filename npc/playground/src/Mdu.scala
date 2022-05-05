@@ -63,7 +63,7 @@ class Mul extends Module {
   val reg_in1 = RegInit(0.U(65.W))
   val reg_in2 = RegInit(0.U(67.W))
 
-  val c = Vec(66, UInt(1.W))
+  val c = Wire(Vec(66, UInt(1.W)))
 
   val pp = for (i <- 0 until 33) yield {
     val pp = RegInit(0.U(128.W))
