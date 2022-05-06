@@ -372,14 +372,16 @@ class Div extends Module{
       val in2 = Input(UInt(64.W))
       val is_sign = Input(Bool())
       val mdu_valid = Input(Bool())
-      val out = Output(UInt(128.W))
+      val out1 = Output(UInt(64.W))
+      val out2 = OUtput(UInt(64.W))
     })
     val mul = Module(new Mul)
     val is_sign = io.is_sign
     mul.io.in1 := Mux( is_sign, Cat(io.in1(63) , io.in1) ,Cat( "b0".U , io.in1) )
     mul.io.in2 := Mux( is_sign, Cat(io.in2(63) , io.in2) ,Cat( "b0".U , io.in2) )
     mul.io.mul_valid := io.mdu_valid
-    io.out := mul.io.out
+    io.out1 := mul.io.out(63,0)
+    io.out2 := mul.io.out(127,64)
   }
 
 //  class Mdu extends Module{
