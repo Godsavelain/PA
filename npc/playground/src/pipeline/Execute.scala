@@ -87,7 +87,7 @@ class Execute extends Module{
   mdu.io.mdu_valid := (mdu_op =/= MDU_X) && ex_reg_decodeop.valid && !stall
 
   io.ex_mduout_o := mdu.io.out
-  io.ex_mduready_o := mdu.io.mul_ready
+  io.ex_mduready_o := mdu.io.mdu_ready
 
   //for mem
 
