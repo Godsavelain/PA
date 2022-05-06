@@ -23,6 +23,7 @@ import patchouli.Constant._
     val in1_sign = Wire(Bool())
     val in2_sign = Wire(Bool())
     val mul_high = Wire(Bool())
+    val is_word = Wire(Bool())
 
     val reg_x = RegInit(0.U(64.W))
     val reg_y = RegInit(0.U(64.W))
@@ -43,6 +44,8 @@ import patchouli.Constant._
     in2_sign := Mux(((reg_mduop === MDU_MUL) || (reg_mduop === MDU_MULH) ) , io.in2(63) ,0.B)
 
     mul_high := (reg_mduop === MDU_MULH) || (reg_mduop === MDU_MULHSU) || (reg_mduop === MDU_MULHU)
+
+    is_word := (reg_mduop === MDU_MULW) || (reg_mduop === MDU_DIVW) || (reg_mduop === MDU_DIVUW) || (reg_mduop === MDU_REMW) || (reg_mduop === MDU_REMUW)
 
     io.mdu_ready := completed
     io.out := reg_out
@@ -74,7 +77,7 @@ import patchouli.Constant._
         when(mul_ready){
           state := s_idle
           completed := true.B
-          reg_out := Mux(mul_high , mul.io.out2 ,mul.io.out1)
+          reg_out := Mux(is_word ,Sext32_64(mul.io.out1(31,0))  , Mux(mul_high , mul.io.out2 ,mul.io.out1))
         }
       }
 //      is(s_wait_d){
