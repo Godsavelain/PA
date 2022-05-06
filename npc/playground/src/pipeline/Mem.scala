@@ -77,7 +77,7 @@ class Mem extends Module{
 
   //Mdu
   val mdu_op = mem_reg_decodeop.mdu_code
-  val mdu_valid = (mdu_op =\= MDU_X) && mem_reg_decodeop.valid
+  val mdu_valid = (mdu_op =/= MDU_X) && mem_reg_decodeop.valid
 
   //Mem
   val is_load  = ((mem_reg_decodeop.mem_code === MEM_LD) || (mem_reg_decodeop.mem_code === MEM_LDU))

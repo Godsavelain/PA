@@ -84,10 +84,10 @@ class Execute extends Module{
   mdu.io.in1 := rs1
   mdu.io.in2 := rs2
   mdu.io.mduop_i := mdu_op
-  mdu.io.mdu_valid := (mdu_op =\= MDU_X) && ex_reg_decodeop.valid && !stall
+  mdu.io.mdu_valid := (mdu_op =/= MDU_X) && ex_reg_decodeop.valid && !stall
 
-  io.ex_mduout_o := mul.io.out
-  io.ex_mduready_o := mul.io.mul_ready
+  io.ex_mduout_o := mdu.io.out
+  io.ex_mduready_o := mdu.io.mul_ready
 
   //for mem
 
@@ -104,7 +104,7 @@ class Execute extends Module{
   io.ex_rd_en   := Mux(!ex_reg_decodeop.valid, false.B, ex_reg_decodeop.rd_en)
   io.ex_rd_addr := ex_reg_decodeop.rd_addr
   io.ex_is_load := ((ex_reg_decodeop.mem_code === MEM_LD) || (ex_reg_decodeop.mem_code === MEM_LDU))
-  io.ex_is_mdu  := (mdu_op =\= MDU_X)
+  io.ex_is_mdu  := (mdu_op =/= MDU_X)
 
 }
 
