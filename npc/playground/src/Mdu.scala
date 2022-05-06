@@ -286,7 +286,7 @@ class Mul extends Module {
   csa(28).io.z := s_l5(0);
   csa(29).io.x := s_l5(1);
   csa(29).io.y := c_l5(0);
-  csa(29).io.z := c_l5(0);
+  csa(29).io.z := c_l5(1);
 
   s_l6(0) := csa(28).io.s;
   c_l6(0) := csa(28).io.c;
