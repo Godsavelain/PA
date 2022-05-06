@@ -204,19 +204,19 @@ class Mul extends Module {
   csa(17).io.y := c_l1(9);
   csa(17).io.z := pp33;
 
-  s_l2(0) := csa(11).io.s;
+  s_l2(0) := csa(11).io.s
   c_l2(0) := csa(11).io.c
-  s_l2(1) := csa(12).io.s;
+  s_l2(1) := csa(12).io.s
   c_l2(1) := csa(12).io.c
-  s_l2(2) := csa(13).io.s;
+  s_l2(2) := csa(13).io.s
   c_l2(2) := csa(13).io.c
-  s_l2(3) := csa(14).io.s;
+  s_l2(3) := csa(14).io.s
   c_l2(3) := csa(14).io.c
-  s_l2(4) := csa(15).io.s;
+  s_l2(4) := csa(15).io.s
   c_l2(4) := csa(15).io.c
-  s_l2(5) := csa(16).io.s;
+  s_l2(5) := csa(16).io.s
   c_l2(5) := csa(16).io.c
-  s_l2(6) := csa(17).io.s;
+  s_l2(6) := csa(17).io.s
   c_l2(6) := csa(17).io.c
 
   //level 3
@@ -256,7 +256,7 @@ class Mul extends Module {
   csa(24).io.z := s_l3(2);
   csa(25).io.x := c_l3(2);
   csa(25).io.y := s_l3(3);
-  csa(25).io.z := s_l3(3);
+  csa(25).io.z := c_l3(3);
 
   s_l4(0) := csa(23).io.s;
   c_l4(0) := csa(23).io.c;
