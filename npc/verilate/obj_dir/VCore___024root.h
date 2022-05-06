@@ -127,7 +127,7 @@ VL_MODULE(VCore___024root) {
         CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_718;
         CData/*0:0*/ Core__DOT__decode__DOT___ctrl_T_787;
         CData/*0:0*/ Core__DOT__decode__DOT___ctrl_T_793;
-        CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_841;
+        CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_825;
         CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_865;
         CData/*2:0*/ Core__DOT__decode__DOT__c0_1;
         CData/*2:0*/ Core__DOT__decode__DOT___ctrl_T_904;
