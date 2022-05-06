@@ -2,7 +2,6 @@ package patchouli
 import chisel3._
 import chisel3.util._
 import patchouli.Constant._
-import patchouli.Instructions._
 
 //refer to UltraMIPS
 
@@ -45,15 +44,16 @@ class Csa extends Module{
     val s = Output(UInt(128.W)) //和
     val c = Output(UInt(128.W)) //进位
   })
-    io.s := io.x ^ io.y ^io.z
-    io.c := Cat(((io.x & io.y) | (io.y & io.z) | (io.z & io.x))(126,0) , "b0".U)
+  io.s := io.x ^ io.y ^io.z
+  io.c := Cat(((io.x & io.y) | (io.y & io.z) | (io.z & io.x))(126,0) , "b0".U)
 }
 
 class Mul extends Module {
   val io = IO(new Bundle {
     val in1 = Input(UInt(65.W))
     val in2 = Input(UInt(65.W))
-    val out = Output(UInt(128.W))
+    val out1 = Output(UInt(64.W))
+    val out2 = Output(UInt(64.W))
     val mul_valid = Input(Bool())
     val mul_ready = Output(Bool())
   })
@@ -97,7 +97,7 @@ class Mul extends Module {
     booth(i).io.y := reg_in2(i * 2 + 2, i * 2)
     c(i * 2 + 1) := booth(i).io.c(1)
     c(i * 2) := booth(i).io.c(0)
-//    c(i * 2 + 1, i * 2) := booth(i).io.c
+    //    c(i * 2 + 1, i * 2) := booth(i).io.c
   }
 
   val pp33 = RegInit(0.U(128.W))
@@ -311,7 +311,8 @@ class Mul extends Module {
   temp_out := s_l8 + c_l8
 
   io.mul_ready := (state === s_idle)
-  io.out := reg_out
+  io.out1 := reg_out(63,0)
+  io.out2 := reg_out(127,64)
 
   switch(state) {
     is(s_idle) {
@@ -352,82 +353,3 @@ class Mul extends Module {
   }
 
 }
-
-class Div extends Module{
-  val io = IO(new Bundle{
-    val in1 = Input(UInt(64.W))
-    val in2 = Input(UInt(64.W))
-    val out_div = Output(UInt(64.W))
-    val out_rem = Output(UInt(64.W))
-    val is_signed = Input(Bool())
-    val div_valid = Input(Bool())
-    val div_ready = Output(Bool())
-  })
-
-}
-
-  class Mdu extends Module{
-    val io = IO(new Bundle{
-      val in1 = Input(UInt(64.W))
-      val in2 = Input(UInt(64.W))
-      val is_sign = Input(Bool())
-      val mdu_valid = Input(Bool())
-      val out1 = Output(UInt(64.W))
-      val out2 = Output(UInt(64.W))
-    })
-    val mul = Module(new Mul)
-    val is_sign = io.is_sign
-    mul.io.in1 := Mux( is_sign, Cat(io.in1(63) , io.in1) ,Cat( "b0".U , io.in1) )
-    mul.io.in2 := Mux( is_sign, Cat(io.in2(63) , io.in2) ,Cat( "b0".U , io.in2) )
-    mul.io.mul_valid := io.mdu_valid
-    io.out1 := mul.io.out(63,0)
-    io.out2 := mul.io.out(127,64)
-  }
-
-//  class Mdu extends Module{
-//    val io = IO(new Bundle{
-//      val in1 = Input(UInt(64.W))
-//      val in2 = Input(UInt(64.W))
-//      val mduop_i = Input(UInt(4.W))
-//      val mdu_valid = Input(Bool())
-//      val mdu_ready = Output(Bool())
-//    })
-//
-//    //mul   div   divu
-//    val s_idle :: s_start :: s_wait_m :: s_wait_d :: Nil = Enum(4)
-//    val state = RegInit(s_idle)
-//    val reg_mduop = RegInit(0.U(4.W))
-//    val is_mul = Wire(Bool())
-//    val is_div = Wire(Bool())
-//    val is_divu = Wire(Bool())
-//    val in1_sign = Wire(Bool())
-//    val in2_sign = Wire(Bool())
-//
-//    val x = RegInit(0.U(65.W))
-//    val y = RegInit(0.U(66.W))
-//
-//    is_div := (reg_mduop === MDU_DIV) || (reg_mduop === MDU_REM) || (reg_mduop === MDU_DIVW) || (reg_mduop === MDU_REMW)
-//
-//    is_divu := (reg_mduop === MDU_DIVU) || (reg_mduop === MDU_REMU) || (reg_mduop === MDU_DIVUW) || (reg_mduop === MDU_REMUW)
-//
-//    is_mul := !(is_div || is_divu || (reg_mduop === MDU_X))
-//
-//    in1_sign := Mux(((reg_mduop === MDU_MUL) || (reg_mduop === MDU_MULH) || (reg_mduop === MDU_MULHSU)) , io.in1(63) ,0.B)
-//
-//    in2_sign := Mux(((reg_mduop === MDU_MUL) || (reg_mduop === MDU_MULH) ) , io.in2(63) ,0.B)
-//
-//    io.mdu_ready := !( ((state == s_idle) && io.mdu_valid )                                                                                                                                                      || ((state == s_start) || (state == s_wait_m) || (state == s_wait_d)) )
-//
-//    switch(state){
-//      is(s_idle){
-//        when(io.mdu_valid){
-//          reg_mduop := io.mduop_i
-//          state := s_start
-//        }
-//      }
-//      is(s_start){
-//
-//      }
-//    }
-//
-//  }
