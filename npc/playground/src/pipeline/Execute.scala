@@ -24,7 +24,7 @@ class Execute extends Module{
 
     //to Mem without register
     val ex_mduout_o = Output(UInt(64.W))
-    val mem_mduready_o = Output(Bool())
+    val ex_mduready_o = Output(Bool())
 
     //for bypass
     val ex_rd_en = Output(Bool())
