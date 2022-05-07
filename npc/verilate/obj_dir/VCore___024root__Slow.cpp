@@ -7299,11 +7299,12 @@ void VCore___024root___settle__TOP__4(VCore___024root* vlSelf) {
                          ? 1U : (IData)(Core__DOT__decode__DOT___ctrl_T_934)));
     }
     vlSelf->Core__DOT__execute_io_jmp_packet_o_mis 
-        = ((((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_jmp)
-              ? vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc
-              : ((IData)(4U) + vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc)) 
-            != vlSelf->Core__DOT__decode__DOT__reg_pnpc) 
-           & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid));
+        = (((((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_jmp)
+               ? vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc
+               : ((IData)(4U) + vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc)) 
+             != vlSelf->Core__DOT__decode__DOT__reg_pnpc) 
+            & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)) 
+           & (~ (IData)(vlSelf->Core__DOT__mem__DOT__stall)));
     vlSelf->Core__DOT__execute__DOT__alu_io_alu_out 
         = ((IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_w_type)
             ? (((QData)((IData)(((1U & (IData)((vlSelf->Core__DOT__execute__DOT__alu__DOT__out0 

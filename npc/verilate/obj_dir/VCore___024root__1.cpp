@@ -832,6 +832,13 @@ VL_INLINE_OPT void VCore___024root___combo__TOP__5(VCore___024root* vlSelf) {
         = (((0U != (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mdu_code)) 
             & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)) 
            & (~ (IData)(vlSelf->Core__DOT__mem__DOT__stall)));
+    vlSelf->Core__DOT__execute_io_jmp_packet_o_mis 
+        = (((((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_jmp)
+               ? vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc
+               : ((IData)(4U) + vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc)) 
+             != vlSelf->Core__DOT__decode__DOT__reg_pnpc) 
+            & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)) 
+           & (~ (IData)(vlSelf->Core__DOT__mem__DOT__stall)));
     vlSelf->Core__DOT__decode__DOT__stall = ((IData)(vlSelf->Core__DOT__mem__DOT__stall) 
                                              | (((((1U 
                                                     == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code)) 

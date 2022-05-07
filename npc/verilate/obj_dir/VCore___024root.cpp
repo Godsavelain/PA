@@ -946,16 +946,16 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                & (IData)(vlSelf->Core__DOT__decode__DOT___ctrl_T_793));
     }
     if (vlSelf->reset) {
-        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mdu_code = 0U;
-    } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__stall)))) {
-        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mdu_code 
-            = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mdu_code;
-    }
-    if (vlSelf->reset) {
         vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_addr = 0U;
     } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__stall)))) {
         vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_addr 
             = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rd_addr;
+    }
+    if (vlSelf->reset) {
+        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mdu_code = 0U;
+    } else if ((1U & (~ (IData)(vlSelf->Core__DOT__mem__DOT__stall)))) {
+        vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mdu_code 
+            = vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mdu_code;
     }
     vlSelf->Core__DOT__io_commit_REG = vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_valid;
     if (vlSelf->reset) {
@@ -12983,12 +12983,6 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                   ? 3U
                                                   : 1U))) 
                                            << (7U & (IData)(vlSelf->Core__DOT__execute__DOT__alu_io_alu_out)))));
-    vlSelf->Core__DOT__execute_io_jmp_packet_o_mis 
-        = ((((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_jmp)
-              ? vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc
-              : ((IData)(4U) + vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_pc)) 
-            != vlSelf->Core__DOT__decode__DOT__reg_pnpc) 
-           & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid));
     vlSelf->Core__DOT__decode__DOT___ctrl_T_566 = (
                                                    (0x2003U 
                                                     == 

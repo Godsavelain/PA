@@ -3667,7 +3667,7 @@ module Execute(
   assign io_ex_is_load = _is_load_T | _is_load_T_1; // @[Execute.scala 106:59]
   assign io_ex_is_mdu = ex_reg_decodeop_mdu_code != 4'h0; // @[Execute.scala 107:28]
   assign io_jmp_packet_o_jmp_npc = alu_io_jmp ? alu_io_jmp_pc : rs1_temp_lo; // @[Execute.scala 74:21]
-  assign io_jmp_packet_o_mis = real_npc != io_p_npc_i & ex_reg_decodeop_valid; // @[Execute.scala 75:52]
+  assign io_jmp_packet_o_mis = real_npc != io_p_npc_i & ex_reg_decodeop_valid & _io_in_ready_T; // @[Execute.scala 75:77]
   assign alu_io_in1 = 3'h5 == ex_reg_decodeop_rs1_src ? _rs1_temp_T_5 : _rs1_temp_T_11; // @[Mux.scala 80:57]
   assign alu_io_in2 = 3'h5 == ex_reg_decodeop_rs2_src ? _rs1_temp_T_5 : _rs2_temp_T_11; // @[Mux.scala 80:57]
   assign alu_io_aluop_i = ex_reg_decodeop_alu_code; // @[Execute.scala 68:18]
