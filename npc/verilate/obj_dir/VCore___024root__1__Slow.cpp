@@ -207,11 +207,13 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->Core__DOT__regfile__DOT__rf_31 = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__regfile__DOT___GEN_26 = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__regfile__DOT___GEN_58 = VL_RAND_RESET_Q(64);
+    vlSelf->Core__DOT__execute__DOT__alu_io_in1 = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__execute__DOT__alu_io_in2 = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__execute__DOT__alu_io_alu_out = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__execute__DOT__alu_io_jmp = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__execute__DOT__alu_io_jmp_pc = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__execute__DOT__mdu_io_in1 = VL_RAND_RESET_Q(64);
+    vlSelf->Core__DOT__execute__DOT__mdu_io_in2 = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__execute__DOT__mdu_io_mdu_valid = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__execute__DOT__io_is_ebreak_o_REG = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid = VL_RAND_RESET_I(1);
@@ -240,8 +242,8 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->Core__DOT__execute__DOT__mdu__DOT__completed = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__execute__DOT__mdu__DOT__is_mul = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__execute__DOT__mdu__DOT___T = VL_RAND_RESET_I(1);
-    vlSelf->Core__DOT__execute__DOT__mdu__DOT___T_3 = VL_RAND_RESET_I(1);
-    vlSelf->Core__DOT__execute__DOT__mdu__DOT___T_4 = VL_RAND_RESET_I(1);
+    vlSelf->Core__DOT__execute__DOT__mdu__DOT___T_1 = VL_RAND_RESET_I(1);
+    vlSelf->Core__DOT__execute__DOT__mdu__DOT___T_2 = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__execute__DOT__mdu__DOT___GEN_6 = VL_RAND_RESET_I(2);
     vlSelf->Core__DOT__execute__DOT__mdu__DOT___GEN_7 = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__execute__DOT__mdu__DOT___GEN_8 = VL_RAND_RESET_Q(64);

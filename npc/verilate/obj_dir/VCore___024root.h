@@ -162,8 +162,8 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT__completed;
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT__is_mul;
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___T;
-        CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___T_3;
-        CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___T_4;
+        CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___T_1;
+        CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___T_2;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT___GEN_6;
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___GEN_7;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_0_io_c;
@@ -455,9 +455,11 @@ VL_MODULE(VCore___024root) {
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_31;
         QData/*63:0*/ Core__DOT__regfile__DOT___GEN_26;
         QData/*63:0*/ Core__DOT__regfile__DOT___GEN_58;
+        QData/*63:0*/ Core__DOT__execute__DOT__alu_io_in1;
         QData/*63:0*/ Core__DOT__execute__DOT__alu_io_in2;
         QData/*63:0*/ Core__DOT__execute__DOT__alu_io_alu_out;
         QData/*63:0*/ Core__DOT__execute__DOT__mdu_io_in1;
+        QData/*63:0*/ Core__DOT__execute__DOT__mdu_io_in2;
         QData/*63:0*/ Core__DOT__execute__DOT__alu__DOT__out0;
         QData/*63:0*/ Core__DOT__execute__DOT__mdu__DOT__reg_x;
         QData/*63:0*/ Core__DOT__execute__DOT__mdu__DOT__reg_y;

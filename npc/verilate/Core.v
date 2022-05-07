@@ -3357,8 +3357,8 @@ module Mdu(
   wire [64:0] _mul_io_in2_T = {mul_io_in2_hi,reg_y}; // @[Cat.scala 30:58]
   wire [64:0] _mul_io_in2_T_1 = {1'h0,reg_y}; // @[Cat.scala 30:58]
   wire  _T = 2'h0 == state; // @[Conditional.scala 37:30]
-  wire  _T_3 = 2'h1 == state; // @[Conditional.scala 37:30]
-  wire  _T_4 = 2'h2 == state; // @[Conditional.scala 37:30]
+  wire  _T_1 = 2'h1 == state; // @[Conditional.scala 37:30]
+  wire  _T_2 = 2'h2 == state; // @[Conditional.scala 37:30]
   wire [31:0] reg_out_lo = mul_io_out1[31:0]; // @[Mdu.scala 80:56]
   wire [31:0] reg_out_hi = reg_out_lo[31] ? 32'hffffffff : 32'h0; // @[Bitwise.scala 72:12]
   wire [63:0] _reg_out_T_2 = {reg_out_hi,reg_out_lo}; // @[Cat.scala 30:58]
@@ -3388,44 +3388,44 @@ module Mdu(
     if (reset) begin // @[Mdu.scala 18:24]
       state <= 2'h0; // @[Mdu.scala 18:24]
     end else if (_T) begin // @[Conditional.scala 40:58]
-      if (io_mdu_valid & ~completed) begin // @[Mdu.scala 61:43]
+      if (io_mdu_valid) begin // @[Mdu.scala 61:28]
         state <= 2'h1; // @[Mdu.scala 63:17]
       end
-    end else if (_T_3) begin // @[Conditional.scala 39:67]
+    end else if (_T_1) begin // @[Conditional.scala 39:67]
       if (is_mul) begin // @[Mdu.scala 70:21]
         state <= 2'h2; // @[Mdu.scala 71:17]
       end else begin
         state <= 2'h3; // @[Mdu.scala 73:17]
       end
-    end else if (_T_4) begin // @[Conditional.scala 39:67]
+    end else if (_T_2) begin // @[Conditional.scala 39:67]
       state <= _GEN_6;
     end
     if (reset) begin // @[Mdu.scala 19:28]
       reg_mduop <= 4'h0; // @[Mdu.scala 19:28]
     end else if (_T) begin // @[Conditional.scala 40:58]
-      if (io_mdu_valid & ~completed) begin // @[Mdu.scala 61:43]
+      if (io_mdu_valid) begin // @[Mdu.scala 61:28]
         reg_mduop <= io_mduop_i; // @[Mdu.scala 62:21]
       end
     end
     if (reset) begin // @[Mdu.scala 28:24]
       reg_x <= 64'h0; // @[Mdu.scala 28:24]
     end else if (_T) begin // @[Conditional.scala 40:58]
-      if (io_mdu_valid & ~completed) begin // @[Mdu.scala 61:43]
+      if (io_mdu_valid) begin // @[Mdu.scala 61:28]
         reg_x <= io_in1; // @[Mdu.scala 65:17]
       end
     end
     if (reset) begin // @[Mdu.scala 29:24]
       reg_y <= 64'h0; // @[Mdu.scala 29:24]
     end else if (_T) begin // @[Conditional.scala 40:58]
-      if (io_mdu_valid & ~completed) begin // @[Mdu.scala 61:43]
+      if (io_mdu_valid) begin // @[Mdu.scala 61:28]
         reg_y <= io_in2; // @[Mdu.scala 66:17]
       end
     end
     if (reset) begin // @[Mdu.scala 30:26]
       reg_out <= 64'h0; // @[Mdu.scala 30:26]
     end else if (!(_T)) begin // @[Conditional.scala 40:58]
-      if (!(_T_3)) begin // @[Conditional.scala 39:67]
-        if (_T_4) begin // @[Conditional.scala 39:67]
+      if (!(_T_1)) begin // @[Conditional.scala 39:67]
+        if (_T_2) begin // @[Conditional.scala 39:67]
           reg_out <= _GEN_8;
         end
       end
@@ -3433,11 +3433,11 @@ module Mdu(
     if (reset) begin // @[Mdu.scala 32:28]
       completed <= 1'h0; // @[Mdu.scala 32:28]
     end else if (_T) begin // @[Conditional.scala 40:58]
-      if (io_mdu_valid & ~completed) begin // @[Mdu.scala 61:43]
+      if (io_mdu_valid) begin // @[Mdu.scala 61:28]
         completed <= 1'h0; // @[Mdu.scala 64:21]
       end
-    end else if (!(_T_3)) begin // @[Conditional.scala 39:67]
-      if (_T_4) begin // @[Conditional.scala 39:67]
+    end else if (!(_T_1)) begin // @[Conditional.scala 39:67]
+      if (_T_2) begin // @[Conditional.scala 39:67]
         completed <= _GEN_7;
       end
     end
