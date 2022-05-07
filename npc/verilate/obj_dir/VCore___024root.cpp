@@ -7383,7 +7383,8 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                          : vlSelf->Core__DOT__regfile__DOT___GEN_58))))))))
             : 0ULL);
     vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_inst 
-        = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_inst;
+        = ((IData)(vlSelf->Core__DOT__mem__DOT__stall)
+            ? 0U : vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_inst);
     vlSelf->Core__DOT__execute__DOT__mdu__DOT__mul__DOT__csa_27__DOT___io_c_T_4[0U] 
         = (((vlSelf->Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_l2_3[0U] 
              & vlSelf->Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_l2_4[0U]) 
@@ -7474,7 +7475,8 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
            ^ vlSelf->Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_l2_2[3U]);
     vlSelf->io_commit_pc = vlSelf->Core__DOT__io_commit_pc_REG;
     vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc 
-        = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc;
+        = ((IData)(vlSelf->Core__DOT__mem__DOT__stall)
+            ? 0U : vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_pc);
     if (vlSelf->reset) {
         vlSelf->Core__DOT__fetch__DOT__reg_pnpc = 0U;
     } else if ((1U & (~ (IData)(vlSelf->io_write_regs)))) {
@@ -7557,7 +7559,8 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
         = ((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid) 
            & (IData)(vlSelf->Core__DOT__execute__DOT__io_is_ebreak_o_REG));
     vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_valid 
-        = vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid;
+        = ((~ (IData)(vlSelf->Core__DOT__mem__DOT__stall)) 
+           & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid));
     Core__DOT__execute__DOT___rs1_temp_T_2 = (((QData)((IData)(
                                                                ((vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_imm 
                                                                  >> 0x1fU)

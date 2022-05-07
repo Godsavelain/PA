@@ -4036,9 +4036,21 @@ module Mem(
     end else begin
       io_is_ebreak_o_REG <= io_is_ebreak_i;
     end
-    io_out_bits_REG_valid <= mem_reg_decodeop_valid; // @[Mem.scala 153:29]
-    io_out_bits_REG_pc <= mem_reg_decodeop_pc; // @[Mem.scala 153:29]
-    io_out_bits_REG_inst <= mem_reg_decodeop_inst; // @[Mem.scala 153:29]
+    if (stall) begin // @[Mem.scala 153:29]
+      io_out_bits_REG_valid <= 1'h0;
+    end else begin
+      io_out_bits_REG_valid <= mem_reg_decodeop_valid;
+    end
+    if (stall) begin // @[Mem.scala 153:29]
+      io_out_bits_REG_pc <= 32'h0;
+    end else begin
+      io_out_bits_REG_pc <= mem_reg_decodeop_pc;
+    end
+    if (stall) begin // @[Mem.scala 153:29]
+      io_out_bits_REG_inst <= 32'h0;
+    end else begin
+      io_out_bits_REG_inst <= mem_reg_decodeop_inst;
+    end
     io_waddr_o_REG <= waddr; // @[Mem.scala 155:24]
     if (req_wait) begin // @[Mem.scala 157:28]
       io_wen_o_REG <= 1'h0;

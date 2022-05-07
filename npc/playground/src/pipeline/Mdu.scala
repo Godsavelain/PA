@@ -58,7 +58,7 @@ import patchouli.Constant._
 
     switch(state){
       is(s_idle){
-        when(io.mdu_valid && (!completed)){
+        when(io.mdu_valid ){
           reg_mduop := io.mduop_i
           state := s_start
           completed := false.B
