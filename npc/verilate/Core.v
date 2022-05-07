@@ -3312,6 +3312,224 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
+module Div(
+  input         clock,
+  input         reset,
+  input  [63:0] io_in1,
+  input  [63:0] io_in2,
+  output [63:0] io_out_div,
+  output [63:0] io_out_rem,
+  input         io_is_signed,
+  input         io_div_valid,
+  output        io_div_ready
+);
+`ifdef RANDOMIZE_REG_INIT
+  reg [31:0] _RAND_0;
+  reg [127:0] _RAND_1;
+  reg [95:0] _RAND_2;
+  reg [63:0] _RAND_3;
+  reg [63:0] _RAND_4;
+  reg [31:0] _RAND_5;
+  reg [31:0] _RAND_6;
+  reg [31:0] _RAND_7;
+`endif // RANDOMIZE_REG_INIT
+  reg [1:0] state; // @[Div.scala 17:22]
+  reg [127:0] reg_in1; // @[Div.scala 18:24]
+  reg [64:0] reg_in2; // @[Div.scala 19:24]
+  reg [63:0] quo_out; // @[Div.scala 21:24]
+  reg [63:0] rem_out; // @[Div.scala 22:24]
+  reg  quo_neg; // @[Div.scala 24:24]
+  reg  rem_neg; // @[Div.scala 25:24]
+  wire [64:0] temp_minus1 = reg_in1[127:63]; // @[Div.scala 34:28]
+  wire [64:0] minus_value = temp_minus1 - reg_in2; // @[Div.scala 36:30]
+  reg [5:0] cnt; // @[Div.scala 38:20]
+  wire [63:0] _in1_num_T_1 = ~io_in1; // @[Div.scala 40:52]
+  wire [63:0] _in1_num_T_3 = _in1_num_T_1 + 64'h1; // @[Div.scala 40:60]
+  wire [63:0] _in1_num_T_4 = io_in1[63] ? _in1_num_T_3 : io_in1; // @[Div.scala 40:38]
+  wire [63:0] in1_num = io_is_signed ? _in1_num_T_4 : io_in1; // @[Div.scala 40:20]
+  wire [63:0] _in2_num_T_1 = ~io_in2; // @[Div.scala 41:52]
+  wire [63:0] _in2_num_T_3 = _in2_num_T_1 + 64'h1; // @[Div.scala 41:60]
+  wire [63:0] _in2_num_T_4 = io_in2[63] ? _in2_num_T_3 : io_in2; // @[Div.scala 41:38]
+  wire [63:0] in2_num = io_is_signed ? _in2_num_T_4 : io_in2; // @[Div.scala 41:20]
+  wire  _T = 2'h0 == state; // @[Conditional.scala 37:30]
+  wire [127:0] _reg_in1_T = {64'h0,in1_num}; // @[Cat.scala 30:58]
+  wire [64:0] _reg_in2_T = {1'h0,in2_num}; // @[Cat.scala 30:58]
+  wire  _T_1 = 2'h1 == state; // @[Conditional.scala 37:30]
+  wire [63:0] _rem_out_T_3 = minus_value[64] ? temp_minus1[63:0] : minus_value[63:0]; // @[Div.scala 57:23]
+  wire [62:0] quo_out_hi = quo_out[62:0]; // @[Div.scala 58:52]
+  wire [63:0] _quo_out_T_1 = {quo_out_hi,1'h0}; // @[Cat.scala 30:58]
+  wire [63:0] _quo_out_T_2 = {quo_out_hi,1'h1}; // @[Cat.scala 30:58]
+  wire [63:0] _quo_out_T_3 = minus_value[64] ? _quo_out_T_1 : _quo_out_T_2; // @[Div.scala 58:23]
+  wire [5:0] _cnt_T_1 = cnt + 6'h1; // @[Div.scala 61:20]
+  wire [126:0] reg_in1_hi_1 = reg_in1[126:0]; // @[Div.scala 62:52]
+  wire [127:0] _reg_in1_T_2 = {reg_in1_hi_1,1'h0}; // @[Cat.scala 30:58]
+  wire [62:0] reg_in1_lo = reg_in1[62:0]; // @[Div.scala 62:98]
+  wire [127:0] _reg_in1_T_3 = {minus_value,reg_in1_lo}; // @[Cat.scala 30:58]
+  wire [126:0] reg_in1_hi_2 = _reg_in1_T_3[126:0]; // @[Div.scala 62:105]
+  wire [127:0] _reg_in1_T_4 = {reg_in1_hi_2,1'h0}; // @[Cat.scala 30:58]
+  wire [127:0] _reg_in1_T_5 = minus_value[64] ? _reg_in1_T_2 : _reg_in1_T_4; // @[Div.scala 62:23]
+  wire  _T_3 = 2'h2 == state; // @[Conditional.scala 37:30]
+  wire [63:0] _rem_out_T_4 = ~rem_out; // @[Div.scala 69:33]
+  wire [63:0] _rem_out_T_6 = _rem_out_T_4 + 64'h1; // @[Div.scala 69:41]
+  wire [63:0] _rem_out_T_7 = rem_neg ? _rem_out_T_6 : rem_out; // @[Div.scala 69:23]
+  wire [63:0] _quo_out_T_8 = ~quo_out; // @[Div.scala 70:33]
+  wire [63:0] _quo_out_T_10 = _quo_out_T_8 + 64'h1; // @[Div.scala 70:41]
+  wire [63:0] _quo_out_T_11 = quo_neg ? _quo_out_T_10 : quo_out; // @[Div.scala 70:23]
+  wire  _T_4 = 2'h3 == state; // @[Conditional.scala 37:30]
+  wire [1:0] _GEN_13 = _T_4 ? 2'h0 : state; // @[Conditional.scala 39:67 Div.scala 17:22]
+  assign io_out_div = quo_out; // @[Div.scala 29:14]
+  assign io_out_rem = rem_out; // @[Div.scala 30:14]
+  assign io_div_ready = state == 2'h0; // @[Div.scala 31:26]
+  always @(posedge clock) begin
+    if (reset) begin // @[Div.scala 17:22]
+      state <= 2'h0; // @[Div.scala 17:22]
+    end else if (_T) begin // @[Conditional.scala 40:58]
+      if (io_div_valid) begin // @[Div.scala 45:26]
+        if (io_in2 == 64'h0) begin // @[Div.scala 46:21]
+          state <= 2'h3;
+        end else begin
+          state <= 2'h1;
+        end
+      end
+    end else if (_T_1) begin // @[Conditional.scala 39:67]
+      if (cnt == 6'h3f) begin // @[Div.scala 54:26]
+        state <= 2'h2; // @[Div.scala 55:15]
+      end else begin
+        state <= 2'h1; // @[Div.scala 60:15]
+      end
+    end else if (_T_3) begin // @[Conditional.scala 39:67]
+      state <= 2'h0;
+    end else begin
+      state <= _GEN_13;
+    end
+    if (reset) begin // @[Div.scala 18:24]
+      reg_in1 <= 128'h0; // @[Div.scala 18:24]
+    end else if (_T) begin // @[Conditional.scala 40:58]
+      if (io_div_valid) begin // @[Div.scala 45:26]
+        reg_in1 <= _reg_in1_T; // @[Div.scala 47:17]
+      end
+    end else if (_T_1) begin // @[Conditional.scala 39:67]
+      if (!(cnt == 6'h3f)) begin // @[Div.scala 54:26]
+        reg_in1 <= _reg_in1_T_5; // @[Div.scala 62:17]
+      end
+    end
+    if (reset) begin // @[Div.scala 19:24]
+      reg_in2 <= 65'h0; // @[Div.scala 19:24]
+    end else if (_T) begin // @[Conditional.scala 40:58]
+      if (io_div_valid) begin // @[Div.scala 45:26]
+        reg_in2 <= _reg_in2_T; // @[Div.scala 48:17]
+      end
+    end
+    if (reset) begin // @[Div.scala 21:24]
+      quo_out <= 64'h0; // @[Div.scala 21:24]
+    end else if (!(_T)) begin // @[Conditional.scala 40:58]
+      if (_T_1) begin // @[Conditional.scala 39:67]
+        if (cnt == 6'h3f) begin // @[Div.scala 54:26]
+          quo_out <= _quo_out_T_3; // @[Div.scala 58:17]
+        end else begin
+          quo_out <= _quo_out_T_3; // @[Div.scala 63:17]
+        end
+      end else if (_T_3) begin // @[Conditional.scala 39:67]
+        quo_out <= _quo_out_T_11;
+      end
+    end
+    if (reset) begin // @[Div.scala 22:24]
+      rem_out <= 64'h0; // @[Div.scala 22:24]
+    end else if (!(_T)) begin // @[Conditional.scala 40:58]
+      if (_T_1) begin // @[Conditional.scala 39:67]
+        if (cnt == 6'h3f) begin // @[Div.scala 54:26]
+          rem_out <= _rem_out_T_3; // @[Div.scala 57:17]
+        end
+      end else if (_T_3) begin // @[Conditional.scala 39:67]
+        rem_out <= _rem_out_T_7;
+      end
+    end
+    if (reset) begin // @[Div.scala 24:24]
+      quo_neg <= 1'h0; // @[Div.scala 24:24]
+    end else if (_T) begin // @[Conditional.scala 40:58]
+      if (io_div_valid) begin // @[Div.scala 45:26]
+        quo_neg <= io_in1[63] ^ io_in2[63]; // @[Div.scala 49:17]
+      end
+    end
+    if (reset) begin // @[Div.scala 25:24]
+      rem_neg <= 1'h0; // @[Div.scala 25:24]
+    end else if (_T) begin // @[Conditional.scala 40:58]
+      if (io_div_valid) begin // @[Div.scala 45:26]
+        rem_neg <= io_in1[63]; // @[Div.scala 50:17]
+      end
+    end
+    if (reset) begin // @[Div.scala 38:20]
+      cnt <= 6'h0; // @[Div.scala 38:20]
+    end else if (!(_T)) begin // @[Conditional.scala 40:58]
+      if (_T_1) begin // @[Conditional.scala 39:67]
+        if (cnt == 6'h3f) begin // @[Div.scala 54:26]
+          cnt <= 6'h0; // @[Div.scala 56:13]
+        end else begin
+          cnt <= _cnt_T_1; // @[Div.scala 61:13]
+        end
+      end
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {1{`RANDOM}};
+  state = _RAND_0[1:0];
+  _RAND_1 = {4{`RANDOM}};
+  reg_in1 = _RAND_1[127:0];
+  _RAND_2 = {3{`RANDOM}};
+  reg_in2 = _RAND_2[64:0];
+  _RAND_3 = {2{`RANDOM}};
+  quo_out = _RAND_3[63:0];
+  _RAND_4 = {2{`RANDOM}};
+  rem_out = _RAND_4[63:0];
+  _RAND_5 = {1{`RANDOM}};
+  quo_neg = _RAND_5[0:0];
+  _RAND_6 = {1{`RANDOM}};
+  rem_neg = _RAND_6[0:0];
+  _RAND_7 = {1{`RANDOM}};
+  cnt = _RAND_7[5:0];
+`endif // RANDOMIZE_REG_INIT
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
+endmodule
 module Mdu(
   input         clock,
   input         reset,
@@ -3330,52 +3548,88 @@ module Mdu(
   reg [63:0] _RAND_4;
   reg [31:0] _RAND_5;
 `endif // RANDOMIZE_REG_INIT
-  wire  mul_clock; // @[Mdu.scala 34:21]
-  wire  mul_reset; // @[Mdu.scala 34:21]
-  wire [64:0] mul_io_in1; // @[Mdu.scala 34:21]
-  wire [64:0] mul_io_in2; // @[Mdu.scala 34:21]
-  wire [63:0] mul_io_out1; // @[Mdu.scala 34:21]
-  wire [63:0] mul_io_out2; // @[Mdu.scala 34:21]
-  wire  mul_io_mul_valid; // @[Mdu.scala 34:21]
-  wire  mul_io_mul_ready; // @[Mdu.scala 34:21]
+  wire  mul_clock; // @[Mdu.scala 36:21]
+  wire  mul_reset; // @[Mdu.scala 36:21]
+  wire [64:0] mul_io_in1; // @[Mdu.scala 36:21]
+  wire [64:0] mul_io_in2; // @[Mdu.scala 36:21]
+  wire [63:0] mul_io_out1; // @[Mdu.scala 36:21]
+  wire [63:0] mul_io_out2; // @[Mdu.scala 36:21]
+  wire  mul_io_mul_valid; // @[Mdu.scala 36:21]
+  wire  mul_io_mul_ready; // @[Mdu.scala 36:21]
+  wire  div_clock; // @[Mdu.scala 37:21]
+  wire  div_reset; // @[Mdu.scala 37:21]
+  wire [63:0] div_io_in1; // @[Mdu.scala 37:21]
+  wire [63:0] div_io_in2; // @[Mdu.scala 37:21]
+  wire [63:0] div_io_out_div; // @[Mdu.scala 37:21]
+  wire [63:0] div_io_out_rem; // @[Mdu.scala 37:21]
+  wire  div_io_is_signed; // @[Mdu.scala 37:21]
+  wire  div_io_div_valid; // @[Mdu.scala 37:21]
+  wire  div_io_div_ready; // @[Mdu.scala 37:21]
   reg [1:0] state; // @[Mdu.scala 18:24]
   reg [3:0] reg_mduop; // @[Mdu.scala 19:28]
-  reg [63:0] reg_x; // @[Mdu.scala 28:24]
-  reg [63:0] reg_y; // @[Mdu.scala 29:24]
-  reg [63:0] reg_out; // @[Mdu.scala 30:26]
-  reg  completed; // @[Mdu.scala 32:28]
-  wire  _is_div_T_3 = reg_mduop == 4'ha; // @[Mdu.scala 36:80]
-  wire  _is_div_T_5 = reg_mduop == 4'hc; // @[Mdu.scala 36:108]
-  wire  is_div = reg_mduop == 4'h5 | reg_mduop == 4'h7 | reg_mduop == 4'ha | reg_mduop == 4'hc; // @[Mdu.scala 36:94]
-  wire  _is_divu_T_3 = reg_mduop == 4'hb; // @[Mdu.scala 38:83]
-  wire  _is_divu_T_5 = reg_mduop == 4'hd; // @[Mdu.scala 38:112]
-  wire  is_divu = reg_mduop == 4'h6 | reg_mduop == 4'h8 | reg_mduop == 4'hb | reg_mduop == 4'hd; // @[Mdu.scala 38:98]
-  wire  is_mul = ~(is_div | is_divu | reg_mduop == 4'h0); // @[Mdu.scala 40:15]
-  wire  _in1_sign_T_1 = reg_mduop == 4'h2; // @[Mdu.scala 42:60]
-  wire  _in1_sign_T_2 = reg_mduop == 4'h1 | reg_mduop == 4'h2; // @[Mdu.scala 42:46]
-  wire  _in1_sign_T_3 = reg_mduop == 4'h3; // @[Mdu.scala 42:88]
-  wire  in1_sign = (reg_mduop == 4'h1 | reg_mduop == 4'h2 | reg_mduop == 4'h3) & io_in1[63]; // @[Mdu.scala 42:20]
-  wire  in2_sign = _in1_sign_T_2 & io_in2[63]; // @[Mdu.scala 44:20]
-  wire  mul_high = _in1_sign_T_1 | _in1_sign_T_3 | reg_mduop == 4'h4; // @[Mdu.scala 46:72]
-  wire  is_word = reg_mduop == 4'h9 | _is_div_T_3 | _is_divu_T_3 | _is_div_T_5 | _is_divu_T_5; // @[Mdu.scala 48:126]
-  wire  mul_io_in1_hi = reg_x[63]; // @[Mdu.scala 53:43]
-  wire [64:0] _mul_io_in1_T = {mul_io_in1_hi,reg_x}; // @[Cat.scala 30:58]
-  wire [64:0] _mul_io_in1_T_1 = {1'h0,reg_x}; // @[Cat.scala 30:58]
-  wire  mul_io_in2_hi = reg_y[63]; // @[Mdu.scala 54:43]
-  wire [64:0] _mul_io_in2_T = {mul_io_in2_hi,reg_y}; // @[Cat.scala 30:58]
-  wire [64:0] _mul_io_in2_T_1 = {1'h0,reg_y}; // @[Cat.scala 30:58]
+  reg [63:0] reg_x; // @[Mdu.scala 30:24]
+  reg [63:0] reg_y; // @[Mdu.scala 31:24]
+  reg [63:0] reg_out; // @[Mdu.scala 32:26]
+  reg  completed; // @[Mdu.scala 34:28]
+  wire  _is_div_T = reg_mduop == 4'h5; // @[Mdu.scala 39:26]
+  wire  _is_div_T_3 = reg_mduop == 4'ha; // @[Mdu.scala 39:80]
+  wire  _is_div_T_5 = reg_mduop == 4'hc; // @[Mdu.scala 39:108]
+  wire  is_div = reg_mduop == 4'h5 | reg_mduop == 4'h7 | reg_mduop == 4'ha | reg_mduop == 4'hc; // @[Mdu.scala 39:94]
+  wire  _is_divu_T = reg_mduop == 4'h6; // @[Mdu.scala 41:27]
+  wire  _is_divu_T_3 = reg_mduop == 4'hb; // @[Mdu.scala 41:83]
+  wire  _is_divu_T_5 = reg_mduop == 4'hd; // @[Mdu.scala 41:112]
+  wire  is_divu = reg_mduop == 4'h6 | reg_mduop == 4'h8 | reg_mduop == 4'hb | reg_mduop == 4'hd; // @[Mdu.scala 41:98]
+  wire  _is_mul_T = is_div | is_divu; // @[Mdu.scala 43:24]
+  wire  is_mul = ~(is_div | is_divu | reg_mduop == 4'h0); // @[Mdu.scala 43:15]
+  wire  _in1_sign_T_1 = reg_mduop == 4'h2; // @[Mdu.scala 45:60]
+  wire  _in1_sign_T_2 = reg_mduop == 4'h1 | reg_mduop == 4'h2; // @[Mdu.scala 45:46]
+  wire  _in1_sign_T_3 = reg_mduop == 4'h3; // @[Mdu.scala 45:88]
+  wire  in1_sign = (reg_mduop == 4'h1 | reg_mduop == 4'h2 | reg_mduop == 4'h3) & io_in1[63]; // @[Mdu.scala 45:20]
+  wire  in2_sign = _in1_sign_T_2 & io_in2[63]; // @[Mdu.scala 47:20]
+  wire  mul_high = _in1_sign_T_1 | _in1_sign_T_3 | reg_mduop == 4'h4; // @[Mdu.scala 49:72]
+  wire  is_word = reg_mduop == 4'h9 | _is_div_T_3 | _is_divu_T_3 | _is_div_T_5 | _is_divu_T_5; // @[Mdu.scala 51:126]
+  wire  want_div = _is_div_T | _is_divu_T | _is_div_T_3 | _is_divu_T_3; // @[Mdu.scala 53:97]
+  wire [31:0] temp_x_lo = reg_x[31:0]; // @[Mdu.scala 60:46]
+  wire [31:0] temp_x_hi = temp_x_lo[31] ? 32'hffffffff : 32'h0; // @[Bitwise.scala 72:12]
+  wire [63:0] _temp_x_T_2 = {temp_x_hi,temp_x_lo}; // @[Cat.scala 30:58]
+  wire [63:0] temp_x = is_word ? _temp_x_T_2 : reg_x; // @[Mdu.scala 60:21]
+  wire [31:0] temp_y_lo = reg_y[31:0]; // @[Mdu.scala 61:46]
+  wire [31:0] temp_y_hi = temp_y_lo[31] ? 32'hffffffff : 32'h0; // @[Bitwise.scala 72:12]
+  wire [63:0] _temp_y_T_2 = {temp_y_hi,temp_y_lo}; // @[Cat.scala 30:58]
+  wire [63:0] temp_y = is_word ? _temp_y_T_2 : reg_y; // @[Mdu.scala 61:21]
+  wire  mul_io_in1_hi = temp_x[63]; // @[Mdu.scala 63:44]
+  wire [64:0] _mul_io_in1_T = {mul_io_in1_hi,temp_x}; // @[Cat.scala 30:58]
+  wire [64:0] _mul_io_in1_T_1 = {1'h0,temp_x}; // @[Cat.scala 30:58]
+  wire  mul_io_in2_hi = temp_y[63]; // @[Mdu.scala 64:44]
+  wire [64:0] _mul_io_in2_T = {mul_io_in2_hi,temp_y}; // @[Cat.scala 30:58]
+  wire [64:0] _mul_io_in2_T_1 = {1'h0,temp_y}; // @[Cat.scala 30:58]
+  wire  _mul_io_mul_valid_T = state == 2'h1; // @[Mdu.scala 65:33]
   wire  _T = 2'h0 == state; // @[Conditional.scala 37:30]
   wire  _T_1 = 2'h1 == state; // @[Conditional.scala 37:30]
   wire  _T_2 = 2'h2 == state; // @[Conditional.scala 37:30]
-  wire [31:0] reg_out_lo = mul_io_out1[31:0]; // @[Mdu.scala 80:56]
+  wire [31:0] reg_out_lo = mul_io_out1[31:0]; // @[Mdu.scala 96:56]
   wire [31:0] reg_out_hi = reg_out_lo[31] ? 32'hffffffff : 32'h0; // @[Bitwise.scala 72:12]
   wire [63:0] _reg_out_T_2 = {reg_out_hi,reg_out_lo}; // @[Cat.scala 30:58]
-  wire [63:0] _reg_out_T_3 = mul_high ? mul_io_out2 : mul_io_out1; // @[Mdu.scala 80:70]
-  wire [63:0] _reg_out_T_4 = is_word ? _reg_out_T_2 : _reg_out_T_3; // @[Mdu.scala 80:25]
-  wire [1:0] _GEN_6 = mul_io_mul_ready ? 2'h0 : state; // @[Mdu.scala 77:24 Mdu.scala 78:17 Mdu.scala 18:24]
-  wire  _GEN_7 = mul_io_mul_ready | completed; // @[Mdu.scala 77:24 Mdu.scala 79:21 Mdu.scala 32:28]
-  wire [63:0] _GEN_8 = mul_io_mul_ready ? _reg_out_T_4 : reg_out; // @[Mdu.scala 77:24 Mdu.scala 80:19 Mdu.scala 30:26]
-  Mul mul ( // @[Mdu.scala 34:21]
+  wire [63:0] _reg_out_T_3 = mul_high ? mul_io_out2 : mul_io_out1; // @[Mdu.scala 96:70]
+  wire [63:0] _reg_out_T_4 = is_word ? _reg_out_T_2 : _reg_out_T_3; // @[Mdu.scala 96:25]
+  wire [1:0] _GEN_6 = mul_io_mul_ready ? 2'h0 : state; // @[Mdu.scala 93:24 Mdu.scala 94:17 Mdu.scala 18:24]
+  wire  _GEN_7 = mul_io_mul_ready | completed; // @[Mdu.scala 93:24 Mdu.scala 95:21 Mdu.scala 34:28]
+  wire [63:0] _GEN_8 = mul_io_mul_ready ? _reg_out_T_4 : reg_out; // @[Mdu.scala 93:24 Mdu.scala 96:19 Mdu.scala 32:26]
+  wire  _T_3 = 2'h3 == state; // @[Conditional.scala 37:30]
+  wire [63:0] reg_out_lo_1 = want_div ? div_io_out_div : div_io_out_rem; // @[Mdu.scala 103:48]
+  wire [31:0] reg_out_hi_1 = reg_out_lo_1[31] ? 32'hffffffff : 32'h0; // @[Bitwise.scala 72:12]
+  wire [95:0] _reg_out_T_7 = {reg_out_hi_1,reg_out_lo_1}; // @[Cat.scala 30:58]
+  wire [95:0] _reg_out_T_9 = is_word ? _reg_out_T_7 : {{32'd0}, reg_out_lo_1}; // @[Mdu.scala 103:25]
+  wire [1:0] _GEN_9 = div_io_div_ready ? 2'h0 : state; // @[Mdu.scala 100:24 Mdu.scala 101:17 Mdu.scala 18:24]
+  wire  _GEN_10 = div_io_div_ready | completed; // @[Mdu.scala 100:24 Mdu.scala 102:21 Mdu.scala 34:28]
+  wire [95:0] _GEN_11 = div_io_div_ready ? _reg_out_T_9 : {{32'd0}, reg_out}; // @[Mdu.scala 100:24 Mdu.scala 103:19 Mdu.scala 32:26]
+  wire [1:0] _GEN_12 = _T_3 ? _GEN_9 : state; // @[Conditional.scala 39:67 Mdu.scala 18:24]
+  wire  _GEN_13 = _T_3 ? _GEN_10 : completed; // @[Conditional.scala 39:67 Mdu.scala 34:28]
+  wire [95:0] _GEN_14 = _T_3 ? _GEN_11 : {{32'd0}, reg_out}; // @[Conditional.scala 39:67 Mdu.scala 32:26]
+  wire [95:0] _GEN_17 = _T_2 ? {{32'd0}, _GEN_8} : _GEN_14; // @[Conditional.scala 39:67]
+  wire [95:0] _GEN_20 = _T_1 ? {{32'd0}, reg_out} : _GEN_17; // @[Conditional.scala 39:67 Mdu.scala 32:26]
+  wire [95:0] _GEN_26 = _T ? {{32'd0}, reg_out} : _GEN_20; // @[Conditional.scala 40:58 Mdu.scala 32:26]
+  Mul mul ( // @[Mdu.scala 36:21]
     .clock(mul_clock),
     .reset(mul_reset),
     .io_in1(mul_io_in1),
@@ -3385,68 +3639,85 @@ module Mdu(
     .io_mul_valid(mul_io_mul_valid),
     .io_mul_ready(mul_io_mul_ready)
   );
-  assign io_out = reg_out; // @[Mdu.scala 51:12]
-  assign io_mdu_ready = completed; // @[Mdu.scala 50:18]
+  Div div ( // @[Mdu.scala 37:21]
+    .clock(div_clock),
+    .reset(div_reset),
+    .io_in1(div_io_in1),
+    .io_in2(div_io_in2),
+    .io_out_div(div_io_out_div),
+    .io_out_rem(div_io_out_rem),
+    .io_is_signed(div_io_is_signed),
+    .io_div_valid(div_io_div_valid),
+    .io_div_ready(div_io_div_ready)
+  );
+  assign io_out = reg_out; // @[Mdu.scala 58:12]
+  assign io_mdu_ready = completed; // @[Mdu.scala 57:18]
   assign mul_clock = clock;
   assign mul_reset = reset;
-  assign mul_io_in1 = in1_sign ? _mul_io_in1_T : _mul_io_in1_T_1; // @[Mdu.scala 53:22]
-  assign mul_io_in2 = in2_sign ? _mul_io_in2_T : _mul_io_in2_T_1; // @[Mdu.scala 54:22]
-  assign mul_io_mul_valid = state == 2'h1 & is_mul; // @[Mdu.scala 55:46]
+  assign mul_io_in1 = in1_sign ? _mul_io_in1_T : _mul_io_in1_T_1; // @[Mdu.scala 63:22]
+  assign mul_io_in2 = in2_sign ? _mul_io_in2_T : _mul_io_in2_T_1; // @[Mdu.scala 64:22]
+  assign mul_io_mul_valid = state == 2'h1 & is_mul; // @[Mdu.scala 65:46]
+  assign div_clock = clock;
+  assign div_reset = reset;
+  assign div_io_in1 = is_word ? _temp_x_T_2 : reg_x; // @[Mdu.scala 60:21]
+  assign div_io_in2 = is_word ? _temp_y_T_2 : reg_y; // @[Mdu.scala 61:21]
+  assign div_io_is_signed = reg_mduop == 4'h5 | reg_mduop == 4'h7 | reg_mduop == 4'ha | reg_mduop == 4'hc; // @[Mdu.scala 39:94]
+  assign div_io_div_valid = _mul_io_mul_valid_T & _is_mul_T; // @[Mdu.scala 70:46]
   always @(posedge clock) begin
     if (reset) begin // @[Mdu.scala 18:24]
       state <= 2'h0; // @[Mdu.scala 18:24]
     end else if (_T) begin // @[Conditional.scala 40:58]
-      if (io_mdu_valid) begin // @[Mdu.scala 61:28]
-        state <= 2'h1; // @[Mdu.scala 63:17]
+      if (io_mdu_valid) begin // @[Mdu.scala 77:28]
+        state <= 2'h1; // @[Mdu.scala 79:17]
       end
     end else if (_T_1) begin // @[Conditional.scala 39:67]
-      if (is_mul) begin // @[Mdu.scala 70:21]
-        state <= 2'h2; // @[Mdu.scala 71:17]
+      if (is_mul) begin // @[Mdu.scala 86:21]
+        state <= 2'h2; // @[Mdu.scala 87:17]
       end else begin
-        state <= 2'h3; // @[Mdu.scala 73:17]
+        state <= 2'h3; // @[Mdu.scala 89:17]
       end
     end else if (_T_2) begin // @[Conditional.scala 39:67]
       state <= _GEN_6;
+    end else begin
+      state <= _GEN_12;
     end
     if (reset) begin // @[Mdu.scala 19:28]
       reg_mduop <= 4'h0; // @[Mdu.scala 19:28]
     end else if (_T) begin // @[Conditional.scala 40:58]
-      if (io_mdu_valid) begin // @[Mdu.scala 61:28]
-        reg_mduop <= io_mduop_i; // @[Mdu.scala 62:21]
+      if (io_mdu_valid) begin // @[Mdu.scala 77:28]
+        reg_mduop <= io_mduop_i; // @[Mdu.scala 78:21]
       end
     end
-    if (reset) begin // @[Mdu.scala 28:24]
-      reg_x <= 64'h0; // @[Mdu.scala 28:24]
+    if (reset) begin // @[Mdu.scala 30:24]
+      reg_x <= 64'h0; // @[Mdu.scala 30:24]
     end else if (_T) begin // @[Conditional.scala 40:58]
-      if (io_mdu_valid) begin // @[Mdu.scala 61:28]
-        reg_x <= io_in1; // @[Mdu.scala 65:17]
+      if (io_mdu_valid) begin // @[Mdu.scala 77:28]
+        reg_x <= io_in1; // @[Mdu.scala 81:17]
       end
     end
-    if (reset) begin // @[Mdu.scala 29:24]
-      reg_y <= 64'h0; // @[Mdu.scala 29:24]
+    if (reset) begin // @[Mdu.scala 31:24]
+      reg_y <= 64'h0; // @[Mdu.scala 31:24]
     end else if (_T) begin // @[Conditional.scala 40:58]
-      if (io_mdu_valid) begin // @[Mdu.scala 61:28]
-        reg_y <= io_in2; // @[Mdu.scala 66:17]
+      if (io_mdu_valid) begin // @[Mdu.scala 77:28]
+        reg_y <= io_in2; // @[Mdu.scala 82:17]
       end
     end
-    if (reset) begin // @[Mdu.scala 30:26]
-      reg_out <= 64'h0; // @[Mdu.scala 30:26]
-    end else if (!(_T)) begin // @[Conditional.scala 40:58]
-      if (!(_T_1)) begin // @[Conditional.scala 39:67]
-        if (_T_2) begin // @[Conditional.scala 39:67]
-          reg_out <= _GEN_8;
-        end
-      end
+    if (reset) begin // @[Mdu.scala 32:26]
+      reg_out <= 64'h0; // @[Mdu.scala 32:26]
+    end else begin
+      reg_out <= _GEN_26[63:0];
     end
-    if (reset) begin // @[Mdu.scala 32:28]
-      completed <= 1'h0; // @[Mdu.scala 32:28]
+    if (reset) begin // @[Mdu.scala 34:28]
+      completed <= 1'h0; // @[Mdu.scala 34:28]
     end else if (_T) begin // @[Conditional.scala 40:58]
-      if (io_mdu_valid) begin // @[Mdu.scala 61:28]
-        completed <= 1'h0; // @[Mdu.scala 64:21]
+      if (io_mdu_valid) begin // @[Mdu.scala 77:28]
+        completed <= 1'h0; // @[Mdu.scala 80:21]
       end
     end else if (!(_T_1)) begin // @[Conditional.scala 39:67]
       if (_T_2) begin // @[Conditional.scala 39:67]
         completed <= _GEN_7;
+      end else begin
+        completed <= _GEN_13;
       end
     end
   end
