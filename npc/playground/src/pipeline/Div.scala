@@ -33,12 +33,12 @@ class Div extends Module{
   //参与每一次减法的被除数部分与除数部分
   val temp_minus1 = reg_in1(127,63)
   val temp_minus2 = reg_in2
-  minus_value = temp_minus1 - temp_minus2
+  minus_value := temp_minus1 - temp_minus2
 
   val cnt = RegInit(0.U(6.W)) //计数器
 
-  val in1_num = Mux(io.is_signed, Mux(io.in1(63), (~io.in1 + 1), io.in1) , io.in1)
-  val in2_num = Mux(io.is_signed, Mux(io.in2(63), (~io.in2 + 1), io.in2) , io.in2)
+  val in1_num = Mux(io.is_signed, Mux(io.in1(63), (~io.in1 + 1.U), io.in1) , io.in1)
+  val in2_num = Mux(io.is_signed, Mux(io.in2(63), (~io.in2 + 1.U), io.in2) , io.in2)
 
   switch(state) {
     is(s_idle) {
@@ -66,8 +66,8 @@ class Div extends Module{
     is(s_divend) {
       when(true.B) {
         state := s_idle
-        rem_out := Mux(rem_neg, ~rem_out+1 , rem_out)
-        quo_out := Mux(quo_neg, ~quo_out+1 , quo_out)
+        rem_out := Mux(rem_neg, ~rem_out+1.U , rem_out)
+        quo_out := Mux(quo_neg, ~quo_out+1.U , quo_out)
       }
     }
     is(s_div_zero) {
