@@ -4423,7 +4423,7 @@ void VCore___024root___settle__TOP__4(VCore___024root* vlSelf) {
                                                     : 
                                                    ((1U 
                                                      == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rs1_src))
-                                                     ? vlSelf->Core__DOT__decode__DOT__io_rs1_data_o_REG
+                                                     ? vlSelf->Core__DOT__decode__DOT__rs1_reg
                                                      : 0ULL)));
     Core__DOT__execute__DOT___rs2_temp_T_11 = ((4U 
                                                 == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rs2_src))
@@ -4435,7 +4435,7 @@ void VCore___024root___settle__TOP__4(VCore___024root* vlSelf) {
                                                     : 
                                                    ((1U 
                                                      == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_rs2_src))
-                                                     ? vlSelf->Core__DOT__decode__DOT__io_rs2_data_o_REG
+                                                     ? vlSelf->Core__DOT__decode__DOT__rs2_reg
                                                      : 0ULL)));
     vlSelf->Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp33_lo 
         = (((QData)((IData)(((0x10000U & ((IData)(vlSelf->Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_16_io_c) 
@@ -7368,7 +7368,7 @@ void VCore___024root___settle__TOP__4(VCore___024root* vlSelf) {
                                       >> 3U)) << 3U);
     vlSelf->io_dmem_waddr = ((IData)((vlSelf->Core__DOT__execute__DOT__alu_io_alu_out 
                                       >> 3U)) << 3U);
-    VL_EXTEND_WQ(127,64, __Vtemp2885, vlSelf->Core__DOT__decode__DOT__io_rs2_data_o_REG);
+    VL_EXTEND_WQ(127,64, __Vtemp2885, vlSelf->Core__DOT__decode__DOT__rs2_reg);
     VL_SHIFTL_WWI(127,127,6, __Vtemp2886, __Vtemp2885, 
                   (0x38U & ((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_alu_out) 
                             << 3U)));

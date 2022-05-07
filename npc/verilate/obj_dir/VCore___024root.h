@@ -417,8 +417,8 @@ VL_MODULE(VCore___024root) {
         IData/*31:0*/ Core__DOT__wb_dpi__DOT__inst1;
         IData/*31:0*/ Core__DOT__wb_dpi__DOT__pc1;
         QData/*63:0*/ Core__DOT__mem_io_mem_rd_data;
-        QData/*63:0*/ Core__DOT__decode__DOT__io_rs1_data_o_REG;
-        QData/*63:0*/ Core__DOT__decode__DOT__io_rs2_data_o_REG;
+        QData/*63:0*/ Core__DOT__decode__DOT__rs1_reg;
+        QData/*63:0*/ Core__DOT__decode__DOT__rs2_reg;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_0;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_1;
         QData/*63:0*/ Core__DOT__regfile__DOT__rf_2;

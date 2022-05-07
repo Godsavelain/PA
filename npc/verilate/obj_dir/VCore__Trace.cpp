@@ -487,8 +487,8 @@ void VCore___024root__traceChgSub0(VCore___024root* vlSelf, VerilatedVcd* tracep
             tracep->chgCData(oldp+21,((0x1fU & (vlSelf->Core__DOT__decode__DOT__inst 
                                                 >> 0x14U))),5);
             tracep->chgBit(oldp+22,(vlSelf->Core__DOT__decode__DOT__io_is_ebreak_REG));
-            tracep->chgQData(oldp+23,(vlSelf->Core__DOT__decode__DOT__io_rs1_data_o_REG),64);
-            tracep->chgQData(oldp+25,(vlSelf->Core__DOT__decode__DOT__io_rs2_data_o_REG),64);
+            tracep->chgQData(oldp+23,(vlSelf->Core__DOT__decode__DOT__rs1_reg),64);
+            tracep->chgQData(oldp+25,(vlSelf->Core__DOT__decode__DOT__rs2_reg),64);
             tracep->chgIData(oldp+27,(vlSelf->Core__DOT__decode__DOT__reg_pnpc),32);
             tracep->chgBit(oldp+28,((((((1U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code)) 
                                         | (2U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code))) 
@@ -564,7 +564,7 @@ void VCore___024root__traceChgSub0(VCore___024root* vlSelf, VerilatedVcd* tracep
             tracep->chgIData(oldp+121,(vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc),32);
             tracep->chgIData(oldp+122,(vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_inst),32);
             tracep->chgBit(oldp+123,(vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG));
-            VL_EXTEND_WQ(127,64, __Vtemp4358, vlSelf->Core__DOT__decode__DOT__io_rs2_data_o_REG);
+            VL_EXTEND_WQ(127,64, __Vtemp4358, vlSelf->Core__DOT__decode__DOT__rs2_reg);
             VL_SHIFTL_WWI(127,127,6, __Vtemp4359, __Vtemp4358, 
                           (0x38U & ((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_alu_out) 
                                     << 3U)));

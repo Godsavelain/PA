@@ -192,8 +192,8 @@ module Decode(
   reg [31:0] inst; // @[Decode.scala 28:22]
   reg  inst_valid; // @[Decode.scala 29:27]
   reg [31:0] reg_pnpc; // @[Decode.scala 30:25]
-  reg [63:0] io_rs1_data_o_REG; // @[Decode.scala 32:27]
-  reg [63:0] io_rs2_data_o_REG; // @[Decode.scala 33:27]
+  reg [63:0] rs1_reg; // @[Decode.scala 32:25]
+  reg [63:0] rs2_reg; // @[Decode.scala 33:25]
   wire [31:0] _ctrl_T = inst & 32'h7f; // @[Lookup.scala 31:38]
   wire  _ctrl_T_1 = 32'h37 == _ctrl_T; // @[Lookup.scala 31:38]
   wire  _ctrl_T_3 = 32'h17 == _ctrl_T; // @[Lookup.scala 31:38]
@@ -758,28 +758,28 @@ module Decode(
   wire [2:0] _ctrl_T_1081 = _ctrl_T_3 ? 3'h4 : _ctrl_T_1080; // @[Lookup.scala 33:37]
   wire [2:0] c0_4 = _ctrl_T_1 ? 3'h4 : _ctrl_T_1081; // @[Lookup.scala 33:37]
   wire  _stall_T = io_out_ready & io_out_valid; // @[Decoupled.scala 40:37]
-  wire  stall = ~_stall_T | io_decode_rf_stall_i; // @[Decode.scala 131:30]
-  reg  io_is_ebreak_REG; // @[Decode.scala 155:26]
+  wire  stall = ~_stall_T | io_decode_rf_stall_i; // @[Decode.scala 136:30]
+  reg  io_is_ebreak_REG; // @[Decode.scala 160:26]
   wire [20:0] imm_i_hi = inst[31] ? 21'h1fffff : 21'h0; // @[Bitwise.scala 72:12]
-  wire [10:0] imm_i_lo = inst[30:20]; // @[Decode.scala 159:43]
+  wire [10:0] imm_i_lo = inst[30:20]; // @[Decode.scala 164:43]
   wire [31:0] imm_i = {imm_i_hi,imm_i_lo}; // @[Cat.scala 30:58]
-  wire [5:0] imm_s_hi_lo = inst[30:25]; // @[Decode.scala 160:43]
+  wire [5:0] imm_s_hi_lo = inst[30:25]; // @[Decode.scala 165:43]
   wire [31:0] imm_s = {imm_i_hi,imm_s_hi_lo,inst[11:7]}; // @[Cat.scala 30:58]
   wire [19:0] imm_b_hi_hi_hi = inst[31] ? 20'hfffff : 20'h0; // @[Bitwise.scala 72:12]
-  wire  imm_b_hi_hi_lo = inst[7]; // @[Decode.scala 161:43]
-  wire [3:0] imm_b_lo_hi = inst[11:8]; // @[Decode.scala 161:66]
+  wire  imm_b_hi_hi_lo = inst[7]; // @[Decode.scala 166:43]
+  wire [3:0] imm_b_lo_hi = inst[11:8]; // @[Decode.scala 166:66]
   wire [31:0] imm_b = {imm_b_hi_hi_hi,imm_b_hi_hi_lo,imm_s_hi_lo,imm_b_lo_hi,1'h0}; // @[Cat.scala 30:58]
-  wire [19:0] imm_u_hi = inst[31:12]; // @[Decode.scala 162:23]
+  wire [19:0] imm_u_hi = inst[31:12]; // @[Decode.scala 167:23]
   wire [31:0] imm_u = {imm_u_hi,12'h0}; // @[Cat.scala 30:58]
   wire [11:0] imm_j_hi_hi_hi = inst[31] ? 12'hfff : 12'h0; // @[Bitwise.scala 72:12]
-  wire [7:0] imm_j_hi_hi_lo = inst[19:12]; // @[Decode.scala 163:43]
-  wire  imm_j_hi_lo = inst[20]; // @[Decode.scala 163:57]
-  wire [9:0] imm_j_lo_hi = inst[30:21]; // @[Decode.scala 163:67]
+  wire [7:0] imm_j_hi_hi_lo = inst[19:12]; // @[Decode.scala 168:43]
+  wire  imm_j_hi_lo = inst[20]; // @[Decode.scala 168:57]
+  wire [9:0] imm_j_lo_hi = inst[30:21]; // @[Decode.scala 168:67]
   wire [31:0] imm_j = {imm_j_hi_hi_hi,imm_j_hi_hi_lo,imm_j_hi_lo,imm_j_lo_hi,1'h0}; // @[Cat.scala 30:58]
   wire [31:0] _imm_shamt_T = {27'h0,inst[24:20]}; // @[Cat.scala 30:58]
-  wire [5:0] imm_shamt_lo_1 = inst[25:20]; // @[Decode.scala 164:88]
+  wire [5:0] imm_shamt_lo_1 = inst[25:20]; // @[Decode.scala 169:88]
   wire [31:0] _imm_shamt_T_1 = {26'h0,imm_shamt_lo_1}; // @[Cat.scala 30:58]
-  wire [31:0] imm_shamt = c0_0 ? _imm_shamt_T : _imm_shamt_T_1; // @[Decode.scala 164:22]
+  wire [31:0] imm_shamt = c0_0 ? _imm_shamt_T : _imm_shamt_T_1; // @[Decode.scala 169:22]
   wire [31:0] imm_csr = {27'h0,inst[19:15]}; // @[Cat.scala 30:58]
   wire [31:0] _io_out_bits_imm_T_1 = 3'h1 == c0_4 ? imm_i : 32'h0; // @[Mux.scala 80:57]
   wire [31:0] _io_out_bits_imm_T_3 = 3'h2 == c0_4 ? imm_s : _io_out_bits_imm_T_1; // @[Mux.scala 80:57]
@@ -787,11 +787,11 @@ module Decode(
   wire [31:0] _io_out_bits_imm_T_7 = 3'h4 == c0_4 ? imm_u : _io_out_bits_imm_T_5; // @[Mux.scala 80:57]
   wire [31:0] _io_out_bits_imm_T_9 = 3'h5 == c0_4 ? imm_j : _io_out_bits_imm_T_7; // @[Mux.scala 80:57]
   wire [31:0] _io_out_bits_imm_T_11 = 3'h6 == c0_4 ? imm_shamt : _io_out_bits_imm_T_9; // @[Mux.scala 80:57]
-  assign io_in_ready = ~stall; // @[Decode.scala 177:18]
-  assign io_out_valid = 1'h1; // @[Decode.scala 178:16]
-  assign io_out_bits_valid = io_id_flush | stall ? 1'h0 : inst_valid; // @[Decode.scala 135:29]
-  assign io_out_bits_pc = pc; // @[Decode.scala 133:23]
-  assign io_out_bits_inst = inst; // @[Decode.scala 134:23]
+  assign io_in_ready = ~stall; // @[Decode.scala 182:18]
+  assign io_out_valid = 1'h1; // @[Decode.scala 183:16]
+  assign io_out_bits_valid = io_id_flush | stall ? 1'h0 : inst_valid; // @[Decode.scala 140:29]
+  assign io_out_bits_pc = pc; // @[Decode.scala 138:23]
+  assign io_out_bits_inst = inst; // @[Decode.scala 139:23]
   assign io_out_bits_alu_code = _ctrl_T_1 ? 4'h1 : _ctrl_T_361; // @[Lookup.scala 33:37]
   assign io_out_bits_jmp_code = _ctrl_T_1 ? 4'h0 : _ctrl_T_433; // @[Lookup.scala 33:37]
   assign io_out_bits_mem_code = _ctrl_T_1 ? 2'h0 : _ctrl_T_505; // @[Lookup.scala 33:37]
@@ -800,22 +800,22 @@ module Decode(
   assign io_out_bits_w_type = _ctrl_T_1 ? 1'h0 : _ctrl_T_793; // @[Lookup.scala 33:37]
   assign io_out_bits_rs1_src = _ctrl_T_1 ? 3'h3 : _ctrl_T_865; // @[Lookup.scala 33:37]
   assign io_out_bits_rs2_src = _ctrl_T_1 ? 3'h2 : _ctrl_T_937; // @[Lookup.scala 33:37]
-  assign io_out_bits_rd_addr = inst[11:7]; // @[Decode.scala 149:30]
-  assign io_out_bits_rd_en = io_id_flush ? 1'h0 : inst_valid & c0_3; // @[Decode.scala 146:27]
+  assign io_out_bits_rd_addr = inst[11:7]; // @[Decode.scala 154:30]
+  assign io_out_bits_rd_en = io_id_flush ? 1'h0 : inst_valid & c0_3; // @[Decode.scala 151:27]
   assign io_out_bits_imm = 3'h7 == c0_4 ? imm_csr : _io_out_bits_imm_T_11; // @[Mux.scala 80:57]
-  assign io_ren1 = c0_1 == 3'h1; // @[Decode.scala 151:23]
-  assign io_raddr1 = inst[19:15]; // @[Decode.scala 153:20]
-  assign io_ren2 = c0_2 == 3'h1 | ctrl_4 == 2'h3; // @[Decode.scala 152:40]
-  assign io_raddr2 = inst[24:20]; // @[Decode.scala 154:20]
-  assign io_is_ebreak = io_is_ebreak_REG; // @[Decode.scala 155:16]
-  assign io_rs1_data_o = io_rs1_data_o_REG; // @[Decode.scala 32:17]
-  assign io_rs2_data_o = io_rs2_data_o_REG; // @[Decode.scala 33:17]
-  assign io_p_npc_o = reg_pnpc; // @[Decode.scala 157:14]
+  assign io_ren1 = c0_1 == 3'h1; // @[Decode.scala 156:23]
+  assign io_raddr1 = inst[19:15]; // @[Decode.scala 158:20]
+  assign io_ren2 = c0_2 == 3'h1 | ctrl_4 == 2'h3; // @[Decode.scala 157:40]
+  assign io_raddr2 = inst[24:20]; // @[Decode.scala 159:20]
+  assign io_is_ebreak = io_is_ebreak_REG; // @[Decode.scala 160:16]
+  assign io_rs1_data_o = rs1_reg; // @[Decode.scala 35:17]
+  assign io_rs2_data_o = rs2_reg; // @[Decode.scala 36:17]
+  assign io_p_npc_o = reg_pnpc; // @[Decode.scala 162:14]
   always @(posedge clock) begin
     if (reset) begin // @[Decode.scala 27:22]
       pc <= 32'h0; // @[Decode.scala 27:22]
-    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 34:36]
-      if (io_id_flush) begin // @[Decode.scala 35:14]
+    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 37:36]
+      if (io_id_flush) begin // @[Decode.scala 38:14]
         pc <= 32'h0;
       end else begin
         pc <= io_in_bits_pc;
@@ -823,8 +823,8 @@ module Decode(
     end
     if (reset) begin // @[Decode.scala 28:22]
       inst <= 32'h0; // @[Decode.scala 28:22]
-    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 34:36]
-      if (io_id_flush) begin // @[Decode.scala 36:16]
+    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 37:36]
+      if (io_id_flush) begin // @[Decode.scala 39:16]
         inst <= 32'h0;
       end else begin
         inst <= io_in_bits_inst;
@@ -832,8 +832,8 @@ module Decode(
     end
     if (reset) begin // @[Decode.scala 29:27]
       inst_valid <= 1'h0; // @[Decode.scala 29:27]
-    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 34:36]
-      if (io_id_flush) begin // @[Decode.scala 37:22]
+    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 37:36]
+      if (io_id_flush) begin // @[Decode.scala 40:22]
         inst_valid <= 1'h0;
       end else begin
         inst_valid <= io_in_bits_inst_valid;
@@ -841,16 +841,24 @@ module Decode(
     end
     if (reset) begin // @[Decode.scala 30:25]
       reg_pnpc <= 32'h0; // @[Decode.scala 30:25]
-    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 34:36]
-      if (io_id_flush) begin // @[Decode.scala 38:20]
+    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 37:36]
+      if (io_id_flush) begin // @[Decode.scala 41:20]
         reg_pnpc <= 32'h0;
       end else begin
         reg_pnpc <= io_p_npc_i;
       end
     end
-    io_rs1_data_o_REG <= io_rs1_data_i; // @[Decode.scala 32:27]
-    io_rs2_data_o_REG <= io_rs2_data_i; // @[Decode.scala 33:27]
-    if (io_id_flush) begin // @[Decode.scala 155:30]
+    if (reset) begin // @[Decode.scala 32:25]
+      rs1_reg <= 64'h0; // @[Decode.scala 32:25]
+    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 37:36]
+      rs1_reg <= io_rs1_data_i; // @[Decode.scala 42:13]
+    end
+    if (reset) begin // @[Decode.scala 33:25]
+      rs2_reg <= 64'h0; // @[Decode.scala 33:25]
+    end else if (io_in_ready | io_id_flush) begin // @[Decode.scala 37:36]
+      rs2_reg <= io_rs2_data_i; // @[Decode.scala 43:13]
+    end
+    if (io_id_flush) begin // @[Decode.scala 160:30]
       io_is_ebreak_REG <= 1'h0;
     end else begin
       io_is_ebreak_REG <= inst_valid & _ctrl_T_77;
@@ -901,9 +909,9 @@ initial begin
   _RAND_3 = {1{`RANDOM}};
   reg_pnpc = _RAND_3[31:0];
   _RAND_4 = {2{`RANDOM}};
-  io_rs1_data_o_REG = _RAND_4[63:0];
+  rs1_reg = _RAND_4[63:0];
   _RAND_5 = {2{`RANDOM}};
-  io_rs2_data_o_REG = _RAND_5[63:0];
+  rs2_reg = _RAND_5[63:0];
   _RAND_6 = {1{`RANDOM}};
   io_is_ebreak_REG = _RAND_6[0:0];
 `endif // RANDOMIZE_REG_INIT

@@ -493,8 +493,8 @@ void VCore___024root__traceInitSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->declBus(c+7,"Core decode inst", false,-1, 31,0);
         tracep->declBit(c+136,"Core decode inst_valid", false,-1);
         tracep->declBus(c+28,"Core decode reg_pnpc", false,-1, 31,0);
-        tracep->declQuad(c+24,"Core decode io_rs1_data_o_REG", false,-1, 63,0);
-        tracep->declQuad(c+26,"Core decode io_rs2_data_o_REG", false,-1, 63,0);
+        tracep->declQuad(c+24,"Core decode rs1_reg", false,-1, 63,0);
+        tracep->declQuad(c+26,"Core decode rs2_reg", false,-1, 63,0);
         tracep->declBus(c+10,"Core decode ctrl_4", false,-1, 1,0);
         tracep->declBit(c+13,"Core decode c0_0", false,-1);
         tracep->declBus(c+137,"Core decode c0_1", false,-1, 2,0);
@@ -2291,8 +2291,8 @@ void VCore___024root__traceFullSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->fullCData(oldp+22,((0x1fU & (vlSelf->Core__DOT__decode__DOT__inst 
                                              >> 0x14U))),5);
         tracep->fullBit(oldp+23,(vlSelf->Core__DOT__decode__DOT__io_is_ebreak_REG));
-        tracep->fullQData(oldp+24,(vlSelf->Core__DOT__decode__DOT__io_rs1_data_o_REG),64);
-        tracep->fullQData(oldp+26,(vlSelf->Core__DOT__decode__DOT__io_rs2_data_o_REG),64);
+        tracep->fullQData(oldp+24,(vlSelf->Core__DOT__decode__DOT__rs1_reg),64);
+        tracep->fullQData(oldp+26,(vlSelf->Core__DOT__decode__DOT__rs2_reg),64);
         tracep->fullIData(oldp+28,(vlSelf->Core__DOT__decode__DOT__reg_pnpc),32);
         tracep->fullBit(oldp+29,((((((1U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code)) 
                                      | (2U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code))) 
@@ -2368,7 +2368,7 @@ void VCore___024root__traceFullSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->fullIData(oldp+122,(vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_pc),32);
         tracep->fullIData(oldp+123,(vlSelf->Core__DOT__mem__DOT__io_out_bits_REG_inst),32);
         tracep->fullBit(oldp+124,(vlSelf->Core__DOT__mem__DOT__io_is_ebreak_o_REG));
-        VL_EXTEND_WQ(127,64, __Vtemp2889, vlSelf->Core__DOT__decode__DOT__io_rs2_data_o_REG);
+        VL_EXTEND_WQ(127,64, __Vtemp2889, vlSelf->Core__DOT__decode__DOT__rs2_reg);
         VL_SHIFTL_WWI(127,127,6, __Vtemp2890, __Vtemp2889, 
                       (0x38U & ((IData)(vlSelf->Core__DOT__execute__DOT__alu_io_alu_out) 
                                 << 3U)));
