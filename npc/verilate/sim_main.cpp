@@ -33,14 +33,21 @@ std::ofstream fout;
 #define ASNI_BG_WHITE   "\33[1;47m"
 #define ASNI_NONE       "\33[0m"
 
-
-
 #define ASNI_FMT(str, fmt) fmt str ASNI_NONE
 
 long long unsigned int Memory[100000];
 
 bool has_end = false;
 bool has_error = false;
+
+bool test_all = false;
+
+char test_names[33][20] = {"add","fact","load-store","mul-longlong","shift","to-lower-case",\
+    "add-longlong","fib","matrix-mul","pascal","shuixianhua","unalign",\
+    "bit","goldbach","max","prime","string","wanshu",\
+    "bubble-sort","hello-str","min3","quick-sort","sub-longlong",\
+    "div","if-else","mov-c","recursion","sum",\
+    "dummy","leap-year","movsx","select-sort","switch"};
 
 VCore *top;
 VerilatedVcdC *m_trace;
@@ -95,7 +102,6 @@ void difftest_skip_dut(int nr_ref, int nr_dut) {
 
 void init_difftest(char *ref_so_file, long img_size, int port) {
   assert(ref_so_file != NULL);
-
   printf("ref file %s \n",ref_so_file);
 
   void *handle;
@@ -228,7 +234,7 @@ extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit eb
     if(has_ebreak){
         has_end = true;
     }
-    printf("pc:%08x inst:%08x\n",pc_valie,instruction );
+    //printf("pc:%08x inst:%08x\n",pc_valie,instruction );
 }
 
 long long int read_mem(unsigned int addr){
@@ -256,7 +262,7 @@ long long int read_mem(unsigned int addr){
 }
 
 void write_mem(unsigned int addr,long long unsigned int data, unsigned char write_mask){
-    printf("Addr %x Data %llx Mask: %u \n",addr ,data , write_mask);
+    //printf("Addr %x Data %llx Mask: %u \n",addr ,data , write_mask);
     int offset = (addr - 0x80000000);
     int i = offset / 8;
     long long int old_data = Memory[i];
@@ -280,7 +286,7 @@ long inst_load(char* filename){
     FILE *p;
     char real_name[100];
     sprintf(real_name,"%s%s%s","./tests/",filename,"-riscv64-npc.bin");
-    //printf("aaaaa%s\n",real_name);
+    printf("test:%s\n",real_name);
     //real_name = strcat(strcat(pre,filename),after);
     // p = fopen("./tests/dummy-riscv64-npc.bin","rb");
     p = fopen(real_name,"rb");
@@ -302,7 +308,7 @@ long inst_load(char* filename){
             low = true;
         }
         base_addr = base_addr + 4;
-        printf("read inst %08x \n",data);
+        //printf("read inst %08x \n",data);
         size = size + 4;
     }
     return size;
@@ -412,21 +418,14 @@ void npc_step(){
 
 
 int main(int argc, char **argv, char **env){
-    //printf("name:%s",argv[1]);
-    if(argc < 1){
+    if(argc < 2){
         printf("need to specify test name\n");
+        printf("arg0 %s \n ",argv[0]);
+        printf("arg1 %s \n ",argv[1]);
         return 1;
     }
-    long img_size = inst_load(argv[1]);
-    printf("size:%ld\n",img_size);
 
     fout.open("./log.txt");
-
-    // diff_so_file = "riscv64-nemu-interpreter-so";
-
-    strcpy(diff_so_file , "./difftest/riscv64-nemu-interpreter-so");
-    init_difftest(diff_so_file, img_size, difftest_port);
-
     VerilatedContext* contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);            // Verilator仿真运行时参数（和编译的参数不一样，详见Verilator手册第6章
     top = new VCore;
@@ -435,11 +434,27 @@ int main(int argc, char **argv, char **env){
     m_trace = new VerilatedVcdC;
     top->trace(m_trace, 20);
     m_trace->open("waveform.vcd");
-
+    
+    sim_time = 0;
+    int success = 0;
+    char *p;
+    char *p2;
+    char name[30] = {0};
+    p = argv[1];
+    for(int i=0;i<64;i++){
+        p++;
+    }
+    p2 = p;
+    int n=0;
+    p = strstr(p,"-riscv");
+    n = p - p2;
+    strncpy(name, p2,n);
+    long img_size;
+    img_size = inst_load(name);
+    strcpy(diff_so_file , "./difftest/riscv64-nemu-interpreter-so");
+    init_difftest(diff_so_file, img_size, difftest_port);
     d_ren = false;
     d_wen = false;
-
-    sim_time = 0;
     top->io_write_regs = 0;
     top->reset = 1;
     for(int i=0;i<3;i++){
@@ -479,24 +494,19 @@ int main(int argc, char **argv, char **env){
     while (!has_end) { 
     npc_step();
     }
-
     int a10 = 0;
-    int success;
     a10 = top->io_regs_out_10;
     if((a10 == 0) && (has_error == false)){
         printf("HIT GOOD TRAP at at pc = 0x%016x\n",top->io_commit_pc);
-        success = 0;
     }
     else{
         printf("HIT BAD TRAP at at pc = 0x%016x\n",top->io_commit_pc);
         success = 1;
     }
-
+    
     m_trace->close();
     delete top;
     delete contextp;
-
     fout.close();
-
     return success;
 }

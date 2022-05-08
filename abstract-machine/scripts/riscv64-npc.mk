@@ -26,4 +26,4 @@ run: image
 	echo $(IMAGE).bin
 	cp $(IMAGE).bin $(NPC_HOME)/verilate/tests/
 	echo $(ALL)
-	cd $(NPC_HOME)/verilate && cp ./obj_dir/VCore ./ && ./VCore $(ALL)
+	cd $(NPC_HOME)/verilate && cp ./obj_dir/VCore ./ && ./VCore $(IMAGE)
