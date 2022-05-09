@@ -42,7 +42,7 @@ void isa_reg_display() {
   printf("t4\t\t0x%016lx\t\t%ld\n",gpr(29),gpr(29));
   printf("t5\t\t0x%016lx\t\t%ld\n",gpr(30),gpr(30));
   printf("t6\t\t0x%016lx\t\t%ld\n",gpr(31),gpr(31));
-  printf("t6\t\t0x%016lx\t\t%ld\n",cpu.pc,cpu.pc);
+  printf("pc\t\t0x%016lx\t\t%ld\n",cpu.pc,cpu.pc);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
