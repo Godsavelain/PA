@@ -36,9 +36,6 @@ class Core extends Module{
       val commit_pc = Output(UInt(32.W))
 //for difftest
       val regs_out = Vec(32,Output(UInt(64.W)))
-      val regs_in  = Vec(32,Input(UInt(64.W)))
-      val pc_in    = Input(UInt(32.W))
-      val write_regs  = Input(Bool())
       val commit      = Output(Bool())
   })
 
@@ -48,8 +45,7 @@ class Core extends Module{
   fetch.io.imem.resp.bits.rdata := io.imem.rdata(31,0)
   fetch.io.imem.resp.bits.old_pc := RegNext(fetch.io.imem.req.bits.araddr)
   fetch.io.imem.resp.bits.rvalid := io.imem.read_ok
-  fetch.io.input_pc := io.pc_in
-  fetch.io.write_regs := io.write_regs
+
 
   io.imem.raddr := fetch.io.imem.req.bits.araddr
   io.imem.ren := fetch.io.imem.req.bits.arvalid
@@ -111,8 +107,7 @@ class Core extends Module{
   regfile.io.waddr := mem.io.waddr_o
   regfile.io.wen := mem.io.wen_o
   regfile.io.wdata := mem.io.wdata_o
-  regfile.io.regs_in := io.regs_in
-  regfile.io.write_regs := io.write_regs
+
   io.regs_out := regfile.io.regs
   io.commit_pc := RegNext(mem.io.out.bits.pc)
   io.commit := RegNext(mem.io.out.bits.valid)
@@ -149,4 +144,5 @@ class Core extends Module{
   decode.io.id_flush := execute.io.jmp_packet_o.mis
   execute.io.ex_flush := false.B
   mem.io.mem_flush_i := false.B
+  fetch.io.flush_pc_i := 0.U
 }

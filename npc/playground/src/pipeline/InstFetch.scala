@@ -47,9 +47,7 @@ class InstFetch extends Module{
     val if_flush = Input(Bool())
     val p_npc = Output(UInt(32.W))
     val jmp_packet_i = Input(new Jmp_Packet())
-    //difftest
-    val write_regs = Input(Bool())
-    val input_pc   = Input(UInt(32.W))
+    val flush_pc_i = Input(Bool())
   })
 
   val req = io.imem.req
@@ -60,7 +58,6 @@ class InstFetch extends Module{
   val valid_out = RegInit(false.B)
 
   val reg_pnpc = RegInit(0.U(32.W))
-
   val pc = RegInit("h80000000".U(32.W))
   //val pc_valid = RegInit("b1".U(1.W))
   val pc_base = Cat(pc(31, 2), Fill(2, 0.U))
@@ -69,19 +66,27 @@ class InstFetch extends Module{
   val imem_stall = !resp.bits.rvalid
   val stall = (imem_stall || !io.out.fire())
   val npc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , npc_s)
-  when(io.write_regs){
-   pc := io.input_pc
+
+  val flush_pc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , flush_pc_i)
+  //flush更改npc时，若取指段处于等待指令数据的状态，写入这些寄存器
+  val use_reg_npc = RegInit(false.B)
+  val reg_npc   = RegInit(0.U(32.W))
+  when(io.if_flush && stall){
+    use_reg_npc := true.B
+    reg_npc := flush_pc
   }
-  .elsewhen(!stall || io.if_flush){
-    pc := npc
+
+  when(!stall){
+    pc := Mux(use_reg_npc ,reg_npc ,npc)
     reg_pnpc := pc_base
+    use_reg_npc := false.B
   }
   io.p_npc := reg_pnpc
 
   when(!stall || io.if_flush){
-    pc_out    := Mux(io.if_flush , 0.U , pc_base)
-    inst_out  := Mux(io.if_flush , 0.U , resp.bits.rdata)
-    valid_out := Mux(io.if_flush , 0.U , resp.bits.rvalid)
+    pc_out    := Mux( use_reg_npc , 0.U , pc_base)
+    inst_out  := Mux( use_reg_npc , 0.U , resp.bits.rdata)
+    valid_out := Mux( use_reg_npc , 0.B , resp.bits.rvalid)
   }
 
   io.out.bits.pc := pc_out

@@ -96,16 +96,15 @@ class Execute extends Module{
 
   io.ex_wdata_o  := io.ex_rs2_i
   io.ex_rwaddr_o := alu.io.alu_out(31, 0)
-  io.ex_rvalid_o := is_load
-  io.ex_wvalid_o := is_store
+  io.ex_rvalid_o := is_load && !stall && !io.ex_flush
+  io.ex_wvalid_o := is_store && !stall && !io.ex_flush
   io.ex_wsize_o  := ex_reg_decodeop.mem_size
 
   //for bypass
-  io.ex_rd_en   := Mux(!ex_reg_decodeop.valid, false.B, ex_reg_decodeop.rd_en)
+  io.ex_rd_en   := Mux(io.ex_flush , 0.B ,Mux(!ex_reg_decodeop.valid, false.B, ex_reg_decodeop.rd_en))
   io.ex_rd_addr := ex_reg_decodeop.rd_addr
   io.ex_is_load := ((ex_reg_decodeop.mem_code === MEM_LD) || (ex_reg_decodeop.mem_code === MEM_LDU))
-  io.ex_is_mdu  := (mdu_op =/= MDU_X)
-
+  io.ex_is_mdu  := (mdu_op =/= MDU_X) && ex_reg_decodeop.valid && !io.ex_flush
 }
 
 class Alu extends Module{

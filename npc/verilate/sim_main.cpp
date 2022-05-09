@@ -54,9 +54,14 @@ VerilatedVcdC *m_trace;
 int npc_addr;
 int raddr;
 int waddr;
-bool d_ren;
-bool d_wen;
+bool d_ren = false;
+bool d_wen = false;
+bool i_ren = false;
 long long unsigned int d_read_data;
+long long unsigned int i_read_data;
+int mem_latency = 4;
+int imem_wait_num = 0;
+int dmem_wait_num = 0;
 vluint64_t sim_time;
 
 //difftest
@@ -157,38 +162,38 @@ static void checkregs(riscv64_CPU_state *ref, int pc) {
         same = false;
     }
     if(!same){
-        printf("reg0  ref: %016lx  dut: %016lx \n", ref->gpr[0],  top->io_regs_out_0 );
-        printf("reg1  ref: %016lx  dut: %016lx \n", ref->gpr[1],  top->io_regs_out_1 );
-        printf("reg2  ref: %016lx  dut: %016lx \n", ref->gpr[2],  top->io_regs_out_2 );
-        printf("reg3  ref: %016lx  dut: %016lx \n", ref->gpr[3],  top->io_regs_out_3 );
-        printf("reg4  ref: %016lx  dut: %016lx \n", ref->gpr[4],  top->io_regs_out_4 );
-        printf("reg5  ref: %016lx  dut: %016lx \n", ref->gpr[5],  top->io_regs_out_5 );
-        printf("reg6  ref: %016lx  dut: %016lx \n", ref->gpr[6],  top->io_regs_out_6 );
-        printf("reg7  ref: %016lx  dut: %016lx \n", ref->gpr[7],  top->io_regs_out_7 );
-        printf("reg8  ref: %016lx  dut: %016lx \n", ref->gpr[8],  top->io_regs_out_8 );
-        printf("reg9  ref: %016lx  dut: %016lx \n", ref->gpr[9],  top->io_regs_out_9 );
-        printf("reg10 ref: %016lx  dut: %016lx \n", ref->gpr[10], top->io_regs_out_10 );
-        printf("reg11 ref: %016lx  dut: %016lx \n", ref->gpr[11], top->io_regs_out_11 );
-        printf("reg12 ref: %016lx  dut: %016lx \n", ref->gpr[12], top->io_regs_out_12 );
-        printf("reg13 ref: %016lx  dut: %016lx \n", ref->gpr[13], top->io_regs_out_13 );
-        printf("reg14 ref: %016lx  dut: %016lx \n", ref->gpr[14], top->io_regs_out_14 );
-        printf("reg15 ref: %016lx  dut: %016lx \n", ref->gpr[15], top->io_regs_out_15 );
-        printf("reg16 ref: %016lx  dut: %016lx \n", ref->gpr[16], top->io_regs_out_16 );
-        printf("reg17 ref: %016lx  dut: %016lx \n", ref->gpr[17], top->io_regs_out_17 );
-        printf("reg18 ref: %016lx  dut: %016lx \n", ref->gpr[18], top->io_regs_out_18 );
-        printf("reg19 ref: %016lx  dut: %016lx \n", ref->gpr[19], top->io_regs_out_19 );
-        printf("reg20 ref: %016lx  dut: %016lx \n", ref->gpr[20], top->io_regs_out_20 );
-        printf("reg21 ref: %016lx  dut: %016lx \n", ref->gpr[21], top->io_regs_out_21 );
-        printf("reg22 ref: %016lx  dut: %016lx \n", ref->gpr[22], top->io_regs_out_22 );
-        printf("reg23 ref: %016lx  dut: %016lx \n", ref->gpr[23], top->io_regs_out_23 );
-        printf("reg24 ref: %016lx  dut: %016lx \n", ref->gpr[24], top->io_regs_out_24 );
-        printf("reg25 ref: %016lx  dut: %016lx \n", ref->gpr[25], top->io_regs_out_25 );
-        printf("reg26 ref: %016lx  dut: %016lx \n", ref->gpr[26], top->io_regs_out_26 );
-        printf("reg27 ref: %016lx  dut: %016lx \n", ref->gpr[27], top->io_regs_out_27 );
-        printf("reg28 ref: %016lx  dut: %016lx \n", ref->gpr[28], top->io_regs_out_28 );
-        printf("reg29 ref: %016lx  dut: %016lx \n", ref->gpr[29], top->io_regs_out_29 );
-        printf("reg30 ref: %016lx  dut: %016lx \n", ref->gpr[30], top->io_regs_out_30 );
-        printf("reg31 ref: %016lx  dut: %016lx \n", ref->gpr[31], top->io_regs_out_31 );
+        printf("x0  ref: %016lx  dut: %016lx \n", ref->gpr[0],  top->io_regs_out_0 );
+        printf("ra  ref: %016lx  dut: %016lx \n", ref->gpr[1],  top->io_regs_out_1 );
+        printf("sp  ref: %016lx  dut: %016lx \n", ref->gpr[2],  top->io_regs_out_2 );
+        printf("gp  ref: %016lx  dut: %016lx \n", ref->gpr[3],  top->io_regs_out_3 );
+        printf("tp  ref: %016lx  dut: %016lx \n", ref->gpr[4],  top->io_regs_out_4 );
+        printf("t0  ref: %016lx  dut: %016lx \n", ref->gpr[5],  top->io_regs_out_5 );
+        printf("t1  ref: %016lx  dut: %016lx \n", ref->gpr[6],  top->io_regs_out_6 );
+        printf("t2  ref: %016lx  dut: %016lx \n", ref->gpr[7],  top->io_regs_out_7 );
+        printf("s0  ref: %016lx  dut: %016lx \n", ref->gpr[8],  top->io_regs_out_8 );
+        printf("s1  ref: %016lx  dut: %016lx \n", ref->gpr[9],  top->io_regs_out_9 );
+        printf("a0 ref: %016lx  dut: %016lx \n", ref->gpr[10], top->io_regs_out_10 );
+        printf("a1 ref: %016lx  dut: %016lx \n", ref->gpr[11], top->io_regs_out_11 );
+        printf("a2 ref: %016lx  dut: %016lx \n", ref->gpr[12], top->io_regs_out_12 );
+        printf("a3 ref: %016lx  dut: %016lx \n", ref->gpr[13], top->io_regs_out_13 );
+        printf("a4 ref: %016lx  dut: %016lx \n", ref->gpr[14], top->io_regs_out_14 );
+        printf("a5 ref: %016lx  dut: %016lx \n", ref->gpr[15], top->io_regs_out_15 );
+        printf("a6 ref: %016lx  dut: %016lx \n", ref->gpr[16], top->io_regs_out_16 );
+        printf("a7 ref: %016lx  dut: %016lx \n", ref->gpr[17], top->io_regs_out_17 );
+        printf("s2 ref: %016lx  dut: %016lx \n", ref->gpr[18], top->io_regs_out_18 );
+        printf("s3 ref: %016lx  dut: %016lx \n", ref->gpr[19], top->io_regs_out_19 );
+        printf("s4 ref: %016lx  dut: %016lx \n", ref->gpr[20], top->io_regs_out_20 );
+        printf("s5 ref: %016lx  dut: %016lx \n", ref->gpr[21], top->io_regs_out_21 );
+        printf("s6 ref: %016lx  dut: %016lx \n", ref->gpr[22], top->io_regs_out_22 );
+        printf("s7 ref: %016lx  dut: %016lx \n", ref->gpr[23], top->io_regs_out_23 );
+        printf("s8 ref: %016lx  dut: %016lx \n", ref->gpr[24], top->io_regs_out_24 );
+        printf("s9 ref: %016lx  dut: %016lx \n", ref->gpr[25], top->io_regs_out_25 );
+        printf("s10 ref: %016lx  dut: %016lx \n", ref->gpr[26], top->io_regs_out_26 );
+        printf("s11 ref: %016lx  dut: %016lx \n", ref->gpr[27], top->io_regs_out_27 );
+        printf("t3 ref: %016lx  dut: %016lx \n", ref->gpr[28], top->io_regs_out_28 );
+        printf("t4 ref: %016lx  dut: %016lx \n", ref->gpr[29], top->io_regs_out_29 );
+        printf("t5 ref: %016lx  dut: %016lx \n", ref->gpr[30], top->io_regs_out_30 );
+        printf("t6 ref: %016lx  dut: %016lx \n", ref->gpr[31], top->io_regs_out_31 );
         printf("pc ref: %08x  dut: %08x \n", ref->pc, pc );
         has_end = true;
         has_error = true;
@@ -317,18 +322,84 @@ long inst_load(char* filename){
 
 
 void npc_step(){
+    // if(i_ren){
+    //     //printf("imem read addr %x \n",npc_addr);
+    //     top->io_imem_rdata = i_read_data;
+    //     top->io_imem_read_ok = true;
+    //     i_ren = false;
+    // }
+    // else{
+    //     top->io_imem_read_ok = false;
+    // }
+
+    // if(d_ren){
+    //     top->io_dmem_read_ok = true;
+    //     top->io_dmem_rdata = d_read_data;
+    //     d_ren = false;
+    // }
+    // else{
+    //     top->io_dmem_read_ok = false;
+    // }
+
+    // if(d_wen){
+    //     top->io_dmem_write_ok = true;
+    //     d_wen = false;
+    // }
+    // else{
+    //     top->io_dmem_write_ok = false;
+    // }
+
+    if(i_ren){
+        imem_wait_num--;
+        printf("imem_wait_num %d \n",imem_wait_num);
+    }
+    else if(d_ren){
+        dmem_wait_num--;
+        printf("dmem_wait_num %d \n",dmem_wait_num);
+    }
+    
     top->clock = 1;
 
-    if(top->io_imem_ren){
+    top->eval();
+
+    if(top->io_dmem_ren){
+        raddr = top->io_dmem_raddr;
+        d_ren = true;
+        dmem_wait_num = mem_latency;
+        d_read_data = read_mem(raddr); 
+    }
+    else if(top->io_dmem_wen){
+        d_wen = true;
+        dmem_wait_num = mem_latency;
+        waddr = top->io_dmem_waddr;
+        unsigned char temp_mask;      
+        temp_mask = top->io_dmem_wmask;
+        long long unsigned int wdata = top->io_dmem_wdata;
+        write_mem(waddr, wdata , temp_mask);
+    }
+    else{
+        if(top->io_imem_ren && (imem_wait_num == 0) && (!d_wen && !d_ren &&!i_ren)){
+        npc_addr = top->io_imem_raddr;
+        i_ren = true;
+        i_read_data = read_mem(npc_addr);
+        imem_wait_num = mem_latency;
+        }
+    }
+
+    m_trace->dump(sim_time);
+    sim_time++;
+
+    if(i_ren && (imem_wait_num == 0)){
         //printf("imem read addr %x \n",npc_addr);
-        top->io_imem_rdata = read_mem(npc_addr);
+        top->io_imem_rdata = i_read_data;
         top->io_imem_read_ok = true;
+        i_ren = false;
     }
     else{
         top->io_imem_read_ok = false;
     }
 
-    if(d_ren){
+    if(d_ren && ((dmem_wait_num == 0))){
         top->io_dmem_read_ok = true;
         top->io_dmem_rdata = d_read_data;
         d_ren = false;
@@ -337,7 +408,7 @@ void npc_step(){
         top->io_dmem_read_ok = false;
     }
 
-    if(d_wen){
+    if(d_wen  && (dmem_wait_num == 0)) {
         top->io_dmem_write_ok = true;
         d_wen = false;
     }
@@ -345,29 +416,6 @@ void npc_step(){
         top->io_dmem_write_ok = false;
     }
 
-    top->eval();
-
-    npc_addr = top->io_imem_raddr;
-    
-
-    if(top->io_dmem_ren){
-        raddr = top->io_dmem_raddr;
-        d_ren = true;
-        d_read_data = read_mem(raddr);
-    }
-
-    if(top->io_dmem_wen){
-        d_wen = true;
-        waddr = top->io_dmem_waddr;
-        unsigned char temp_mask;      
-        temp_mask = top->io_dmem_wmask;
-        long long unsigned int wdata = top->io_dmem_wdata;
-        write_mem(waddr, wdata , temp_mask);
-    }
-
-
-    m_trace->dump(sim_time);
-    sim_time++;
     top->clock = 0;
     top->eval();
     m_trace->dump(sim_time);
@@ -376,7 +424,7 @@ void npc_step(){
         char log[200];
         sprintf(log, "commit pc %08x\n", top->io_commit_pc);
         fout << log ;
-        //printf("commit pc %08x\n",top->io_commit_pc);
+        printf("commit pc %08x\n",top->io_commit_pc);
         cpu.pc = top->io_commit_pc;
         cpu.gpr[ 0] = top->io_regs_out_0; 
         cpu.gpr[ 1] = top->io_regs_out_1; 
@@ -410,9 +458,7 @@ void npc_step(){
         cpu.gpr[29] = top->io_regs_out_29;
         cpu.gpr[30] = top->io_regs_out_30;
         cpu.gpr[31] = top->io_regs_out_31;
-
         difftest_step(top->io_commit_pc,0);
-
     }
 }
 
@@ -420,16 +466,12 @@ void npc_step(){
 int main(int argc, char **argv, char **env){
     if(argc < 2){
         printf("need to specify test name\n");
-        printf("arg0 %s \n ",argv[0]);
-        printf("arg1 %s \n ",argv[1]);
         return 1;
     }
-
     fout.open("./log.txt");
     VerilatedContext* contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);            // Verilator仿真运行时参数（和编译的参数不一样，详见Verilator手册第6章
     top = new VCore;
-
     Verilated::traceEverOn(true);
     m_trace = new VerilatedVcdC;
     top->trace(m_trace, 20);

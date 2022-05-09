@@ -27,9 +27,6 @@ class RegFile extends Module{
     val mem_rd_addr = Input(UInt(5.W))
     val mem_rd_data = Input(UInt(64.W))
     val rf_stall = Output(Bool())
-    //for difftest
-    val regs_in = Vec(32,Input(UInt(64.W)))
-    val write_regs = Input(Bool())
   })
 //bypass
   val ex_rs1_hazard = io.ex_rd_en && (io.ex_rd_addr === io.raddr1) && io.ren1
@@ -44,9 +41,7 @@ class RegFile extends Module{
   io.rf_stall := ( ( (io.ex_is_load_i || io.ex_is_mdu_i) && (ex_rs1_hazard || ex_rs2_hazard)) || (io.mem_is_load_i && (mem_rs1_hazard || mem_rs2_hazard)) )
   io.rdata1 := Mux((io.raddr1 =/= 0.U), Mux(ex_rs1_hazard , io.ex_rd_data ,Mux(mem_rs1_hazard ,io.mem_rd_data, Mux(wb_rs1_hazard,io.wdata ,rf(io.raddr1)))), 0.U)
   io.rdata2 := Mux((io.raddr2 =/= 0.U), Mux(ex_rs2_hazard , io.ex_rd_data ,Mux(mem_rs2_hazard ,io.mem_rd_data, Mux(wb_rs2_hazard,io.wdata ,rf(io.raddr2)))), 0.U)
-  when(io.write_regs){
-    rf := io.regs_in
-  }.elsewhen((io.waddr =/= 0.U) && io.wen ){
+  when((io.waddr =/= 0.U) && io.wen ){
     rf(io.waddr) := io.wdata
   }
   io.regs := rf
