@@ -50,7 +50,7 @@ bool d_wen = false;
 bool i_ren = false;
 long long unsigned int d_read_data;
 long long unsigned int i_read_data;
-int mem_latency = 4;
+int mem_latency = 10;
 int imem_wait_num = 0;
 int dmem_wait_num = 0;
 vluint64_t sim_time;
@@ -313,32 +313,6 @@ long inst_load(char* filename){
 
 
 void npc_step(){
-    // if(i_ren){
-    //     //printf("imem read addr %x \n",npc_addr);
-    //     top->io_imem_rdata = i_read_data;
-    //     top->io_imem_read_ok = true;
-    //     i_ren = false;
-    // }
-    // else{
-    //     top->io_imem_read_ok = false;
-    // }
-
-    // if(d_ren){
-    //     top->io_dmem_read_ok = true;
-    //     top->io_dmem_rdata = d_read_data;
-    //     d_ren = false;
-    // }
-    // else{
-    //     top->io_dmem_read_ok = false;
-    // }
-
-    // if(d_wen){
-    //     top->io_dmem_write_ok = true;
-    //     d_wen = false;
-    // }
-    // else{
-    //     top->io_dmem_write_ok = false;
-    // }
 
     if(i_ren){
         imem_wait_num--;
@@ -353,24 +327,24 @@ void npc_step(){
 
     top->eval();
 
-    if(top->io_dmem_ren){
-        raddr = top->io_dmem_raddr;
+    if(top->io_dmem_req_bits_ren){
+        raddr = top->io_dmem_req_bits_raddr;
         d_ren = true;
         dmem_wait_num = mem_latency;
         d_read_data = read_mem(raddr); 
     }
-    else if(top->io_dmem_wen){
+    else if(top->io_dmem_req_bits_wen){
         d_wen = true;
         dmem_wait_num = mem_latency;
-        waddr = top->io_dmem_waddr;
+        waddr = top->io_dmem_req_bits_waddr;
         unsigned char temp_mask;      
-        temp_mask = top->io_dmem_wmask;
-        long long unsigned int wdata = top->io_dmem_wdata;
+        temp_mask = top->io_dmem_req_bits_wmask;
+        long long unsigned int wdata = top->io_dmem_req_bits_wdata;
         write_mem(waddr, wdata , temp_mask);
     }
     else{
-        if(top->io_imem_ren && (imem_wait_num == 0) && (!d_wen && !d_ren &&!i_ren)){
-        npc_addr = top->io_imem_raddr;
+        if(top->io_imem_req_bits_ren && (imem_wait_num == 0) && (!d_wen && !d_ren &&!i_ren)){
+        npc_addr = top->io_imem_req_bits_raddr;
         i_ren = true;
         i_read_data = read_mem(npc_addr);
         imem_wait_num = mem_latency;
@@ -382,29 +356,29 @@ void npc_step(){
 
     if(i_ren && (imem_wait_num == 0)){
         //printf("imem read addr %x \n",npc_addr);
-        top->io_imem_rdata = i_read_data;
-        top->io_imem_read_ok = true;
+        top->io_imem_resp_bits_rdata = i_read_data;
+        top->io_imem_resp_bits_read_ok = true;
         i_ren = false;
     }
     else{
-        top->io_imem_read_ok = false;
+        top->io_imem_resp_bits_read_ok = false;
     }
 
     if(d_ren && ((dmem_wait_num == 0))){
-        top->io_dmem_read_ok = true;
-        top->io_dmem_rdata = d_read_data;
+        top->io_dmem_resp_bits_read_ok = true;
+        top->io_dmem_resp_bits_rdata = d_read_data;
         d_ren = false;
     }
     else{
-        top->io_dmem_read_ok = false;
+        top->io_dmem_resp_bits_read_ok = false;
     }
 
     if(d_wen  && (dmem_wait_num == 0)) {
-        top->io_dmem_write_ok = true;
+        top->io_dmem_resp_bits_write_ok = true;
         d_wen = false;
     }
     else{
-        top->io_dmem_write_ok = false;
+        top->io_dmem_resp_bits_write_ok = false;
     }
 
     top->clock = 0;
@@ -468,18 +442,28 @@ int main(int argc, char **argv, char **env){
     top->trace(m_trace, 20);
     m_trace->open("waveform.vcd");
     
+    top->io_dmem_resp_valid = true;
+    top->io_dmem_req_ready = true;
+
+    top->io_imem_resp_valid = true;
+    top->io_imem_req_ready = true;
+
     sim_time = 0;
     int success = 0;
+
     char *p;
     char *p2;
     char name[30] = {0};
     p = argv[1];
-    for(int i=0;i<64;i++){
-        p++;
+    int i;
+    for(i = strlen(p);i>0;i--){
+        if(*(p+i-1) == '/'){
+            break;
+        }
     }
-    p2 = p;
-    int n=0;
+    p2 = p+i;
     p = strstr(p,"-riscv");
+    int n=0;
     n = p - p2;
     strncpy(name, p2,n);
     long img_size;
@@ -505,11 +489,11 @@ int main(int argc, char **argv, char **env){
     m_trace->dump(sim_time);
     sim_time++;
     
-    top->io_imem_read_ok = 0;
-    top->io_imem_write_ok = false;
-    top->io_dmem_rdata = 0;
-    top->io_dmem_read_ok = false;
-    top->io_dmem_write_ok = false;
+    top->io_imem_resp_bits_read_ok = 0;
+    top->io_imem_resp_bits_write_ok = false;
+    top->io_dmem_resp_bits_rdata = 0;
+    top->io_dmem_resp_bits_read_ok = false;
+    top->io_dmem_resp_bits_write_ok = false;
 
     top->clock = 1;
     top->eval();
@@ -519,9 +503,9 @@ int main(int argc, char **argv, char **env){
     top->eval();
     m_trace->dump(sim_time);
     sim_time++;
-    npc_addr = top->io_imem_raddr;
-    raddr = top->io_dmem_raddr;
-    waddr = top->io_dmem_waddr;
+    npc_addr = top->io_imem_req_bits_raddr;
+    raddr = top->io_dmem_req_bits_raddr;
+    waddr = top->io_dmem_req_bits_waddr;
     // while (!Verilated::gotFinish()) { 
     while (!has_end) { 
     npc_step();

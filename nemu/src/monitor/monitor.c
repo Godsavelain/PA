@@ -32,6 +32,17 @@ static char *diff_so_file = NULL;
 static char *img_file = NULL;
 static int difftest_port = 1234;
 
+typedef struct func_range {
+  char name[30];
+  uint64_t addr;
+} FUNC;
+
+#ifdef CONFIG_FTRACE
+#define NR_FUNC 50
+static FUNC func_pool[NR_FUNC] = {};
+static int func_num = 0;
+#endif
+
 void ftrace_call(word_t pc, word_t addr)
 {
   #ifdef CONFIG_FTRACE
@@ -86,15 +97,6 @@ void ftrace_ret(word_t pc)
 }
 
 #ifdef CONFIG_FTRACE
-#define NR_FUNC 50
-
-typedef struct func_range {
-  char name[30];
-  uint64_t addr;
-} FUNC;
-
-static FUNC func_pool[NR_FUNC] = {};
-static int func_num = 0;
 
 static void parse_elf() 
 {

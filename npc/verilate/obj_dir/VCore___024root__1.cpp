@@ -564,16 +564,16 @@ VL_INLINE_OPT void VCore___024root___combo__TOP__5(VCore___024root* vlSelf) {
     VCore__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    VCore___024root___combo__TOP__5\n"); );
     // Body
-    vlSelf->Core__DOT__mem__DOT__ld_data_raw = (vlSelf->io_dmem_rdata 
+    vlSelf->Core__DOT__mem__DOT__ld_data_raw = (vlSelf->io_dmem_resp_bits_rdata 
                                                 >> 
                                                 (0x38U 
                                                  & (vlSelf->Core__DOT__mem__DOT__reg_mem_addr 
                                                     << 3U)));
     vlSelf->Core__DOT__mem__DOT__req_wait = ((((IData)(vlSelf->Core__DOT__mem__DOT__is_load) 
-                                               & (~ (IData)(vlSelf->io_dmem_read_ok))) 
+                                               & (~ (IData)(vlSelf->io_dmem_resp_bits_read_ok))) 
                                               | ((3U 
                                                   == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code)) 
-                                                 & (~ (IData)(vlSelf->io_dmem_write_ok)))) 
+                                                 & (~ (IData)(vlSelf->io_dmem_resp_bits_write_ok)))) 
                                              & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid));
     vlSelf->Core__DOT__mem__DOT___ld_data_u_T_9 = (
                                                    (3U 
@@ -655,15 +655,15 @@ VL_INLINE_OPT void VCore___024root___combo__TOP__5(VCore___024root* vlSelf) {
                                                     ? vlSelf->Core__DOT__mem__DOT__ld_data
                                                     : 0ULL))
                                                   : vlSelf->Core__DOT__mem__DOT__wdata));
-    vlSelf->io_dmem_ren = ((~ (IData)(vlSelf->Core__DOT__mem__DOT__stall)) 
-                           & ((((1U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code)) 
-                                | (2U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code))) 
-                               & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)) 
-                              & (~ (IData)(vlSelf->Core__DOT__mem__DOT__stall))));
-    vlSelf->io_dmem_wen = ((~ (IData)(vlSelf->Core__DOT__mem__DOT__stall)) 
-                           & (((3U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code)) 
-                               & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)) 
-                              & (~ (IData)(vlSelf->Core__DOT__mem__DOT__stall))));
+    vlSelf->io_dmem_req_bits_ren = ((~ (IData)(vlSelf->Core__DOT__mem__DOT__stall)) 
+                                    & ((((1U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code)) 
+                                         | (2U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code))) 
+                                        & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)) 
+                                       & (~ (IData)(vlSelf->Core__DOT__mem__DOT__stall))));
+    vlSelf->io_dmem_req_bits_wen = ((~ (IData)(vlSelf->Core__DOT__mem__DOT__stall)) 
+                                    & (((3U == (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mem_code)) 
+                                        & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)) 
+                                       & (~ (IData)(vlSelf->Core__DOT__mem__DOT__stall))));
     vlSelf->Core__DOT__execute__DOT__mdu_io_mdu_valid 
         = (((0U != (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_mdu_code)) 
             & (IData)(vlSelf->Core__DOT__execute__DOT__ex_reg_decodeop_valid)) 
@@ -691,7 +691,7 @@ VL_INLINE_OPT void VCore___024root___combo__TOP__5(VCore___024root* vlSelf) {
                                                        == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code))) 
                                                    & ((IData)(vlSelf->Core__DOT__regfile__DOT__mem_rs1_hazard) 
                                                       | (IData)(vlSelf->Core__DOT__regfile__DOT__mem_rs2_hazard)))));
-    vlSelf->Core__DOT__fetch__DOT__stall = (1U & ((~ (IData)(vlSelf->io_imem_read_ok)) 
+    vlSelf->Core__DOT__fetch__DOT__stall = (1U & ((~ (IData)(vlSelf->io_imem_resp_bits_read_ok)) 
                                                   | (IData)(vlSelf->Core__DOT__decode__DOT__stall)));
     vlSelf->Core__DOT__fetch__DOT___GEN_0 = (((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis) 
                                               & (IData)(vlSelf->Core__DOT__fetch__DOT__stall)) 
@@ -746,13 +746,25 @@ void VCore___024root___eval_debug_assertions(VCore___024root* vlSelf) {
         Verilated::overWidthError("clock");}
     if (VL_UNLIKELY((vlSelf->reset & 0xfeU))) {
         Verilated::overWidthError("reset");}
-    if (VL_UNLIKELY((vlSelf->io_imem_read_ok & 0xfeU))) {
-        Verilated::overWidthError("io_imem_read_ok");}
-    if (VL_UNLIKELY((vlSelf->io_imem_write_ok & 0xfeU))) {
-        Verilated::overWidthError("io_imem_write_ok");}
-    if (VL_UNLIKELY((vlSelf->io_dmem_read_ok & 0xfeU))) {
-        Verilated::overWidthError("io_dmem_read_ok");}
-    if (VL_UNLIKELY((vlSelf->io_dmem_write_ok & 0xfeU))) {
-        Verilated::overWidthError("io_dmem_write_ok");}
+    if (VL_UNLIKELY((vlSelf->io_imem_req_ready & 0xfeU))) {
+        Verilated::overWidthError("io_imem_req_ready");}
+    if (VL_UNLIKELY((vlSelf->io_imem_resp_valid & 0xfeU))) {
+        Verilated::overWidthError("io_imem_resp_valid");}
+    if (VL_UNLIKELY((vlSelf->io_imem_resp_bits_read_ok 
+                     & 0xfeU))) {
+        Verilated::overWidthError("io_imem_resp_bits_read_ok");}
+    if (VL_UNLIKELY((vlSelf->io_imem_resp_bits_write_ok 
+                     & 0xfeU))) {
+        Verilated::overWidthError("io_imem_resp_bits_write_ok");}
+    if (VL_UNLIKELY((vlSelf->io_dmem_req_ready & 0xfeU))) {
+        Verilated::overWidthError("io_dmem_req_ready");}
+    if (VL_UNLIKELY((vlSelf->io_dmem_resp_valid & 0xfeU))) {
+        Verilated::overWidthError("io_dmem_resp_valid");}
+    if (VL_UNLIKELY((vlSelf->io_dmem_resp_bits_read_ok 
+                     & 0xfeU))) {
+        Verilated::overWidthError("io_dmem_resp_bits_read_ok");}
+    if (VL_UNLIKELY((vlSelf->io_dmem_resp_bits_write_ok 
+                     & 0xfeU))) {
+        Verilated::overWidthError("io_dmem_resp_bits_write_ok");}
 }
 #endif  // VL_DEBUG

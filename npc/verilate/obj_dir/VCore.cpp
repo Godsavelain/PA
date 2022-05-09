@@ -13,24 +13,32 @@ VCore::VCore(VerilatedContext* _vcontextp__, const char* _vcname__)
     : vlSymsp{new VCore__Syms(_vcontextp__, _vcname__, this)}
     , clock{vlSymsp->TOP.clock}
     , reset{vlSymsp->TOP.reset}
-    , io_imem_raddr{vlSymsp->TOP.io_imem_raddr}
-    , io_imem_waddr{vlSymsp->TOP.io_imem_waddr}
-    , io_imem_wdata{vlSymsp->TOP.io_imem_wdata}
-    , io_imem_ren{vlSymsp->TOP.io_imem_ren}
-    , io_imem_wen{vlSymsp->TOP.io_imem_wen}
-    , io_imem_wmask{vlSymsp->TOP.io_imem_wmask}
-    , io_imem_rdata{vlSymsp->TOP.io_imem_rdata}
-    , io_imem_read_ok{vlSymsp->TOP.io_imem_read_ok}
-    , io_imem_write_ok{vlSymsp->TOP.io_imem_write_ok}
-    , io_dmem_raddr{vlSymsp->TOP.io_dmem_raddr}
-    , io_dmem_waddr{vlSymsp->TOP.io_dmem_waddr}
-    , io_dmem_wdata{vlSymsp->TOP.io_dmem_wdata}
-    , io_dmem_ren{vlSymsp->TOP.io_dmem_ren}
-    , io_dmem_wen{vlSymsp->TOP.io_dmem_wen}
-    , io_dmem_wmask{vlSymsp->TOP.io_dmem_wmask}
-    , io_dmem_rdata{vlSymsp->TOP.io_dmem_rdata}
-    , io_dmem_read_ok{vlSymsp->TOP.io_dmem_read_ok}
-    , io_dmem_write_ok{vlSymsp->TOP.io_dmem_write_ok}
+    , io_imem_req_ready{vlSymsp->TOP.io_imem_req_ready}
+    , io_imem_req_valid{vlSymsp->TOP.io_imem_req_valid}
+    , io_imem_req_bits_raddr{vlSymsp->TOP.io_imem_req_bits_raddr}
+    , io_imem_req_bits_waddr{vlSymsp->TOP.io_imem_req_bits_waddr}
+    , io_imem_req_bits_wdata{vlSymsp->TOP.io_imem_req_bits_wdata}
+    , io_imem_req_bits_ren{vlSymsp->TOP.io_imem_req_bits_ren}
+    , io_imem_req_bits_wen{vlSymsp->TOP.io_imem_req_bits_wen}
+    , io_imem_req_bits_wmask{vlSymsp->TOP.io_imem_req_bits_wmask}
+    , io_imem_resp_ready{vlSymsp->TOP.io_imem_resp_ready}
+    , io_imem_resp_valid{vlSymsp->TOP.io_imem_resp_valid}
+    , io_imem_resp_bits_rdata{vlSymsp->TOP.io_imem_resp_bits_rdata}
+    , io_imem_resp_bits_read_ok{vlSymsp->TOP.io_imem_resp_bits_read_ok}
+    , io_imem_resp_bits_write_ok{vlSymsp->TOP.io_imem_resp_bits_write_ok}
+    , io_dmem_req_ready{vlSymsp->TOP.io_dmem_req_ready}
+    , io_dmem_req_valid{vlSymsp->TOP.io_dmem_req_valid}
+    , io_dmem_req_bits_raddr{vlSymsp->TOP.io_dmem_req_bits_raddr}
+    , io_dmem_req_bits_waddr{vlSymsp->TOP.io_dmem_req_bits_waddr}
+    , io_dmem_req_bits_wdata{vlSymsp->TOP.io_dmem_req_bits_wdata}
+    , io_dmem_req_bits_ren{vlSymsp->TOP.io_dmem_req_bits_ren}
+    , io_dmem_req_bits_wen{vlSymsp->TOP.io_dmem_req_bits_wen}
+    , io_dmem_req_bits_wmask{vlSymsp->TOP.io_dmem_req_bits_wmask}
+    , io_dmem_resp_ready{vlSymsp->TOP.io_dmem_resp_ready}
+    , io_dmem_resp_valid{vlSymsp->TOP.io_dmem_resp_valid}
+    , io_dmem_resp_bits_rdata{vlSymsp->TOP.io_dmem_resp_bits_rdata}
+    , io_dmem_resp_bits_read_ok{vlSymsp->TOP.io_dmem_resp_bits_read_ok}
+    , io_dmem_resp_bits_write_ok{vlSymsp->TOP.io_dmem_resp_bits_write_ok}
     , io_commit_pc{vlSymsp->TOP.io_commit_pc}
     , io_regs_out_0{vlSymsp->TOP.io_regs_out_0}
     , io_regs_out_1{vlSymsp->TOP.io_regs_out_1}
