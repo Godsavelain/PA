@@ -40,15 +40,6 @@ long long unsigned int Memory[100000];
 bool has_end = false;
 bool has_error = false;
 
-bool test_all = false;
-
-char test_names[33][20] = {"add","fact","load-store","mul-longlong","shift","to-lower-case",\
-    "add-longlong","fib","matrix-mul","pascal","shuixianhua","unalign",\
-    "bit","goldbach","max","prime","string","wanshu",\
-    "bubble-sort","hello-str","min3","quick-sort","sub-longlong",\
-    "div","if-else","mov-c","recursion","sum",\
-    "dummy","leap-year","movsx","select-sort","switch"};
-
 VCore *top;
 VerilatedVcdC *m_trace;
 int npc_addr;
@@ -162,39 +153,39 @@ static void checkregs(riscv64_CPU_state *ref, int pc) {
         same = false;
     }
     if(!same){
-        printf("x0  ref: %016lx  dut: %016lx \n", ref->gpr[0],  top->io_regs_out_0 );
-        printf("ra  ref: %016lx  dut: %016lx \n", ref->gpr[1],  top->io_regs_out_1 );
-        printf("sp  ref: %016lx  dut: %016lx \n", ref->gpr[2],  top->io_regs_out_2 );
-        printf("gp  ref: %016lx  dut: %016lx \n", ref->gpr[3],  top->io_regs_out_3 );
-        printf("tp  ref: %016lx  dut: %016lx \n", ref->gpr[4],  top->io_regs_out_4 );
-        printf("t0  ref: %016lx  dut: %016lx \n", ref->gpr[5],  top->io_regs_out_5 );
-        printf("t1  ref: %016lx  dut: %016lx \n", ref->gpr[6],  top->io_regs_out_6 );
-        printf("t2  ref: %016lx  dut: %016lx \n", ref->gpr[7],  top->io_regs_out_7 );
-        printf("s0  ref: %016lx  dut: %016lx \n", ref->gpr[8],  top->io_regs_out_8 );
-        printf("s1  ref: %016lx  dut: %016lx \n", ref->gpr[9],  top->io_regs_out_9 );
-        printf("a0 ref: %016lx  dut: %016lx \n", ref->gpr[10], top->io_regs_out_10 );
-        printf("a1 ref: %016lx  dut: %016lx \n", ref->gpr[11], top->io_regs_out_11 );
-        printf("a2 ref: %016lx  dut: %016lx \n", ref->gpr[12], top->io_regs_out_12 );
-        printf("a3 ref: %016lx  dut: %016lx \n", ref->gpr[13], top->io_regs_out_13 );
-        printf("a4 ref: %016lx  dut: %016lx \n", ref->gpr[14], top->io_regs_out_14 );
-        printf("a5 ref: %016lx  dut: %016lx \n", ref->gpr[15], top->io_regs_out_15 );
-        printf("a6 ref: %016lx  dut: %016lx \n", ref->gpr[16], top->io_regs_out_16 );
-        printf("a7 ref: %016lx  dut: %016lx \n", ref->gpr[17], top->io_regs_out_17 );
-        printf("s2 ref: %016lx  dut: %016lx \n", ref->gpr[18], top->io_regs_out_18 );
-        printf("s3 ref: %016lx  dut: %016lx \n", ref->gpr[19], top->io_regs_out_19 );
-        printf("s4 ref: %016lx  dut: %016lx \n", ref->gpr[20], top->io_regs_out_20 );
-        printf("s5 ref: %016lx  dut: %016lx \n", ref->gpr[21], top->io_regs_out_21 );
-        printf("s6 ref: %016lx  dut: %016lx \n", ref->gpr[22], top->io_regs_out_22 );
-        printf("s7 ref: %016lx  dut: %016lx \n", ref->gpr[23], top->io_regs_out_23 );
-        printf("s8 ref: %016lx  dut: %016lx \n", ref->gpr[24], top->io_regs_out_24 );
-        printf("s9 ref: %016lx  dut: %016lx \n", ref->gpr[25], top->io_regs_out_25 );
-        printf("s10 ref: %016lx  dut: %016lx \n", ref->gpr[26], top->io_regs_out_26 );
-        printf("s11 ref: %016lx  dut: %016lx \n", ref->gpr[27], top->io_regs_out_27 );
-        printf("t3 ref: %016lx  dut: %016lx \n", ref->gpr[28], top->io_regs_out_28 );
-        printf("t4 ref: %016lx  dut: %016lx \n", ref->gpr[29], top->io_regs_out_29 );
-        printf("t5 ref: %016lx  dut: %016lx \n", ref->gpr[30], top->io_regs_out_30 );
-        printf("t6 ref: %016lx  dut: %016lx \n", ref->gpr[31], top->io_regs_out_31 );
-        printf("pc ref: %08x  dut: %08x \n", ref->pc, pc );
+        printf("reg0  x0  ref: %016lx  dut: %016lx \n", ref->gpr[0],  top->io_regs_out_0 );
+        printf("reg1  ra  ref: %016lx  dut: %016lx \n", ref->gpr[1],  top->io_regs_out_1 );
+        printf("reg2  sp  ref: %016lx  dut: %016lx \n", ref->gpr[2],  top->io_regs_out_2 );
+        printf("reg3  gp  ref: %016lx  dut: %016lx \n", ref->gpr[3],  top->io_regs_out_3 );
+        printf("reg4  tp  ref: %016lx  dut: %016lx \n", ref->gpr[4],  top->io_regs_out_4 );
+        printf("reg5  t0  ref: %016lx  dut: %016lx \n", ref->gpr[5],  top->io_regs_out_5 );
+        printf("reg6  t1  ref: %016lx  dut: %016lx \n", ref->gpr[6],  top->io_regs_out_6 );
+        printf("reg7  t2  ref: %016lx  dut: %016lx \n", ref->gpr[7],  top->io_regs_out_7 );
+        printf("reg8  s0  ref: %016lx  dut: %016lx \n", ref->gpr[8],  top->io_regs_out_8 );
+        printf("reg9  s1  ref: %016lx  dut: %016lx \n", ref->gpr[9],  top->io_regs_out_9 );
+        printf("reg10 a0  ref: %016lx  dut: %016lx \n", ref->gpr[10], top->io_regs_out_10 );
+        printf("reg11 a1  ref: %016lx  dut: %016lx \n", ref->gpr[11], top->io_regs_out_11 );
+        printf("reg12 a2  ref: %016lx  dut: %016lx \n", ref->gpr[12], top->io_regs_out_12 );
+        printf("reg13 a3  ref: %016lx  dut: %016lx \n", ref->gpr[13], top->io_regs_out_13 );
+        printf("reg14 a4  ref: %016lx  dut: %016lx \n", ref->gpr[14], top->io_regs_out_14 );
+        printf("reg15 a5  ref: %016lx  dut: %016lx \n", ref->gpr[15], top->io_regs_out_15 );
+        printf("reg16 a6  ref: %016lx  dut: %016lx \n", ref->gpr[16], top->io_regs_out_16 );
+        printf("reg17 a7  ref: %016lx  dut: %016lx \n", ref->gpr[17], top->io_regs_out_17 );
+        printf("reg18 s2  ref: %016lx  dut: %016lx \n", ref->gpr[18], top->io_regs_out_18 );
+        printf("reg19 s3  ref: %016lx  dut: %016lx \n", ref->gpr[19], top->io_regs_out_19 );
+        printf("reg20 s4  ref: %016lx  dut: %016lx \n", ref->gpr[20], top->io_regs_out_20 );
+        printf("reg21 s5  ref: %016lx  dut: %016lx \n", ref->gpr[21], top->io_regs_out_21 );
+        printf("reg22 s6  ref: %016lx  dut: %016lx \n", ref->gpr[22], top->io_regs_out_22 );
+        printf("reg23 s7  ref: %016lx  dut: %016lx \n", ref->gpr[23], top->io_regs_out_23 );
+        printf("reg24 s8  ref: %016lx  dut: %016lx \n", ref->gpr[24], top->io_regs_out_24 );
+        printf("reg25 s9  ref: %016lx  dut: %016lx \n", ref->gpr[25], top->io_regs_out_25 );
+        printf("reg26 s10 ref: %016lx  dut: %016lx \n", ref->gpr[26], top->io_regs_out_26 );
+        printf("reg27 s11 ref: %016lx  dut: %016lx \n", ref->gpr[27], top->io_regs_out_27 );
+        printf("reg28 t3  ref: %016lx  dut: %016lx \n", ref->gpr[28], top->io_regs_out_28 );
+        printf("reg29 t4  ref: %016lx  dut: %016lx \n", ref->gpr[29], top->io_regs_out_29 );
+        printf("reg30 t5  ref: %016lx  dut: %016lx \n", ref->gpr[30], top->io_regs_out_30 );
+        printf("reg31 t6  ref: %016lx  dut: %016lx \n", ref->gpr[31], top->io_regs_out_31 );
+        printf("pc  ref: %08x  dut: %08x \n", ref->pc, pc );
         has_end = true;
         has_error = true;
     }
@@ -351,11 +342,11 @@ void npc_step(){
 
     if(i_ren){
         imem_wait_num--;
-        printf("imem_wait_num %d \n",imem_wait_num);
+        //printf("imem_wait_num %d \n",imem_wait_num);
     }
-    else if(d_ren){
+    else if(d_ren || d_wen){
         dmem_wait_num--;
-        printf("dmem_wait_num %d \n",dmem_wait_num);
+        //printf("dmem_wait_num %d \n",dmem_wait_num);
     }
     
     top->clock = 1;
@@ -424,7 +415,7 @@ void npc_step(){
         char log[200];
         sprintf(log, "commit pc %08x\n", top->io_commit_pc);
         fout << log ;
-        printf("commit pc %08x\n",top->io_commit_pc);
+        //printf("commit pc %08x\n",top->io_commit_pc);
         cpu.pc = top->io_commit_pc;
         cpu.gpr[ 0] = top->io_regs_out_0; 
         cpu.gpr[ 1] = top->io_regs_out_1; 
@@ -497,7 +488,6 @@ int main(int argc, char **argv, char **env){
     init_difftest(diff_so_file, img_size, difftest_port);
     d_ren = false;
     d_wen = false;
-    top->io_write_regs = 0;
     top->reset = 1;
     for(int i=0;i<3;i++){
         top->clock = 0;

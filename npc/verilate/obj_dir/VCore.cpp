@@ -64,40 +64,6 @@ VCore::VCore(VerilatedContext* _vcontextp__, const char* _vcname__)
     , io_regs_out_29{vlSymsp->TOP.io_regs_out_29}
     , io_regs_out_30{vlSymsp->TOP.io_regs_out_30}
     , io_regs_out_31{vlSymsp->TOP.io_regs_out_31}
-    , io_regs_in_0{vlSymsp->TOP.io_regs_in_0}
-    , io_regs_in_1{vlSymsp->TOP.io_regs_in_1}
-    , io_regs_in_2{vlSymsp->TOP.io_regs_in_2}
-    , io_regs_in_3{vlSymsp->TOP.io_regs_in_3}
-    , io_regs_in_4{vlSymsp->TOP.io_regs_in_4}
-    , io_regs_in_5{vlSymsp->TOP.io_regs_in_5}
-    , io_regs_in_6{vlSymsp->TOP.io_regs_in_6}
-    , io_regs_in_7{vlSymsp->TOP.io_regs_in_7}
-    , io_regs_in_8{vlSymsp->TOP.io_regs_in_8}
-    , io_regs_in_9{vlSymsp->TOP.io_regs_in_9}
-    , io_regs_in_10{vlSymsp->TOP.io_regs_in_10}
-    , io_regs_in_11{vlSymsp->TOP.io_regs_in_11}
-    , io_regs_in_12{vlSymsp->TOP.io_regs_in_12}
-    , io_regs_in_13{vlSymsp->TOP.io_regs_in_13}
-    , io_regs_in_14{vlSymsp->TOP.io_regs_in_14}
-    , io_regs_in_15{vlSymsp->TOP.io_regs_in_15}
-    , io_regs_in_16{vlSymsp->TOP.io_regs_in_16}
-    , io_regs_in_17{vlSymsp->TOP.io_regs_in_17}
-    , io_regs_in_18{vlSymsp->TOP.io_regs_in_18}
-    , io_regs_in_19{vlSymsp->TOP.io_regs_in_19}
-    , io_regs_in_20{vlSymsp->TOP.io_regs_in_20}
-    , io_regs_in_21{vlSymsp->TOP.io_regs_in_21}
-    , io_regs_in_22{vlSymsp->TOP.io_regs_in_22}
-    , io_regs_in_23{vlSymsp->TOP.io_regs_in_23}
-    , io_regs_in_24{vlSymsp->TOP.io_regs_in_24}
-    , io_regs_in_25{vlSymsp->TOP.io_regs_in_25}
-    , io_regs_in_26{vlSymsp->TOP.io_regs_in_26}
-    , io_regs_in_27{vlSymsp->TOP.io_regs_in_27}
-    , io_regs_in_28{vlSymsp->TOP.io_regs_in_28}
-    , io_regs_in_29{vlSymsp->TOP.io_regs_in_29}
-    , io_regs_in_30{vlSymsp->TOP.io_regs_in_30}
-    , io_regs_in_31{vlSymsp->TOP.io_regs_in_31}
-    , io_pc_in{vlSymsp->TOP.io_pc_in}
-    , io_write_regs{vlSymsp->TOP.io_write_regs}
     , io_commit{vlSymsp->TOP.io_commit}
     , rootp{&(vlSymsp->TOP)}
 {
@@ -145,7 +111,7 @@ static void _eval_initial_loop(VCore__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = VCore___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Core.v", 4439, "",
+            VL_FATAL_MT("Core.v", 4366, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -176,7 +142,7 @@ void VCore::eval_step() {
             Verilated::debug(1);
             __Vchange = VCore___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Core.v", 4439, "",
+            VL_FATAL_MT("Core.v", 4366, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
