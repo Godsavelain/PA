@@ -19,7 +19,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   }
   if(!success){
   printf("reg %d wrong \n",wrong_num);
-  printf("$0\tref\t0x%016lx\tdut\t0x%016lxn",ref_r->gpr[0],gpr(0));
+  printf("$0\tref\t0x%016lx\tdut\t0x%016lx\n",ref_r->gpr[0],gpr(0));
   printf("ra\tref\t0x%016lx\tdut\t0x%016lx\n",ref_r->gpr[1],gpr(1));
   printf("sp\tref\t0x%016lx\tdut\t0x%016lx\n",ref_r->gpr[2],gpr(2));
   printf("gp\tref\t0x%016lx\tdut\t0x%016lx\n",ref_r->gpr[3],gpr(3));
