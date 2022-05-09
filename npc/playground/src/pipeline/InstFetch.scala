@@ -67,7 +67,7 @@ class InstFetch extends Module{
   val stall = (imem_stall || !io.out.fire())
   val npc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , npc_s)
 
-  val flush_pc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , flush_pc_i)
+  val flush_pc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , io.flush_pc_i)
   //flush更改npc时，若取指段处于等待指令数据的状态，写入这些寄存器
   val use_reg_npc = RegInit(false.B)
   val reg_npc   = RegInit(0.U(32.W))
