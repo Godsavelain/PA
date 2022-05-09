@@ -15,17 +15,17 @@ class Wb_Dpi extends BlackBox {
   })
 }
 
-class TestIO extends Bundle{
-  val raddr = Output(UInt(32.W))
-  val waddr = Output(UInt(32.W))
-  val wdata = Output(UInt(64.W))
-  val ren = Output(Bool())
-  val wen = Output(Bool())
-  val wmask = Output(UInt(8.W))
-  val rdata = Input(UInt(64.W))
-  val read_ok = Input(Bool())
-  val write_ok = Input(Bool())
-}
+//class TestIO extends Bundle{
+//  val raddr = Output(UInt(32.W))
+//  val waddr = Output(UInt(32.W))
+//  val wdata = Output(UInt(64.W))
+//  val ren = Output(Bool())
+//  val wen = Output(Bool())
+//  val wmask = Output(UInt(8.W))
+//  val rdata = Input(UInt(64.W))
+//  val read_ok = Input(Bool())
+//  val write_ok = Input(Bool())
+//}
 
 class Core extends Module{
   val io = IO(new Bundle{
@@ -42,17 +42,19 @@ class Core extends Module{
   val fetch = Module(new InstFetch)
   fetch.io.imem.resp.valid := true.B
   fetch.io.imem.req.ready := true.B
-  fetch.io.imem.resp.bits.rdata := io.imem.rdata(31,0)
+  fetch.io.imem.resp.bits.rdata := io.imem.resp.bits.rdata(31,0)
   fetch.io.imem.resp.bits.old_pc := RegNext(fetch.io.imem.req.bits.araddr)
-  fetch.io.imem.resp.bits.rvalid := io.imem.read_ok
+  fetch.io.imem.resp.bits.rvalid := io.imem.resp.bits.read_ok
 
 
-  io.imem.req.raddr := fetch.io.imem.req.bits.araddr
-  io.imem.req.ren := fetch.io.imem.req.bits.arvalid
-  io.imem.req.waddr := 0.U
-  io.imem.req.wdata := 0.U
-  io.imem.req.wen := false.B
-  io.imem.req.wmask := 0.U
+  io.imem.req.bits.raddr := fetch.io.imem.req.bits.araddr
+  io.imem.req.bits.ren := fetch.io.imem.req.bits.arvalid
+  io.imem.req.bits.waddr := 0.U
+  io.imem.req.bits.wdata := 0.U
+  io.imem.req.bits.wen := false.B
+  io.imem.req.bits.wmask := 0.U
+  io.imem.req.valid := true.B
+  io.imem.resp.ready := true.B
 
   val decode = Module(new Decode)
 
@@ -111,16 +113,18 @@ class Core extends Module{
   io.commit_pc := RegNext(mem.io.out.bits.pc)
   io.commit := RegNext(mem.io.out.bits.valid)
 
-  io.dmem.req.raddr := Cat(mem.io.dmem.req.bits.arwaddr(31, 3), Fill(3, 0.U))
-  io.dmem.req.ren := mem.io.dmem.req.bits.rvalid
-  io.dmem.req.waddr := Cat(mem.io.dmem.req.bits.arwaddr(31, 3), Fill(3, 0.U))
-  io.dmem.req.wdata := mem.io.dmem.req.bits.wdata
-  io.dmem.req.wen := mem.io.dmem.req.bits.wvalid
-  io.dmem.req.wmask := mem.io.dmem.req.bits.wmask
+  io.dmem.req.bits.raddr := Cat(mem.io.dmem.req.bits.arwaddr(31, 3), Fill(3, 0.U))
+  io.dmem.req.bits.ren := mem.io.dmem.req.bits.rvalid
+  io.dmem.req.bits.waddr := Cat(mem.io.dmem.req.bits.arwaddr(31, 3), Fill(3, 0.U))
+  io.dmem.req.bits.wdata := mem.io.dmem.req.bits.wdata
+  io.dmem.req.bits.wen := mem.io.dmem.req.bits.wvalid
+  io.dmem.req.bits.wmask := mem.io.dmem.req.bits.wmask
+  io.dmem.req.valid := true.B
+  io.dmem.resp.ready := true.B
 
-  mem.io.dmem.resp.bits.rdata := io.dmem.rdata
-  mem.io.dmem.resp.bits.rready := io.dmem.read_ok
-  mem.io.dmem.resp.bits.wready := io.dmem.write_ok
+  mem.io.dmem.resp.bits.rdata := io.dmem.resp.bits.rdata
+  mem.io.dmem.resp.bits.rready := io.dmem.resp.bits.read_ok
+  mem.io.dmem.resp.bits.wready := io.dmem.resp.bits.write_ok
 
   mem.io.dmem.req.ready := true.B
   mem.io.dmem.resp.valid := true.B
