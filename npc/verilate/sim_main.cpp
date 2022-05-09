@@ -50,7 +50,7 @@ bool d_wen = false;
 bool i_ren = false;
 long long unsigned int d_read_data;
 long long unsigned int i_read_data;
-int mem_latency = 10;
+int mem_latency = 4;
 int imem_wait_num = 0;
 int dmem_wait_num = 0;
 vluint64_t sim_time;
@@ -230,7 +230,7 @@ extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit eb
     if(has_ebreak){
         has_end = true;
     }
-    //printf("pc:%08x inst:%08x\n",pc_valie,instruction );
+    printf("pc:%08x inst:%08x\n",pc_valie,instruction );
 }
 
 long long int read_mem(unsigned int addr){
@@ -311,9 +311,7 @@ long inst_load(char* filename){
 }
 
 
-
 void npc_step(){
-
     if(i_ren){
         imem_wait_num--;
         //printf("imem_wait_num %d \n",imem_wait_num);
