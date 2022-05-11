@@ -35,7 +35,7 @@ std::ofstream fout;
 
 #define ASNI_FMT(str, fmt) fmt str ASNI_NONE
 
-long long unsigned int Memory[100000];
+long long unsigned int Memory[1000000];
 
 bool has_end = false;
 bool has_error = false;
@@ -50,7 +50,7 @@ bool d_wen = false;
 bool i_ren = false;
 long long unsigned int d_read_data;
 long long unsigned int i_read_data;
-int mem_latency = 4;
+int mem_latency = 5;
 int imem_wait_num = 0;
 int dmem_wait_num = 0;
 vluint64_t sim_time;
