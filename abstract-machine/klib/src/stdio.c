@@ -14,6 +14,7 @@ int printf(const char *fmt, ...) {
   va_list ap;
   char *s;
   int d;
+  unsigned int u;
   long long int l;
   int std_len = 0;
   bool has_std_width = false;
@@ -158,6 +159,49 @@ int printf(const char *fmt, ...) {
         has_std_width = false;
         std_len = 0;
       }
+      if(origin_str[i] == 'u')
+      {
+        u = va_arg(ap, unsigned int);
+        num++;
+        i++;
+        char inverted_num[20];
+        int len = 0;
+        if(u == 0)
+        {
+          if(has_std_width)
+        {
+          for(int i=0;i<(std_len-1);i++)
+          {
+            putch('0');
+          }
+        }
+        putch('0');
+        }
+        else
+        {
+          while(u != 0)
+        {
+          unsigned int res = u % 10;
+          inverted_num[len] = (char)(res + 48);
+          len++;
+          u = (u - res)/10;
+        }
+        if(has_std_width)
+        {
+          for(int i=0;i<(std_len - len);i++)
+          {
+            putch('0');
+          }
+        }
+        while(len > 0)
+        {
+          putch(inverted_num[len-1]);
+          len--;
+        }
+        }
+        has_std_width = false;
+        std_len = 0;
+      }
       if(origin_str[i] == 's')
       {
         s = va_arg(ap, char *);
@@ -169,6 +213,7 @@ int printf(const char *fmt, ...) {
           s++;
         }
       }
+
       }
       
 
