@@ -28,7 +28,7 @@ static word_t immJ(uint32_t i) { return (SEXT(BITS(i, 31, 31), 1) << 20) | BITS(
 void ftrace_call(word_t pc, word_t addr);
 void ftrace_ret(word_t pc);
 
-static int trace_num = 10;
+static int trace_num = 100;
 
 static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, int type) {
   uint32_t i = s->isa.inst.val;
