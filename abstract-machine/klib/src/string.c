@@ -99,7 +99,17 @@ int strcmp(const char *s1, const char *s2) {
 }
 
 int strncmp(const char *s1, const char *s2, size_t n) {
-  panic("Not implemented");
+
+    assert(s1 && s2);
+ 
+    if(!n)return 0;
+ 
+    while(--n && *s1 && (*s1 == *s2))
+    {
+        s1++;
+        s2++;
+    }
+    return *s1 - *s2;
 }
 
 void *memset(void *s, int c, size_t n) {
@@ -116,11 +126,26 @@ void *memset(void *s, int c, size_t n) {
 }
 
 void *memmove(void *dst, const void *src, size_t n) {
-  panic("Not implemented");
+  for (int i = n; i >= 0; --i) {
+		*((char*)dst + i) = *((char*)src + i);
+	}
+	return dst;
 }
 
 void *memcpy(void *out, const void *in, size_t n) {
-  panic("Not implemented");
+  int nchunks = n/sizeof(out);   /*按CPU位宽拷贝*/
+	int slice =   n%sizeof(out);   /*剩余的按字节拷贝*/
+	
+	unsigned long * s = (unsigned long *)in;
+	unsigned long * d = (unsigned long *)out;
+	
+	while(nchunks--)
+	    *d++ = *s++;
+	    
+	while (slice--)
+	    *((char *)d++) =*((char *)s++);
+  
+  return out;
 }
 
 int memcmp(const void *s1, const void *s2, size_t n) {
