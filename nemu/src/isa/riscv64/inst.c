@@ -28,6 +28,8 @@ static word_t immJ(uint32_t i) { return (SEXT(BITS(i, 31, 31), 1) << 20) | BITS(
 void ftrace_call(word_t pc, word_t addr);
 void ftrace_ret(word_t pc);
 
+static int trace_num = 10;
+
 static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, int type) {
   uint32_t i = s->isa.inst.val;
   int rd  = BITS(i, 11, 7);
@@ -126,6 +128,10 @@ static int decode_exec(Decode *s) {
 
 int isa_exec_once(Decode *s) {
   s->isa.inst.val = inst_fetch(&s->snpc, 4);
-  printf("pc %lx \n",s->pc);
+  if(trace_num > 0){
+    if(s->pc == 0x800013b0)
+    printf("a5 %lu \n",gpr(15));
+    trace_num--;
+  }
   return decode_exec(s);
 }
