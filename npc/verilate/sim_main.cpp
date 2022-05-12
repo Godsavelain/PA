@@ -18,10 +18,75 @@
 #ifdef HAS_DEVICE
 #include <SDL2/SDL.h>
 
+#define PAGE_SHIFT        12
+#define PAGE_SIZE         (1ul << PAGE_SHIFT)
+#define PAGE_MASK         (PAGE_SIZE - 1)
+
+#define IO_SPACE_MAX (2 * 1024 * 1024)
+static uint8_t *io_space = NULL;
+static uint8_t *p_space = NULL;
+
+uint8_t* new_space(int size) {
+  uint8_t *p = p_space;
+  // page aligned;
+  size = (size + (PAGE_SIZE - 1)) & ~PAGE_MASK;
+  p_space += size;
+  assert(p_space - io_space < IO_SPACE_MAX);
+  return p;
+}
+
+//vga
+#define SCREEN_W 800
+#define SCREEN_H 600
+#define SCREEN_SIZE 480000
+
+static void *vmem = NULL;
+static uint32_t *vgactl_port_base = NULL;
+
+static SDL_Renderer *renderer = NULL;
+static SDL_Texture *texture = NULL;
+
+static void init_screen() {
+  SDL_Window *window = NULL;
+  char title[128];
+  sprintf(title, "%s-NPC", "riscv64");
+  SDL_Init(SDL_INIT_VIDEO);
+  SDL_CreateWindowAndRenderer(
+      SCREEN_W,
+      SCREEN_H,
+      0, &window, &renderer);
+  SDL_SetWindowTitle(window, title);
+  texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+      SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
+}
+
+static inline void update_screen() {
+  SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(uint32_t));
+  SDL_RenderClear(renderer);
+  SDL_RenderCopy(renderer, texture, NULL, NULL);
+  SDL_RenderPresent(renderer);
+}
+
+void vga_update_screen() {
+  if(vgactl_port_base[1] != 0)
+  {
+    update_screen();
+    vgactl_port_base[1] = 0;
+  }
+}
+
+void init_vga() {
+  vgactl_port_base = (uint32_t *)new_space(8);
+  vgactl_port_base[0] = (screen_width() << 16) | screen_height();
+  vgactl_port_base[1] = 0;
+
+  vmem = new_space(SCREEN_SIZE);
+  init_screen();
+  memset(vmem, 0, SCREEN_SIZE);
+}
 #endif
 
 //Log
-
 std::ofstream fout;
 
 #define ASNI_FG_BLACK   "\33[1;30m"
@@ -41,7 +106,6 @@ std::ofstream fout;
 #define ASNI_BG_CYAN    "\33[1;46m"
 #define ASNI_BG_WHITE   "\33[1;47m"
 #define ASNI_NONE       "\33[0m"
-
 #define ASNI_FMT(str, fmt) fmt str ASNI_NONE
 
 long long unsigned int Memory[1000000];
@@ -440,7 +504,13 @@ int main(int argc, char **argv, char **env){
         printf("need to specify test name\n");
         return 1;
     }
-    fout.open("./log.txt");
+    fout.open("./log.txt"); //log
+
+//devices
+    #ifdef HAS_DEVICE
+        init_vga();
+    #endif
+
     VerilatedContext* contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);            // Verilator仿真运行时参数（和编译的参数不一样，详见Verilator手册第6章
     top = new VCore;
