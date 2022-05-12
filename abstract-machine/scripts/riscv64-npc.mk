@@ -22,7 +22,7 @@ image: $(IMAGE).elf
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
 run: image
-	cd $(NPC_HOME)/verilate && verilator --cc --trace --exe --build -LDFLAGS "-lasan -static-libasan -ldl" sim_main.cpp Core.v
+	cd $(NPC_HOME)/verilate && verilator --cc --trace --exe --build -LDFLAGS "-lasan -static-libasan -ldl -lSDL" sim_main.cpp Core.v
 	echo $(IMAGE).bin
 	cp $(IMAGE).bin $(NPC_HOME)/verilate/tests/
 	echo $(ALL)
