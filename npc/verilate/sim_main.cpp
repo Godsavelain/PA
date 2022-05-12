@@ -77,7 +77,7 @@ void vga_update_screen() {
 
 void init_vga() {
   vgactl_port_base = (uint32_t *)new_space(8);
-  vgactl_port_base[0] = (screen_width() << 16) | screen_height();
+  vgactl_port_base[0] = (SCREEN_W << 16) | SCREEN_H;
   vgactl_port_base[1] = 0;
 
   vmem = new_space(SCREEN_SIZE);
