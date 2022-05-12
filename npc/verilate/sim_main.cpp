@@ -1,3 +1,6 @@
+#define HAS_DEVICE 1
+#define HAS_DIFF 0
+
 #include "VCore.h"    // Verilog模块会被编译成Vxxx
 #include "verilated.h"
 #include "svdpi.h"
@@ -11,6 +14,12 @@
 
 #include <iostream>
 #include <fstream>
+
+#ifdef HAS_DEVICE
+#include <SDL2/SDL.h>
+
+#endif
+
 //Log
 
 std::ofstream fout;
@@ -230,7 +239,7 @@ extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit eb
     if(has_ebreak){
         has_end = true;
     }
-    printf("pc:%08x inst:%08x\n",pc_valie,instruction );
+    //printf("pc:%08x inst:%08x\n",pc_valie,instruction );
 }
 
 long long int read_mem(unsigned int addr){

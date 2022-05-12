@@ -39,10 +39,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     int w = ctl->w;
     int h = ctl->h;
     bool sync = ctl->sync;
-    //printf("x:%d y:%d w:%d h:%d W:%d \n",x,y,w,h,W);
     void *f =ctl->pixels;
-    //printf("f address %d\n",(uintptr_t)f);
-    //printf("x:%d y:%d w:%d h:%d W:%d sync %d pixel%d \n",x,y,w,h,W,sync,inl((uintptr_t)f));
     if(f != NULL)
     {
       for(int i = 0;i < h;i++)
@@ -53,15 +50,12 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
         data = inl((uintptr_t)f + (i*w + j)*sizeof(uint32_t));
         outl(FB_ADDR + ((i+y)*W + x + j) * sizeof(uint32_t), data );
       }
-        //printf("out %d to addr %d",*f_temp,FB_ADDR + i*W + x + j);
     }
     }
-    
     if(sync)
     {
     outl(SYNC_ADDR, 1);
     }
-  
 }
 
 void __am_gpu_status(AM_GPU_STATUS_T *status) {
