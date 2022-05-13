@@ -331,7 +331,6 @@ void npc_step(){
     }
     
     top->clock = 1;
-
     top->eval();
 
     if(top->io_dmem_req_bits_ren){
@@ -357,9 +356,12 @@ void npc_step(){
         imem_wait_num = mem_latency;
         }
     }
-
     m_trace->dump(sim_time);
     sim_time++;
+
+    top->clock = 0;
+    top->eval();
+    m_trace->dump(sim_time);
 
     if(i_ren && (imem_wait_num <= 0)){
         //printf("imem read addr %x \n",npc_addr);
@@ -388,9 +390,9 @@ void npc_step(){
         top->io_dmem_resp_bits_write_ok = false;
     }
 
-    top->clock = 0;
-    top->eval();
-    m_trace->dump(sim_time);
+    // top->clock = 0;
+    // top->eval();
+    // m_trace->dump(sim_time);
     sim_time++;
     if(top->io_commit ){
         char log[200];

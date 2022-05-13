@@ -85,7 +85,7 @@ class InstFetch extends Module{
   io.p_npc := reg_pnpc
 
   when(!stall || io.if_flush){
-    pc_out    := Mux( use_reg_npc , 0.U , pc_base)
+    pc_out    := Mux( use_reg_npc , 0.U , req.bits.araddr)
     inst_out  := Mux( use_reg_npc , 0.U , resp.bits.rdata)
     valid_out := Mux( use_reg_npc , 0.B , resp.bits.rvalid)
   }

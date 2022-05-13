@@ -98,7 +98,6 @@ VL_MODULE(VCore___024root) {
         CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_356;
         CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_505;
         CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_566;
-        CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_703;
         CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_718;
         CData/*0:0*/ Core__DOT__decode__DOT___ctrl_T_787;
         CData/*0:0*/ Core__DOT__decode__DOT___ctrl_T_793;
@@ -149,9 +148,9 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___GEN_13;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_0_io_c;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_1_io_c;
+        CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_2_io_c;
     };
     struct {
-        CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_2_io_c;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_3_io_c;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_4_io_c;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_5_io_c;
@@ -212,6 +211,7 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__mem__DOT__io_out_bits_REG_valid;
         CData/*4:0*/ Core__DOT__mem__DOT__io_waddr_o_REG;
         CData/*0:0*/ Core__DOT__mem__DOT__io_wen_o_REG;
+        IData/*31:0*/ Core__DOT__fetch_io_imem_req_bits_araddr;
         IData/*31:0*/ Core__DOT__execute_io_jmp_packet_o_jmp_npc;
         IData/*31:0*/ Core__DOT__io_commit_pc_REG;
         IData/*31:0*/ Core__DOT__fetch__DOT__pc_out;
@@ -221,8 +221,8 @@ VL_MODULE(VCore___024root) {
         IData/*31:0*/ Core__DOT__fetch__DOT__reg_pnpc;
         IData/*31:0*/ Core__DOT__fetch__DOT__pc;
         IData/*31:0*/ Core__DOT__fetch__DOT__pc_base;
-        IData/*31:0*/ Core__DOT__fetch__DOT__npc_s;
         IData/*31:0*/ Core__DOT__fetch__DOT__reg_npc;
+        IData/*31:0*/ Core__DOT__fetch__DOT___npc_s_T_5;
         IData/*31:0*/ Core__DOT__decode__DOT__pc;
         IData/*31:0*/ Core__DOT__decode__DOT__inst;
         IData/*31:0*/ Core__DOT__decode__DOT__reg_pnpc;
