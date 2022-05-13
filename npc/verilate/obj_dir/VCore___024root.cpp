@@ -11283,7 +11283,7 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                       | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))) {
         vlSelf->Core__DOT__fetch__DOT__pc_out = ((IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_npc)
                                                   ? 0U
-                                                  : vlSelf->Core__DOT__fetch__DOT__pc_base);
+                                                  : vlSelf->Core__DOT__fetch_io_imem_req_bits_araddr);
     }
     if (vlSelf->reset) {
         vlSelf->Core__DOT__fetch__DOT__inst_out = 0U;
@@ -13266,8 +13266,6 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                                & vlSelf->Core__DOT__decode__DOT__inst))
                                                               ? 1U
                                                               : (IData)(Core__DOT__decode__DOT___ctrl_T_888)))))))))))))))));
-    vlSelf->Core__DOT__fetch__DOT__pc_base = (0xfffffffcU 
-                                              & vlSelf->Core__DOT__fetch__DOT__pc);
     vlSelf->Core__DOT__fetch__DOT___npc_s_T_5 = ((IData)(4U) 
                                                  + 
                                                  (0xfffffffcU 

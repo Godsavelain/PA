@@ -55,7 +55,7 @@ module InstFetch(
       if (use_reg_npc) begin // @[InstFetch.scala 88:21]
         pc_out <= 32'h0;
       end else begin
-        pc_out <= pc_base;
+        pc_out <= io_imem_req_bits_araddr;
       end
     end
     if (reset) begin // @[InstFetch.scala 57:26]
