@@ -321,7 +321,23 @@ long inst_load(char* filename){
 
 
 void npc_step(){
-    if(i_ren && (imem_wait_num <= 0)){
+    if(i_ren){
+        if(imem_wait_num > 0){
+            imem_wait_num--;
+        }
+        //printf("imem_wait_num %d \n",imem_wait_num);
+    }
+    else if(d_ren || d_wen){
+        if(dmem_wait_num > 0){
+            dmem_wait_num--;
+        }
+        //printf("dmem_wait_num %d \n",dmem_wait_num);
+    }
+
+    top->clock = 1;
+    top->eval();
+
+    if(i_ren && (imem_wait_num == 0)){
         //printf("imem read addr %x \n",npc_addr);
         top->io_imem_resp_bits_rdata = i_read_data;
         top->io_imem_resp_bits_read_ok = true;
@@ -331,7 +347,7 @@ void npc_step(){
         top->io_imem_resp_bits_read_ok = false;
     }
 
-    if(d_ren && ((dmem_wait_num <= 0))){
+    if(d_ren && ((dmem_wait_num == 0))){
         top->io_dmem_resp_bits_read_ok = true;
         top->io_dmem_resp_bits_rdata = d_read_data;
         d_ren = false;
@@ -340,25 +356,14 @@ void npc_step(){
         top->io_dmem_resp_bits_read_ok = false;
     }
 
-    if(d_wen  && (dmem_wait_num <= 0)) {
+    if(d_wen  && (dmem_wait_num == 0)) {
         top->io_dmem_resp_bits_write_ok = true;
         d_wen = false;
     }
     else{
         top->io_dmem_resp_bits_write_ok = false;
     }
-
-    if(i_ren){
-        imem_wait_num--;
-        //printf("imem_wait_num %d \n",imem_wait_num);
-    }
-    else if(d_ren || d_wen){
-        dmem_wait_num--;
-        //printf("dmem_wait_num %d \n",dmem_wait_num);
-    }
     
-    top->clock = 1;
-    top->eval();
 
     if(top->io_dmem_req_bits_ren){
         raddr = top->io_dmem_req_bits_raddr;
@@ -376,7 +381,7 @@ void npc_step(){
         write_mem(waddr, wdata , temp_mask);
     }
     else{
-        if(top->io_imem_req_bits_ren && (imem_wait_num <= 0) && (!d_wen && !d_ren &&!i_ren)){
+        if(top->io_imem_req_bits_ren && (imem_wait_num == 0) && (!d_wen && !d_ren &&!i_ren)){
         npc_addr = top->io_imem_req_bits_raddr;
         i_ren = true;
         i_read_data = read_mem(npc_addr);
@@ -390,7 +395,7 @@ void npc_step(){
     // top->eval();
     // m_trace->dump(sim_time);
 
-    // if(i_ren && (imem_wait_num <= 0)){
+    // if(i_ren && (imem_wait_num == 0)){
     //     //printf("imem read addr %x \n",npc_addr);
     //     top->io_imem_resp_bits_rdata = i_read_data;
     //     top->io_imem_resp_bits_read_ok = true;
@@ -400,7 +405,7 @@ void npc_step(){
     //     top->io_imem_resp_bits_read_ok = false;
     // }
 
-    // if(d_ren && ((dmem_wait_num <= 0))){
+    // if(d_ren && ((dmem_wait_num == 0))){
     //     top->io_dmem_resp_bits_read_ok = true;
     //     top->io_dmem_resp_bits_rdata = d_read_data;
     //     d_ren = false;
@@ -409,7 +414,7 @@ void npc_step(){
     //     top->io_dmem_resp_bits_read_ok = false;
     // }
 
-    // if(d_wen  && (dmem_wait_num <= 0)) {
+    // if(d_wen  && (dmem_wait_num == 0)) {
     //     top->io_dmem_resp_bits_write_ok = true;
     //     d_wen = false;
     // }

@@ -95,8 +95,8 @@ class InstFetch extends Module{
   io.out.bits.inst_valid := Mux(imem_stall , false.B , valid_out)
 
   req.bits.araddr  := Mux(use_reg_npc ,reg_npc ,Mux(io.if_flush ,flush_pc ,pc_base))
-//  req.bits.arvalid := true.B
-  req.bits.arvalid := !stall
+  req.bits.arvalid := true.B
+//  req.bits.arvalid := !stall
   req.bits.rready := true.B
 
   req.valid      := io.out.ready
