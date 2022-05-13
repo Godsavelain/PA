@@ -35,6 +35,7 @@ void VCore___024root___initial__TOP__1(VCore___024root* vlSelf) {
     vlSelf->io_imem_req_valid = 1U;
     vlSelf->io_imem_req_bits_waddr = 0U;
     vlSelf->io_imem_req_bits_wdata = 0ULL;
+    vlSelf->io_imem_req_bits_ren = 1U;
     vlSelf->io_imem_req_bits_wen = 0U;
     vlSelf->io_imem_req_bits_wmask = 0U;
     vlSelf->io_imem_resp_ready = 1U;
@@ -6768,7 +6769,6 @@ void VCore___024root___settle__TOP__4(VCore___024root* vlSelf) {
                                                       | (IData)(vlSelf->Core__DOT__regfile__DOT__mem_rs2_hazard)))));
     vlSelf->Core__DOT__fetch__DOT__stall = (1U & ((~ (IData)(vlSelf->io_imem_resp_bits_read_ok)) 
                                                   | (IData)(vlSelf->Core__DOT__decode__DOT__stall)));
-    vlSelf->io_imem_req_bits_ren = (1U & (~ (IData)(vlSelf->Core__DOT__fetch__DOT__stall)));
     vlSelf->Core__DOT__fetch__DOT___GEN_0 = (((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis) 
                                               & (IData)(vlSelf->Core__DOT__fetch__DOT__stall)) 
                                              | (IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_npc));

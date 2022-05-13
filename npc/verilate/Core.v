@@ -2,7 +2,6 @@ module InstFetch(
   input         clock,
   input         reset,
   output [31:0] io_imem_req_bits_araddr,
-  output        io_imem_req_bits_arvalid,
   input  [31:0] io_imem_resp_bits_rdata,
   input         io_imem_resp_bits_rvalid,
   input         io_out_ready,
@@ -44,7 +43,6 @@ module InstFetch(
   wire  _T_1 = ~stall; // @[InstFetch.scala 80:8]
   wire [31:0] _io_imem_req_bits_araddr_T = io_if_flush ? flush_pc : pc_base; // @[InstFetch.scala 97:52]
   assign io_imem_req_bits_araddr = use_reg_npc ? reg_npc : _io_imem_req_bits_araddr_T; // @[InstFetch.scala 97:26]
-  assign io_imem_req_bits_arvalid = ~stall; // @[InstFetch.scala 99:23]
   assign io_out_valid = 1'h1; // @[InstFetch.scala 104:18]
   assign io_out_bits_pc = pc_out; // @[InstFetch.scala 93:18]
   assign io_out_bits_inst = imem_stall ? 32'h0 : inst_out; // @[InstFetch.scala 94:26]
@@ -4440,7 +4438,6 @@ module Core(
   wire  fetch_clock; // @[Core.scala 28:21]
   wire  fetch_reset; // @[Core.scala 28:21]
   wire [31:0] fetch_io_imem_req_bits_araddr; // @[Core.scala 28:21]
-  wire  fetch_io_imem_req_bits_arvalid; // @[Core.scala 28:21]
   wire [31:0] fetch_io_imem_resp_bits_rdata; // @[Core.scala 28:21]
   wire  fetch_io_imem_resp_bits_rvalid; // @[Core.scala 28:21]
   wire  fetch_io_out_ready; // @[Core.scala 28:21]
@@ -4637,7 +4634,6 @@ module Core(
     .clock(fetch_clock),
     .reset(fetch_reset),
     .io_imem_req_bits_araddr(fetch_io_imem_req_bits_araddr),
-    .io_imem_req_bits_arvalid(fetch_io_imem_req_bits_arvalid),
     .io_imem_resp_bits_rdata(fetch_io_imem_resp_bits_rdata),
     .io_imem_resp_bits_rvalid(fetch_io_imem_resp_bits_rvalid),
     .io_out_ready(fetch_io_out_ready),
@@ -4842,7 +4838,7 @@ module Core(
   assign io_imem_req_bits_raddr = fetch_io_imem_req_bits_araddr; // @[Core.scala 36:26]
   assign io_imem_req_bits_waddr = 32'h0; // @[Core.scala 38:26]
   assign io_imem_req_bits_wdata = 64'h0; // @[Core.scala 39:26]
-  assign io_imem_req_bits_ren = fetch_io_imem_req_bits_arvalid; // @[Core.scala 37:24]
+  assign io_imem_req_bits_ren = 1'h1; // @[Core.scala 37:24]
   assign io_imem_req_bits_wen = 1'h0; // @[Core.scala 40:24]
   assign io_imem_req_bits_wmask = 8'h0; // @[Core.scala 41:26]
   assign io_imem_resp_ready = 1'h1; // @[Core.scala 43:22]
