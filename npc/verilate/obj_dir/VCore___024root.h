@@ -94,10 +94,13 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__fetch__DOT__stall;
         CData/*0:0*/ Core__DOT__fetch__DOT__use_reg_npc;
         CData/*0:0*/ Core__DOT__fetch__DOT___GEN_0;
+        CData/*0:0*/ Core__DOT__fetch__DOT__use_reg_info;
+        CData/*0:0*/ Core__DOT__fetch__DOT___GEN_2;
         CData/*0:0*/ Core__DOT__decode__DOT__inst_valid;
         CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_356;
         CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_505;
         CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_566;
+        CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_703;
         CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_718;
         CData/*0:0*/ Core__DOT__decode__DOT___ctrl_T_787;
         CData/*0:0*/ Core__DOT__decode__DOT___ctrl_T_793;
@@ -146,11 +149,11 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___GEN_7;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT___GEN_12;
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___GEN_13;
+    };
+    struct {
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_0_io_c;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_1_io_c;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_2_io_c;
-    };
-    struct {
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_3_io_c;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_4_io_c;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_5_io_c;
@@ -212,16 +215,17 @@ VL_MODULE(VCore___024root) {
         CData/*4:0*/ Core__DOT__mem__DOT__io_waddr_o_REG;
         CData/*0:0*/ Core__DOT__mem__DOT__io_wen_o_REG;
         IData/*31:0*/ Core__DOT__fetch_io_imem_req_bits_araddr;
-        IData/*31:0*/ Core__DOT__execute_io_jmp_packet_o_jmp_npc;
-        IData/*31:0*/ Core__DOT__io_commit_pc_REG;
-        IData/*31:0*/ Core__DOT__fetch__DOT__pc_out;
     };
     struct {
+        IData/*31:0*/ Core__DOT__execute_io_jmp_packet_o_jmp_npc;
+        IData/*31:0*/ Core__DOT__fetch_io_imem_resp_bits_old_pc_REG;
+        IData/*31:0*/ Core__DOT__io_commit_pc_REG;
+        IData/*31:0*/ Core__DOT__fetch__DOT__pc_out;
         IData/*31:0*/ Core__DOT__fetch__DOT__inst_out;
         IData/*31:0*/ Core__DOT__fetch__DOT__reg_pnpc;
         IData/*31:0*/ Core__DOT__fetch__DOT__pc;
         IData/*31:0*/ Core__DOT__fetch__DOT__reg_npc;
-        IData/*31:0*/ Core__DOT__fetch__DOT___npc_s_T_5;
+        IData/*31:0*/ Core__DOT__fetch__DOT___npc_s_T_1;
         IData/*31:0*/ Core__DOT__decode__DOT__pc;
         IData/*31:0*/ Core__DOT__decode__DOT__inst;
         IData/*31:0*/ Core__DOT__decode__DOT__reg_pnpc;
@@ -277,12 +281,12 @@ VL_MODULE(VCore___024root) {
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_13;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_14;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_15;
+    };
+    struct {
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_16;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_17;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_18;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_19;
-    };
-    struct {
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_20;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_21;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_22;
@@ -343,12 +347,12 @@ VL_MODULE(VCore___024root) {
         IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_pc;
         IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_inst;
         IData/*31:0*/ Core__DOT__mem__DOT__reg_mem_addr;
+    };
+    struct {
         IData/*31:0*/ Core__DOT__mem__DOT__io_out_bits_REG_pc;
         IData/*31:0*/ Core__DOT__mem__DOT__io_out_bits_REG_inst;
         IData/*31:0*/ Core__DOT__wb_dpi__DOT__inst1;
         IData/*31:0*/ Core__DOT__wb_dpi__DOT__pc1;
-    };
-    struct {
         QData/*63:0*/ Core__DOT__mem_io_mem_rd_data;
         QData/*63:0*/ Core__DOT__decode__DOT__rs1_reg;
         QData/*63:0*/ Core__DOT__decode__DOT__rs2_reg;
