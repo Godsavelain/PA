@@ -15,22 +15,8 @@ class Wb_Dpi extends BlackBox {
   })
 }
 
-//class TestIO extends Bundle{
-//  val raddr = Output(UInt(32.W))
-//  val waddr = Output(UInt(32.W))
-//  val wdata = Output(UInt(64.W))
-//  val ren = Output(Bool())
-//  val wen = Output(Bool())
-//  val wmask = Output(UInt(8.W))
-//  val rdata = Input(UInt(64.W))
-//  val read_ok = Input(Bool())
-//  val write_ok = Input(Bool())
-//}
-
 class Core extends Module{
   val io = IO(new Bundle{
-//    val imem = new CoreBusIO()
-//    val dmem = new CoreBusIO()
       val imem = new CacheBusIO()
       val dmem = new CacheBusIO()
       val commit_pc = Output(UInt(32.W))

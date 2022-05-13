@@ -61,11 +61,11 @@ class InstFetch extends Module{
   val pc = RegInit("h80000000".U(32.W))
   //val pc_valid = RegInit("b1".U(1.W))
   val pc_base = Cat(pc(31, 2), Fill(2, 0.U))
-  val npc_s = pc_base + 4.U
+  val npc_s = Mux(io.jmp_packet_i.mis ,io.jmp_packet_i.jmp_npc + 4.U, Mux(use_reg_npc ,reg_npc + 4.U, pc_base + 4.U))
 
   val imem_stall = !resp.bits.rvalid
   val stall = (imem_stall || !io.out.fire())
-  val npc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , npc_s)
+  val npc = npc_s
 
   val flush_pc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , io.flush_pc_i)
   //flush更改npc时，若取指段处于等待指令数据的状态，写入这些寄存器
@@ -77,8 +77,8 @@ class InstFetch extends Module{
   }
 
   when(!stall){
-    pc := Mux(use_reg_npc ,reg_npc ,npc)
-    reg_pnpc := pc_base
+    pc := npc
+    reg_pnpc := req.bits.araddr
     use_reg_npc := false.B
   }
   io.p_npc := reg_pnpc
@@ -93,7 +93,7 @@ class InstFetch extends Module{
   io.out.bits.inst := Mux(imem_stall , 0.U , inst_out)
   io.out.bits.inst_valid := Mux(imem_stall , false.B , valid_out)
 
-  req.bits.araddr  := pc_base
+  req.bits.araddr  := Mux(use_reg_npc ,reg_npc ,Mux(io.if_flush ，flush_pc ，pc_base))
   req.bits.arvalid := true.B
   req.bits.rready := true.B
 
