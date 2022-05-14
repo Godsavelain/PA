@@ -239,7 +239,7 @@ extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit eb
     if(has_ebreak){
         has_end = true;
     }
-    //printf("pc:%08x inst:%08x\n",pc_valie,instruction );
+    printf("pc:%08x inst:%08x\n",pc_valie,instruction );
 }
 
 long long int read_mem(unsigned int addr){
