@@ -243,9 +243,13 @@ extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit eb
 }
 
 long long int read_mem(unsigned int addr){
-    //printf("read addr %x \n",addr);
+    printf("read addr %x \n",addr);
     if(addr < 0x80000000){
         printf("read mem addr error!\n");
+        return 0;
+    }
+    if(addr > 0xa0000000){
+        printf("read device addr error!\n");
         return 0;
     }
     int offset = (addr - 0x80000000);
