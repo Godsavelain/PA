@@ -101,10 +101,17 @@ class InstFetch extends Module{
     pc_out    := Mux( use_reg_npc , 0.U , req.bits.araddr)
   }
 
+  //启动后传入的第一条指令被丢弃
+  val first_instr = RegInit(true.B)
+
+  when(first_instr && !imem_stall){
+    first_instr := false.B
+  }
+
 //  io.out.bits.pc := Mux(use_reg_info ,pc_out ,resp.bits.old_pc)
   io.out.bits.pc := Mux((io.if_flush || use_reg_npc || imem_stall ) ,0.B, pc_out)
-  io.out.bits.inst := Mux((io.if_flush || use_reg_npc ) , 0.B ,Mux(imem_stall , 0.U ,Mux(use_reg_info ,inst_out ,resp.bits.rdata)))
-  io.out.bits.inst_valid := Mux( (io.if_flush || use_reg_npc),0.B, Mux(imem_stall ,false.B ,Mux(use_reg_info ,valid_out, resp.bits.rvalid)))
+  io.out.bits.inst := Mux((io.if_flush || use_reg_npc || imem_stall), false.B Mux(use_reg_info ,inst_out ,resp.bits.rdata))
+  io.out.bits.inst_valid := Mux((io.if_flush || use_reg_npc || imem_stall || first_instr), false.B ,Mux(use_reg_info ,valid_out, resp.bits.rvalid))
 
   req.bits.araddr  := Mux(use_reg_npc ,reg_npc ,Mux(io.if_flush ,flush_pc ,pc_base + 4.U))
   req.bits.arvalid := true.B

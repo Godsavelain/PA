@@ -4,7 +4,6 @@ module InstFetch(
   output [31:0] io_imem_req_bits_araddr,
   input  [31:0] io_imem_resp_bits_rdata,
   input         io_imem_resp_bits_rvalid,
-  input  [31:0] io_imem_resp_bits_old_pc,
   input         io_out_ready,
   output        io_out_valid,
   output [31:0] io_out_bits_pc,
@@ -39,61 +38,54 @@ module InstFetch(
   reg  use_reg_npc; // @[InstFetch.scala 70:28]
   reg [31:0] reg_npc; // @[InstFetch.scala 71:26]
   wire  _GEN_0 = io_if_flush & stall | use_reg_npc; // @[InstFetch.scala 72:29 InstFetch.scala 73:17 InstFetch.scala 70:28]
-  reg  use_reg_info; // @[InstFetch.scala 77:29]
-  wire  _GEN_2 = stall & ~imem_stall | use_reg_info; // @[InstFetch.scala 78:29 InstFetch.scala 79:18 InstFetch.scala 77:29]
-  wire [31:0] _npc_s_T_1 = pc_base + 32'h4; // @[InstFetch.scala 82:100]
-  wire  _T_3 = ~stall; // @[InstFetch.scala 85:8]
-  wire  _io_out_bits_inst_T = io_if_flush | use_reg_npc; // @[InstFetch.scala 100:40]
-  wire [31:0] _io_out_bits_inst_T_1 = use_reg_info ? inst_out : io_imem_resp_bits_rdata; // @[InstFetch.scala 100:89]
-  wire [31:0] _io_out_bits_inst_T_2 = imem_stall ? 32'h0 : _io_out_bits_inst_T_1; // @[InstFetch.scala 100:67]
-  wire  _io_out_bits_inst_valid_T_1 = use_reg_info ? valid_out : io_imem_resp_bits_rvalid; // @[InstFetch.scala 101:96]
-  wire  _io_out_bits_inst_valid_T_2 = imem_stall ? 1'h0 : _io_out_bits_inst_valid_T_1; // @[InstFetch.scala 101:71]
-  wire [31:0] _io_imem_req_bits_araddr_T_2 = io_if_flush ? flush_pc : _npc_s_T_1; // @[InstFetch.scala 103:52]
-  assign io_imem_req_bits_araddr = use_reg_npc ? reg_npc : _io_imem_req_bits_araddr_T_2; // @[InstFetch.scala 103:26]
-  assign io_out_valid = 1'h1; // @[InstFetch.scala 110:18]
-  assign io_out_bits_pc = use_reg_info ? pc_out : io_imem_resp_bits_old_pc; // @[InstFetch.scala 99:24]
-  assign io_out_bits_inst = io_if_flush | use_reg_npc ? 32'h0 : _io_out_bits_inst_T_2; // @[InstFetch.scala 100:26]
-  assign io_out_bits_inst_valid = _io_out_bits_inst_T ? 1'h0 : _io_out_bits_inst_valid_T_2; // @[InstFetch.scala 101:32]
-  assign io_p_npc = reg_pnpc; // @[InstFetch.scala 91:12]
+  reg  use_reg_info; // @[InstFetch.scala 78:29]
+  wire  _T_1 = ~imem_stall; // @[InstFetch.scala 79:17]
+  wire  _GEN_2 = stall & ~imem_stall | use_reg_info; // @[InstFetch.scala 79:29 InstFetch.scala 80:18 InstFetch.scala 78:29]
+  wire [31:0] _npc_s_T_1 = pc_base + 32'h4; // @[InstFetch.scala 83:100]
+  wire  _T_3 = ~stall; // @[InstFetch.scala 86:8]
+  wire  _io_out_bits_pc_T = io_if_flush | use_reg_npc; // @[InstFetch.scala 105:38]
+  wire [31:0] _io_out_bits_inst_T_1 = use_reg_info ? inst_out : io_imem_resp_bits_rdata; // @[InstFetch.scala 106:89]
+  wire [31:0] _io_out_bits_inst_T_2 = imem_stall ? 32'h0 : _io_out_bits_inst_T_1; // @[InstFetch.scala 106:67]
+  wire  _io_out_bits_inst_valid_T_1 = use_reg_info ? valid_out : io_imem_resp_bits_rvalid; // @[InstFetch.scala 107:96]
+  wire  _io_out_bits_inst_valid_T_2 = imem_stall ? 1'h0 : _io_out_bits_inst_valid_T_1; // @[InstFetch.scala 107:71]
+  wire [31:0] _io_imem_req_bits_araddr_T_2 = io_if_flush ? flush_pc : _npc_s_T_1; // @[InstFetch.scala 109:52]
+  assign io_imem_req_bits_araddr = use_reg_npc ? reg_npc : _io_imem_req_bits_araddr_T_2; // @[InstFetch.scala 109:26]
+  assign io_out_valid = 1'h1; // @[InstFetch.scala 116:18]
+  assign io_out_bits_pc = io_if_flush | use_reg_npc | imem_stall ? 32'h0 : pc_out; // @[InstFetch.scala 105:24]
+  assign io_out_bits_inst = _io_out_bits_pc_T ? 32'h0 : _io_out_bits_inst_T_2; // @[InstFetch.scala 106:26]
+  assign io_out_bits_inst_valid = _io_out_bits_pc_T ? 1'h0 : _io_out_bits_inst_valid_T_2; // @[InstFetch.scala 107:32]
+  assign io_p_npc = reg_pnpc; // @[InstFetch.scala 92:12]
   always @(posedge clock) begin
     if (reset) begin // @[InstFetch.scala 56:26]
       pc_out <= 32'h0; // @[InstFetch.scala 56:26]
-    end else if (_T_3 | io_if_flush) begin // @[InstFetch.scala 93:30]
-      if (use_reg_npc) begin // @[InstFetch.scala 94:21]
+    end else if (_T_3) begin // @[InstFetch.scala 100:15]
+      if (use_reg_npc) begin // @[InstFetch.scala 101:21]
         pc_out <= 32'h0;
       end else begin
-        pc_out <= io_imem_resp_bits_old_pc;
+        pc_out <= io_imem_req_bits_araddr;
       end
     end
     if (reset) begin // @[InstFetch.scala 57:26]
       inst_out <= 32'h0; // @[InstFetch.scala 57:26]
-    end else if (_T_3 | io_if_flush) begin // @[InstFetch.scala 93:30]
-      if (use_reg_npc) begin // @[InstFetch.scala 95:21]
-        inst_out <= 32'h0;
-      end else begin
-        inst_out <= io_imem_resp_bits_rdata;
-      end
+    end else if (_T_1) begin // @[InstFetch.scala 94:20]
+      inst_out <= io_imem_resp_bits_rdata; // @[InstFetch.scala 96:15]
     end
     if (reset) begin // @[InstFetch.scala 58:26]
       valid_out <= 1'h0; // @[InstFetch.scala 58:26]
-    end else if (_T_3 | io_if_flush) begin // @[InstFetch.scala 93:30]
-      if (use_reg_npc) begin // @[InstFetch.scala 96:21]
-        valid_out <= 1'h0;
-      end else begin
-        valid_out <= io_imem_resp_bits_rvalid;
-      end
+    end else if (_T_1) begin // @[InstFetch.scala 94:20]
+      valid_out <= io_imem_resp_bits_rvalid; // @[InstFetch.scala 97:15]
     end
     if (reset) begin // @[InstFetch.scala 60:25]
       reg_pnpc <= 32'h0; // @[InstFetch.scala 60:25]
-    end else if (~stall) begin // @[InstFetch.scala 85:15]
-      reg_pnpc <= io_imem_req_bits_araddr; // @[InstFetch.scala 87:14]
+    end else if (~stall) begin // @[InstFetch.scala 86:15]
+      reg_pnpc <= io_imem_req_bits_araddr; // @[InstFetch.scala 88:14]
     end
     if (reset) begin // @[InstFetch.scala 61:19]
       pc <= 32'h7ffffffc; // @[InstFetch.scala 61:19]
-    end else if (~stall) begin // @[InstFetch.scala 85:15]
-      if (io_jmp_packet_i_mis) begin // @[InstFetch.scala 82:18]
+    end else if (~stall) begin // @[InstFetch.scala 86:15]
+      if (io_jmp_packet_i_mis) begin // @[InstFetch.scala 83:18]
         pc <= io_jmp_packet_i_jmp_npc;
-      end else if (use_reg_npc) begin // @[InstFetch.scala 82:69]
+      end else if (use_reg_npc) begin // @[InstFetch.scala 83:69]
         pc <= reg_npc;
       end else begin
         pc <= _npc_s_T_1;
@@ -101,8 +93,8 @@ module InstFetch(
     end
     if (reset) begin // @[InstFetch.scala 70:28]
       use_reg_npc <= 1'h0; // @[InstFetch.scala 70:28]
-    end else if (~stall) begin // @[InstFetch.scala 85:15]
-      use_reg_npc <= 1'h0; // @[InstFetch.scala 88:17]
+    end else if (~stall) begin // @[InstFetch.scala 86:15]
+      use_reg_npc <= 1'h0; // @[InstFetch.scala 89:17]
     end else begin
       use_reg_npc <= _GEN_0;
     end
@@ -115,10 +107,10 @@ module InstFetch(
         reg_npc <= 32'h0;
       end
     end
-    if (reset) begin // @[InstFetch.scala 77:29]
-      use_reg_info <= 1'h0; // @[InstFetch.scala 77:29]
-    end else if (~stall) begin // @[InstFetch.scala 85:15]
-      use_reg_info <= 1'h0; // @[InstFetch.scala 89:18]
+    if (reset) begin // @[InstFetch.scala 78:29]
+      use_reg_info <= 1'h0; // @[InstFetch.scala 78:29]
+    end else if (~stall) begin // @[InstFetch.scala 86:15]
+      use_reg_info <= 1'h0; // @[InstFetch.scala 90:18]
     end else begin
       use_reg_info <= _GEN_2;
     end
@@ -4450,14 +4442,12 @@ module Core(
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
-  reg [31:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
   wire  fetch_clock; // @[Core.scala 28:21]
   wire  fetch_reset; // @[Core.scala 28:21]
   wire [31:0] fetch_io_imem_req_bits_araddr; // @[Core.scala 28:21]
   wire [31:0] fetch_io_imem_resp_bits_rdata; // @[Core.scala 28:21]
   wire  fetch_io_imem_resp_bits_rvalid; // @[Core.scala 28:21]
-  wire [31:0] fetch_io_imem_resp_bits_old_pc; // @[Core.scala 28:21]
   wire  fetch_io_out_ready; // @[Core.scala 28:21]
   wire  fetch_io_out_valid; // @[Core.scala 28:21]
   wire [31:0] fetch_io_out_bits_pc; // @[Core.scala 28:21]
@@ -4645,7 +4635,6 @@ module Core(
   wire [31:0] wb_dpi_inst; // @[Core.scala 125:22]
   wire [31:0] wb_dpi_pc; // @[Core.scala 125:22]
   wire  wb_dpi_ebreak; // @[Core.scala 125:22]
-  reg [31:0] fetch_io_imem_resp_bits_old_pc_REG; // @[Core.scala 32:44]
   reg [31:0] io_commit_pc_REG; // @[Core.scala 99:26]
   reg  io_commit_REG; // @[Core.scala 100:23]
   wire [28:0] io_dmem_req_bits_raddr_hi = mem_io_dmem_req_bits_arwaddr[31:3]; // @[Core.scala 102:61]
@@ -4655,7 +4644,6 @@ module Core(
     .io_imem_req_bits_araddr(fetch_io_imem_req_bits_araddr),
     .io_imem_resp_bits_rdata(fetch_io_imem_resp_bits_rdata),
     .io_imem_resp_bits_rvalid(fetch_io_imem_resp_bits_rvalid),
-    .io_imem_resp_bits_old_pc(fetch_io_imem_resp_bits_old_pc),
     .io_out_ready(fetch_io_out_ready),
     .io_out_valid(fetch_io_out_valid),
     .io_out_bits_pc(fetch_io_out_bits_pc),
@@ -4908,7 +4896,6 @@ module Core(
   assign fetch_reset = reset;
   assign fetch_io_imem_resp_bits_rdata = io_imem_resp_bits_rdata[31:0]; // @[Core.scala 31:59]
   assign fetch_io_imem_resp_bits_rvalid = io_imem_resp_bits_read_ok; // @[Core.scala 33:34]
-  assign fetch_io_imem_resp_bits_old_pc = fetch_io_imem_resp_bits_old_pc_REG; // @[Core.scala 32:34]
   assign fetch_io_out_ready = decode_io_in_ready; // @[Core.scala 47:16]
   assign fetch_io_if_flush = execute_io_jmp_packet_o_mis; // @[Core.scala 132:21]
   assign fetch_io_jmp_packet_i_jmp_npc = execute_io_jmp_packet_o_jmp_npc; // @[Core.scala 66:25]
@@ -4991,7 +4978,6 @@ module Core(
   assign wb_dpi_pc = mem_io_out_bits_pc; // @[Core.scala 128:16]
   assign wb_dpi_ebreak = mem_io_is_ebreak_o; // @[Core.scala 129:20]
   always @(posedge clock) begin
-    fetch_io_imem_resp_bits_old_pc_REG <= fetch_io_imem_req_bits_araddr; // @[Core.scala 32:44]
     io_commit_pc_REG <= mem_io_out_bits_pc; // @[Core.scala 99:26]
     io_commit_REG <= mem_io_out_bits_valid; // @[Core.scala 100:23]
   end
@@ -5032,11 +5018,9 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  fetch_io_imem_resp_bits_old_pc_REG = _RAND_0[31:0];
+  io_commit_pc_REG = _RAND_0[31:0];
   _RAND_1 = {1{`RANDOM}};
-  io_commit_pc_REG = _RAND_1[31:0];
-  _RAND_2 = {1{`RANDOM}};
-  io_commit_REG = _RAND_2[0:0];
+  io_commit_REG = _RAND_1[0:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
