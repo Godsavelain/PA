@@ -23,6 +23,9 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
   int height;
   height = inw(VGACTL_ADDR);
   width = inw(VGACTL_ADDR + 2);
+  int data;
+  data = inl(VGACTL_ADDR);
+  printf("data is %d\n",data);
   *cfg = (AM_GPU_CONFIG_T) {
     .present = true, .has_accel = false,
     .width = width, .height = height,

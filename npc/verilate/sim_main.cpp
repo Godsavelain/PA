@@ -15,13 +15,249 @@
 #include <iostream>
 #include <fstream>
 
-#ifdef HAS_DEVICE
 #include <SDL2/SDL.h>
+#include <sys/time.h>
+#include <time.h>
+
+#ifdef HAS_DEVICE
+
+bool device_end = false;
+
+//macros
+#define MAP(c, f) c(f)
+#define concat_temp(x, y) x ## y
+#define concat(x, y) concat_temp(x, y)
+#define concat3(x, y, z) concat(concat(x, y), z)
+#define concat4(x, y, z, w) concat3(concat(x, y), z, w)
+#define concat5(x, y, z, v, w) concat4(concat(x, y), z, v, w)
+
+//device memory
+#define PAGE_SHIFT        12
+#define PAGE_SIZE         (1ul << PAGE_SHIFT)
+#define PAGE_MASK         (PAGE_SIZE - 1)
+
+#define IO_SPACE_MAX (2 * 1024 * 1024)
+static uint8_t *io_space = NULL;
+static uint8_t *p_space = NULL;
+
+void init_map() {
+  io_space = (uint8_t *)malloc(IO_SPACE_MAX);
+  assert(io_space);
+  p_space = io_space;
+}
+
+uint8_t* new_space(int size) {
+  uint8_t *p = p_space;
+  // page aligned;
+  size = (size + (PAGE_SIZE - 1)) & ~PAGE_MASK;
+  p_space += size;
+  assert(p_space - io_space < IO_SPACE_MAX);
+  return p;
+}
+//mmio
+#define CONFIG_MBASE 0x80000000
+#define CONFIG_MSIZE 0x8000000
+
+#define DEVICE_BASE 0xa0000000
+
+#define MMIO_BASE 0xa0000000
+
+#define SERIAL_PORT     (DEVICE_BASE + 0x00003f8)
+#define KBD_ADDR        (DEVICE_BASE + 0x0000060)
+#define RTC_ADDR        (DEVICE_BASE + 0x0000048)
+#define VGACTL_ADDR     (DEVICE_BASE + 0x0000100)
+#define AUDIO_ADDR      (DEVICE_BASE + 0x0000200)
+#define DISK_ADDR       (DEVICE_BASE + 0x0000300)
+#define FB_ADDR         (MMIO_BASE   + 0x1000000)
+#define AUDIO_SBUF_ADDR (MMIO_BASE   + 0x1200000)
+
+//timer
+static uint32_t *rtc_port_base = NULL;
+
+static uint64_t boot_time = 0;
+
+static uint64_t get_time_internal() {
+  struct timeval now;
+  gettimeofday(&now, NULL);
+  uint64_t us = now.tv_sec * 1000000 + now.tv_usec;
+  return us;
+}
+
+uint64_t get_time() {
+  if (boot_time == 0) boot_time = get_time_internal();
+  uint64_t now = get_time_internal();
+  return now - boot_time;
+}
+
+void init_timer() {
+  rtc_port_base = (uint32_t *)new_space(8);
+}
+
+//keyboard
+#define KEYDOWN_MASK 0x8000
+
+#define _KEYS(f) \
+  f(ESCAPE) f(F1) f(F2) f(F3) f(F4) f(F5) f(F6) f(F7) f(F8) f(F9) f(F10) f(F11) f(F12) \
+f(GRAVE) f(1) f(2) f(3) f(4) f(5) f(6) f(7) f(8) f(9) f(0) f(MINUS) f(EQUALS) f(BACKSPACE) \
+f(TAB) f(Q) f(W) f(E) f(R) f(T) f(Y) f(U) f(I) f(O) f(P) f(LEFTBRACKET) f(RIGHTBRACKET) f(BACKSLASH) \
+f(CAPSLOCK) f(A) f(S) f(D) f(F) f(G) f(H) f(J) f(K) f(L) f(SEMICOLON) f(APOSTROPHE) f(RETURN) \
+f(LSHIFT) f(Z) f(X) f(C) f(V) f(B) f(N) f(M) f(COMMA) f(PERIOD) f(SLASH) f(RSHIFT) \
+f(LCTRL) f(APPLICATION) f(LALT) f(SPACE) f(RALT) f(RCTRL) \
+f(UP) f(DOWN) f(LEFT) f(RIGHT) f(INSERT) f(DELETE) f(HOME) f(END) f(PAGEUP) f(PAGEDOWN)
+
+#define _KEY_NAME(k) _KEY_##k,
+
+enum {
+  _KEY_NONE = 0,
+  MAP(_KEYS, _KEY_NAME)
+};
+
+#define SDL_KEYMAP(k) keymap[concat(SDL_SCANCODE_, k)] = concat(_KEY_, k);
+static uint32_t keymap[256] = {};
+
+static void init_keymap() {
+  MAP(_KEYS, SDL_KEYMAP)
+}
+
+#define KEY_QUEUE_LEN 1024
+static int key_queue[KEY_QUEUE_LEN] = {};
+static int key_f = 0, key_r = 0;
+
+static void key_enqueue(uint32_t am_scancode) {
+  key_queue[key_r] = am_scancode;
+  key_r = (key_r + 1) % KEY_QUEUE_LEN;
+  assert(key_r != key_f);
+}
+
+static uint32_t key_dequeue() {
+  uint32_t key = _KEY_NONE;
+  if (key_f != key_r) {
+    key = key_queue[key_f];
+    key_f = (key_f + 1) % KEY_QUEUE_LEN;
+  }
+  return key;
+}
+
+void send_key(uint8_t scancode, bool is_keydown) {
+  if (keymap[scancode] != _KEY_NONE) {
+    uint32_t am_scancode = keymap[scancode] | (is_keydown ? KEYDOWN_MASK : 0);
+    key_enqueue(am_scancode);
+  }
+}
+
+static uint32_t *i8042_data_port_base = NULL;
+
+static void i8042_data_io_handler() {
+  i8042_data_port_base[0] = key_dequeue();
+}
+
+void init_i8042() {
+  i8042_data_port_base = (uint32_t *)new_space(4);
+  i8042_data_port_base[0] = _KEY_NONE;
+  init_keymap();
+}
+
+//vga
+#define SCREEN_W 800
+#define SCREEN_H 600
+#define SCREEN_SIZE 480000
+
+static void *vmem = NULL;
+static uint32_t *vgactl_port_base = NULL;
+
+static SDL_Renderer *renderer = NULL;
+static SDL_Texture *texture = NULL;
+
+static void init_screen() {
+  SDL_Window *window = NULL;
+  char title[128];
+  sprintf(title, "%s-NPC", "riscv64");
+  SDL_Init(SDL_INIT_VIDEO);
+  SDL_CreateWindowAndRenderer(
+      SCREEN_W,
+      SCREEN_H,
+      0, &window, &renderer);
+  SDL_SetWindowTitle(window, title);
+  texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+      SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
+}
+
+static inline void update_screen() {
+  SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(uint32_t));
+  SDL_RenderClear(renderer);
+  SDL_RenderCopy(renderer, texture, NULL, NULL);
+  SDL_RenderPresent(renderer);
+}
+
+void vga_update_screen() {
+  if(vgactl_port_base[1] != 0)
+  {
+    update_screen();
+    vgactl_port_base[1] = 0;
+  }
+}
+
+void init_vga() {
+  vgactl_port_base = (uint32_t *)new_space(8);
+  vgactl_port_base[0] = (SCREEN_W << 16) | SCREEN_H;
+  vgactl_port_base[1] = 0;
+
+  vmem = new_space(SCREEN_SIZE);
+  init_screen();
+  memset(vmem, 0, SCREEN_SIZE);
+}
+
+//update device
+#define TIMER_HZ 60
+
+void device_update() {
+  static uint64_t last = 0;
+  uint64_t now = get_time();
+  if (now - last < 1000000 / TIMER_HZ) {
+    return;
+  }
+  last = now;
+
+  //vga_update_screen();
+
+  SDL_Event event;
+  while (SDL_PollEvent(&event)) {
+    switch (event.type) {
+      case SDL_QUIT:
+        printf("SDL quit!\n");
+        device_end = true;
+        break;
+      // If a key was pressed
+      case SDL_KEYDOWN:
+      case SDL_KEYUP: {
+        uint8_t k = event.key.keysym.scancode;
+        printf("scan code \n");
+        bool is_keydown = (event.key.type == SDL_KEYDOWN);
+        send_key(k, is_keydown);
+        break;
+      }
+
+      default: break;
+    }
+  }
+
+}
+
+void sdl_clear_event_queue() {
+  SDL_Event event;
+  while (SDL_PollEvent(&event));
+}
+
+void init_device() {
+  // IFDEF(CONFIG_HAS_SERIAL, init_serial());
+  init_timer();
+  //init_vga();
+  init_i8042();
+}
 
 #endif
 
 //Log
-
 std::ofstream fout;
 
 #define ASNI_FG_BLACK   "\33[1;30m"
@@ -41,7 +277,6 @@ std::ofstream fout;
 #define ASNI_BG_CYAN    "\33[1;46m"
 #define ASNI_BG_WHITE   "\33[1;47m"
 #define ASNI_NONE       "\33[0m"
-
 #define ASNI_FMT(str, fmt) fmt str ASNI_NONE
 
 long long unsigned int Memory[1000000];
@@ -59,7 +294,7 @@ bool d_wen = false;
 bool i_ren = false;
 long long unsigned int d_read_data;
 long long unsigned int i_read_data;
-int mem_latency = 0;
+int mem_latency = 2;
 int imem_wait_num = 0;
 int dmem_wait_num = 0;
 vluint64_t sim_time;
@@ -239,23 +474,32 @@ extern "C" void wb_info (const svBitVecVal* inst,const svBitVecVal* pc ,svBit eb
     if(has_ebreak){
         has_end = true;
     }
-    printf("pc:%08x inst:%08x\n",pc_valie,instruction );
+    //printf("pc:%08x inst:%08x\n",pc_valie,instruction );
 }
 
-long long int read_mem(unsigned int addr){
+long long unsigned int io_read(unsigned int addr){
+    if(addr == KBD_ADDR){
+        i8042_data_io_handler();
+        //printf("read data %d \n",i8042_data_port_base[0]);
+        return i8042_data_port_base[0];
+    }
+    return 0;
+}
+
+long long unsigned int read_mem(unsigned int addr){
     //printf("read addr %x \n",addr);
     if(addr < 0x80000000){
         printf("read mem addr error!\n");
         return 0;
     }
-    if(addr > 0xa0000000){
-        printf("read device addr error!\n");
-        return 0;
+    long long unsigned int result = 0;
+    if(addr > (CONFIG_MBASE + CONFIG_MSIZE)){
+        result = io_read(addr);
     }
-    int offset = (addr - 0x80000000);
+    else{
+        int offset = (addr - 0x80000000);
     int i = offset / 8;
     int j = offset % 8;
-    long long unsigned int result = 0;
     if(j == 4){
         result = Memory[i]>>32;
     }
@@ -266,16 +510,13 @@ long long int read_mem(unsigned int addr){
     char log[200];
     sprintf(log, "read %llx from address %x \n", result,addr);
     fout << log ;
-
-    return result;
+    }
+    return result;  
 }
 
-void write_mem(unsigned int addr,long long unsigned int data, unsigned char write_mask){
-    //printf("Addr %x Data %llx Mask: %u \n",addr ,data , write_mask);
-    int offset = (addr - 0x80000000);
-    int i = offset / 8;
-    long long int old_data = Memory[i];
+void io_write(unsigned int addr,long long unsigned int data, unsigned char write_mask){
     long long int temp_data = 0;
+    long long int old_data = 0;
     for(int j=0;j<8;j++){
         if(write_mask % 2 == 1){
             temp_data = temp_data | (((long long int)0xff << (j*8)) & data);
@@ -285,10 +526,43 @@ void write_mem(unsigned int addr,long long unsigned int data, unsigned char writ
         }
         write_mask = write_mask/2;
     }
-    Memory[i] = temp_data;
+    if(addr == SERIAL_PORT){
+        char input;
+        input = temp_data;
+        printf("%c",input);
+    }  
+
     char log[200];
     sprintf(log, "write %llx to address %x \n", data,addr);
     fout << log ;
+    //printf("Addr %x Data %llx Mask: %u \n",addr ,data , write_mask);
+}
+
+void write_mem(unsigned int addr,long long unsigned int data, unsigned char write_mask){
+    if(addr > (CONFIG_MBASE + CONFIG_MSIZE)){
+        io_write(addr,data,write_mask);
+    }
+    else{
+        //printf("Addr %x Data %llx Mask: %u \n",addr ,data , write_mask);
+        int offset = (addr - 0x80000000);
+        int i = offset / 8;
+        long long int old_data = Memory[i];
+        long long int temp_data = 0;
+        for(int j=0;j<8;j++){
+            if(write_mask % 2 == 1){
+                temp_data = temp_data | (((long long int)0xff << (j*8)) & data);
+            }
+            else{
+                temp_data = temp_data | (((long long int)0xff << (j*8)) & old_data);
+            }
+            write_mask = write_mask/2;
+        }
+        Memory[i] = temp_data;
+        char log[200];
+        sprintf(log, "write %llx to address %x \n", data,addr);
+        fout << log ;
+    }
+    
 }
 
 long inst_load(char* filename){
@@ -323,8 +597,11 @@ long inst_load(char* filename){
     return size;
 }
 
-
 void npc_step(){
+  if(HAS_DEVICE && device_end){
+        has_end = true;
+    }
+
     if(i_ren){
         if(imem_wait_num > 0){
             imem_wait_num--;
@@ -399,90 +676,68 @@ void npc_step(){
     m_trace->dump(sim_time);
     sim_time++;
 
-    // top->clock = 0;
-    // top->eval();
-    // m_trace->dump(sim_time);
+    if(HAS_DEVICE){
+      device_update();
+    }
 
-    // if(i_ren && (imem_wait_num == 0)){
-    //     //printf("imem read addr %x \n",npc_addr);
-    //     top->io_imem_resp_bits_rdata = i_read_data;
-    //     top->io_imem_resp_bits_read_ok = true;
-    //     i_ren = false;
-    // }
-    // else{
-    //     top->io_imem_resp_bits_read_ok = false;
-    // }
-
-    // if(d_ren && ((dmem_wait_num == 0))){
-    //     top->io_dmem_resp_bits_read_ok = true;
-    //     top->io_dmem_resp_bits_rdata = d_read_data;
-    //     d_ren = false;
-    // }
-    // else{
-    //     top->io_dmem_resp_bits_read_ok = false;
-    // }
-
-    // if(d_wen  && (dmem_wait_num == 0)) {
-    //     top->io_dmem_resp_bits_write_ok = true;
-    //     d_wen = false;
-    // }
-    // else{
-    //     top->io_dmem_resp_bits_write_ok = false;
-    // }
-
-    // top->clock = 0;
-    // top->eval();
-    m_trace->dump(sim_time);
-    sim_time++;
-    if(top->io_commit ){
-        char log[200];
-        sprintf(log, "commit pc %08x\n", top->io_commit_pc);
-        fout << log ;
-        //printf("commit pc %08x\n",top->io_commit_pc);
-        cpu.pc = top->io_commit_pc;
-        cpu.gpr[ 0] = top->io_regs_out_0; 
-        cpu.gpr[ 1] = top->io_regs_out_1; 
-        cpu.gpr[ 2] = top->io_regs_out_2; 
-        cpu.gpr[ 3] = top->io_regs_out_3; 
-        cpu.gpr[ 4] = top->io_regs_out_4; 
-        cpu.gpr[ 5] = top->io_regs_out_5; 
-        cpu.gpr[ 6] = top->io_regs_out_6; 
-        cpu.gpr[ 7] = top->io_regs_out_7; 
-        cpu.gpr[ 8] = top->io_regs_out_8; 
-        cpu.gpr[ 9] = top->io_regs_out_9; 
-        cpu.gpr[10] = top->io_regs_out_10;
-        cpu.gpr[11] = top->io_regs_out_11;
-        cpu.gpr[12] = top->io_regs_out_12;
-        cpu.gpr[13] = top->io_regs_out_13;
-        cpu.gpr[14] = top->io_regs_out_14;
-        cpu.gpr[15] = top->io_regs_out_15;
-        cpu.gpr[16] = top->io_regs_out_16;
-        cpu.gpr[17] = top->io_regs_out_17;
-        cpu.gpr[18] = top->io_regs_out_18;
-        cpu.gpr[19] = top->io_regs_out_19;
-        cpu.gpr[20] = top->io_regs_out_20;
-        cpu.gpr[21] = top->io_regs_out_21;
-        cpu.gpr[22] = top->io_regs_out_22;
-        cpu.gpr[23] = top->io_regs_out_23;
-        cpu.gpr[24] = top->io_regs_out_24;
-        cpu.gpr[25] = top->io_regs_out_25;
-        cpu.gpr[26] = top->io_regs_out_26;
-        cpu.gpr[27] = top->io_regs_out_27;
-        cpu.gpr[28] = top->io_regs_out_28;
-        cpu.gpr[29] = top->io_regs_out_29;
-        cpu.gpr[30] = top->io_regs_out_30;
-        cpu.gpr[31] = top->io_regs_out_31;
-        difftest_step(top->io_commit_pc,0);
+    if(HAS_DIFF){
+        if(top->io_commit ){
+            char log[200];
+            sprintf(log, "commit pc %08x\n", top->io_commit_pc);
+            fout << log ;
+            //printf("commit pc %08x\n",top->io_commit_pc);
+            cpu.pc = top->io_commit_pc;
+            cpu.gpr[ 0] = top->io_regs_out_0; 
+            cpu.gpr[ 1] = top->io_regs_out_1; 
+            cpu.gpr[ 2] = top->io_regs_out_2; 
+            cpu.gpr[ 3] = top->io_regs_out_3; 
+            cpu.gpr[ 4] = top->io_regs_out_4; 
+            cpu.gpr[ 5] = top->io_regs_out_5; 
+            cpu.gpr[ 6] = top->io_regs_out_6; 
+            cpu.gpr[ 7] = top->io_regs_out_7; 
+            cpu.gpr[ 8] = top->io_regs_out_8; 
+            cpu.gpr[ 9] = top->io_regs_out_9; 
+            cpu.gpr[10] = top->io_regs_out_10;
+            cpu.gpr[11] = top->io_regs_out_11;
+            cpu.gpr[12] = top->io_regs_out_12;
+            cpu.gpr[13] = top->io_regs_out_13;
+            cpu.gpr[14] = top->io_regs_out_14;
+            cpu.gpr[15] = top->io_regs_out_15;
+            cpu.gpr[16] = top->io_regs_out_16;
+            cpu.gpr[17] = top->io_regs_out_17;
+            cpu.gpr[18] = top->io_regs_out_18;
+            cpu.gpr[19] = top->io_regs_out_19;
+            cpu.gpr[20] = top->io_regs_out_20;
+            cpu.gpr[21] = top->io_regs_out_21;
+            cpu.gpr[22] = top->io_regs_out_22;
+            cpu.gpr[23] = top->io_regs_out_23;
+            cpu.gpr[24] = top->io_regs_out_24;
+            cpu.gpr[25] = top->io_regs_out_25;
+            cpu.gpr[26] = top->io_regs_out_26;
+            cpu.gpr[27] = top->io_regs_out_27;
+            cpu.gpr[28] = top->io_regs_out_28;
+            cpu.gpr[29] = top->io_regs_out_29;
+            cpu.gpr[30] = top->io_regs_out_30;
+            cpu.gpr[31] = top->io_regs_out_31;
+            difftest_step(top->io_commit_pc,0);
+    }
     }
 }
-
 
 int main(int argc, char **argv, char **env){
     if(argc < 2){
         printf("need to specify test name\n");
         return 1;
     }
-    fout.open("./log.txt");
+    fout.open("./log.txt"); //log
+
+//devices
+    #ifdef HAS_DEVICE
+        init_map();
+        init_vga();
+        init_device();
+    #endif
+
     VerilatedContext* contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);            // Verilator仿真运行时参数（和编译的参数不一样，详见Verilator手册第6章
     top = new VCore;
