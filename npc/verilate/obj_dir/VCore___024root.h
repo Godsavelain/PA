@@ -91,11 +91,12 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__mem_io_mem_rd_en;
         CData/*0:0*/ Core__DOT__io_commit_REG;
         CData/*0:0*/ Core__DOT__fetch__DOT__valid_out;
-        CData/*0:0*/ Core__DOT__fetch__DOT__stall;
-        CData/*0:0*/ Core__DOT__fetch__DOT__use_reg_npc;
-        CData/*0:0*/ Core__DOT__fetch__DOT___GEN_0;
         CData/*0:0*/ Core__DOT__fetch__DOT__use_reg_info;
-        CData/*0:0*/ Core__DOT__fetch__DOT___GEN_2;
+        CData/*0:0*/ Core__DOT__fetch__DOT__imem_stall;
+        CData/*0:0*/ Core__DOT__fetch__DOT__stall;
+        CData/*0:0*/ Core__DOT__fetch__DOT___GEN_0;
+        CData/*0:0*/ Core__DOT__fetch__DOT__use_reg_npc;
+        CData/*0:0*/ Core__DOT__fetch__DOT___GEN_1;
         CData/*0:0*/ Core__DOT__fetch__DOT__first_instr;
         CData/*0:0*/ Core__DOT__fetch__DOT___GEN_10;
         CData/*0:0*/ Core__DOT__fetch__DOT___io_out_bits_pc_T_1;
@@ -148,9 +149,9 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT__is_divu;
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT__is_mul;
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT__is_word;
-        CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___T;
     };
     struct {
+        CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___T;
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___T_1;
         CData/*0:0*/ Core__DOT__execute__DOT__mdu__DOT___T_2;
         CData/*1:0*/ Core__DOT__execute__DOT__mdu__DOT___GEN_6;
@@ -214,9 +215,9 @@ VL_MODULE(VCore___024root) {
         CData/*0:0*/ Core__DOT__mem__DOT__wen;
         CData/*0:0*/ Core__DOT__mem__DOT__io_is_ebreak_o_REG;
         CData/*0:0*/ Core__DOT__mem__DOT__mdu_valid;
-        CData/*0:0*/ Core__DOT__mem__DOT__is_load;
     };
     struct {
+        CData/*0:0*/ Core__DOT__mem__DOT__is_load;
         CData/*0:0*/ Core__DOT__mem__DOT__req_wait;
         CData/*0:0*/ Core__DOT__mem__DOT__stall;
         CData/*0:0*/ Core__DOT__mem__DOT__io_out_bits_REG_valid;
@@ -280,9 +281,9 @@ VL_MODULE(VCore___024root) {
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_7;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_8;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_9;
-        VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_10;
     };
     struct {
+        VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_10;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_11;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_12;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp_13;
@@ -346,9 +347,9 @@ VL_MODULE(VCore___024root) {
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_13__DOT___io_z_T_14;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_14__DOT___io_z_T_2;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_14__DOT___io_z_T_14;
-        VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_15__DOT___io_z_T_2;
     };
     struct {
+        VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_15__DOT___io_z_T_2;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_15__DOT___io_z_T_14;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_16__DOT___io_z_T_2;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__booth_16__DOT___io_z_T_14;
@@ -412,9 +413,9 @@ VL_MODULE(VCore___024root) {
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__csa_29__DOT___io_c_T_4;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__csa_30__DOT___io_c_T_4;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__div__DOT__reg_in1;
-        VlWide<3>/*64:0*/ Core__DOT__execute__DOT__mdu__DOT__div__DOT__reg_in2;
     };
     struct {
+        VlWide<3>/*64:0*/ Core__DOT__execute__DOT__mdu__DOT__div__DOT__reg_in2;
         VlWide<3>/*64:0*/ Core__DOT__execute__DOT__mdu__DOT__div__DOT__minus_value;
         VlWide<4>/*127:0*/ Core__DOT__execute__DOT__mdu__DOT__div__DOT___reg_in1_T_5;
         IData/*31:0*/ Core__DOT__mem__DOT__mem_reg_decodeop_pc;
@@ -478,9 +479,9 @@ VL_MODULE(VCore___024root) {
         QData/*32:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp33_lo;
         QData/*32:0*/ Core__DOT__execute__DOT__mdu__DOT__mul__DOT__pp33_hi_1;
         QData/*63:0*/ Core__DOT__execute__DOT__mdu__DOT__div__DOT__quo_out;
-        QData/*63:0*/ Core__DOT__execute__DOT__mdu__DOT__div__DOT__rem_out;
     };
     struct {
+        QData/*63:0*/ Core__DOT__execute__DOT__mdu__DOT__div__DOT__rem_out;
         QData/*63:0*/ Core__DOT__execute__DOT__mdu__DOT__div__DOT___rem_out_T_3;
         QData/*63:0*/ Core__DOT__execute__DOT__mdu__DOT__div__DOT___quo_out_T_3;
         QData/*63:0*/ Core__DOT__execute__DOT__mdu__DOT__div__DOT___rem_out_T_7;

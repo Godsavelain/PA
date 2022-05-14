@@ -92,7 +92,7 @@ class InstFetch extends Module{
   }
   io.p_npc := reg_pnpc
 
-  when(!imem_stall){
+  when(resp.bits.rvalid){
     //pc_out    := Mux( use_reg_npc , 0.U , req.bits.araddr)
     inst_out  := resp.bits.rdata
     valid_out := resp.bits.rvalid
