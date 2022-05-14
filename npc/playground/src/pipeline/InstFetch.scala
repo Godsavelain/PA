@@ -110,7 +110,7 @@ class InstFetch extends Module{
 
 //  io.out.bits.pc := Mux(use_reg_info ,pc_out ,resp.bits.old_pc)
   io.out.bits.pc := Mux((io.if_flush || use_reg_npc || imem_stall ) ,0.B, pc_out)
-  io.out.bits.inst := Mux((io.if_flush || use_reg_npc || imem_stall), false.B Mux(use_reg_info ,inst_out ,resp.bits.rdata))
+  io.out.bits.inst := Mux((io.if_flush || use_reg_npc || imem_stall), false.B, Mux(use_reg_info ,inst_out ,resp.bits.rdata))
   io.out.bits.inst_valid := Mux((io.if_flush || use_reg_npc || imem_stall || first_instr), false.B ,Mux(use_reg_info ,valid_out, resp.bits.rvalid))
 
   req.bits.araddr  := Mux(use_reg_npc ,reg_npc ,Mux(io.if_flush ,flush_pc ,pc_base + 4.U))
