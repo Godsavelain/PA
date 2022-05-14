@@ -73,6 +73,7 @@ class InstFetch extends Module{
     use_reg_npc := true.B
     reg_npc := flush_pc
   }
+
   //表明传送给ID级的instfetch信息的来源
   val use_reg_info = RegInit(false.B)
   when(stall && !imem_stall){
@@ -90,13 +91,18 @@ class InstFetch extends Module{
   }
   io.p_npc := reg_pnpc
 
-  when(!stall || io.if_flush){
-    pc_out    := Mux( use_reg_npc , 0.U , resp.bits.old_pc)
-    inst_out  := Mux( use_reg_npc , 0.U , resp.bits.rdata)
-    valid_out := Mux( use_reg_npc , 0.B , resp.bits.rvalid)
+  when(!imem_stall){
+    //pc_out    := Mux( use_reg_npc , 0.U , req.bits.araddr)
+    inst_out  := resp.bits.rdata
+    valid_out := resp.bits.rvalid
   }
 
-  io.out.bits.pc := Mux(use_reg_info ,pc_out ,resp.bits.old_pc)
+  when(!stall){
+    pc_out    := Mux( use_reg_npc , 0.U , req.bits.araddr)
+  }
+
+//  io.out.bits.pc := Mux(use_reg_info ,pc_out ,resp.bits.old_pc)
+  io.out.bits.pc := Mux((io.if_flush || use_reg_npc || imem_stall ) ,0.B, pc_out)
   io.out.bits.inst := Mux((io.if_flush || use_reg_npc ) , 0.B ,Mux(imem_stall , 0.U ,Mux(use_reg_info ,inst_out ,resp.bits.rdata)))
   io.out.bits.inst_valid := Mux( (io.if_flush || use_reg_npc),0.B, Mux(imem_stall ,false.B ,Mux(use_reg_info ,valid_out, resp.bits.rvalid)))
 

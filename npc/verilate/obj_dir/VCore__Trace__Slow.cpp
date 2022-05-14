@@ -10203,15 +10203,19 @@ void VCore___024root__traceFullSub0(VCore___024root* vlSelf, VerilatedVcd* trace
         tracep->fullQData(oldp+1513,(vlSelf->io_regs_out_31),64);
         tracep->fullBit(oldp+1515,(vlSelf->io_commit));
         tracep->fullIData(oldp+1516,((IData)(vlSelf->io_imem_resp_bits_rdata)),32);
-        tracep->fullIData(oldp+1517,(((IData)(vlSelf->io_imem_resp_bits_read_ok)
-                                       ? ((IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_info)
-                                           ? vlSelf->Core__DOT__fetch__DOT__inst_out
-                                           : (IData)(vlSelf->io_imem_resp_bits_rdata))
-                                       : 0U)),32);
-        tracep->fullBit(oldp+1518,(((IData)(vlSelf->io_imem_resp_bits_read_ok) 
-                                    & ((IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_info)
-                                        ? (IData)(vlSelf->Core__DOT__fetch__DOT__valid_out)
-                                        : (IData)(vlSelf->io_imem_resp_bits_read_ok)))));
+        tracep->fullIData(oldp+1517,((((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis) 
+                                       | (IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_npc))
+                                       ? 0U : ((IData)(vlSelf->io_imem_resp_bits_read_ok)
+                                                ? ((IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_info)
+                                                    ? vlSelf->Core__DOT__fetch__DOT__inst_out
+                                                    : (IData)(vlSelf->io_imem_resp_bits_rdata))
+                                                : 0U))),32);
+        tracep->fullBit(oldp+1518,(((~ ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis) 
+                                        | (IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_npc))) 
+                                    & ((IData)(vlSelf->io_imem_resp_bits_read_ok) 
+                                       & ((IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_info)
+                                           ? (IData)(vlSelf->Core__DOT__fetch__DOT__valid_out)
+                                           : (IData)(vlSelf->io_imem_resp_bits_read_ok))))));
         tracep->fullBit(oldp+1519,((1U & (~ (IData)(vlSelf->io_imem_resp_bits_read_ok)))));
         tracep->fullBit(oldp+1520,(1U));
     }

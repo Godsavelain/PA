@@ -119,7 +119,7 @@ static void _eval_initial_loop(VCore__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = VCore___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Core.v", 4383, "",
+            VL_FATAL_MT("Core.v", 4386, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -150,7 +150,7 @@ void VCore::eval_step() {
             Verilated::debug(1);
             __Vchange = VCore___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Core.v", 4383, "",
+            VL_FATAL_MT("Core.v", 4386, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
