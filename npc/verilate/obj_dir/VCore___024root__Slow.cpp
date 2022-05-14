@@ -7741,7 +7741,8 @@ void VCore___024root___settle__TOP__4(VCore___024root* vlSelf) {
                                                       | (IData)(vlSelf->Core__DOT__regfile__DOT__mem_rs2_hazard)))));
     vlSelf->Core__DOT__fetch__DOT__stall = (1U & ((~ (IData)(vlSelf->io_imem_resp_bits_read_ok)) 
                                                   | (IData)(vlSelf->Core__DOT__decode__DOT__stall)));
-    vlSelf->io_imem_req_bits_ren = (1U & ((~ (IData)(vlSelf->Core__DOT__fetch__DOT__stall)) 
+    vlSelf->io_imem_req_bits_ren = (1U & ((~ ((IData)(vlSelf->Core__DOT__fetch__DOT__stall) 
+                                              & (IData)(vlSelf->io_imem_resp_bits_read_ok))) 
                                           | (IData)(vlSelf->Core__DOT__fetch__DOT__first_instr)));
     vlSelf->Core__DOT__fetch__DOT___GEN_0 = (((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis) 
                                               & (IData)(vlSelf->Core__DOT__fetch__DOT__stall)) 
