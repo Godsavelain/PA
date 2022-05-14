@@ -66,12 +66,12 @@ module InstFetch(
     end
     if (reset) begin // @[InstFetch.scala 57:26]
       inst_out <= 32'h0; // @[InstFetch.scala 57:26]
-    end else if (_T) begin // @[InstFetch.scala 95:20]
+    end else if (io_imem_resp_bits_rvalid) begin // @[InstFetch.scala 95:25]
       inst_out <= io_imem_resp_bits_rdata; // @[InstFetch.scala 97:15]
     end
     if (reset) begin // @[InstFetch.scala 58:26]
       valid_out <= 1'h0; // @[InstFetch.scala 58:26]
-    end else if (_T) begin // @[InstFetch.scala 95:20]
+    end else if (io_imem_resp_bits_rvalid) begin // @[InstFetch.scala 95:25]
       valid_out <= io_imem_resp_bits_rvalid; // @[InstFetch.scala 98:15]
     end
     if (reset) begin // @[InstFetch.scala 60:25]
