@@ -2829,10 +2829,10 @@ void VCore___024root___settle__TOP__4(VCore___024root* vlSelf) {
              | (0xbU == (IData)(vlSelf->Core__DOT__execute__DOT__mdu__DOT__reg_mduop))) 
             | (0xcU == (IData)(vlSelf->Core__DOT__execute__DOT__mdu__DOT__reg_mduop))) 
            | (0xdU == (IData)(vlSelf->Core__DOT__execute__DOT__mdu__DOT__reg_mduop)));
-    vlSelf->Core__DOT__mem__DOT__mdu_valid = ((0U != (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mdu_code)) 
-                                              & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid));
     vlSelf->Core__DOT__mem_io_mem_rd_en = ((IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid) 
                                            & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_rd_en));
+    vlSelf->Core__DOT__mem__DOT__mdu_valid = ((0U != (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mdu_code)) 
+                                              & (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_valid));
     vlSelf->Core__DOT__execute__DOT__mdu__DOT___T = 
         (0U == (IData)(vlSelf->Core__DOT__execute__DOT__mdu__DOT__state));
     vlSelf->Core__DOT__execute__DOT__mdu__DOT___T_1 
@@ -7739,11 +7739,10 @@ void VCore___024root___settle__TOP__4(VCore___024root* vlSelf) {
                                                        == (IData)(vlSelf->Core__DOT__mem__DOT__mem_reg_decodeop_mem_code))) 
                                                    & ((IData)(vlSelf->Core__DOT__regfile__DOT__mem_rs1_hazard) 
                                                       | (IData)(vlSelf->Core__DOT__regfile__DOT__mem_rs2_hazard)))));
+    vlSelf->io_imem_req_bits_ren = (1U & ((~ (IData)(vlSelf->Core__DOT__decode__DOT__stall)) 
+                                          | (IData)(vlSelf->Core__DOT__fetch__DOT__first_instr)));
     vlSelf->Core__DOT__fetch__DOT__stall = (1U & ((~ (IData)(vlSelf->io_imem_resp_bits_read_ok)) 
                                                   | (IData)(vlSelf->Core__DOT__decode__DOT__stall)));
-    vlSelf->io_imem_req_bits_ren = (1U & ((~ ((IData)(vlSelf->Core__DOT__fetch__DOT__stall) 
-                                              & (IData)(vlSelf->io_imem_resp_bits_read_ok))) 
-                                          | (IData)(vlSelf->Core__DOT__fetch__DOT__first_instr)));
     vlSelf->Core__DOT__fetch__DOT___GEN_0 = (((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis) 
                                               & (IData)(vlSelf->Core__DOT__fetch__DOT__stall)) 
                                              | (IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_npc));

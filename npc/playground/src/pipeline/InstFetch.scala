@@ -62,7 +62,7 @@ class InstFetch extends Module{
   //val pc_valid = RegInit("b1".U(1.W))
   val pc_base = Cat(pc(31, 2), Fill(2, 0.U))
 
-  val imem_stall = !resp.bits.rvalid
+  val imem_stall = !resp.bits.rvalid && !use_reg_info
   val stall = (imem_stall || !io.out.fire())
 
   val flush_pc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , io.flush_pc_i)
