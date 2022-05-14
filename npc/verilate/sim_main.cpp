@@ -383,14 +383,15 @@ void npc_step(){
         long long unsigned int wdata = top->io_dmem_req_bits_wdata;
         write_mem(waddr, wdata , temp_mask);
     }
-    else{
-        if(top->io_imem_req_bits_ren && (imem_wait_num == 0) && (!d_wen && !d_ren &&!i_ren)){
+    //else{
+        // if(top->io_imem_req_bits_ren && (imem_wait_num == 0) && (!d_wen && !d_ren &&!i_ren)){
+    if(top->io_imem_req_bits_ren && (imem_wait_num == 0) && (!i_ren)){
         npc_addr = top->io_imem_req_bits_raddr;
         i_ren = true;
         i_read_data = read_mem(npc_addr);
         imem_wait_num = mem_latency;
         }
-    }
+    //}
     m_trace->dump(sim_time);
     sim_time++;
 

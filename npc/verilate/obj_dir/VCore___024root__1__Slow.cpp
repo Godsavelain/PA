@@ -134,7 +134,6 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->Core__DOT__decode__DOT__reg_pnpc = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__decode__DOT__rs1_reg = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__decode__DOT__rs2_reg = VL_RAND_RESET_Q(64);
-    vlSelf->Core__DOT__decode__DOT___ctrl_T_341 = VL_RAND_RESET_I(4);
     vlSelf->Core__DOT__decode__DOT___ctrl_T_356 = VL_RAND_RESET_I(4);
     vlSelf->Core__DOT__decode__DOT___ctrl_T_494 = VL_RAND_RESET_I(2);
     vlSelf->Core__DOT__decode__DOT___ctrl_T_505 = VL_RAND_RESET_I(2);
