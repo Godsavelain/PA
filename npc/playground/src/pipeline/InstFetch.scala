@@ -98,7 +98,8 @@ class InstFetch extends Module{
   }
 
   when(!stall){
-    pc_out    := Mux( use_reg_npc , 0.U , req.bits.araddr)
+//    pc_out := Mux( use_reg_npc , 0.U , req.bits.araddr)
+    pc_out := req.bits.araddr
   }
 
   //启动后传入的第一条指令被丢弃

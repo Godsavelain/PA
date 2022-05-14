@@ -23,6 +23,7 @@ module InstFetch(
   reg [31:0] _RAND_5;
   reg [31:0] _RAND_6;
   reg [31:0] _RAND_7;
+  reg [31:0] _RAND_8;
 `endif // RANDOMIZE_REG_INIT
   reg [31:0] pc_out; // @[InstFetch.scala 56:26]
   reg [31:0] inst_out; // @[InstFetch.scala 57:26]
@@ -43,17 +44,17 @@ module InstFetch(
   wire  _GEN_2 = stall & ~imem_stall | use_reg_info; // @[InstFetch.scala 79:29 InstFetch.scala 80:18 InstFetch.scala 78:29]
   wire [31:0] _npc_s_T_1 = pc_base + 32'h4; // @[InstFetch.scala 83:100]
   wire  _T_3 = ~stall; // @[InstFetch.scala 86:8]
-  wire  _io_out_bits_pc_T = io_if_flush | use_reg_npc; // @[InstFetch.scala 105:38]
-  wire [31:0] _io_out_bits_inst_T_1 = use_reg_info ? inst_out : io_imem_resp_bits_rdata; // @[InstFetch.scala 106:89]
-  wire [31:0] _io_out_bits_inst_T_2 = imem_stall ? 32'h0 : _io_out_bits_inst_T_1; // @[InstFetch.scala 106:67]
-  wire  _io_out_bits_inst_valid_T_1 = use_reg_info ? valid_out : io_imem_resp_bits_rvalid; // @[InstFetch.scala 107:96]
-  wire  _io_out_bits_inst_valid_T_2 = imem_stall ? 1'h0 : _io_out_bits_inst_valid_T_1; // @[InstFetch.scala 107:71]
-  wire [31:0] _io_imem_req_bits_araddr_T_2 = io_if_flush ? flush_pc : _npc_s_T_1; // @[InstFetch.scala 109:52]
-  assign io_imem_req_bits_araddr = use_reg_npc ? reg_npc : _io_imem_req_bits_araddr_T_2; // @[InstFetch.scala 109:26]
-  assign io_out_valid = 1'h1; // @[InstFetch.scala 116:18]
-  assign io_out_bits_pc = io_if_flush | use_reg_npc | imem_stall ? 32'h0 : pc_out; // @[InstFetch.scala 105:24]
-  assign io_out_bits_inst = _io_out_bits_pc_T ? 32'h0 : _io_out_bits_inst_T_2; // @[InstFetch.scala 106:26]
-  assign io_out_bits_inst_valid = _io_out_bits_pc_T ? 1'h0 : _io_out_bits_inst_valid_T_2; // @[InstFetch.scala 107:32]
+  reg  first_instr; // @[InstFetch.scala 105:28]
+  wire  _GEN_10 = first_instr & _T_1 ? 1'h0 : first_instr; // @[InstFetch.scala 107:35 InstFetch.scala 108:17 InstFetch.scala 105:28]
+  wire  _io_out_bits_pc_T_1 = io_if_flush | use_reg_npc | imem_stall; // @[InstFetch.scala 112:53]
+  wire [31:0] _io_out_bits_inst_T_2 = use_reg_info ? inst_out : io_imem_resp_bits_rdata; // @[InstFetch.scala 113:83]
+  wire  _io_out_bits_inst_valid_T_3 = use_reg_info ? valid_out : io_imem_resp_bits_rvalid; // @[InstFetch.scala 114:104]
+  wire [31:0] _io_imem_req_bits_araddr_T_2 = io_if_flush ? flush_pc : _npc_s_T_1; // @[InstFetch.scala 116:52]
+  assign io_imem_req_bits_araddr = use_reg_npc ? reg_npc : _io_imem_req_bits_araddr_T_2; // @[InstFetch.scala 116:26]
+  assign io_out_valid = 1'h1; // @[InstFetch.scala 123:18]
+  assign io_out_bits_pc = io_if_flush | use_reg_npc | imem_stall ? 32'h0 : pc_out; // @[InstFetch.scala 112:24]
+  assign io_out_bits_inst = _io_out_bits_pc_T_1 ? 32'h0 : _io_out_bits_inst_T_2; // @[InstFetch.scala 113:26]
+  assign io_out_bits_inst_valid = _io_out_bits_pc_T_1 | first_instr ? 1'h0 : _io_out_bits_inst_valid_T_3; // @[InstFetch.scala 114:32]
   assign io_p_npc = reg_pnpc; // @[InstFetch.scala 92:12]
   always @(posedge clock) begin
     if (reset) begin // @[InstFetch.scala 56:26]
@@ -114,6 +115,7 @@ module InstFetch(
     end else begin
       use_reg_info <= _GEN_2;
     end
+    first_instr <= reset | _GEN_10; // @[InstFetch.scala 105:28 InstFetch.scala 105:28]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -167,6 +169,8 @@ initial begin
   reg_npc = _RAND_6[31:0];
   _RAND_7 = {1{`RANDOM}};
   use_reg_info = _RAND_7[0:0];
+  _RAND_8 = {1{`RANDOM}};
+  first_instr = _RAND_8[0:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial

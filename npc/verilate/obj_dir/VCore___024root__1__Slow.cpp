@@ -125,13 +125,16 @@ void VCore___024root___ctor_var_reset(VCore___024root* vlSelf) {
     vlSelf->Core__DOT__fetch__DOT__use_reg_info = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__fetch__DOT___GEN_2 = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__fetch__DOT___npc_s_T_1 = VL_RAND_RESET_I(32);
-    vlSelf->Core__DOT__fetch__DOT___io_out_bits_pc_T = VL_RAND_RESET_I(1);
+    vlSelf->Core__DOT__fetch__DOT__first_instr = VL_RAND_RESET_I(1);
+    vlSelf->Core__DOT__fetch__DOT___GEN_10 = VL_RAND_RESET_I(1);
+    vlSelf->Core__DOT__fetch__DOT___io_out_bits_pc_T_1 = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__decode__DOT__pc = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__decode__DOT__inst = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__decode__DOT__inst_valid = VL_RAND_RESET_I(1);
     vlSelf->Core__DOT__decode__DOT__reg_pnpc = VL_RAND_RESET_I(32);
     vlSelf->Core__DOT__decode__DOT__rs1_reg = VL_RAND_RESET_Q(64);
     vlSelf->Core__DOT__decode__DOT__rs2_reg = VL_RAND_RESET_Q(64);
+    vlSelf->Core__DOT__decode__DOT___ctrl_T_341 = VL_RAND_RESET_I(4);
     vlSelf->Core__DOT__decode__DOT___ctrl_T_356 = VL_RAND_RESET_I(4);
     vlSelf->Core__DOT__decode__DOT___ctrl_T_494 = VL_RAND_RESET_I(2);
     vlSelf->Core__DOT__decode__DOT___ctrl_T_505 = VL_RAND_RESET_I(2);

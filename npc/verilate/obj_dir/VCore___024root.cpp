@@ -29,7 +29,6 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VCore___024root___sequent__TOP__2\n"); );
     // Variables
     CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_326;
-    CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_341;
     CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_479;
     CData/*1:0*/ Core__DOT__decode__DOT___ctrl_T_551;
     CData/*3:0*/ Core__DOT__decode__DOT___ctrl_T_672;
@@ -12140,11 +12139,11 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                       | (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)))) {
         vlSelf->Core__DOT__decode__DOT__inst_valid 
             = ((~ (IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)) 
-               & ((~ (IData)(vlSelf->Core__DOT__fetch__DOT___io_out_bits_pc_T)) 
-                  & ((IData)(vlSelf->io_imem_resp_bits_read_ok) 
-                     & ((IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_info)
-                         ? (IData)(vlSelf->Core__DOT__fetch__DOT__valid_out)
-                         : (IData)(vlSelf->io_imem_resp_bits_read_ok)))));
+               & ((~ ((IData)(vlSelf->Core__DOT__fetch__DOT___io_out_bits_pc_T_1) 
+                      | (IData)(vlSelf->Core__DOT__fetch__DOT__first_instr))) 
+                  & ((IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_info)
+                      ? (IData)(vlSelf->Core__DOT__fetch__DOT__valid_out)
+                      : (IData)(vlSelf->io_imem_resp_bits_read_ok))));
     }
     if (vlSelf->reset) {
         vlSelf->Core__DOT__decode__DOT__inst = 0U;
@@ -12153,15 +12152,12 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
         vlSelf->Core__DOT__decode__DOT__inst = ((IData)(vlSelf->Core__DOT__execute_io_jmp_packet_o_mis)
                                                  ? 0U
                                                  : 
-                                                ((IData)(vlSelf->Core__DOT__fetch__DOT___io_out_bits_pc_T)
+                                                ((IData)(vlSelf->Core__DOT__fetch__DOT___io_out_bits_pc_T_1)
                                                   ? 0U
                                                   : 
-                                                 ((IData)(vlSelf->io_imem_resp_bits_read_ok)
-                                                   ? 
-                                                  ((IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_info)
-                                                    ? vlSelf->Core__DOT__fetch__DOT__inst_out
-                                                    : (IData)(vlSelf->io_imem_resp_bits_rdata))
-                                                   : 0U)));
+                                                 ((IData)(vlSelf->Core__DOT__fetch__DOT__use_reg_info)
+                                                   ? vlSelf->Core__DOT__fetch__DOT__inst_out
+                                                   : (IData)(vlSelf->io_imem_resp_bits_rdata))));
     }
     VL_EXTEND_WQ(127,64, __Vtemp1912, vlSelf->Core__DOT__execute__DOT__alu_io_in1);
     VL_SHIFTL_WWI(127,127,6, __Vtemp1913, __Vtemp1912, (IData)(vlSelf->Core__DOT__execute__DOT__alu__DOT__shamt));
@@ -12268,6 +12264,8 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
     } else if (vlSelf->io_imem_resp_bits_read_ok) {
         vlSelf->Core__DOT__fetch__DOT__valid_out = vlSelf->io_imem_resp_bits_read_ok;
     }
+    vlSelf->Core__DOT__fetch__DOT__first_instr = ((IData)(vlSelf->reset) 
+                                                  | (IData)(vlSelf->Core__DOT__fetch__DOT___GEN_10));
     if (vlSelf->reset) {
         vlSelf->Core__DOT__fetch__DOT__inst_out = 0U;
     } else if (vlSelf->io_imem_resp_bits_read_ok) {
@@ -13398,88 +13396,97 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                                    & vlSelf->Core__DOT__decode__DOT__inst))
                                                                   ? 0U
                                                                   : (IData)(Core__DOT__decode__DOT___ctrl_T_551))))))))))))))));
-    Core__DOT__decode__DOT___ctrl_T_341 = ((0x4013U 
-                                            == (0x707fU 
-                                                & vlSelf->Core__DOT__decode__DOT__inst))
-                                            ? 5U : 
-                                           ((0x6013U 
-                                             == (0x707fU 
-                                                 & vlSelf->Core__DOT__decode__DOT__inst))
-                                             ? 6U : 
-                                            ((0x7013U 
-                                              == (0x707fU 
-                                                  & vlSelf->Core__DOT__decode__DOT__inst))
-                                              ? 7U : 
-                                             ((0x1013U 
-                                               == (0xfc00707fU 
-                                                   & vlSelf->Core__DOT__decode__DOT__inst))
-                                               ? 8U
-                                               : ((0x5013U 
-                                                   == 
-                                                   (0xfc00707fU 
-                                                    & vlSelf->Core__DOT__decode__DOT__inst))
-                                                   ? 9U
-                                                   : 
-                                                  ((0x40005013U 
+    vlSelf->Core__DOT__decode__DOT___ctrl_T_341 = (
+                                                   (0x4013U 
                                                     == 
-                                                    (0xfc00707fU 
+                                                    (0x707fU 
                                                      & vlSelf->Core__DOT__decode__DOT__inst))
-                                                    ? 0xaU
+                                                    ? 5U
                                                     : 
-                                                   ((0x33U 
+                                                   ((0x6013U 
                                                      == 
-                                                     (0xfe00707fU 
+                                                     (0x707fU 
                                                       & vlSelf->Core__DOT__decode__DOT__inst))
-                                                     ? 1U
+                                                     ? 6U
                                                      : 
-                                                    ((0x40000033U 
+                                                    ((0x7013U 
                                                       == 
-                                                      (0xfe00707fU 
+                                                      (0x707fU 
                                                        & vlSelf->Core__DOT__decode__DOT__inst))
-                                                      ? 2U
+                                                      ? 7U
                                                       : 
-                                                     ((0x1033U 
+                                                     ((0x1013U 
                                                        == 
-                                                       (0xfe00707fU 
+                                                       (0xfc00707fU 
                                                         & vlSelf->Core__DOT__decode__DOT__inst))
                                                        ? 8U
                                                        : 
-                                                      ((0x2033U 
+                                                      ((0x5013U 
                                                         == 
-                                                        (0xfe00707fU 
+                                                        (0xfc00707fU 
                                                          & vlSelf->Core__DOT__decode__DOT__inst))
-                                                        ? 3U
+                                                        ? 9U
                                                         : 
-                                                       ((0x3033U 
+                                                       ((0x40005013U 
                                                          == 
-                                                         (0xfe00707fU 
+                                                         (0xfc00707fU 
                                                           & vlSelf->Core__DOT__decode__DOT__inst))
-                                                         ? 4U
+                                                         ? 0xaU
                                                          : 
-                                                        ((0x4033U 
+                                                        ((0x33U 
                                                           == 
                                                           (0xfe00707fU 
                                                            & vlSelf->Core__DOT__decode__DOT__inst))
-                                                          ? 5U
+                                                          ? 1U
                                                           : 
-                                                         ((0x5033U 
+                                                         ((0x40000033U 
                                                            == 
                                                            (0xfe00707fU 
                                                             & vlSelf->Core__DOT__decode__DOT__inst))
-                                                           ? 9U
+                                                           ? 2U
                                                            : 
-                                                          ((0x40005033U 
+                                                          ((0x1033U 
                                                             == 
                                                             (0xfe00707fU 
                                                              & vlSelf->Core__DOT__decode__DOT__inst))
-                                                            ? 0xaU
+                                                            ? 8U
                                                             : 
-                                                           ((0x6033U 
+                                                           ((0x2033U 
                                                              == 
                                                              (0xfe00707fU 
                                                               & vlSelf->Core__DOT__decode__DOT__inst))
-                                                             ? 6U
-                                                             : (IData)(Core__DOT__decode__DOT___ctrl_T_326))))))))))))))));
+                                                             ? 3U
+                                                             : 
+                                                            ((0x3033U 
+                                                              == 
+                                                              (0xfe00707fU 
+                                                               & vlSelf->Core__DOT__decode__DOT__inst))
+                                                              ? 4U
+                                                              : 
+                                                             ((0x4033U 
+                                                               == 
+                                                               (0xfe00707fU 
+                                                                & vlSelf->Core__DOT__decode__DOT__inst))
+                                                               ? 5U
+                                                               : 
+                                                              ((0x5033U 
+                                                                == 
+                                                                (0xfe00707fU 
+                                                                 & vlSelf->Core__DOT__decode__DOT__inst))
+                                                                ? 9U
+                                                                : 
+                                                               ((0x40005033U 
+                                                                 == 
+                                                                 (0xfe00707fU 
+                                                                  & vlSelf->Core__DOT__decode__DOT__inst))
+                                                                 ? 0xaU
+                                                                 : 
+                                                                ((0x6033U 
+                                                                  == 
+                                                                  (0xfe00707fU 
+                                                                   & vlSelf->Core__DOT__decode__DOT__inst))
+                                                                  ? 6U
+                                                                  : (IData)(Core__DOT__decode__DOT___ctrl_T_326))))))))))))))));
     vlSelf->Core__DOT__decode__DOT___ctrl_T_993 = (
                                                    (0x2023U 
                                                     != 
@@ -14258,95 +14265,4 @@ VL_INLINE_OPT void VCore___024root___sequent__TOP__2(VCore___024root* vlSelf) {
                                                                     & vlSelf->Core__DOT__decode__DOT__inst))
                                                                    ? 1U
                                                                    : (IData)(Core__DOT__decode__DOT___ctrl_T_888)))))))))))))))));
-    vlSelf->Core__DOT__decode__DOT___ctrl_T_356 = (
-                                                   (0x4063U 
-                                                    == 
-                                                    (0x707fU 
-                                                     & vlSelf->Core__DOT__decode__DOT__inst))
-                                                    ? 0U
-                                                    : 
-                                                   ((0x5063U 
-                                                     == 
-                                                     (0x707fU 
-                                                      & vlSelf->Core__DOT__decode__DOT__inst))
-                                                     ? 0U
-                                                     : 
-                                                    ((0x6063U 
-                                                      == 
-                                                      (0x707fU 
-                                                       & vlSelf->Core__DOT__decode__DOT__inst))
-                                                      ? 0U
-                                                      : 
-                                                     ((0x7063U 
-                                                       == 
-                                                       (0x707fU 
-                                                        & vlSelf->Core__DOT__decode__DOT__inst))
-                                                       ? 0U
-                                                       : 
-                                                      ((3U 
-                                                        == 
-                                                        (0x707fU 
-                                                         & vlSelf->Core__DOT__decode__DOT__inst))
-                                                        ? 1U
-                                                        : 
-                                                       ((0x1003U 
-                                                         == 
-                                                         (0x707fU 
-                                                          & vlSelf->Core__DOT__decode__DOT__inst))
-                                                         ? 1U
-                                                         : 
-                                                        ((0x2003U 
-                                                          == 
-                                                          (0x707fU 
-                                                           & vlSelf->Core__DOT__decode__DOT__inst))
-                                                          ? 1U
-                                                          : 
-                                                         ((0x4003U 
-                                                           == 
-                                                           (0x707fU 
-                                                            & vlSelf->Core__DOT__decode__DOT__inst))
-                                                           ? 1U
-                                                           : 
-                                                          ((0x5003U 
-                                                            == 
-                                                            (0x707fU 
-                                                             & vlSelf->Core__DOT__decode__DOT__inst))
-                                                            ? 1U
-                                                            : 
-                                                           ((0x23U 
-                                                             == 
-                                                             (0x707fU 
-                                                              & vlSelf->Core__DOT__decode__DOT__inst))
-                                                             ? 1U
-                                                             : 
-                                                            ((0x1023U 
-                                                              == 
-                                                              (0x707fU 
-                                                               & vlSelf->Core__DOT__decode__DOT__inst))
-                                                              ? 1U
-                                                              : 
-                                                             ((0x2023U 
-                                                               == 
-                                                               (0x707fU 
-                                                                & vlSelf->Core__DOT__decode__DOT__inst))
-                                                               ? 1U
-                                                               : 
-                                                              ((0x13U 
-                                                                == 
-                                                                (0x707fU 
-                                                                 & vlSelf->Core__DOT__decode__DOT__inst))
-                                                                ? 1U
-                                                                : 
-                                                               ((0x2013U 
-                                                                 == 
-                                                                 (0x707fU 
-                                                                  & vlSelf->Core__DOT__decode__DOT__inst))
-                                                                 ? 3U
-                                                                 : 
-                                                                ((0x3013U 
-                                                                  == 
-                                                                  (0x707fU 
-                                                                   & vlSelf->Core__DOT__decode__DOT__inst))
-                                                                  ? 4U
-                                                                  : (IData)(Core__DOT__decode__DOT___ctrl_T_341))))))))))))))));
 }
