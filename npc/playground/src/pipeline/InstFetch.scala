@@ -62,8 +62,15 @@ class InstFetch extends Module{
   //val pc_valid = RegInit("b1".U(1.W))
   val pc_base = Cat(pc(31, 2), Fill(2, 0.U))
 
+  //表明传送给ID级的instfetch信息的来源
+  val use_reg_info = RegInit(false.B)
+
   val imem_stall = !resp.bits.rvalid && !use_reg_info
   val stall = (imem_stall || !io.out.fire())
+
+  when(stall && !imem_stall){
+    use_reg_info := true.B
+  }
 
   val flush_pc = Mux(io.jmp_packet_i.mis , io.jmp_packet_i.jmp_npc , io.flush_pc_i)
   //flush更改npc时，若取指段处于等待指令数据的状态，写入这些寄存器
@@ -72,12 +79,6 @@ class InstFetch extends Module{
   when(io.if_flush && stall){
     use_reg_npc := true.B
     reg_npc := flush_pc
-  }
-
-  //表明传送给ID级的instfetch信息的来源
-  val use_reg_info = RegInit(false.B)
-  when(stall && !imem_stall){
-    use_reg_info := true.B
   }
 
   val npc_s = Mux(io.jmp_packet_i.mis ,io.jmp_packet_i.jmp_npc , Mux(use_reg_npc ,reg_npc, pc_base + 4.U))
