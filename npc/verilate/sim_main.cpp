@@ -246,7 +246,7 @@ void device_update() {
       case SDL_KEYDOWN:
       case SDL_KEYUP: {
         uint8_t k = event.key.keysym.scancode;
-        printf("scan code \n");
+        //printf("scan code \n");
         bool is_keydown = (event.key.type == SDL_KEYDOWN);
         send_key(k, is_keydown);
         break;
@@ -499,6 +499,7 @@ long long unsigned int io_read(unsigned int addr){
     }
     else if(addr == VGACTL_ADDR){
       long long int data = (((long long int)vgactl_port_base[1]<<32) | vgactl_port_base[0]);//  vgactl_port_base[1]<<32 | 26214700
+      //printf("read vactical data %d \n",data);
       return data;
     }
     else if(addr == SYNC_ADDR){
@@ -543,16 +544,20 @@ long long unsigned int read_mem(unsigned int addr){
 void io_write(unsigned int addr,long long unsigned int data, unsigned char write_mask){
     long long int temp_data = 0;
     long long int old_data = 0;
-    char log1[200];
+    
     int num;//for fb_write
     long long int *vmem_temp;
     vmem_temp = (long long int *)vmem;
-    sprintf(log1, "addr:%x data:%llx mask:%x\n",addr,data,write_mask);
-    fout << log1 ;
+    // char log1[200];
+    // sprintf(log1, "addr:%x data:%llx mask:%x\n",addr,data,write_mask);
+    // fout << log1 ;
     if(addr > FB_ADDR){
       num = (addr - FB_ADDR)/8;
       old_data = vmem_temp[num];
       //printf("num %d old_data %llx \n",num , old_data);
+    }
+    else if(addr == VGACTL_ADDR){
+      old_data = ((long long int)vgactl_port_base[1]<<32) | vgactl_port_base[0];
     }
     for(int j=0;j<8;j++){
         if(write_mask % 2 == 1){
@@ -566,9 +571,9 @@ void io_write(unsigned int addr,long long unsigned int data, unsigned char write
     if(addr > FB_ADDR){
       vmem_temp[num] = temp_data;
       //printf("num %d write data %llx \n",num , temp_data);
-      char log[200];
-      sprintf(log, "write %llx to fb address %x num %d \n", temp_data,addr,num);
-      fout << log ;
+      // char log[200];
+      // sprintf(log, "write %llx to fb address %x num %d \n", temp_data,addr,num);
+      // fout << log ;
     } 
     else if(addr == SERIAL_PORT){
         char input;
@@ -578,7 +583,7 @@ void io_write(unsigned int addr,long long unsigned int data, unsigned char write
     else if(addr == VGACTL_ADDR){
       vgactl_port_base[0] = (int)temp_data;
       vgactl_port_base[1] = (int)(temp_data >> 32);
-      printf("port %d \n",vgactl_port_base[1]);
+      // printf("port %d \n",vgactl_port_base[1]);
     }
     else if(addr == SYNC_ADDR){
       vgactl_port_base[1] = temp_data;
@@ -622,7 +627,7 @@ long inst_load(char* filename){
     FILE *p;
     char real_name[100];
     sprintf(real_name,"%s%s%s","./tests/",filename,"-riscv64-npc.bin");
-    printf("test:%s\n",real_name);
+    //printf("test:%s\n",real_name);
     //real_name = strcat(strcat(pre,filename),after);
     // p = fopen("./tests/dummy-riscv64-npc.bin","rb");
     p = fopen(real_name,"rb");
