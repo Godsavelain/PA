@@ -49,7 +49,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       {
         data = inl((uintptr_t)f + (i*w + j)*sizeof(uint32_t));
         outl(FB_ADDR + ((i+y)*W + x + j) * sizeof(uint32_t), data );
-        printf("write %llx to fb address %x \n", data,FB_ADDR + ((i+y)*W + x + j));
+        printf("write %x to fb address %x \n", data,(FB_ADDR + ((i+y)*W + x + j)));
       }
     }
     }
