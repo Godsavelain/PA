@@ -52,7 +52,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
         outl(FB_ADDR + ((i+y)*W + x + j) * sizeof(uint32_t), data );
         int addr = (0xa0000000 + 0x1000000 + ((i+y)*W + x + j) * sizeof(uint32_t));
         if(addr == 0xa1000018 ){
-          printf("write %d to fb %d\n", data,addr);
+          //printf("write %d to fb %d\n", data,addr);
         }  
       }
     }
