@@ -12,6 +12,7 @@ void __am_gpu_init() {
    int i;
    W = io_read(AM_GPU_CONFIG).width ;  // TODO: get the correct width
    H = io_read(AM_GPU_CONFIG).height ;  // TODO: get the correct height
+   printf("W %d H %d \n",W,H);
    uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
    int size = W * H;
    for (i = 0; i < size; i ++) fb[i] = i;
@@ -49,9 +50,9 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       {
         data = inl((uintptr_t)f + (i*w + j)*sizeof(uint32_t));
         outl(FB_ADDR + ((i+y)*W + x + j) * sizeof(uint32_t), data );
-        int addr = (FB_ADDR + ((i+y)*W + x + j) * sizeof(uint32_t));
+        int addr = (0xa0000000 + 0x1000000 + ((i+y)*W + x + j) * sizeof(uint32_t));
         if(addr == 0xa1000018 ){
-          printf("write %d to fb  \n", data);
+          printf("write %d to fb %d\n", data,addr);
         }  
       }
     }

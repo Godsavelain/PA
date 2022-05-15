@@ -1,5 +1,6 @@
 #define HAS_DEVICE 1
 #define HAS_DIFF 0
+#define HAS_TRACE 0
 
 #include "VCore.h"    // Verilog模块会被编译成Vxxx
 #include "verilated.h"
@@ -542,6 +543,17 @@ long long unsigned int read_mem(unsigned int addr){
 void io_write(unsigned int addr,long long unsigned int data, unsigned char write_mask){
     long long int temp_data = 0;
     long long int old_data = 0;
+    char log1[200];
+    int num;//for fb_write
+    long long int *vmem_temp;
+    vmem_temp = (long long int *)vmem;
+    sprintf(log1, "addr:%x data:%llx mask:%x\n",addr,data,write_mask);
+    fout << log1 ;
+    if(addr > FB_ADDR){
+      num = (addr - FB_ADDR)/8;
+      old_data = vmem_temp[num];
+      //printf("num %d old_data %llx \n",num , old_data);
+    }
     for(int j=0;j<8;j++){
         if(write_mask % 2 == 1){
             temp_data = temp_data | (((long long int)0xff << (j*8)) & data);
@@ -552,12 +564,10 @@ void io_write(unsigned int addr,long long unsigned int data, unsigned char write
         write_mask = write_mask/2;
     }
     if(addr > FB_ADDR){
-      int num = (addr - FB_ADDR)/8;
-      long long int *vmem_temp;
-      vmem_temp = (long long int *)vmem;
       vmem_temp[num] = temp_data;
+      //printf("num %d write data %llx \n",num , temp_data);
       char log[200];
-      sprintf(log, "write %llx to fb address %x \n", temp_data,addr);
+      sprintf(log, "write %llx to fb address %x num %d \n", temp_data,addr,num);
       fout << log ;
     } 
     else if(addr == SERIAL_PORT){
@@ -687,8 +697,12 @@ void npc_step(){
     else{
         top->io_dmem_resp_bits_write_ok = false;
     }
-    
 
+    if(HAS_TRACE){
+          m_trace->dump(sim_time);
+          sim_time++;
+    }
+    
     top->clock = 0;
     top->eval();
 
@@ -716,8 +730,11 @@ void npc_step(){
         imem_wait_num = mem_latency;
         }
     //}
-    m_trace->dump(sim_time);
-    sim_time++;
+        if(HAS_TRACE){
+          m_trace->dump(sim_time);
+          sim_time++;
+        }
+    
 
     if(HAS_DEVICE){
       device_update();
