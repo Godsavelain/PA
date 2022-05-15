@@ -23,9 +23,6 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
   int height;
   height = inw(VGACTL_ADDR);
   width = inw(VGACTL_ADDR + 2);
-  int data;
-  data = inl(VGACTL_ADDR);
-  printf("data is %d\n",data);
   *cfg = (AM_GPU_CONFIG_T) {
     .present = true, .has_accel = false,
     .width = width, .height = height,
@@ -52,6 +49,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       {
         data = inl((uintptr_t)f + (i*w + j)*sizeof(uint32_t));
         outl(FB_ADDR + ((i+y)*W + x + j) * sizeof(uint32_t), data );
+        printf("write %llx to fb address %x \n", data,FB_ADDR + ((i+y)*W + x + j));
       }
     }
     }
