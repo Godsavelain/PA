@@ -167,9 +167,13 @@ void init_i8042() {
 }
 
 //vga
-#define SCREEN_W 800
-#define SCREEN_H 600
-#define SCREEN_SIZE 480000
+// #define SCREEN_W 800
+// #define SCREEN_H 600
+// #define SCREEN_SIZE 480000
+
+#define SCREEN_W 400
+#define SCREEN_H 300
+#define SCREEN_SIZE 120000
 
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 
