@@ -1,6 +1,6 @@
-#define HAS_DEVICE 1
-#define HAS_DIFF 0
-#define HAS_TRACE 0
+#define HAS_DEVICE 0
+#define HAS_DIFF 1
+#define HAS_TRACE 1
 
 #include "VCore.h"    // Verilog模块会被编译成Vxxx
 #include "verilated.h"
