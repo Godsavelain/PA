@@ -35,7 +35,18 @@ int CSR_MAP(int origin_addr){
   case 0x305:
     return 0;
     break;
+
+  case 0x341:
+    return 1;
+    break;
+  case 0x300:
+    return 2;
+    break;
   
+  case 0x342:
+    return 3;
+    break;
+
   default:
     break;
   }
@@ -44,13 +55,51 @@ int CSR_MAP(int origin_addr){
 }
 
 //for csr instructions 
-void CSR_ops(int op, int csr_addr , int reg_addr){
+void CSR_ops(int op, int csr_addr , int rs1_addr ,int rd_addr){
   int true_addr = CSR_MAP(csr_addr);
-  word_t old_csr_value = cpu.csr[true_addr];
+  word_t old_csr_value = 0;
   switch (op) {
     case 0: //RW
-    cpu.csr[true_addr] = R(reg_addr);
-    R(reg_addr) = old_csr_value;
+    if(rd_addr != 0){
+      old_csr_value = cpu.csr[true_addr];
+    } 
+    cpu.csr[true_addr] = R(rs1_addr);
+    R(rd_addr) = old_csr_value;
+    break;
+    case 1: //RS
+    old_csr_value = cpu.csr[true_addr];
+    if(rs1_addr != 0){
+      cpu.csr[true_addr] = R(rs1_addr) | cpu.csr[true_addr];
+    }   
+    R(rd_addr) = old_csr_value;
+    break;
+    case 2: //RC
+    old_csr_value = cpu.csr[true_addr];
+    if(rs1_addr != 0){
+      cpu.csr[true_addr] = ~R(rs1_addr) & cpu.csr[true_addr];
+    }
+    R(rd_addr) = old_csr_value;
+    break;
+    case 3: //RWI
+    if(rd_addr != 0){
+      old_csr_value = cpu.csr[true_addr];
+    } 
+    cpu.csr[true_addr] = (word_t)rs1_addr;
+    R(rd_addr) = old_csr_value;
+    break;
+    case 4: //RSI
+    old_csr_value = cpu.csr[true_addr];
+    if(rs1_addr != 0){
+      cpu.csr[true_addr] = (word_t)rs1_addr | cpu.csr[true_addr];
+    }   
+    R(rd_addr) = old_csr_value;
+    break;
+    case 5: //RCI
+    old_csr_value = cpu.csr[true_addr];
+    if(rs1_addr != 0){
+      cpu.csr[true_addr] = ~(word_t)rs1_addr & cpu.csr[true_addr];
+    }
+    R(rd_addr) = old_csr_value;
     break;
   }
 }
@@ -144,12 +193,12 @@ static int decode_exec(Decode *s) {
   INSTPAT("????????????  ????? 111 ????? 11000 11", bgeu   , B, s->dnpc = (src1 >= src2) ? (s->pc + dest) : s->snpc );
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(1,s->pc)); 
-  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , N, int csr_addr = BITS(s->isa.inst.val, 31, 20); int reg_addr = BITS(s->isa.inst.val, 19, 15); CSR_ops(0, csr_addr, reg_addr)); 
-  // INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , N, ); 
-  // INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , N, ); 
-  // INSTPAT("??????? ????? ????? 101 ????? 11100 11", csrrwi , N, ); 
-  // INSTPAT("??????? ????? ????? 110 ????? 11100 11", csrrsi , N, ); 
-  // INSTPAT("??????? ????? ????? 111 ????? 11100 11", csrrci , N, ); 
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , N, int csr_addr = BITS(s->isa.inst.val, 31, 20); int rs1_addr = BITS(s->isa.inst.val, 19, 15); int rd_addr = BITS(s->isa.inst.val, 11, 7);CSR_ops(0, csr_addr, rs1_addr ,rd_addr)); 
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , N, int csr_addr = BITS(s->isa.inst.val, 31, 20); int rs1_addr = BITS(s->isa.inst.val, 19, 15); int rd_addr = BITS(s->isa.inst.val, 11, 7);CSR_ops(1, csr_addr, rs1_addr ,rd_addr)); 
+  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , N, int csr_addr = BITS(s->isa.inst.val, 31, 20); int rs1_addr = BITS(s->isa.inst.val, 19, 15); int rd_addr = BITS(s->isa.inst.val, 11, 7);CSR_ops(2, csr_addr, rs1_addr ,rd_addr)); 
+  INSTPAT("??????? ????? ????? 101 ????? 11100 11", csrrwi , N, int csr_addr = BITS(s->isa.inst.val, 31, 20); int rs1_addr = BITS(s->isa.inst.val, 19, 15); int rd_addr = BITS(s->isa.inst.val, 11, 7);CSR_ops(3, csr_addr, rs1_addr ,rd_addr)); 
+  INSTPAT("??????? ????? ????? 110 ????? 11100 11", csrrsi , N, int csr_addr = BITS(s->isa.inst.val, 31, 20); int rs1_addr = BITS(s->isa.inst.val, 19, 15); int rd_addr = BITS(s->isa.inst.val, 11, 7);CSR_ops(4, csr_addr, rs1_addr ,rd_addr)); 
+  INSTPAT("??????? ????? ????? 111 ????? 11100 11", csrrci , N, int csr_addr = BITS(s->isa.inst.val, 31, 20); int rs1_addr = BITS(s->isa.inst.val, 19, 15); int rd_addr = BITS(s->isa.inst.val, 11, 7);CSR_ops(5, csr_addr, rs1_addr ,rd_addr)); 
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
   INSTPAT_END();
 
