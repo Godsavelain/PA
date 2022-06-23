@@ -58,25 +58,32 @@ int CSR_MAP(int origin_addr){
 void CSR_ops(int op, int csr_addr , int rs1_addr ,int rd_addr){
   int true_addr = CSR_MAP(csr_addr);
   word_t old_csr_value = 0;
+  word_t data = 0;
   switch (op) {
     case 0: //RW
     if(rd_addr != 0){
       old_csr_value = cpu.csr[true_addr];
     } 
-    cpu.csr[true_addr] = R(rs1_addr);
+    data = R(rs1_addr);
+    cpu.csr[true_addr] = data;
     R(rd_addr) = old_csr_value;
+    printf("write to %d %lx \n",true_addr,data);
     break;
     case 1: //RS
     old_csr_value = cpu.csr[true_addr];
     if(rs1_addr != 0){
-      cpu.csr[true_addr] = R(rs1_addr) | cpu.csr[true_addr];
+      data = R(rs1_addr) | cpu.csr[true_addr];
+      cpu.csr[true_addr] = data;
+      printf("write to %d %lx \n",true_addr,data);
     }   
     R(rd_addr) = old_csr_value;
     break;
     case 2: //RC
     old_csr_value = cpu.csr[true_addr];
     if(rs1_addr != 0){
-      cpu.csr[true_addr] = ~R(rs1_addr) & cpu.csr[true_addr];
+      data = ~R(rs1_addr) & cpu.csr[true_addr];
+      cpu.csr[true_addr] = data;
+      printf("write to %d %lx \n",true_addr,data);
     }
     R(rd_addr) = old_csr_value;
     break;
@@ -84,22 +91,28 @@ void CSR_ops(int op, int csr_addr , int rs1_addr ,int rd_addr){
     if(rd_addr != 0){
       old_csr_value = cpu.csr[true_addr];
     } 
-    cpu.csr[true_addr] = (word_t)rs1_addr;
+    data = (word_t)rs1_addr;
+    cpu.csr[true_addr] = data;
     R(rd_addr) = old_csr_value;
+    printf("write to %d %lx \n",true_addr,data);
     break;
     case 4: //RSI
     old_csr_value = cpu.csr[true_addr];
     if(rs1_addr != 0){
-      cpu.csr[true_addr] = (word_t)rs1_addr | cpu.csr[true_addr];
+      data = (word_t)rs1_addr | cpu.csr[true_addr];
+      cpu.csr[true_addr] = data;
     }   
     R(rd_addr) = old_csr_value;
+    printf("write to %d %lx \n",true_addr,data);
     break;
     case 5: //RCI
     old_csr_value = cpu.csr[true_addr];
     if(rs1_addr != 0){
-      cpu.csr[true_addr] = ~(word_t)rs1_addr & cpu.csr[true_addr];
+      data = ~(word_t)rs1_addr & cpu.csr[true_addr];
+      cpu.csr[true_addr] = data;
     }
     R(rd_addr) = old_csr_value;
+    printf("write to %d %lx \n",true_addr,data);
     break;
   }
 }
