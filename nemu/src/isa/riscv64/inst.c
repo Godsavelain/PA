@@ -205,7 +205,8 @@ static int decode_exec(Decode *s) {
   INSTPAT("????????????  ????? 110 ????? 11000 11", bltu   , B, s->dnpc = (src1 < src2) ? (s->pc + dest) : s->snpc );
   INSTPAT("????????????  ????? 111 ????? 11000 11", bgeu   , B, s->dnpc = (src1 >= src2) ? (s->pc + dest) : s->snpc );
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(1,s->pc); printf("jump to %lx \n",isa_raise_intr(1,s->pc))); 
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, vaddr_t ex_pc = isa_raise_intr(1,s->pc); s->dnpc = ex_pc; printf("jump to %lx \n",ex_pc));
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, vaddr_t pre_pc = cpu.csr[2]; s->dnpc = pre_pc; printf("return to %lx \n",pre_pc));  
   INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , N, int csr_addr = BITS(s->isa.inst.val, 31, 20); int rs1_addr = BITS(s->isa.inst.val, 19, 15); int rd_addr = BITS(s->isa.inst.val, 11, 7);CSR_ops(0, csr_addr, rs1_addr ,rd_addr)); 
   INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , N, int csr_addr = BITS(s->isa.inst.val, 31, 20); int rs1_addr = BITS(s->isa.inst.val, 19, 15); int rd_addr = BITS(s->isa.inst.val, 11, 7);CSR_ops(1, csr_addr, rs1_addr ,rd_addr)); 
   INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , N, int csr_addr = BITS(s->isa.inst.val, 31, 20); int rs1_addr = BITS(s->isa.inst.val, 19, 15); int rd_addr = BITS(s->isa.inst.val, 11, 7);CSR_ops(2, csr_addr, rs1_addr ,rd_addr)); 

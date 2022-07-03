@@ -8,6 +8,8 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   vec_addr = cpu.csr[3];
   //set mcause
   cpu.csr[0] = NO;
+  //set mepc
+  cpu.csr[2] = epc;
   return vec_addr;
 }
 
