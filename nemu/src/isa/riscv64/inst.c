@@ -33,18 +33,18 @@ int CSR_MAP(int origin_addr){
   switch (origin_addr)
   {
   case 0x305:
-    return 0;
+    return 3;
     break;
 
   case 0x341:
-    return 1;
+    return 2;
     break;
   case 0x300:
-    return 2;
+    return 1;
     break;
   
   case 0x342:
-    return 3;
+    return 0;
     break;
 
   default:
