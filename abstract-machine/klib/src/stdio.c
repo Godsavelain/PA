@@ -108,6 +108,13 @@ int printf(const char *fmt, ...) {
                     fmt++;  
                     break;  
                 } 
+                case 'x':  
+                {  
+                    int valint = va_arg(ap,unsigned int );  
+                    printhex(valint);  
+                    fmt++;  
+                    break;  
+                } 
                 case 's':  
                 {  
                     char *valstr = va_arg(ap,char *);  
