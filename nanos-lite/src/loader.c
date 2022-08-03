@@ -20,7 +20,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   ramdisk_read(&elf_header, 0, sizeof(Elf64_Ehdr));
   
   //assert(*((uint32_t*)(elf_header->e_ident)) == 0x464c457f);
-
+ printf("aaa\n");
   Elf64_Phdr *phdr = (Elf64_Phdr*)malloc(sizeof(Elf64_Phdr) * elf_header->e_phnum);
   ramdisk_read(phdr, elf_header->e_phoff, sizeof(Elf64_Phdr) * elf_header->e_phnum);
   int phdr_num = 0;
