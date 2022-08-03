@@ -23,7 +23,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   magic_number = *(uint32_t *)elf_header->e_ident;
   // assert(*(uint32_t *)elf_header->e_ident == 0x7f454c4602010100);
   printf("%x /n",magic_number);
-  assert(magic_number == 0x7f454c4602010100);
+  assert(magic_number == 0x7f454c46);
   Elf64_Phdr *phdr = (Elf64_Phdr*)malloc(sizeof(Elf64_Phdr) * elf_header->e_phnum);
   ramdisk_read(phdr, elf_header->e_phoff, sizeof(Elf64_Phdr) * elf_header->e_phnum);
   int phdr_num = 0;
