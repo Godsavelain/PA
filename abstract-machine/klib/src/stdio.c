@@ -35,12 +35,10 @@ void printhex(const int dec)     //output hex
     printhex(dec / 16); 
     if(dec % 16 < 10){
       putch((char)(dec % 16 + '0'));  
-      putch('p');
     } 
     else
     {
       putch((char)((dec % 16 - 10) + 'A'));  
-      putch('q');
     }
 } 
  
@@ -105,7 +103,7 @@ int printf(const char *fmt, ...) {
                 }  
                 case 'p':  
                 {  
-                    int valint = va_arg(ap,int);  
+                    int valint = va_arg(ap,unsigned int );  
                     printhex(valint);  
                     fmt++;  
                     break;  
