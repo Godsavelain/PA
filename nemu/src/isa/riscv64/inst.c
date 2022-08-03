@@ -230,7 +230,7 @@ int isa_exec_once(Decode *s) {
   //     trace_num--;
   //   }
   // }
-  if(s->pc == 0x83000000){
+  if(s->pc > 0x83000000){
        printf("inst %lx \n",s->pc);
      }
   return decode_exec(s);
