@@ -26,7 +26,7 @@ void printint(const int dec)     //输出整型数
     putch((char)(dec % 10 + '0'));  
 }
 
-void printhex(const int dec)     //output hex
+void printhex(const unsigned int dec)     //output hex
 {  
     if(dec == 0)  
     {  
