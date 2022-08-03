@@ -35,10 +35,12 @@ void printhex(const int dec)     //output hex
     printhex(dec / 16); 
     if(dec % 16 < 10){
       putch((char)(dec % 16 + '0'));  
+      putch('p');
     } 
     else
     {
       putch((char)((dec % 16 - 10) + 'A'));  
+      putch('q');
     }
 } 
  
