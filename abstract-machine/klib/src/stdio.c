@@ -28,19 +28,17 @@ void printint(const int dec)     //输出整型数
 
 void printhex(const int dec)     //output hex
 {  
-    int num = 0;
     if(dec == 0)  
     {  
         return;  
     }  
     printhex(dec / 16); 
-    num = dec % 16;
-    if(num < 10){
-      putch((char)(num + '0'));  
+    if(dec % 16 < 10){
+      putch((char)(dec % 16 + '0'));  
     } 
     else
     {
-      putch((char)((num - 10) + 'A'));  
+      putch((char)((dec % 16 - 10) + 'A'));  
     }
 } 
  
