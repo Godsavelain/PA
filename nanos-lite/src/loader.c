@@ -16,25 +16,25 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // char *elf_file = malloc(len * sizeof(char) );
   // ramdisk_read(elf_file, 0, len);
   uintptr_t entry = 0x83000000;
-  Elf_Ehdr *elf_header;
+  Elf_Ehdr elf_header;
   ramdisk_read(&elf_header, 0, sizeof(Elf64_Ehdr));
   
   //assert(*((uint32_t*)(elf_header->e_ident)) == 0x464c457f);
-  printf("aaa\n");
+ 
   // Elf64_Phdr *phdr = (Elf64_Phdr*)malloc(sizeof(Elf64_Phdr) * elf_header->e_phnum);
 
-  printf("%x\n",elf_header->e_phnum);
-  printf("aaa\n");
-  Elf64_Phdr phdr[elf_header->e_phnum];
-  printf("aaa\n");
-  ramdisk_read(phdr, elf_header->e_phoff, sizeof(Elf64_Phdr) * elf_header->e_phnum);
-  printf("aaa\n");
+  printf("%x\n",elf_header.e_phnum);
+
+  Elf64_Phdr phdr[elf_header.e_phnum];
+ 
+  ramdisk_read(phdr, elf_header.e_phoff, sizeof(Elf64_Phdr) * elf_header.e_phnum);
+  
   int phdr_num = 0;
   Elf64_Off  offset = 0;
   Elf64_Addr vaddr = 0;
   Elf64_Xword file_size = 0;
   Elf64_Xword mem_size = 0;
-  for(;phdr_num < elf_header->e_phnum;phdr_num++)
+  for(;phdr_num < elf_header.e_phnum;phdr_num++)
   {
     if(phdr[phdr_num].p_type == PT_LOAD)
     {
