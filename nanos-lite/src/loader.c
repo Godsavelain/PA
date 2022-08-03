@@ -23,6 +23,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   printf("aaa\n");
   Elf64_Phdr *phdr = (Elf64_Phdr*)malloc(sizeof(Elf64_Phdr) * elf_header->e_phnum);
   ramdisk_read(phdr, elf_header->e_phoff, sizeof(Elf64_Phdr) * elf_header->e_phnum);
+  printf("aaa\n");
   int phdr_num = 0;
   Elf64_Off  offset = 0;
   Elf64_Addr vaddr = 0;
@@ -37,6 +38,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     file_size = phdr[phdr_num].p_filesz;
     mem_size  = phdr[phdr_num].p_memsz;
     ramdisk_read((char *)vaddr, offset, file_size);
+    printf("aaa\n");
     memset((char *)(vaddr + file_size), 0, (mem_size - mem_size));
     }
   }
