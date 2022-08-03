@@ -15,9 +15,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // size_t len = get_ramdisk_size();
   // char *elf_file = malloc(len * sizeof(char) );
   // ramdisk_read(elf_file, 0, len);
-  uintptr_t entry = 0x83000000;
+  //uintptr_t entry = 0x83000000;
   Elf_Ehdr elf_header;
   ramdisk_read(&elf_header, 0, sizeof(Elf64_Ehdr));
+
+  uintptr_t entry = elf_header.e_entry;
   
   assert(*((uint32_t*)(elf_header.e_ident)) == 0x464c457f);
  
