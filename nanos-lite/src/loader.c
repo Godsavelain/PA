@@ -19,7 +19,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr elf_header;
   ramdisk_read(&elf_header, 0, sizeof(Elf64_Ehdr));
   
-  //assert(*((uint32_t*)(elf_header->e_ident)) == 0x464c457f);
+  assert(*((uint32_t*)(elf_header.e_ident)) == 0x464c457f);
  
   // Elf64_Phdr *phdr = (Elf64_Phdr*)malloc(sizeof(Elf64_Phdr) * elf_header->e_phnum);
 
