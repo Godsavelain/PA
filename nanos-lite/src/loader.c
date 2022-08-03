@@ -44,6 +44,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     mem_size  = phdr[phdr_num].p_memsz;
     ramdisk_read((char *)vaddr, offset, file_size);
     memset((char *)(vaddr + file_size), 0, (mem_size - mem_size));
+    printf("offset %x vaddr %x filesize %x memsize %x \n",offset,vaddr,file_size,mem_size);
     }
   }
   return entry;
