@@ -73,6 +73,7 @@ void printfloat(const float flt)     //输出浮点数，小数点第5位四舍�
  
 
 int printf(const char *fmt, ...) {
+  bool is_long = false;
   va_list ap;  
   va_start(ap,fmt);     //将ap指向第一个实际参数的地址
     while(*fmt)  
@@ -87,6 +88,12 @@ int printf(const char *fmt, ...) {
             fmt++;  
             switch(*fmt)  
             {  
+                case 'l':
+                {
+                  is_long = true;
+                  fmt++;  
+                  break;
+                }
                 case 'c':  
                 {  
                     char valch = va_arg(ap,int);  //记录当前实践参数所在地址
@@ -110,8 +117,17 @@ int printf(const char *fmt, ...) {
                 } 
                 case 'x':  
                 {  
-                    int valint = va_arg(ap,unsigned int );  
-                    printhex(valint);  
+                    if(is_long)
+                    {
+                      is_long = false;
+                      long unsigned int valint = va_arg(ap,long unsigned int ); 
+                      printhex(valint); 
+                    }
+                    else
+                    {
+                      int valint = va_arg(ap,unsigned int );  
+                      printhex(valint);  
+                    }
                     fmt++;  
                     break;  
                 } 
