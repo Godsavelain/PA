@@ -230,10 +230,10 @@ int isa_exec_once(Decode *s) {
   //     trace_num--;
   //   }
   // }
-  if(s->pc > 0x83000000)
-  {
-    printf("pc %lx \n",s->pc);
-    printf("inst: %x \n",s->isa.inst.val);
-  }
+  // if(s->pc > 0x83000000)
+  // {
+  //   printf("pc %lx \n",s->pc);
+  //   printf("inst: %x \n",s->isa.inst.val);
+  // }
   return decode_exec(s);
 }
