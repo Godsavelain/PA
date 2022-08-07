@@ -16,6 +16,6 @@ void do_syscall(Context *c) {
       yield();
       a[1] = 0;
       break;
-    default: panic("Unhandled syscall ID = %d", a[0]);
+    default: panic("Unhandled syscall ID = %x", a[0]);
   }
 }
