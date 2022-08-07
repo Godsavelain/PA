@@ -6,8 +6,11 @@ static Context* do_event(Event e, Context* c) {
   switch (e.event) {
     case 1: 
     printf("EXCEPTION YIELD!\n");
-    do_syscall(c);
     break;//YIELD
+    case 2:
+    printf("EXCEPTION SYSCALL!\n");
+    do_syscall(c);
+    break;
     default: panic("Unhandled event ID = %d", e.event);
   }
   
