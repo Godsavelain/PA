@@ -20,6 +20,7 @@ void printint(const int dec)     //输出整型数
 {  
     if(dec == 0)  
     {  
+        putch((char)'0');
         return;  
     }  
     printint(dec / 10);  
