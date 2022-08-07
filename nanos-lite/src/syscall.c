@@ -12,7 +12,7 @@ void do_syscall(Context *c) {
 
   switch (a[0]) {
     case 1:
-      printf("syscall 1");
+      printf("syscall 1\n");
       yield();
       a[1] = 0;
       break;
