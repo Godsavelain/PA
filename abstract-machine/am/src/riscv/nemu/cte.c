@@ -9,11 +9,11 @@ Context* __am_irq_handle(Context *c) {
     Event ev = {0};
     switch (c->mcause) {
       case 1: 
-      if(c->GPR1 >= 0){
-        ev.event = EVENT_SYSCALL; 
+      if(c->GPR1 == -1){
+        ev.event = EVENT_YIELD; 
       }
       else{
-        ev.event = EVENT_YIELD; 
+        ev.event = EVENT_SYSCALL; 
       }
       break; //YIELD 0
       default: printf("mcause:%d\n",c->mcause); ev.event = EVENT_ERROR; break;
