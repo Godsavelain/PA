@@ -11,8 +11,10 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;
 
   switch (a[0]) {
+    case 0:
+      halt(a[1]);
+      break;
     case 1:
-      printf("syscall 1\n");
       yield();
       a[1] = 0;
       break;
