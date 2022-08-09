@@ -1,6 +1,15 @@
 #include <common.h>
 #include "syscall.h"
 
+void syscall_trace(uintptr_t NO)
+{
+  #ifdef SYSCALL_TRACE
+  printf("syscall happen NO:%d \n",NO);
+  Log("syscall happen NO:%d \n",NO);
+   #endif
+  return;
+}
+
 void yield();
 
 void do_syscall(Context *c) {
@@ -20,4 +29,7 @@ void do_syscall(Context *c) {
       break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
+
+  syscall_trace(a[0]);
+
 }
