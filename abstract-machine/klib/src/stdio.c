@@ -16,7 +16,7 @@ void printch(const char ch)   //输出字符
 }  
  
  
-void printint(const int dec)     //输出整型数
+void printint(const long long int dec)     //输出整型数
 {  
     if(dec == 0)  
     {  
@@ -27,7 +27,7 @@ void printint(const int dec)     //输出整型数
     putch((char)(dec % 10 + '0'));  
 }
 
-void printhex(const unsigned int dec)     //output hex
+void printhex(const long long unsigned int dec)     //output hex
 {  
     if(dec == 0)  
     {  
@@ -79,7 +79,7 @@ int printf(const char *fmt, ...) {
   va_start(ap,fmt);     //将ap指向第一个实际参数的地址
     while(*fmt)  
     {  
-        if(*fmt != '%')  
+        if(*fmt != '%' && !is_long)  
         {  
             putch(*fmt);  
             fmt++;  
@@ -104,15 +104,25 @@ int printf(const char *fmt, ...) {
                 }  
                 case 'd':  
                 {  
-                    int valint = va_arg(ap,int);  
-                    printint(valint);  
+                    if(is_long)
+                    {
+                      is_long = false;
+                      long long int valint = va_arg(ap,long long int);  
+                      printint((long long int)valint);
+                    }
+                    else
+                    {
+                      int valint = va_arg(ap,int);  
+                      printint((long long int)valint);
+                    }
+                      
                     fmt++;  
                     break;  
                 }  
                 case 'p':  
                 {  
                     int valint = va_arg(ap,unsigned int );  
-                    printhex(valint);  
+                    printhex((long long unsigned int)valint);  
                     fmt++;  
                     break;  
                 } 
@@ -121,13 +131,13 @@ int printf(const char *fmt, ...) {
                     if(is_long)
                     {
                       is_long = false;
-                      long unsigned int valint = va_arg(ap,long unsigned int ); 
-                      printhex(valint); 
+                      long unsigned int valint = va_arg(ap,long long unsigned int ); 
+                      printhex((long long unsigned int)valint); 
                     }
                     else
                     {
                       int valint = va_arg(ap,unsigned int );  
-                      printhex(valint);  
+                      printhex((long long unsigned int)valint);  
                     }
                     fmt++;  
                     break;  

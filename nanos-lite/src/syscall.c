@@ -4,8 +4,8 @@
 void syscall_trace(uintptr_t NO)
 {
   #ifdef SYSCALL_TRACE
-  printf("syscall happen NO:%d \n",NO);
-  Log("syscall happen NO:%d \n",NO);
+  printf("syscall happen NO:%ld \n",NO);
+  Log("syscall happen NO:%ld \n",NO);
    #endif
   return;
 }
