@@ -56,7 +56,7 @@ void do_syscall(Context *c) {
       break;
 
     case 9://SYS_brk
-      printf("syscall brl\n");
+      printf("syscall brk\n");
       assert(0);
       a[1] = 0;
       break;
