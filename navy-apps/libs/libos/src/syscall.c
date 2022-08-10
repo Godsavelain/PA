@@ -67,14 +67,8 @@ int _open(const char *path, int flags, mode_t mode) {
 
 int _write(int fd, void *buf, size_t count) {
   int suc_num = 0;
-  char debug[50];
   suc_num = _syscall_(SYS_write, fd , (intptr_t)buf, count);
 
-  sprintf(debug,"suc_num is %d",suc_num);
-  for(int j=0;j<strlen(debug);j++)
-    {
-      _write(1,(debug+j),1);
-    }
   //_exit(SYS_write);
   return suc_num;
 }
