@@ -35,6 +35,7 @@ void do_syscall(Context *c) {
       break;
     case 4://WRITE
       //SYS_WRITE , fd , buf , count
+      printf("syscall write\n");
       fd = a[1];
       buf = (char*)a[2];
       count = a[3];
@@ -55,6 +56,7 @@ void do_syscall(Context *c) {
       break;
 
     case 9://SYS_brk
+      printf("syscall brl\n");
       a[1] = 0;
       break;
 
