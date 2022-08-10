@@ -87,6 +87,7 @@ void *_sbrk(intptr_t increment) {
     {
       _write(1,(debug+j),1);
     }
+    assert(0);
   }
   else
   {
