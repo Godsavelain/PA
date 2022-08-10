@@ -82,16 +82,16 @@ void *_sbrk(intptr_t increment) {
   else
   {
     success = _syscall_(SYS_brk, increment, 0, 0);
-    if(success == 0)
-    {
-      ret_val = proc_header;
-      proc_header = proc_header + increment;    
-    }
-    else
-    {
-      ret_val = (unsigned long long int)(-1);
-      assert(0);
-    }
+  }
+  if(success == 0)
+  {
+    ret_val = proc_header;
+    proc_header = proc_header + increment;    
+  }
+  else
+  {
+    ret_val = (unsigned long long int)(-1);
+    assert(0);
   }
   return (void *)ret_val;
 }
