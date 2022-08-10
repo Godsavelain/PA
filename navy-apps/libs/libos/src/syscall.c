@@ -82,6 +82,11 @@ void *_sbrk(intptr_t increment) {
   {
     proc_header = _end;
     success = 0;
+    sprintf(debug,"success is %d",success);
+    for(int j=0;j<strlen(debug);j++)
+    {
+      _write(1,(debug+j),1);
+    }
   }
   else
   {
