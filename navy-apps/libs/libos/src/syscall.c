@@ -6,6 +6,9 @@
 #include <time.h>
 #include "syscall.h"
 
+#include <string.h>
+#include <stdio.h>
+
 // helper macros
 #define _concat(x, y) x ## y
 #define concat(x, y) _concat(x, y)
@@ -74,6 +77,7 @@ void *_sbrk(intptr_t increment) {
   static unsigned long long int proc_header;
   int success = 1;
   unsigned long long int ret_val;
+  char debug[50];
   if(increment == 0)
   {
     proc_header = _end;
@@ -91,6 +95,11 @@ void *_sbrk(intptr_t increment) {
   else
   {
     ret_val = (unsigned long long int)(-1);
+    sprintf(debug,"success is %d",success);
+    for(int j=0;j<strlen(debug);j++)
+    {
+      _write(1,(debug+j),1);
+    }
     assert(success < 0);
   }
   return (void *)ret_val;
