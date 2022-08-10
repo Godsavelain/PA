@@ -51,7 +51,7 @@ void do_syscall(Context *c) {
       {
         assert(0);
       }
-      a[1] = suc_cnt;
+      a[1] = count;
       break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
