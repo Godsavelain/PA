@@ -40,7 +40,7 @@
 #error _syscall_ is not implemented
 #endif
 
-extern unsigned char _end;
+extern unsigned int _end;
 
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   register intptr_t _gpr1 asm (GPR1) = type;
@@ -71,9 +71,9 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
-  static unsigned char proc_header;
+  static unsigned long long int proc_header;
   int success = 1;
-  int ret_val = -1;
+  unsigned long long int ret_val;
   if(increment == 0)
   {
     proc_header = _end;
@@ -83,8 +83,12 @@ void *_sbrk(intptr_t increment) {
     success = _syscall_(SYS_brk, increment, 0, 0);
     if(success == 0)
     {
-      proc_header = proc_header + increment;
       ret_val = proc_header;
+      proc_header = proc_header + increment;    
+    }
+    else
+    {
+      ret_val = (unsigned long long int)(-1);
     }
   }
   return (void *)ret_val;
