@@ -53,9 +53,11 @@ void do_syscall(Context *c) {
       }
       a[1] = suc_cnt;
       break;
+
     case 9://SYS_brk
       a[1] = 0;
       break;
+      
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 

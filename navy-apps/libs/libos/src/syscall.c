@@ -77,6 +77,7 @@ void *_sbrk(intptr_t increment) {
   if(increment == 0)
   {
     proc_header = _end;
+    success = 0;
   }
   else
   {
