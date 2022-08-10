@@ -89,6 +89,7 @@ void *_sbrk(intptr_t increment) {
     else
     {
       ret_val = (unsigned long long int)(-1);
+      assert(0);
     }
   }
   return (void *)ret_val;
