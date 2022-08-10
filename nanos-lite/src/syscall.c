@@ -57,7 +57,7 @@ void do_syscall(Context *c) {
 
     case 9://SYS_brk
       printf("syscall brk\n");
-      printf("inc %ld\n",a[1]);
+      printf("inc %d\n",(int)a[1]);
       a[1] = 0;
       break;
 
