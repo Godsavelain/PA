@@ -62,8 +62,8 @@ int _open(const char *path, int flags, mode_t mode) {
 
 int _write(int fd, void *buf, size_t count) {
   int suc_num = 0;
-  _syscall_(SYS_write, fd , (intptr_t)buf, count);
-  _exit(SYS_write);
+  suc_num = _syscall_(SYS_write, fd , (intptr_t)buf, count);
+  //_exit(SYS_write);
   return suc_num;
 }
 
