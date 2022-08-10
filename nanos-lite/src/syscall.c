@@ -19,13 +19,39 @@ void do_syscall(Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
+  //write
+  int fd;
+  char* buf;
+  int count;
+  int suc_cnt;
+
   switch (a[0]) {
-    case 0:
+    case 0:// EXIT
       halt(a[1]);
       break;
-    case 1:
+    case 1://YIELD
       yield();
       a[1] = 0;
+      break;
+    case 4://WRITE
+      //SYS_WRITE , fd , buf , count
+      fd = a[1];
+      buf = (char*)a[2];
+      count = a[3];
+      suc_cnt = 0;
+      if((fd == 1) || (fd == 2))
+      {
+        for(int i=0;i< count;i++)
+        {
+          putch(*(buf + i));
+          suc_cnt++;
+        }
+      }
+      else
+      {
+        assert(0);
+      }
+      a[1] = suc_cnt;
       break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
