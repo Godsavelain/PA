@@ -56,8 +56,9 @@ void do_syscall(Context *c) {
 
     case 9://SYS_brk
       a[1] = 0;
+      printf("aaa\n");
       break;
-      
+
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
