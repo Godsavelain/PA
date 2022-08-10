@@ -77,12 +77,12 @@ void *_sbrk(intptr_t increment) {
   static unsigned long long int proc_header;
   int success = 1;
   unsigned long long int ret_val;
-  char debug[50];
+  char debug[100];
   if(increment == 0)
   {
     proc_header = _end;
     success = 0;
-    sprintf(debug,"success is %d\n",success);
+    sprintf(debug,"inc = %ld success is %d\n",increment ,success);
     for(int j=0;j<strlen(debug);j++)
     {
       _write(1,(debug+j),1);
@@ -101,7 +101,7 @@ void *_sbrk(intptr_t increment) {
   else
   {
     ret_val = (unsigned long long int)(-1);
-    sprintf(debug,"2 success is %d\n",success);
+    sprintf(debug,"2 inc = %ld success is %d\n",increment ,success);
     for(int j=0;j<strlen(debug);j++)
     {
       _write(1,(debug+j),1);
