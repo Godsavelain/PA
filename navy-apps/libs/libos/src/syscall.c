@@ -73,13 +73,13 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
-  static char* proc_header;
+  static intptr_t  proc_header;
   int success = 1;
   char* ret_val;
   char debug[100];
   if(increment == 0)
   {
-    proc_header = &_end;
+    proc_header = (intptr_t)&_end;
     success = 0;
     sprintf(debug,"inc = %ld success is %d\n",increment ,success);
     for(int j=0;j<strlen(debug);j++)
@@ -94,13 +94,13 @@ void *_sbrk(intptr_t increment) {
   }
   if(success == 0)
   {
-    ret_val = proc_header;
+    ret_val = (void *)proc_header;
     proc_header = proc_header + increment;    
   }
   else
   {
     ret_val = (void *)(-1);
-    sprintf(debug,"2 header = %p inc = %ld success is %d\n",proc_header,increment ,success);
+    sprintf(debug,"2 header = %ld inc = %ld success is %d\n",proc_header,increment ,success);
     for(int j=0;j<strlen(debug);j++)
     {
       _write(1,(debug+j),1);
