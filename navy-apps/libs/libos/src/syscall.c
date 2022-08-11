@@ -82,7 +82,7 @@ void *_sbrk(intptr_t increment) {
   {
     proc_header = (intptr_t)&_end;
     success = 0;
-    sprintf(debug,"inc = %ld success is %d\n",increment ,success);
+    sprintf(debug,"inc = %lx success is %x\n",increment ,success);
     for(int j=0;j<strlen(debug);j++)
     {
       _write(1,(debug+j),1);
@@ -97,7 +97,7 @@ void *_sbrk(intptr_t increment) {
   {
     ret_val = (void *)proc_header;
     proc_header = proc_header + increment;   
-    sprintf(debug,"2 end = %p header = %ld inc = %ld \n",&_end,proc_header,increment);
+    sprintf(debug,"2 end = %p header = %lx inc = %lx \n",&_end,proc_header,increment);
     for(int j=0;j<strlen(debug);j++)
     {
       _write(1,(debug+j),1);
