@@ -71,23 +71,22 @@ int _write(int fd, void *buf, size_t count) {
   //assert(suc_num == 1);
   //_exit(SYS_write);
   return suc_num;
+  //return 1;
 }
 
 void *_sbrk(intptr_t increment) {
-  static intptr_t  proc_header;
+  static intptr_t proc_header;
   int volatile success = 1;
   char* ret_val;
   char debug[200];
-  if(increment == 0)
+  if(proc_header == 0)
   {
     proc_header = (intptr_t)&_end;
-    success = 0;
-    sprintf(debug,"inc = %lx success is %x\n",increment ,success);
-    for(int j=0;j<strlen(debug);j++)
-    {
-      _write(1,(debug+j),1);
-    }
-    assert(0);
+  }
+
+  if(increment == 0)
+  {
+    //assert(0);
   }
   else
   {
@@ -108,6 +107,8 @@ void *_sbrk(intptr_t increment) {
     ret_val = (void *)(-1);
   }
   return (void *)ret_val;
+
+  //return (void *)(-1);
 }
 
 int _read(int fd, void *buf, size_t count) {

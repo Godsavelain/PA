@@ -31,7 +31,7 @@ void do_syscall(Context *c) {
       break;
     case 1://YIELD
       yield();
-      c->GPR2 = 0;
+      c->GPRx = 0;
       break;
     case 4://WRITE
       //SYS_WRITE , fd , buf , count
@@ -52,13 +52,14 @@ void do_syscall(Context *c) {
       {
         assert(0);
       }
-      c->GPR2 = suc_cnt;
+      c->GPRx = suc_cnt;
+      //printf("count %d suc_num %d\n",count , c->GPR2);
       break;
 
     case 9://SYS_brk
       printf("syscall brk\n");
       printf("inc %d\n",(int)a[1]);
-      c->GPR2 = 0;
+      c->GPRx = 0;
       break;
 
     default: panic("Unhandled syscall ID = %d", a[0]);
