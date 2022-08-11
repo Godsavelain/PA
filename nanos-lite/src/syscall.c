@@ -59,7 +59,6 @@ void do_syscall(Context *c) {
       printf("syscall brk\n");
       printf("inc %d\n",(int)a[1]);
       c->GPR2 = 0;
-      printf("inc %d\n",(int)a[1]);
       break;
 
     default: panic("Unhandled syscall ID = %d", a[0]);
