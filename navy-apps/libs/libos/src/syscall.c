@@ -100,7 +100,7 @@ void *_sbrk(intptr_t increment) {
   else
   {
     ret_val = (void *)(-1);
-    sprintf(debug,"2 inc = %ld success is %d\n",increment ,success);
+    sprintf(debug,"2 header = %p inc = %ld success is %d\n",proc_header,increment ,success);
     for(int j=0;j<strlen(debug);j++)
     {
       _write(1,(debug+j),1);
