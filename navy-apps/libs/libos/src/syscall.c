@@ -75,7 +75,7 @@ int _write(int fd, void *buf, size_t count) {
 
 void *_sbrk(intptr_t increment) {
   static intptr_t  proc_header;
-  int success = 1;
+  int volatile success = 1;
   char* ret_val;
   char debug[200];
   if(increment == 0)
