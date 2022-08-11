@@ -31,7 +31,7 @@ void do_syscall(Context *c) {
       break;
     case 1://YIELD
       yield();
-      a[1] = 0;
+      c->GPR2 = 0;
       break;
     case 4://WRITE
       //SYS_WRITE , fd , buf , count
@@ -52,13 +52,13 @@ void do_syscall(Context *c) {
       {
         assert(0);
       }
-      a[1] = suc_cnt;
+      c->GPR2 = suc_cnt;
       break;
 
     case 9://SYS_brk
       printf("syscall brk\n");
       printf("inc %d\n",(int)a[1]);
-      a[1] = 0;
+      c->GPR2 = 0;
       printf("inc %d\n",(int)a[1]);
       break;
 
