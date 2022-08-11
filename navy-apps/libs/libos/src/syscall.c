@@ -76,7 +76,7 @@ void *_sbrk(intptr_t increment) {
   static intptr_t  proc_header;
   int success = 1;
   char* ret_val;
-  char debug[100];
+  char debug[200];
   if(increment == 0)
   {
     proc_header = (intptr_t)&_end;
@@ -100,7 +100,7 @@ void *_sbrk(intptr_t increment) {
   else
   {
     ret_val = (void *)(-1);
-    sprintf(debug,"2 header = %ld inc = %ld success is %d\n",proc_header,increment ,success);
+    sprintf(debug,"2 end = %p header = %ld inc = %ld success is %d\n",&_end,proc_header,increment ,success);
     for(int j=0;j<strlen(debug);j++)
     {
       _write(1,(debug+j),1);
