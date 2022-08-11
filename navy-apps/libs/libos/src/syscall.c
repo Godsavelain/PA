@@ -96,17 +96,16 @@ void *_sbrk(intptr_t increment) {
   if(success == 0)
   {
     ret_val = (void *)proc_header;
-    proc_header = proc_header + increment;    
+    proc_header = proc_header + increment;   
+    sprintf(debug,"2 end = %p header = %ld inc = %ld \n",&_end,proc_header,increment);
+    for(int j=0;j<strlen(debug);j++)
+    {
+      _write(1,(debug+j),1);
+    } 
   }
   else
   {
     ret_val = (void *)(-1);
-    sprintf(debug,"2 end = %p header = %ld inc = %ld success is %d\n",&_end,proc_header,increment ,success);
-    for(int j=0;j<strlen(debug);j++)
-    {
-      _write(1,(debug+j),1);
-    }
-    assert(success < 0);
   }
   return (void *)ret_val;
 }
