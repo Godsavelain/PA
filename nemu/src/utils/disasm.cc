@@ -46,7 +46,6 @@ extern "C" void init_disasm(const char *triple) {
     gSTI->ApplyFeatureFlag("+c");
     gSTI->ApplyFeatureFlag("+f");
     gSTI->ApplyFeatureFlag("+d");
-    assert(0);
   }
   gMII = target->createMCInstrInfo();
   gMRI = target->createMCRegInfo(gTriple);
