@@ -80,13 +80,13 @@ static void exec_once(Decode *s, vaddr_t pc) {
   uint8_t *inst = (uint8_t *)&s->isa.inst.val;
   printf("pc %lx true inst %x \n",s->pc,s->isa.inst.val);
   
-  // for (i = 0; i < ilen; i ++) {
-  //   p += snprintf(p, 4, " %02x", inst[i]);
-  // }
-
-for (i = ilen-1; i >= 0; i --) {
+  for (i = 0; i < ilen; i ++) {
     p += snprintf(p, 4, " %02x", inst[i]);
   }
+
+// for (i = ilen-1; i >= 0; i --) {
+//     p += snprintf(p, 4, " %02x", inst[i]);
+//   }
 
   printf("inst %s \n",s->logbuf);
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
