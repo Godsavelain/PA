@@ -78,7 +78,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   int ilen = s->snpc - s->pc;
   int i;
   uint8_t *inst = (uint8_t *)&s->isa.inst.val;
-  printf("true inst %x \n",s->isa.inst.val);
+  printf("pc %lx true inst %x \n",s->pc,s->isa.inst.val);
   printf("inst %x %x %x %x \n",inst[0],inst[1],inst[2],inst[3]);
   for (i = 0; i < ilen; i ++) {
     p += snprintf(p, 4, " %02x", inst[i]);
