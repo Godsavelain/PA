@@ -91,6 +91,7 @@ void *_sbrk(intptr_t increment) {
   else
   {
     success = _syscall_(SYS_brk, (intptr_t)increment, 0, 0);
+    assert(0);
   }
   if(success == 0)
   {
