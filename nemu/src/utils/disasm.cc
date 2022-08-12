@@ -81,5 +81,5 @@ extern "C" void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int
 
   assert((int)s.length() - skip < size);
   strcpy(str, p);
-  //printf("str:%s\n",str);
+  printf("str:%s\n",str);
 }
