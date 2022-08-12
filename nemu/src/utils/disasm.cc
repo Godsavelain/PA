@@ -46,6 +46,7 @@ extern "C" void init_disasm(const char *triple) {
     gSTI->ApplyFeatureFlag("+c");
     gSTI->ApplyFeatureFlag("+f");
     gSTI->ApplyFeatureFlag("+d");
+    assert(0);
   }
   gMII = target->createMCInstrInfo();
   gMRI = target->createMCRegInfo(gTriple);
@@ -68,7 +69,7 @@ extern "C" void init_disasm(const char *triple) {
 
 extern "C" void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte) {
 
-  printf("code %x %x %x %x\n",code[0],code[1],code[2],code[3]);
+  //printf("code %x %x %x %x\n",code[0],code[1],code[2],code[3]);
 
   MCInst inst;
   llvm::ArrayRef<uint8_t> arr(code, nbyte);
@@ -79,7 +80,7 @@ extern "C" void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int
   raw_string_ostream os(s);
   gIP->printInst(&inst, pc, "", *gSTI, os);
  
-  printf("s %s\n",s.c_str());
+  //printf("s %s\n",s.c_str());
 
   int skip = s.find_first_not_of('\t');
   const char *p = s.c_str() + skip;
