@@ -252,7 +252,7 @@ int sprintf(char *out, const char *fmt, ...)
 int snprintf(char *out, size_t n, const char *fmt, ...) {
   va_list ap;
   char *s;
-  int d;
+  long int d;
 
   va_start(ap,fmt);
 
@@ -268,6 +268,7 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
   int num = 0;
   int width = 0;
   bool fill_zero = false;//%02x zero means fill with zero
+  bool is_long = false;
   while(i < n)
   {
     if(origin_str[i] == '\0')
@@ -298,9 +299,22 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
           i++;
         }
       }
+      if(origin_str[i] == 'l')
+      {
+        is_long = true;
+        i++;
+      }
       if(origin_str[i] == 'd')
       {
-        d = va_arg(ap, int);
+        if(!is_long)
+        {
+          d = va_arg(ap, int);
+        }
+        else
+        {
+          d = va_arg(ap, long int);
+          is_long = false;
+        }  
         num++;
         i++;
         char inverted_num[20];
@@ -340,7 +354,15 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
 
     if(origin_str[i] == 'x')
       {
-        d = va_arg(ap, int);
+        if(!is_long)
+        {
+          d = va_arg(ap, int);
+        }
+        else
+        {
+          d = va_arg(ap, long int);
+          is_long = false;
+        }  
         num++;
         i++;
         char inverted_num[20];
