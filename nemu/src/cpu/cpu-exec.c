@@ -84,7 +84,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   //   p += snprintf(p, 4, " %02x", inst[i]);
   // }
 
-for (i = ilen; i > ilen; i --) {
+for (i = ilen; i > 0; i --) {
     p += snprintf(p, 4, " %02x", inst[i]);
   }
 
