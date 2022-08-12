@@ -226,7 +226,7 @@ int isa_exec_once(Decode *s) {
   s->isa.inst.val = inst_fetch(&s->snpc, 4);
   // if(trace_num > 0){
     if(s->pc >= 0x83000000){
-      Log("a1 %lu a2 %lu \n",gpr(10),gpr(11));
+      Log("a0 %lx a1 %lx \n",gpr(10),gpr(11));
     }
   // }
   // if(s->pc > 0x83000000)
