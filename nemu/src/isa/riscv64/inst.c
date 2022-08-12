@@ -225,7 +225,7 @@ static int decode_exec(Decode *s) {
 int isa_exec_once(Decode *s) {
   s->isa.inst.val = inst_fetch(&s->snpc, 4);
   // if(trace_num > 0){
-    if(s->pc == 0x83000000){
+    if(s->pc >= 0x83000000){
       printf("a1 %lu a2 %lu \n",gpr(10),gpr(11));
     }
   // }
