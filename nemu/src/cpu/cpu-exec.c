@@ -78,7 +78,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   int ilen = s->snpc - s->pc;
   int i;
   uint8_t *inst = (uint8_t *)&s->isa.inst.val;
-  printf("pc %lx true inst %x \n",s->pc,s->isa.inst.val);
+  //printf("pc %lx true inst %x \n",s->pc,s->isa.inst.val);
   
   for (i = 0; i < ilen; i ++) {
     p += snprintf(p, 4, " %02x", inst[i]);
@@ -88,7 +88,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
 //     p += snprintf(p, 4, " %02x", inst[i]);
 //   }
 
-  printf("inst %s \n",s->logbuf);
+  //printf("inst %s \n",s->logbuf);
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
   int space_len = ilen_max - ilen;
   if (space_len < 0) space_len = 0;
@@ -100,7 +100,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
-      printf("p:%s\n",p);
+      //printf("p:%s\n",p);
   #ifdef CONFIG_LOOP_ITRACE
     current->inst = s->isa.inst.val;
     current->is_empty = false;
