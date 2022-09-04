@@ -77,7 +77,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   Elf64_Phdr phdr[elf_header.e_phnum];
  
-  fs_lseek(fd,0,elf_header.e_phoff);
+  fs_lseek(fd, elf_header.e_phoff, SEEK_SET);
   fs_read(fd, phdr ,sizeof(Elf64_Phdr) * elf_header.e_phnum);
   //ramdisk_read(phdr, elf_header.e_phoff, sizeof(Elf64_Phdr) * elf_header.e_phnum);
   
@@ -95,7 +95,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     file_size = phdr[phdr_num].p_filesz;
     mem_size  = phdr[phdr_num].p_memsz;
     //ramdisk_read((char *)vaddr, offset, file_size);
-    fs_lseek(fd,0,offset); //SEEK_SET 0
+    fs_lseek(fd,offset, SEEK_SET);
     fs_read(fd, (char *)vaddr ,file_size);
     memset((char *)(vaddr + file_size), 0, (mem_size - file_size));
     //printf("vaddr + file_size %p vaddr %x filesize %x memsize %x \n",offset,vaddr,file_size,mem_size);
