@@ -133,16 +133,22 @@ void *memmove(void *dst, const void *src, size_t n) {
 }
 
 void *memcpy(void *out, const void *in, size_t n) {
-  int nchunks = n/sizeof(out);   /*按CPU位宽拷贝*/
-	int slice =   n%sizeof(out);   /*剩余的按字节拷贝*/
+  // int nchunks = n/sizeof(out);   /*按CPU位宽拷贝*/
+	// int slice =   n%sizeof(out);   /*剩余的按字节拷贝*/
+	
+	// unsigned long * s = (unsigned long *)in;
+	// unsigned long * d = (unsigned long *)out;
+	
+	// while(nchunks--)
+	//     *d++ = *s++;
+	    
+	// while (slice--)
+	//     *((char *)d++) =*((char *)s++);
 	
 	unsigned long * s = (unsigned long *)in;
 	unsigned long * d = (unsigned long *)out;
-	
-	while(nchunks--)
-	    *d++ = *s++;
-	    
-	while (slice--)
+	   
+	while (n--)
 	    *((char *)d++) =*((char *)s++);
   
   return out;
