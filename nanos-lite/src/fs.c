@@ -59,11 +59,11 @@ size_t fs_read(int fd, void *buf, size_t len){
   }
   ramdisk_read((char*)buf, offset, len);
   printf("open_offset %d disk_offset %d offset %d len %d\n",file_table[fd].open_offset,file_table[fd].disk_offset,offset,len);
-  char *temp;
-  temp = buf;
-  for(int i=0;i<10;i++){
-    printf("i:%d num:%c\n",i,temp[i]);
-  }
+  // char *temp;
+  // temp = buf;
+  // for(int i=0;i<10;i++){
+  //   printf("i:%d num:%c\n",i,temp[i]);
+  // }
   file_table[fd].open_offset = file_table[fd].open_offset + len;
   return len;
 }
