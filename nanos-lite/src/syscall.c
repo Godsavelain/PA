@@ -84,7 +84,8 @@ void do_syscall(Context *c) {
       break;
     case 7://CLOSE
       fd = a[1];
-      fs_close(fd);
+      suc_cnt = fs_close(fd);
+      c->GPRx = suc_cnt;
       break;
     case 8://LSEEK
       fd = a[1];
