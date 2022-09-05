@@ -90,7 +90,8 @@ void do_syscall(Context *c) {
       fd = a[1];
       offset = a[2];
       whence = a[3];
-      fs_lseek(fd, offset,whence);
+      suc_cnt = fs_lseek(fd, offset,whence);
+      c->GPRx = suc_cnt;
       break;
     case 9://SYS_brk
       printf("syscall brk\n");
