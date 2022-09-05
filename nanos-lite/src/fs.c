@@ -66,7 +66,7 @@ size_t fs_read(int fd, void *buf, size_t len){
   printf("read open_offset %d disk_offset %d offset %d len %d ac_len %d\n",file_table[fd].open_offset,file_table[fd].disk_offset,offset,len,actual_len);
   char *temp;
   temp = buf;
-  for(int i=0;i<460;i++){
+  for(int i=0;i<10;i++){
     printf("i:%d num:%c\n",i,temp[i]);
   }
   file_table[fd].open_offset = file_table[fd].open_offset + actual_len;
