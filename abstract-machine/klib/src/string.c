@@ -145,11 +145,11 @@ void *memcpy(void *out, const void *in, size_t n) {
 	// while (slice--)
 	//     *((char *)d++) =*((char *)s++);
 	
-	unsigned long * s = (unsigned long *)in;
-	unsigned long * d = (unsigned long *)out;
+	unsigned char * s = (unsigned char *)in;
+	unsigned char * d = (unsigned char *)out;
 	   
 	while (n--)
-	    *((char *)d++) =*((char *)s++);
+	    *d++ =*s++;
   
   return out;
 }
