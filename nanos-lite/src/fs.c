@@ -61,15 +61,16 @@ size_t fs_read(int fd, void *buf, size_t len){
   int actual_len = len;
   if(len > remain_space){
     actual_len = remain_space;
+    printf("lzzzzzz\n");
   }
   // ramdisk_read(buf, offset, actual_len);
   ramdisk_read(buf, offset, len);
   printf("read open_offset %d size %d offset %d len %d ac_len %d\n",file_table[fd].open_offset,file_table[fd].size,offset,len,actual_len);
-  char *temp;
-  temp = buf;
-  for(int i=0;i<453;i++){
-    printf("i:%d num:%c\n",i,temp[i]);
-  }
+  // char *temp;
+  // temp = buf;
+  // for(int i=0;i<453;i++){
+  //   printf("i:%d num:%c\n",i,temp[i]);
+  // }
   file_table[fd].open_offset = file_table[fd].open_offset + actual_len;
   return len;
   //return actual_len;
@@ -86,6 +87,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
   int actual_len = len;
   if(len > remain_space){
     actual_len = remain_space;
+    printf("lzzzzzz\n");
   }
   ramdisk_write(buf, offset, actual_len);
   printf("write open_offset %d disk_offset %d offset %d len %d ac_len %d\n",file_table[fd].open_offset,file_table[fd].disk_offset,offset,len,actual_len);
