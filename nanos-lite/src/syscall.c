@@ -56,7 +56,7 @@ void do_syscall(Context *c) {
       }
       else
       {
-        fs_read(fd, buf, count);
+        suc_cnt = fs_read(fd, buf, count);
       }
       c->GPRx = suc_cnt;
       break;
