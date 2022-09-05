@@ -58,7 +58,7 @@ size_t fs_read(int fd, void *buf, size_t len){
     return 0;
   }
   ramdisk_read((char*)buf, offset, len);
-  printf("open_offset %d disk_offset %d offset %d len %d\n",file_table[fd].open_offset,file_table[fd].disk_offset,offset,len);
+  printf("read open_offset %d disk_offset %d offset %d len %d\n",file_table[fd].open_offset,file_table[fd].disk_offset,offset,len);
   // char *temp;
   // temp = buf;
   // for(int i=0;i<10;i++){
@@ -76,7 +76,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
   int offset = file_table[fd].disk_offset + file_table[fd].open_offset;
   assert(offset <= file_table[fd].disk_offset + file_table[fd].size);
   ramdisk_write(buf, offset, len);
-  printf("open_offset %d disk_offset %d offset %d len %d\n",file_table[fd].open_offset,file_table[fd].disk_offset,offset,len);
+  printf("write open_offset %d disk_offset %d offset %d len %d\n",file_table[fd].open_offset,file_table[fd].disk_offset,offset,len);
   file_table[fd].open_offset = file_table[fd].open_offset + len;
   return len;
 }
