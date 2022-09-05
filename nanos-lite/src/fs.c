@@ -91,7 +91,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
     assert(0);
     break;
   }
-  return 0;
+  return file_table[fd].open_offset;
 }
 
 
