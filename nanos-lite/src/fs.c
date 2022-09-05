@@ -72,7 +72,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
 }
 
 size_t fs_lseek(int fd, size_t offset, int whence){
-  printf("whence %d \n",whence);
+  printf("offset %d whence %d \n",(int)offset,whence);
   switch (whence)
   {
   case SEEK_SET:
