@@ -57,7 +57,7 @@ size_t fs_read(int fd, void *buf, size_t len){
   if(len == 0){
     return 0;
   }
-  int remain_space = file_table[fd].size - file_table[fd].open_offset;
+  int remain_space = file_table[fd].size - file_table[fd].open_offset + 1;
   int actual_len = len;
   if(len > remain_space){
     actual_len = remain_space;
@@ -80,7 +80,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
   }
   int offset = file_table[fd].disk_offset + file_table[fd].open_offset;
   assert(offset <= file_table[fd].disk_offset + file_table[fd].size);
-  int remain_space = file_table[fd].size - file_table[fd].open_offset;
+  int remain_space = file_table[fd].size - file_table[fd].open_offset + 1;
   int actual_len = len;
   if(len > remain_space){
     actual_len = remain_space;
