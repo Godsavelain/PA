@@ -60,7 +60,7 @@ size_t fs_read(int fd, void *buf, size_t len){
   int remain_space = file_table[fd].size - file_table[fd].open_offset;
   int actual_len = len;
   if(len > remain_space){
-    actual_len = remain_space;
+    actual_len = remain_space + 2;
   }
   // ramdisk_read(buf, offset, actual_len);
   ramdisk_read(buf, offset, actual_len);
