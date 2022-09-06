@@ -77,7 +77,7 @@ void do_syscall(Context *c) {
       }
       else
       {
-        fs_write(fd, buf, count);
+        suc_cnt = fs_write(fd, buf, count);
       }
       c->GPRx = suc_cnt;
       //printf("count %d suc_num %d\n",count , c->GPR2);
