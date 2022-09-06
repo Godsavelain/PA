@@ -114,9 +114,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
   if(new_pos < 0){
     return -1;
   }
-
   file_table[fd].open_offset = new_pos;
-
   return new_pos;
 }
 
