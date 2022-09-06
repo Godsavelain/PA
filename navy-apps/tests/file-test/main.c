@@ -17,9 +17,7 @@ int main() {
     assert(n == i + 1);
   }
 
-  printf("aaa \n");
   fseek(fp, 0, SEEK_SET);
-  printf("aaa \n");
   for (i = 0; i < 500; i ++) {
     fprintf(fp, "%4d\n", i + 1 + 1000);
   }
