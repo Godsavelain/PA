@@ -28,9 +28,9 @@ void do_syscall(Context *c) {
   //file ops
   int fd;
   char* buf;
-  int count;
-  int suc_cnt;
-  int offset;
+  size_t count;
+  size_t suc_cnt;
+  size_t offset;
   int whence;
 
   switch (a[0]) {
