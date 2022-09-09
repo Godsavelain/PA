@@ -7,7 +7,7 @@ int gettimeofday (struct timeval *ptimeval,
 
 int main()
 {
-  float time_use=0;
+  int time_use = 0;
   struct timeval start;
   struct timeval end;
 
