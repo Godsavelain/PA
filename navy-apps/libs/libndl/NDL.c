@@ -8,8 +8,15 @@ static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
+int gettimeofday (struct timeval *ptimeval,
+     void *ptimezone);
+
 uint32_t NDL_GetTicks() {
-  return 0;
+  struct timeval start;
+  gettimeofday(&start,NULL);
+  time_t time_use = 0;
+  time_use = start.tv_sec * 1000 + start.tv_usec/1000;
+  return time_use;
 }
 
 int NDL_PollEvent(char *buf, int len) {
