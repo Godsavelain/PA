@@ -67,18 +67,19 @@ void do_syscall(Context *c) {
       buf = (char*)a[2];
       count = a[3];
       suc_cnt = 0;
-      if((fd == 1) || (fd == 2))
-      {
-        for(int i=0;i< count;i++)
-        {
-          putch(*(buf + i));
-          suc_cnt++;
-        }
-      }
-      else
-      {
-        suc_cnt = fs_write(fd, buf, count);
-      }
+      // if((fd == 1) || (fd == 2))
+      // {
+      //   for(int i=0;i< count;i++)
+      //   {
+      //     putch(*(buf + i));
+      //     suc_cnt++;
+      //   }
+      // }
+      // else
+      // {
+      //   suc_cnt = fs_write(fd, buf, count);
+      // }
+      suc_cnt = fs_write(fd, buf, count);
       c->GPRx = suc_cnt;
       //printf("count %d suc_num %d\n",count , c->GPR2);
       break;
