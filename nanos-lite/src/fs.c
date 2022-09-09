@@ -73,7 +73,7 @@ size_t fs_read(int fd, void *buf, size_t len){
   //   printf("i:%d num:%c\n",i,temp[i+442]);
   // }
   file_table[fd].open_offset = file_table[fd].open_offset + actual_len;
-  Log("read file %s \n",file_table[fd].name);
+  //Log("read file %s \n",file_table[fd].name);
   return actual_len;
   //return actual_len;
 }
@@ -98,7 +98,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
   printf("write open_offset %d disk_offset %d offset %d len %d ac_len %d\n",file_table[fd].open_offset,file_table[fd].disk_offset,true_off,len,actual_len);
   file_table[fd].open_offset = file_table[fd].open_offset + actual_len;
   }
-  Log("write file %s \n",file_table[fd].name);
+  //Log("write file %s \n",file_table[fd].name);
   return actual_len;
 }
 
