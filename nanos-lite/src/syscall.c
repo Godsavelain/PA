@@ -108,6 +108,7 @@ void do_syscall(Context *c) {
       c->GPRx = 0;
       break;
     case 19://gettimeofday
+      printf("syscall gettimeofday!\n");
       now = (struct timeval*)a[1];
       //tz = (struct timezone *)a[2];
       time_t t = 0;
