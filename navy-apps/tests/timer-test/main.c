@@ -16,8 +16,8 @@ int main()
     gettimeofday(&end,NULL);
     time_use=(end.tv_sec-start.tv_sec)*1000000 + (end.tv_usec-start.tv_usec);//微秒
     if(time_use >= 500000){
-      //printf("hello!\n");
-      printf("%d \n",time_use);
+      printf("hello!\n");
+      //printf("%d \n",time_use);
       gettimeofday(&start,NULL); 
     }
   }
