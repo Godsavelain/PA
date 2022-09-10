@@ -4,6 +4,7 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
 size_t serial_write(const void *buf, size_t offset, size_t len);
+size_t events_read(void *buf, size_t offset, size_t len);
 
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
@@ -17,7 +18,7 @@ typedef struct {
   WriteFn write;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_DEV ,FD_FB};
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -34,6 +35,7 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, 0, invalid_read, invalid_write},
   [FD_STDOUT] = {"stdout", 0, 0, 0, invalid_read, serial_write},
   [FD_STDERR] = {"stderr", 0, 0, 0, invalid_read, serial_write},
+  [FD_DEV]    = {"/dev/events", 0, 0, 0, events_read, invalid_write},
 #include "files.h"
 };
 
@@ -57,36 +59,44 @@ size_t fs_read(int fd, void *buf, size_t len){
   if(len == 0){
     return 0;
   }
-  assert(file_table[fd].open_offset < file_table[fd].size);
-  int remain_space = file_table[fd].size - file_table[fd].open_offset;
-  int actual_len = len;
-  if(len > remain_space){
+  size_t actual_len;
+  actual_len = len;
+  
+  if(file_table[fd].read != NULL){
+    actual_len = file_table[fd].read(buf,0,len);
+  }
+  else{
+    assert(file_table[fd].open_offset < file_table[fd].size);
+    int remain_space = file_table[fd].size - file_table[fd].open_offset;
+    if(len > remain_space){
     actual_len = remain_space ;
   }
-  size_t true_off = file_table[fd].disk_offset + file_table[fd].open_offset;
-  // ramdisk_read(buf, offset, actual_len);
-  ramdisk_read(buf, true_off, actual_len);
-  //printf("read open_offset %d size %d offset %d len %d ac_len %d\n",file_table[fd].open_offset,file_table[fd].size,true_off,len,actual_len);
-  // char *temp;
-  // temp = buf;
-  // for(int i=0;i<15;i++){
-  //   printf("i:%d num:%c\n",i,temp[i+442]);
-  // }
+    size_t true_off = file_table[fd].disk_offset + file_table[fd].open_offset;
+    // ramdisk_read(buf, offset, actual_len);
+    ramdisk_read(buf, true_off, actual_len);
+    //printf("read open_offset %d size %d offset %d len %d ac_len %d\n",file_table[fd].open_offset,file_table[fd].size,true_off,len,actual_len);
+    // char *temp;
+    // temp = buf;
+    // for(int i=0;i<15;i++){
+    //   printf("i:%d num:%c\n",i,temp[i+442]);
+    // }
   file_table[fd].open_offset = file_table[fd].open_offset + actual_len;
   //Log("read file %s \n",file_table[fd].name);
+  }
+  
   return actual_len;
   //return actual_len;
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
-  int actual_len;
+  size_t actual_len;
   if(file_table[fd].write != NULL){
     actual_len = file_table[fd].write(buf,0,len);
   }
   else{
     if(len == 0){
     return 0;
-  }
+    }
   assert(file_table[fd].open_offset < file_table[fd].size);
   int remain_space = file_table[fd].size - file_table[fd].open_offset;
   actual_len = len;
