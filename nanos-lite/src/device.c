@@ -61,6 +61,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   // printf("bbb \n");
   // printf("%s \n",(char*)buf);
   // printf("bbb \n");
+  printf("read num %d \n",read_num);
   return read_num;
 }
 
