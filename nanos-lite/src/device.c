@@ -62,7 +62,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   // printf("%s \n",(char*)buf);
   // printf("bbb \n");
   printf("read num %d \n",read_num);
-  memcpy(temp_buf,"p",1);
+  memcpy(temp_buf,"\0",1);
   temp_buf = temp_buf + 1;
   read_num = read_num + 1;
   return read_num;
