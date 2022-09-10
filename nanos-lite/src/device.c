@@ -40,7 +40,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   }
   while(ev.keycode != AM_KEY_NONE){
     int key_len = strlen(names[ev.keycode]);
-    if(read_num + 4 + key_len > len){//exceed the capacity
+    if((read_num + 4 + key_len + 1 )> len){//exceed the capacity
       break;
     }
     if(ev.keydown){
@@ -62,6 +62,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   // printf("%s \n",(char*)buf);
   // printf("bbb \n");
   //printf("read num %d \n",read_num);
+  memcpy(temp_buf,"\0",1);
   return read_num;
 }
 
