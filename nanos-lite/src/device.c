@@ -50,10 +50,13 @@ size_t events_read(void *buf, size_t offset, size_t len) {
       temp_buf = temp_buf + key_len;
       memcpy(temp_buf,"\n",1);
       printf("aaa \n");
-      printf("aaa%s \n",(char*)buf);
+      printf("%s \n",(char*)buf);
       printf("aaa \n");
     }    
   }
+  printf("bbb \n");
+  printf("%s \n",(char*)buf);
+  printf("bbb \n");
   return read_num;
 }
 
