@@ -23,6 +23,7 @@ int NDL_PollEvent(char *buf, int len) {
   FILE *fp = fopen("/dev/events", "r");
   int num = 0;
   num = fread(buf, 1, len, fp);
+  printf("num %d string %s \n",num,buf);
   fclose(fp);
   return num;
 }
