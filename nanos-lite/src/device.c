@@ -79,10 +79,12 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   height = io_read(AM_GPU_CONFIG).height;
   int true_len = 0;
   true_len = sprintf((char*)str,"WIDTH:%d\nHEIGHT:%d\n",width,height) + 1;
+  printf("true len %d len %ld\n",true_len,len);
   if(true_len > len){
     return 0;
   }
   sprintf((char*)buf,"WIDTH:%d\nHEIGHT:%d\n",width,height);
+  printf("buf::%s\n",(char*)buf);
   return true_len;
 }
 
