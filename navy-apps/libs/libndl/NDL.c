@@ -58,7 +58,7 @@ void NDL_OpenCanvas(int *w, int *h) {
       pos++;
     }
     while(*pos != '\n'){
-      printf("pos1 %c width %d\n",*pos,width);
+      //printf("pos1 %c width %d\n",*pos,width);
       width = (width * 10) + (*pos-'0');
       pos++;
     }
@@ -68,13 +68,13 @@ void NDL_OpenCanvas(int *w, int *h) {
       pos2++;
     }
     while(*pos2 != '\n'){
-      printf("pos2 %c height %d\n",*pos2,height);
+      //printf("pos2 %c height %d\n",*pos2,height);
       height = (height * 10) + (*pos2-'0');
       pos2++;
     }
     *w = width;
     *h = height;
-    printf("width:%d height %d \n",screen_w,screen_h);
+    printf("width:%d height %d \n",*w,*h);
   }
 }
 
