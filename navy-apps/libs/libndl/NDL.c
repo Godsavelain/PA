@@ -48,7 +48,9 @@ void NDL_OpenCanvas(int *w, int *h) {
     close(fbctl);
   }
   else{
+    printf("1\n");
     FILE *fp = fopen("/proc/dispinfo", "r");
+    printf("2\n");
     char buf1[100];
     int width = 0;
     int height = 0;
