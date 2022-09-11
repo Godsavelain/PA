@@ -54,7 +54,9 @@ void NDL_OpenCanvas(int *w, int *h) {
     char buf1[100];
     int width = 0;
     int height = 0;
+    printf("3\n");
     fread(buf1, 1, 100, fp);
+    printf("4\n");
     char *pos = strchr(buf1,':');
     while(*pos == ' '){
       pos++;
@@ -63,7 +65,9 @@ void NDL_OpenCanvas(int *w, int *h) {
       width = (width * 10) + (*pos-'0');
       pos++;
     }
+    printf("5\n");
     char *pos2 = strchr(pos,':');
+    printf("6\n");
     while(*pos2 == ' '){
       pos2++;
     }
