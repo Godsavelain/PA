@@ -35,7 +35,6 @@ void NDL_OpenCanvas(int *w, int *h) {
     screen_w = *w; screen_h = *h;
     char buf[64];
     int len = sprintf(buf, "%d %d", screen_w, screen_h);
-    printf("width:%d height %d \n",screen_w,screen_h);
     // let NWM resize the window and create the frame buffer
     write(fbctl, buf, len);
     while (1) {
@@ -48,18 +47,12 @@ void NDL_OpenCanvas(int *w, int *h) {
     close(fbctl);
   }
   else{
-    printf("1\n");
     FILE *fp = fopen("/proc/dispinfo", "r");
-    printf("2\n");
     char buf1[100];
     int width = 0;
     int height = 0;
-    printf("3\n");
     fread(buf1, 1, 100, fp);
-    printf("4\n");
-    printf("buf1 %s \n",buf1);
     char *pos = strchr(buf1,':');
-    printf("5\n");
     while(*pos == ' '){
       pos++;
     }
@@ -67,9 +60,7 @@ void NDL_OpenCanvas(int *w, int *h) {
       width = (width * 10) + (*pos-'0');
       pos++;
     }
-    printf("6\n");
     char *pos2 = strchr(pos,':');
-    printf("7\n");
     while(*pos2 == ' '){
       pos2++;
     }
@@ -79,6 +70,7 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     *w = width;
     *h = height;
+    printf("width:%d height %d \n",screen_w,screen_h);
   }
 }
 

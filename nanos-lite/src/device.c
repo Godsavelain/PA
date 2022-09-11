@@ -80,12 +80,12 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   int true_len = 0;
   sprintf((char*)str,"WIDTH:%d\nHEIGHT:%d\n",width,height);
   true_len = strlen(str) + 1;
-  printf("true len %d len %ld\n",true_len,len);
+  //printf("true len %d len %ld\n",true_len,len);
   if(true_len > len){
     return 0;
   }
   sprintf((char*)buf,"WIDTH:%d\nHEIGHT:%d\n",width,height);
-  printf("buf::%s\n",(char*)buf);
+  //printf("buf::%s\n",(char*)buf);
   return true_len;
 }
 
