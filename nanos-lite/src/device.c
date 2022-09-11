@@ -82,7 +82,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   if(true_len > len){
     return 0;
   }
-  sprintf((char*)str,"WIDTH:%d\nHEIGHT:%d\n",width,height);
+  sprintf((char*)buf,"WIDTH:%d\nHEIGHT:%d\n",width,height);
   return true_len;
 }
 
