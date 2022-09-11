@@ -1,5 +1,6 @@
 #include <common.h>
 #include <string.h>
+#include <stdio.h>
 
 #if defined(MULTIPROGRAM) && !defined(TIME_SHARING)
 # define MULTIPROGRAM_YIELD() yield()
@@ -61,15 +62,28 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   // printf("bbb \n");
   // printf("%s \n",(char*)buf);
   // printf("bbb \n");
-  printf("read num %d \n",read_num);
+  //printf("read num %d \n",read_num);
   memcpy(temp_buf,"\0",1);
   temp_buf = temp_buf + 1;
   read_num = read_num + 1;
   return read_num;
 }
 
+//legal response like 
+// WIDTH : 640
+// HEIGHT:480
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  return 0;
+  int width,height;
+  char str[100]; 
+  width = io_read(AM_GPU_CONFIG).width;
+  height = io_read(AM_GPU_CONFIG).height;
+  int true_len = 0;
+  true_len = sprintf((char*)str,"WIDTH:%d\nHEIGHT:%d\n",width,height) + 1;
+  if(true_len > len){
+    return 0;
+  }
+  sprintf((char*)str,"WIDTH:%d\nHEIGHT:%d\n",width,height);
+  return true_len;
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {

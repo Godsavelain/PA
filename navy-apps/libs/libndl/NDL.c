@@ -30,11 +30,36 @@ int NDL_PollEvent(char *buf, int len) {
 
 void NDL_OpenCanvas(int *w, int *h) {
   if (getenv("NWM_APP")) {
+    FILE *fp = fopen("/proc/dispinfo", "r");
+    char buf1[100];
+    int width = 0;
+    int height = 0;
+    fread(buf1, 1, 100, fp);
+    char *pos = strchr(buf1,':');
+    while(*pos == ' '){
+      pos++;
+    }
+    while(*pos != '\n'){
+      width = (width * 10) + (*pos-'0');
+      pos++;
+    }
+    char *pos2 = strchr(pos,':');
+    while(*pos2 == ' '){
+      pos2++;
+    }
+    while(*pos2 != '\n'){
+      height = (height * 10) + (*pos2-'0');
+      pos2++;
+    }
+    *w = width;
+    *h = height;
+
     int fbctl = 4;
     fbdev = 5;
     screen_w = *w; screen_h = *h;
     char buf[64];
     int len = sprintf(buf, "%d %d", screen_w, screen_h);
+    printf("width:%d height %d \n",screen_w,screen_h);
     // let NWM resize the window and create the frame buffer
     write(fbctl, buf, len);
     while (1) {
