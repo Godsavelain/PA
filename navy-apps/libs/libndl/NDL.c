@@ -7,6 +7,7 @@
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
+static int system_w = 0, system_h = 0;
 
 int gettimeofday (struct timeval *ptimeval,
      void *ptimezone);
@@ -47,34 +48,9 @@ void NDL_OpenCanvas(int *w, int *h) {
     close(fbctl);
   }
   else{
-      FILE *fp = fopen("/proc/dispinfo", "r");
-      char buf1[100];
-      int width = 0;
-      int height = 0;
-      fread(buf1, 1, 100, fp);
-      char *pos = strchr(buf1,':');
-      pos++;
-      while(*pos == ' '){
-        pos++;
-      }
-      while(*pos != '\n'){
-        //printf("pos1 %c width %d\n",*pos,width);
-        width = (width * 10) + (*pos-'0');
-        pos++;
-      }
-      char *pos2 = strchr(pos,':');
-      pos2++;
-      while(*pos2 == ' '){
-        pos2++;
-      }
-      while(*pos2 != '\n'){
-        //printf("pos2 %c height %d\n",*pos2,height);
-        height = (height * 10) + (*pos2-'0');
-        pos2++;
-      }
     if((*w == 0) && (*h == 0)){
-      *w = width;
-      *h = height;
+      *w = system_w;
+      *h = system_h;
     }
     else{
       screen_w = *w;
@@ -85,6 +61,26 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+  int x_margin,y_margin;
+  x_margin = (system_w - screen_w) / 2;
+  y_margin = (system_h - screen_h) / 2;
+  int true_x,true_y;
+  true_x = x + x_margin;
+  true_y = y + y_margin;
+  FILE *fp = fopen("/dev/fb", "r");
+  
+  int offset = 0;
+  int true_offset = 0;
+  for(int i=true_y; i<true_y+h; i++){//i : true y
+    if(i >= (screen_h - y_margin)){
+      break;
+    }
+    offset = (i - y_margin) * screen_w + x;
+    true_offset = i * system_w + x + x_margin;
+    fseek(fp, (true_offset * 4) ,SEEK_SET);
+    fwrite((pixels+offset), 4,  (((x + w) > system_w)? (system_w - x) : w) , fp);
+  }
+  fclose(fp);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
@@ -105,6 +101,33 @@ int NDL_Init(uint32_t flags) {
   if (getenv("NWM_APP")) {
     evtdev = 3;
   }
+  FILE *fp = fopen("/proc/dispinfo", "r");
+  char buf1[100];
+  int width = 0;
+  int height = 0;
+  fread(buf1, 1, 100, fp);
+  char *pos = strchr(buf1,':');
+  pos++;
+  while(*pos == ' '){
+    pos++;
+  }
+  while(*pos != '\n'){
+    //printf("pos1 %c width %d\n",*pos,width);
+    width = (width * 10) + (*pos-'0');
+    pos++;
+  }
+  char *pos2 = strchr(pos,':');
+  pos2++;
+  while(*pos2 == ' '){
+    pos2++;
+  }
+  while(*pos2 != '\n'){
+    //printf("pos2 %c height %d\n",*pos2,height);
+    height = (height * 10) + (*pos2-'0');
+    pos2++;
+  }
+  system_w = width;
+  system_h = height;
   return 0;
 }
 

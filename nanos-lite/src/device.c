@@ -90,7 +90,29 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  return 0;
+  int width,height;
+  int num = len;
+  int write_num = 0;
+  width = io_read(AM_GPU_CONFIG).width;
+  height = io_read(AM_GPU_CONFIG).height;
+  int x,y;
+  x = offset % (width * 4);
+  y = offset / (width * 4);
+  int x_left = width - x;
+  while(x_left < num){
+    io_write(AM_GPU_FBDRAW, x * width, y * height, (char *)buf, x_left, 1, false);
+    buf = (char*)buf + x_left;
+    num = num - x_left;
+    write_num = write_num + x_left;
+    x_left = width;
+    x = 0;
+    y = y+1;
+    if( y >= height){
+      return write_num;
+    }
+  }
+  io_write(AM_GPU_FBDRAW, x * width, y * height, (char *)buf, len, 1, false);
+  return len;
 }
 
 void init_device() {
