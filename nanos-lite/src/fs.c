@@ -95,7 +95,12 @@ size_t fs_read(int fd, void *buf, size_t len){
 size_t fs_write(int fd, const void *buf, size_t len){
   size_t actual_len;
   if(file_table[fd].write != NULL){
-    actual_len = file_table[fd].write(buf,0,len);
+    if(fd == FD_FB){
+      actual_len = file_table[fd].write(buf,file_table[fd].open_offset,len);
+    }
+    else{
+      actual_len = file_table[fd].write(buf,0,len);
+    } 
   }
   else{
     if(len == 0){
