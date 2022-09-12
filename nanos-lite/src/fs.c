@@ -1,4 +1,8 @@
 #include <fs.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+
 
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
@@ -42,10 +46,6 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_DISPINFO]  = {"/proc/dispinfo", 0, 0, 0, dispinfo_read, invalid_write},
 #include "files.h"
 };
-
-void init_fs() {
-  // TODO: initialize the size of /dev/fb
-}
 
 int fs_open(const char *pathname, int flags, int mode){
   int item_num = sizeof(file_table)/sizeof(file_table[0]);
@@ -109,7 +109,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
   }
   size_t true_off = file_table[fd].disk_offset + file_table[fd].open_offset;
   ramdisk_write(buf, true_off, actual_len);
-  printf("write open_offset %d disk_offset %d offset %d len %d ac_len %d\n",file_table[fd].open_offset,file_table[fd].disk_offset,true_off,len,actual_len);
+  //printf("write open_offset %d disk_offset %d offset %d len %d ac_len %d\n",file_table[fd].open_offset,file_table[fd].disk_offset,true_off,len,actual_len);
   file_table[fd].open_offset = file_table[fd].open_offset + actual_len;
   }
   //Log("write file %s \n",file_table[fd].name);
@@ -146,3 +146,39 @@ int fs_close(int fd){
   return 0;
 }
 
+void init_fs() {
+  // TODO: initialize the size of /dev/fb
+  int fd = fs_open("/proc/dispinfo", 0 , 0);
+  char buf1[100];
+  int width = 0;
+  int height = 0;
+  fs_read(fd, buf1, 100);
+  char *pos = buf1;
+  while(*pos != ':'){
+    pos++;
+  }
+  pos++;
+  while(*pos == ' '){
+    pos++;
+  }
+  while(*pos != '\n'){
+    //printf("pos1 %c width %d\n",*pos,width);
+    width = (width * 10) + (*pos-'0');
+    pos++;
+  }
+  char *pos2 = pos;
+  while(*pos2 != ':'){
+    pos2++;
+  }
+  pos2++;
+  while(*pos2 == ' '){
+    pos2++;
+  }
+  while(*pos2 != '\n'){
+    //printf("pos2 %c height %d\n",*pos2,height);
+    height = (height * 10) + (*pos2-'0');
+    pos2++;
+  }
+  file_table[FD_FB].size = width * height * 4;
+  printf("size %ld \n",file_table[FD_FB].size);
+}

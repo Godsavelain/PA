@@ -47,34 +47,40 @@ void NDL_OpenCanvas(int *w, int *h) {
     close(fbctl);
   }
   else{
-    FILE *fp = fopen("/proc/dispinfo", "r");
-    char buf1[100];
-    int width = 0;
-    int height = 0;
-    fread(buf1, 1, 100, fp);
-    char *pos = strchr(buf1,':');
-    pos++;
-    while(*pos == ' '){
+      FILE *fp = fopen("/proc/dispinfo", "r");
+      char buf1[100];
+      int width = 0;
+      int height = 0;
+      fread(buf1, 1, 100, fp);
+      char *pos = strchr(buf1,':');
       pos++;
-    }
-    while(*pos != '\n'){
-      //printf("pos1 %c width %d\n",*pos,width);
-      width = (width * 10) + (*pos-'0');
-      pos++;
-    }
-    char *pos2 = strchr(pos,':');
-    pos2++;
-    while(*pos2 == ' '){
+      while(*pos == ' '){
+        pos++;
+      }
+      while(*pos != '\n'){
+        //printf("pos1 %c width %d\n",*pos,width);
+        width = (width * 10) + (*pos-'0');
+        pos++;
+      }
+      char *pos2 = strchr(pos,':');
       pos2++;
+      while(*pos2 == ' '){
+        pos2++;
+      }
+      while(*pos2 != '\n'){
+        //printf("pos2 %c height %d\n",*pos2,height);
+        height = (height * 10) + (*pos2-'0');
+        pos2++;
+      }
+    if((*w == 0) && (*h == 0)){
+      *w = width;
+      *h = height;
     }
-    while(*pos2 != '\n'){
-      //printf("pos2 %c height %d\n",*pos2,height);
-      height = (height * 10) + (*pos2-'0');
-      pos2++;
-    }
-    *w = width;
-    *h = height;
-    printf("width:%d height %d \n",*w,*h);
+    else{
+      screen_w = *w;
+      screen_h = *h;
+    } 
+    //printf("width:%d height %d \n",*w,*h);
   }
 }
 
