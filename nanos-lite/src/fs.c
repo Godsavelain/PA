@@ -180,7 +180,7 @@ void init_fs() {
     height = (height * 10) + (*pos2-'0');
     pos2++;
   }
-  printf("size %d \n",width * height * 4);
+  printf("size %d \n",(width * height * 4));
   file_table[FD_FB].size = width * height * 4;
-  printf("true size %ld \n",file_table[FD_FB].size);
+  printf("true size %d \n",(int)file_table[FD_FB].size);
 }
