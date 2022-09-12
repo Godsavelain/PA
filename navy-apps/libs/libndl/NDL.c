@@ -70,7 +70,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   int true_x,true_y;
   true_x = x + x_margin;
   true_y = y + y_margin;
-  FILE *fp = fopen("/dev/fb", "r");
+  FILE *fp = fopen("/dev/fb", "w");
 
   int offset = 0;
   int true_offset = 0;
