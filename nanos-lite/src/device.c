@@ -91,6 +91,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   if(len == 0){//len = 0 means to update the screen
+    printf("update the screen\n");
     io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);
     return 0;
   }
@@ -105,6 +106,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   int x_left = width - x;
   while(x_left < num){
     io_write(AM_GPU_FBDRAW, x * width, y * height, (char *)buf, x_left, 1, false);
+    printf("fbdraw x:%d y:%d x_left:%d\n",x * width, y * height, x_left);
     buf = (char*)buf + x_left;
     num = num - x_left;
     write_num = write_num + x_left;
