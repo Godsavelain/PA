@@ -153,6 +153,7 @@ void init_fs() {
   int width = 0;
   int height = 0;
   fs_read(fd, buf1, 100);
+  printf("buf1 %s \n",buf1);
   char *pos = buf1;
   while(*pos != ':'){
     pos++;
@@ -162,7 +163,7 @@ void init_fs() {
     pos++;
   }
   while(*pos != '\n'){
-    //printf("pos1 %c width %d\n",*pos,width);
+    printf("pos1 %c width %d\n",*pos,width);
     width = (width * 10) + (*pos-'0');
     pos++;
   }
@@ -175,7 +176,7 @@ void init_fs() {
     pos2++;
   }
   while(*pos2 != '\n'){
-    //printf("pos2 %c height %d\n",*pos2,height);
+    printf("pos2 %c height %d\n",*pos2,height);
     height = (height * 10) + (*pos2-'0');
     pos2++;
   }
