@@ -119,7 +119,8 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
       return write_num;
     }
   }
-  io_write(AM_GPU_FBDRAW, x * width, y * height, (char *)buf, len, 1, false);
+  io_write(AM_GPU_FBDRAW, x * width, y * height, (char *)buf, len, 1, true);
+  
   return len;
 }
 

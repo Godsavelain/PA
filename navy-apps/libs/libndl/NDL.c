@@ -66,7 +66,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   int x_margin,y_margin;
   x_margin = (system_w - screen_w) / 2;
   y_margin = (system_h - screen_h) / 2;
-  printf("x_margin:%d x_margin:%d \n",x_margin,y_margin);
+  printf("x_margin:%d y_margin:%d \n",x_margin,y_margin);
   int true_x,true_y;
   true_x = x + x_margin;
   true_y = y + y_margin;
