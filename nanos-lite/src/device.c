@@ -90,8 +90,9 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  if(len == 0){
+  if(len == 0){//len = 0 means to update the screen
     io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);
+    return 0;
   }
   int width,height;
   int num = len;
