@@ -107,7 +107,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   int x_left = width - x;
   //printf("x_left:%d  num:%d\n",x_left,num);
   while(x_left < (num/4)){
-    io_write(AM_GPU_FBDRAW, x * width, y * height, (char *)buf, x_left, 1, false);
+    io_write(AM_GPU_FBDRAW, x , y , (char *)buf, x_left, 1, false);
     printf("fbdraw x:%d y:%d x_left:%d\n",x * width, y * height, x_left);
     buf = (char*)buf + x_left;
     num = num - x_left;
@@ -119,8 +119,8 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
       return write_num;
     }
   }
-  printf("offset:%d fbdraw x:%d y:%d len:%d\n",(int)offset ,x, y , (int)len);
-  io_write(AM_GPU_FBDRAW, x * width, y * height, (char *)buf, len, 1, true);
+  printf("offset:%d fbdraw x:%d y:%d len:%d\n",(int)offset ,x, y ,(int)len);
+  io_write(AM_GPU_FBDRAW, x , y , (char *)buf, len, 1, true);
   printf("next\n");
   
   return len;
