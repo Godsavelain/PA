@@ -62,6 +62,7 @@ void NDL_OpenCanvas(int *w, int *h) {
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   printf("x:%d y:%d w:%d h:%d \n",x,y,w,h);
+  printf("screen_w %d screen_h %d \n",screen_w,screen_h);
   int x_margin,y_margin;
   x_margin = (system_w - screen_w) / 2;
   y_margin = (system_h - screen_h) / 2;
@@ -73,7 +74,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   int offset = 0;
   int true_offset = 0;
   for(int i=true_y; i<true_y+h; i++){//i : true y
-    printf("i:%d",i);
+    printf("i:%d\n",i);
     if(i >= (screen_h - y_margin)){
       break;
     }
