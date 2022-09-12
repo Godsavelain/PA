@@ -92,7 +92,7 @@ int printf(const char *fmt, ...) {
                 case 'l':
                 {
                   is_long = true;
-                  fmt++;  
+                  //fmt++;  
                   break;
                 }
                 case 'c':  
