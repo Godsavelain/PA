@@ -39,6 +39,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     int y = ctl->y;
     int w = ctl->w;
     int h = ctl->h;
+    printf("fbdraw x:%d y:%d w:%d h:%d len:%d\n", x, y ,w ,h);
     bool sync = ctl->sync;
     void *f =ctl->pixels;
     if(f != NULL)
