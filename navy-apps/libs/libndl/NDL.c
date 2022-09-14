@@ -74,6 +74,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
 
   int offset = 0;
   int true_offset = 0;
+  size_t write_len = 0;
   for(int i=true_y; i<true_y+h; i++){//i : true y
     printf("i:%d\n",i);
     if(i >= (system_h - y_margin)){
@@ -84,8 +85,9 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     printf("aaa\n");
     fseek(fp, (true_offset * 4) ,SEEK_SET);
     printf("bbb\n");
-    fwrite((pixels+offset), 4,  (((x + w) > system_w)? (system_w - x) : w) , fp);
-    printf("x:%d x+w:%d system_w:%d \n",x,(x+w),system_w);
+    write_len = (((x + w) > system_w)? (system_w - x) : w);
+    fwrite((pixels+offset), 4,  write_len , fp);
+    printf("offset:%d write_len:%ld \n",offset,write_len);
   }
   fclose(fp);
 }
