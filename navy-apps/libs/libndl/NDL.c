@@ -82,6 +82,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     offset = (i - y_margin) * screen_w + x;
     true_offset = i * system_w + x + x_margin;
     fseek(fp, (true_offset * 4) ,SEEK_SET);
+    printf("aaa\n");
     fwrite((pixels+offset), 4,  (((x + w) > system_w)? (system_w - x) : w) , fp);
     printf("x:%d x+w:%d system_w:%d \n",x,(x+w),system_w);
   }
