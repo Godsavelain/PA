@@ -93,11 +93,12 @@ size_t fs_read(int fd, void *buf, size_t len){
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
-  printf("fs_write len:%ld\n",len);
+  //printf("fs_write len:%ld\n",len);
   size_t actual_len;
   if(file_table[fd].write != NULL){
     if(fd == FD_FB){
       actual_len = file_table[fd].write(buf,file_table[fd].open_offset,len);
+      printf("actual_len %ld \n",actual_len);
     }
     else{
       actual_len = file_table[fd].write(buf,0,len);
@@ -124,7 +125,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
 
 size_t fs_lseek(int fd, size_t offset, int whence){
   //printf("offset %d whence %d \n",(int)offset,whence);
-  printf("fs_lseek\n");
+  //printf("fs_lseek\n");
   size_t new_pos = 0;
   switch (whence)
   {
