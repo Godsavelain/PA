@@ -124,6 +124,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
 
 size_t fs_lseek(int fd, size_t offset, int whence){
   //printf("offset %d whence %d \n",(int)offset,whence);
+  printf("fs_lseek\n");
   size_t new_pos = 0;
   switch (whence)
   {
