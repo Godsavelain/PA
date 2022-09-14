@@ -22,6 +22,9 @@ static const char *keyname[256] __attribute__((used)) = {
   AM_KEYS(NAME)
 };
 
+static int width;
+static int height;
+
 size_t serial_write(const void *buf, size_t offset, size_t len) {
   size_t suc_cnt = 0;
   for(int i=0;i< len;i++)
@@ -96,11 +99,12 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
     io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);
     return 0;
   }
-  int width,height;
+  
   int num = len;
   int write_num = 0;
-  width = io_read(AM_GPU_CONFIG).width;
-  height = io_read(AM_GPU_CONFIG).height;
+  // int width,height;
+  // width = io_read(AM_GPU_CONFIG).width;
+  // height = io_read(AM_GPU_CONFIG).height;
   int x,y;
   x = ((offset / 4) % width);
   y = offset / (width * 4);
@@ -128,4 +132,6 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
 void init_device() {
   Log("Initializing devices...");
   ioe_init();
+  width = io_read(AM_GPU_CONFIG).width;
+  height = io_read(AM_GPU_CONFIG).height;
 }
