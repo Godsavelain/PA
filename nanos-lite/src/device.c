@@ -123,7 +123,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
       return write_num;
     }
   }
-  printf("offset:%d x:%d y:%d len:%d\n",(int)offset ,x, y ,(int)len);
+  //printf("offset:%d x:%d y:%d len:%d\n",(int)offset ,x, y ,(int)len);
   io_write(AM_GPU_FBDRAW, x , y , (char *)buf, len/4, 1, true);
   
   return len;
