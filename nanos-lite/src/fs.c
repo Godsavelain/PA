@@ -93,6 +93,7 @@ size_t fs_read(int fd, void *buf, size_t len){
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
+  printf("fs_write\n");
   size_t actual_len;
   if(file_table[fd].write != NULL){
     if(fd == FD_FB){
