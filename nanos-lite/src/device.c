@@ -36,6 +36,8 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {
+  //initialize
+  memset(buf,0,len);
   size_t read_num = 0;
   char* temp_buf = (char*)buf;
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
@@ -66,7 +68,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   // printf("%s \n",(char*)buf);
   // printf("bbb \n");
   //printf("read num %d \n",read_num);
-  memcpy(temp_buf,"\0",1);
+  //memcpy(temp_buf,"\0",1);
   //temp_buf = temp_buf + 1;
   read_num = read_num ;
   return read_num;
