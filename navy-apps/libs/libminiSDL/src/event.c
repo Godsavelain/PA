@@ -28,7 +28,7 @@ int SDL_WaitEvent(SDL_Event *event) {
   if(res == 1){
     str_len = strlen(buf);
     key_len = str_len - 3;
-    printf("buf:%s key_len %d \n",buf,key_len);
+    //printf("buf:%s key_len %d \n",buf,key_len);
     memcpy(key,(buf+3),key_len+1);
 
     for(int i=0;i<83;i++){//search for the keycode
@@ -37,14 +37,14 @@ int SDL_WaitEvent(SDL_Event *event) {
         break;
       }
     }
-    if((buf[0] == 'k')&&(buf[0] == 'd')){
+    if((buf[0] == 'k')&&(buf[1] == 'd')){
       event->type = SDL_KEYDOWN;
     }
     else{
       event->type = SDL_KEYUP;
     }
-    printf("keycode 74:%s key:%s len74:%d len:%d",keyname[74],key,strlen(keyname[74]),strlen(key));
-    printf("got key %s keycode %d \n",key,key_code);
+    //printf("keycode 74:%s key:%s len74:%d len:%d",keyname[74],key,strlen(keyname[74]),strlen(key));
+    //printf("got key %s keycode %d \n",key,key_code);
     event->key.keysym.sym = key_code;
     return 1;
   }
