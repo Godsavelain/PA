@@ -20,6 +20,7 @@ int SDL_PollEvent(SDL_Event *ev) {
 int SDL_WaitEvent(SDL_Event *event) {
   int res = 0;
   char buf[100];
+  memset(buf,0,100);
   char key[30];
   int str_len;
   int key_len;
