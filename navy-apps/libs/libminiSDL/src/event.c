@@ -21,7 +21,7 @@ int SDL_WaitEvent(SDL_Event *event) {
   int res = 0;
   char buf[100];
   char key[30];
-  char *pos;
+  int str_len;
   int key_len;
   int key_code = 0;
   printf("aaa\n");
@@ -29,11 +29,11 @@ int SDL_WaitEvent(SDL_Event *event) {
   printf("bbb\n");
   if(res == 1){
     printf("abc\n");
-    pos = strchr(buf,'\n');
+    str_len = strlen(buf);
     printf("bcd\n");
-    key_len = pos - buf - 3;
+    key_len = str_len - 3;
     printf("key_len %d \n",key_len);
-    memcpy(key,(buf+3),key_len);
+    memcpy(key,(buf+3),key_len+1);
     printf("ccc\n");
     for(int i=0;i<83;i++){//search for the keycode
       if(strcmp(keyname[i],key) == 0){
