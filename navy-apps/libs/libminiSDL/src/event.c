@@ -30,7 +30,7 @@ int SDL_WaitEvent(SDL_Event *event) {
     str_len = strlen(buf);
 
     key_len = str_len - 3;
-    printf("key_len %d \n",key_len);
+    printf("buf:%s key_len %d \n",buf,key_len);
     memcpy(key,(buf+3),key_len+1);
 
     for(int i=0;i<83;i++){//search for the keycode
