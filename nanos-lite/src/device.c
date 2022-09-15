@@ -59,7 +59,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     memcpy(temp_buf,"\n",1);
     temp_buf = temp_buf + 1;
     
-    read_num = read_num + 4 + key_len;
+    read_num = read_num + 3 + key_len;
     ev = io_read(AM_INPUT_KEYBRD);   
   }
   // printf("bbb \n");
@@ -68,7 +68,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   //printf("read num %d \n",read_num);
   //memcpy(temp_buf,"\0",1);
   //temp_buf = temp_buf + 1;
-  read_num = read_num + 1;
+  read_num = read_num ;
   return read_num;
 }
 
