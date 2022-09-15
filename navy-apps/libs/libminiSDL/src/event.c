@@ -28,6 +28,7 @@ int SDL_WaitEvent(SDL_Event *event) {
   res = NDL_PollEvent(buf, 100);
   printf("bbb\n");
   if(res == 1){
+    printf("abc\n");
     pos = strchr(buf,'\n');
     key_len = pos - buf - 3;
     memcpy(key,(buf+3),key_len);
