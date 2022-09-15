@@ -93,18 +93,19 @@ size_t fs_read(int fd, void *buf, size_t len){
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
-  printf("fs_write len:%ld\n",len);
+  printf("fd:%d fs_write len:%ld\n",fd,len);
   size_t actual_len;
   if(file_table[fd].write != NULL){
     if(fd == FD_FB){
       actual_len = file_table[fd].write(buf,file_table[fd].open_offset,len);
-      printf("actual_len %ld \n",actual_len);
+      //printf("actual_len %ld \n",actual_len);
     }
     else{
       actual_len = file_table[fd].write(buf,0,len);
     } 
   }
-  else{
+  else
+  {
     if(len == 0){
     return 0;
     }
