@@ -43,6 +43,7 @@ int SDL_WaitEvent(SDL_Event *event) {
     else{
       event->type = SDL_KEYUP;
     }
+    printf("keycode 74:%s key:%s",keyname[74],key);
     printf("got key %s keycode %d \n",key,key_code);
     event->key.keysym.sym = key_code;
     return 1;
