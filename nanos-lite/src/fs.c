@@ -98,6 +98,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
   if(file_table[fd].write != NULL){
     if(fd == FD_FB){
       actual_len = file_table[fd].write(buf,file_table[fd].open_offset,len);
+      file_table[fd].open_offset = file_table[fd].open_offset + actual_len;
       //printf("actual_len %ld \n",actual_len);
     }
     else{
