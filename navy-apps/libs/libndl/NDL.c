@@ -76,7 +76,6 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   int true_offset = 0;
   size_t write_len = 0;
   for(int i=true_y; i<true_y+h; i++){//i : true y
-    printf("i:%d\n",i);
     if(i >= (system_h - y_margin)){
       break;
     }
