@@ -27,7 +27,10 @@ int NDL_PollEvent(char *buf, int len) {
   //printf("num %d string %s \n",num,buf);
   fclose(fp);
   //printf("NDL buf %s \n",buf);
-  return num;
+  if(num > 0){
+    return 1;
+  }
+  return 0;
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
