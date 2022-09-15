@@ -58,7 +58,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     temp_buf = temp_buf + key_len;
     memcpy(temp_buf,"\n",1);
     temp_buf = temp_buf + 1;
-    //printf("%s \n",(char*)buf);
+    printf("%s \n",(char*)buf);
     read_num = read_num + 4 + key_len;
     ev = io_read(AM_INPUT_KEYBRD);   
   }
