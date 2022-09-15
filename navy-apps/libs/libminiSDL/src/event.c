@@ -24,17 +24,21 @@ int SDL_WaitEvent(SDL_Event *event) {
   char *pos;
   int key_len;
   int key_code = 0;
+  printf("aaa\n");
   res = NDL_PollEvent(buf, 100);
+  printf("bbb\n");
   if(res == 1){
     pos = strchr(buf,'\n');
     key_len = pos - buf - 3;
     memcpy(key,(buf+3),key_len);
+    printf("ccc\n");
     for(int i=0;i<83;i++){//search for the keycode
       if(strcmp(keyname[i],key) == 0){
         key_code = i;
         break;
       }
     }
+    printf("ddd\n");
     if((buf[0] == 'k')&&(buf[0] == 'd')){
       event->type = SDL_KEYDOWN;
     }
