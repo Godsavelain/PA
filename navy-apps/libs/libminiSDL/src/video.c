@@ -7,9 +7,56 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+  int x1,x2;
+  int y1,y2;
+  int w;
+  int h;
+  int buf_size;
+  int src_offset;
+  int dst_offset;
+  if(srcrect == NULL){
+    x1 = 0;
+    y1 = 0;
+    w  = src->w;
+    h  = src->h;
+    
+  }
+  else{
+    x1 = srcrect->x;
+    y1 = srcrect->y;
+    w = srcrect->w;
+    h = srcrect->h;
+  }
+  if(dstrect == NULL){
+    x2 = 0;
+    y2 = 0;
+  }
+  else{
+    x2 = dstrect->x;
+    y2 = dstrect->y;
+  }
+  src_offset = ((src->w * y1) + x1) * sizeof(int);
+  dst_offset = ((dst->w * y2) + x2) * sizeof(int);
+  buf_size = w * h * sizeof(int);
+  memcpy((dst->pixels + dst_offset), (src->pixels + src_offset), buf_size);
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+    int screen_w = dst->w;
+    int screen_h = dst->h;
+    int x = dstrect->x;
+    int y = dstrect->y;
+    int w = dstrect->w;
+    int h = dstrect->h;
+    int screen_size = screen_w * screen_h ;
+    int *pixels = malloc(screen_size * sizeof(int));
+    memset(pixels,0,screen_size * sizeof(int));
+    for(int i=y;i<(y+h);i++){
+      for(int j=x;j<(x+w);j++){
+        pixels[(i*screen_w) + j] = color;
+      }
+    }
+    NDL_DrawRect((uint32_t *)pixels, x, y, w, h);
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
