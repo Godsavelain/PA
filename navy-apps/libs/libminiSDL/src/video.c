@@ -3,8 +3,10 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
+  printf("SDL_BlitSurface \n");
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   int x1,x2;
@@ -38,6 +40,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   src_offset = ((src->w * y1) + x1) * sizeof(int);
   dst_offset = ((dst->w * y2) + x2) * sizeof(int);
   buf_size = w * h * sizeof(int);
+  printf("src %lx dst:%lx \n",(long unsigned int)(src->pixels + src_offset),(long unsigned int)(dst->pixels + dst_offset));
   memcpy((dst->pixels + dst_offset), (src->pixels + src_offset), buf_size);
 }
 
@@ -49,6 +52,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
     int w = dstrect->w;
     int h = dstrect->h;
     int screen_size = screen_w * screen_h ;
+    printf("screen size %d",screen_size);
     int *pixels = malloc(screen_size * sizeof(int));
     memset(pixels,0,screen_size * sizeof(int));
     for(int i=y;i<(y+h);i++){
