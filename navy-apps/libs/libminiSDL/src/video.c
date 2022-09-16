@@ -36,12 +36,19 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   else{
     x2 = dstrect->x;
     y2 = dstrect->y;
+    printf("x2 %d y2 %d",x2,y2);
   }
   src_offset = ((src->w * y1) + x1) * sizeof(int);
   dst_offset = ((dst->w * y2) + x2) * sizeof(int);
-  buf_size = w * h * sizeof(int);
-  //printf("src %lx dst:%lx \n",(long unsigned int)(src->pixels + src_offset),(long unsigned int)(dst->pixels + dst_offset));
-  memcpy((dst->pixels + dst_offset), (src->pixels + src_offset), buf_size);
+  //buf_size = w * h * sizeof(int);
+  for(int i=0;i<h;i++){
+    for(int j=0;j<w;j++){
+      src_offset = ((src->w * (y1 + i)) + x1 + j) * sizeof(int);
+      dst_offset = ((dst->w * (y2 + i)) + x2 + j) * sizeof(int);
+      memcpy((dst->pixels + dst_offset), (src->pixels + src_offset), 4);
+    }
+  }
+  NDL_DrawRect((uint32_t *)dst->pixels , x2, y2, w, h);
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
