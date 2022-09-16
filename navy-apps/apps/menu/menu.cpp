@@ -74,9 +74,9 @@ int main(int argc, char *argv[], char *envp[]) {
   font = new BDF_Font(font_fname);
   logo_sf = SDL_LoadBMP("/share/pictures/projectn.bmp");
   assert(logo_sf);
-  printf("11111\n");
+  //printf("11111\n");
   set_i_max();
-  printf("22222\n");
+  //printf("22222\n");
   while (1) {
     display_menu(i_max);
 
@@ -141,12 +141,12 @@ static void draw_text_row(char *s, int r) {
 }
 
 static void display_menu(int n) {
-  printf("33333\n");
+  //printf("33333\n");
   clear_display();
-  printf("44444\n");
+  //printf("44444\n");
   SDL_Rect rect = { .x = screen->w - logo_sf->w, .y = 0 };
   SDL_BlitSurface(logo_sf, NULL, screen, &rect);
-  printf("55555\n");
+  //printf("55555\n");
   printf("Available applications:\n");
   char buf[80];
   int i;

@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
-  printf("SDL_BlitSurface \n");
+  //printf("SDL_BlitSurface \n");
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   int x1,x2;
@@ -40,7 +40,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   src_offset = ((src->w * y1) + x1) * sizeof(int);
   dst_offset = ((dst->w * y2) + x2) * sizeof(int);
   buf_size = w * h * sizeof(int);
-  printf("src %lx dst:%lx \n",(long unsigned int)(src->pixels + src_offset),(long unsigned int)(dst->pixels + dst_offset));
+  //printf("src %lx dst:%lx \n",(long unsigned int)(src->pixels + src_offset),(long unsigned int)(dst->pixels + dst_offset));
   memcpy((dst->pixels + dst_offset), (src->pixels + src_offset), buf_size);
 }
 
