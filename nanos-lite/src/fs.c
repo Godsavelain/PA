@@ -50,7 +50,7 @@ static Finfo file_table[] __attribute__((used)) = {
 int fs_open(const char *pathname, int flags, int mode){
   int item_num = sizeof(file_table)/sizeof(file_table[0]);
   for(int i=0;i<item_num;i++){
-    printf("i: %d filename:%s pathname:%s",i,file_table[i].name,pathname);
+    printf("i: %d filename:%s pathname:%s\n",i,file_table[i].name,pathname);
     if(strcmp(file_table[i].name, pathname) == 0){
       file_table[i].open_offset = 0;
       //Log("open file %s \n",file_table[i].name);
