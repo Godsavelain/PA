@@ -17,9 +17,13 @@ SDL_Surface* IMG_Load(const char *filename) {
   size_t size = ftell(fp);
   char *buf = malloc(size * sizeof(char));
   fread(buf,1,size,fp);
-  printf("111\n");
+  //printf("111\n");
+  printf("file path %s fp %d size:%ld\n",filename,(int)fp,size);
   SDL_Surface* surface = STBIMG_LoadFromMemory(buf,size);
-  printf("222\n");
+  if(surface == NULL){
+    printf("aaa\n");
+  }
+  //printf("222\n");
   fclose(fp);
   free(buf);
   return surface;
