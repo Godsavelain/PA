@@ -24,7 +24,7 @@ SDL_Surface* IMG_Load(const char *filename) {
   if(surface == NULL){
     printf("aaa\n");
   }
-  //printf("222\n");
+  printf("222\n");
   fclose(fp);
   free(buf);
   return surface;
