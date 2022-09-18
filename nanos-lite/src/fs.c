@@ -71,7 +71,7 @@ size_t fs_read(int fd, void *buf, size_t len){
   }
   else{
     if(file_table[fd].open_offset >= file_table[fd].size){
-      printf("off %ld size %ld \n",file_table[fd].open_offset,file_table[fd].size);
+      printf("off %ld size %ld  len:%ld\n",file_table[fd].open_offset,file_table[fd].size,len);
     }
     assert(file_table[fd].open_offset < file_table[fd].size);
     int remain_space = file_table[fd].size - file_table[fd].open_offset;
