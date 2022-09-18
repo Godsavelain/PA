@@ -71,6 +71,11 @@ size_t fs_read(int fd, void *buf, size_t len){
     actual_len = file_table[fd].read(buf,0,len);
   }
   else{
+
+    if(fd == 41){
+      printf("offset:%ld size:%ld len:%ld\n",file_table[fd].open_offset,file_table[fd].size,len);
+    }
+
     if(file_table[fd].open_offset >= file_table[fd].size){
       return 0;
     }
