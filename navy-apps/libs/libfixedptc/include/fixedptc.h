@@ -73,6 +73,7 @@
 #endif
 
 #include <stdint.h>
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -127,26 +128,31 @@ typedef	__uint128_t fixedptud;
 
 /* Multiplies a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_muli(fixedpt A, int B) {
+	//printf("fixed_muli \n");
 	return (A * B);
 }
 
 /* Divides a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_divi(fixedpt A, int B) {
+	//printf("fixed_divi \n");
 	return (A / B);
 }
 
 /* Multiplies two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_mul(fixedpt A, fixedpt B) {
-	return ((A / B)>>8) ;
+	//printf("fixed_mul \n");
+	return ((A * B)/256) ;
 }
 
 
 /* Divides two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_div(fixedpt A, fixedpt B) {
+	//printf("fixed_div \n");
 	return (A / B);
 }
 
 static inline fixedpt fixedpt_abs(fixedpt A) {
+	//printf("fixed_abs \n");
 	return ((A>0)?A:-A);
 }
 
@@ -157,10 +163,12 @@ static inline fixedpt fixedpt_floor(fixedpt A) {
 	// else{
 	// 	return (((-A) & (-256)) == (-A)) ? A : (((-A) & (-256)) - 1);
 	// }
+	//printf("fixed_floor \n");
 	return (A & (-256));
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
+	//printf("fixed_ceil \n");
 	if(A == (A & (-256))){
 		return A;
 	}
@@ -206,6 +214,7 @@ fixedpt fixedpt_sin(fixedpt fp);
 
 /* Returns the cosine of the given fixedpt number */
 static inline fixedpt fixedpt_cos(fixedpt A) {
+	//printf("fixed_cos \n");
 	return (fixedpt_sin(FIXEDPT_HALF_PI - A));
 }
 

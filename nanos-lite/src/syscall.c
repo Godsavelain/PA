@@ -104,7 +104,7 @@ void do_syscall(Context *c) {
       break;
     case 9://SYS_brk
       printf("syscall brk\n");
-      printf("inc %x\n",(int)c->GPR2);
+      printf("inc %lx\n",c->GPR2);
       c->GPRx = 0;
       break;
     case 19://gettimeofday
