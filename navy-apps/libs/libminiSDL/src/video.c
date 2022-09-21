@@ -6,7 +6,17 @@
 #include <stdio.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
-  //printf("SDL_BlitSurface \n");
+  //judge if the surface use palette
+  //printf("BlitSurface\n");
+  int src_use_palette = 0;
+  if(src->format->palette != NULL){
+    src_use_palette = 1;
+  }
+  int dst_use_palette = 0;
+  if(dst->format->palette != NULL){
+    dst_use_palette = 1;
+  }
+  //printf("src palette %d dst palette %d\n",src_use_palette,dst_use_palette);
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   int x1,x2;
@@ -16,12 +26,12 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   int buf_size;
   int src_offset;
   int dst_offset;
+
   if(srcrect == NULL){
     x1 = 0;
     y1 = 0;
     w  = src->w;
     h  = src->h;
-    
   }
   else{
     x1 = srcrect->x;
@@ -36,22 +46,68 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   else{
     x2 = dstrect->x;
     y2 = dstrect->y;
-    printf("x2 %d y2 %d",x2,y2);
+    //printf("x2 %d y2 %d",x2,y2);
   }
-  src_offset = ((src->w * y1) + x1) * sizeof(int);
-  dst_offset = ((dst->w * y2) + x2) * sizeof(int);
+  if(src_use_palette == 1){
+    src_offset = ((src->w * y1) + x1) * sizeof(char);
+  }
+  else{
+    src_offset = ((src->w * y1) + x1) * sizeof(int);
+  }
+  if(dst_use_palette == 1){
+    dst_offset = ((dst->w * y2) + x2) * sizeof(char);
+  }
+  else{
+    dst_offset = ((dst->w * y2) + x2) * sizeof(int);
+  }
+  
   //buf_size = w * h * sizeof(int);
   for(int i=0;i<h;i++){
     for(int j=0;j<w;j++){
-      src_offset = ((src->w * (y1 + i)) + x1 + j) * sizeof(int);
-      dst_offset = ((dst->w * (y2 + i)) + x2 + j) * sizeof(int);
-      memcpy((dst->pixels + dst_offset), (src->pixels + src_offset), 4);
+      if(src_use_palette == 1){
+        src_offset = ((src->w * (y1 + i)) + x1 + j) * sizeof(char);
+      }
+      else{
+        src_offset = ((src->w * (y1 + i)) + x1 + j) * sizeof(int);
+      }
+      if(dst_use_palette == 1){
+        dst_offset = ((dst->w * (y2 + i)) + x2 + j) * sizeof(char);
+      }
+      else{
+        dst_offset = ((dst->w * (y2 + i)) + x2 + j) * sizeof(int);
+      }
+      if(dst_use_palette == 1){
+        memcpy((dst->pixels + dst_offset), (src->pixels + src_offset), 1);
+      }
+      else if(src_use_palette == 1){
+        *(dst->pixels + dst_offset) = (src->format->palette->colors[*(src->pixels + src_offset)]).val;
+      }
+      else{
+        memcpy((dst->pixels + dst_offset), (src->pixels + src_offset), 4);
+      }
     }
   }
-  NDL_DrawRect((uint32_t *)dst->pixels , x2, y2, w, h);
+  if(dst_use_palette == 1){
+    uint32_t *true_buffer;
+    true_buffer = malloc(w * h * sizeof(uint32_t));
+    for(int i=0;i<w*h;i++){
+      true_buffer[i] = dst->format->palette->colors[(int)*(dst->pixels + i)].val;
+    }
+    NDL_DrawRect(true_buffer , x2, y2, w, h);
+    free(true_buffer);
+  }
+  else{
+    NDL_DrawRect((uint32_t *)dst->pixels , x2, y2, w, h);
+  }
+  
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+
+    if(dst->format->palette != NULL){
+      assert(0);
+    }
+
     int screen_w = dst->w;
     int screen_h = dst->h;
     int x = 0;
@@ -75,16 +131,47 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
         ((int *)(dst->pixels))[((i*screen_w) + j)] = color;
       }
     }
-    NDL_DrawRect((uint32_t *)dst->pixels , x, y, w, h);
-      
+    NDL_DrawRect((uint32_t *)dst->pixels , x, y, w, h); 
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
+  //printf("UpdateRect\n");
+  int use_palette = 0;
+  int sys_w = 0;
+  int sys_h = 0;
+  sys_w = s->w;
+  sys_h = s->h;
+  if(s->format->palette != NULL){
+    use_palette = 1;
+  }
   if((x ==0) && (y ==0) && (w ==0) && (h ==0)){
-    NDL_DrawRect((uint32_t *)s->pixels, x, y, s->w, s->h);
+    if(use_palette == 1){
+      //printf("Use palette\n");
+      uint32_t *true_buffer;
+      true_buffer = malloc(sys_w * sys_h * sizeof(uint32_t));
+      for(int i=0;i<sys_w*sys_h;i++){
+        true_buffer[i] = s->format->palette->colors[(int)*(s->pixels + i)].val;
+      }
+      NDL_DrawRect(true_buffer, x, y, sys_w, sys_h);
+      free(true_buffer);
+    }
+    else{
+      NDL_DrawRect((uint32_t *)s->pixels, x, y, sys_w, sys_h);
+    }
   }
   else{
-    NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
+    if(use_palette == 1){
+      uint32_t *true_buffer;
+      true_buffer = malloc(sys_w * sys_h * sizeof(uint32_t));
+      for(int i=0;i<sys_w*sys_h;i++){
+        true_buffer[i] = s->format->palette->colors[(int)*(s->pixels + i)].val;
+      }
+      NDL_DrawRect(true_buffer, x, y, w, h);
+      free(true_buffer);
+    }
+    else{
+      NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
+    } 
   } 
 }
 
@@ -266,8 +353,10 @@ uint32_t SDL_MapRGBA(SDL_PixelFormat *fmt, uint8_t r, uint8_t g, uint8_t b, uint
 }
 
 int SDL_LockSurface(SDL_Surface *s) {
+  printf("LockSurface\n");
   return 0;
 }
 
 void SDL_UnlockSurface(SDL_Surface *s) {
+  printf("UnlockSurface\n");
 }
