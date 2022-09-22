@@ -148,7 +148,7 @@ static inline fixedpt fixedpt_mul(fixedpt A, fixedpt B) {
 /* Divides two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_div(fixedpt A, fixedpt B) {
 	//printf("fixed_div \n");
-	return (A / B);
+	return (A / B) * 256;
 }
 
 static inline fixedpt fixedpt_abs(fixedpt A) {
