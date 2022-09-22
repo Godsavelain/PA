@@ -28,7 +28,7 @@ int SDL_PollEvent(SDL_Event *ev) {
   if(res == 1){
     str_len = strlen(buf);
     key_len = str_len - 3;
-    //printf("poll_event buf:%s key_len %d \n",buf,key_len);
+    printf("poll_event buf:%s key_len %d \n",buf,key_len);
     memcpy(key,(buf+3),key_len+1);
 
     for(int i=0;i<83;i++){//search for the keycode
@@ -67,7 +67,7 @@ int SDL_WaitEvent(SDL_Event *event) {
   if(res == 1){
     str_len = strlen(buf);
     key_len = str_len - 3;
-    //printf("wait_event buf:%s key_len %d \n",buf,key_len);
+    printf("wait_event buf:%s key_len %d \n",buf,key_len);
     memcpy(key,(buf+3),key_len+1);
 
     for(int i=0;i<83;i++){//search for the keycode
