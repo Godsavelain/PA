@@ -91,7 +91,11 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     uint32_t *true_buffer;
     true_buffer = malloc(w * h * sizeof(uint32_t));
     for(int i=0;i<w*h;i++){
-      true_buffer[i] = dst->format->palette->colors[(int)*(dst->pixels + i)].val;
+      uint32_t r_pixel = dst->format->palette->colors[(int)*(dst->pixels + i)].r;
+      uint32_t g_pixel = dst->format->palette->colors[(int)*(dst->pixels + i)].g;
+      uint32_t b_pixel = dst->format->palette->colors[(int)*(dst->pixels + i)].b;
+        // true_buffer[i] = s->format->palette->colors[(int)*(s->pixels + i)].val;
+      true_buffer[i] = (r_pixel << 16) | (g_pixel << 8) | b_pixel;
     }
     NDL_DrawRect(true_buffer , x2, y2, w, h);
     free(true_buffer);
