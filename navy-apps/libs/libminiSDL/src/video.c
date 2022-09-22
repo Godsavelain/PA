@@ -80,12 +80,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
         memcpy((dst->pixels + dst_offset), (src->pixels + src_offset), 1);
       }
       else if(src_use_palette == 1){
-        uint32_t rgb_pixel = (src->format->palette->colors[*(src->pixels + src_offset)]).val;
-        uint32_t r_pixel = rgb_pixel && DEFAULT_RMASK;
-        uint32_t b_pixel = rgb_pixel && DEFAULT_BMASK;
-        uint32_t bgr_pixel = rgb_pixel && 0xff00ff00 && (r_pixel >> 16) && (b_pixel << 16);
-        // *(dst->pixels + dst_offset) = (src->format->palette->colors[*(src->pixels + src_offset)]).val;
-        *(dst->pixels + dst_offset) = bgr_pixel;
+        *(dst->pixels + dst_offset) = (src->format->palette->colors[*(src->pixels + src_offset)]).val;
       }
       else{
         memcpy((dst->pixels + dst_offset), (src->pixels + src_offset), 4);
@@ -108,9 +103,11 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+
     if(dst->format->palette != NULL){
       assert(0);
     }
+
     int screen_w = dst->w;
     int screen_h = dst->h;
     int x = 0;
@@ -153,7 +150,11 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
       uint32_t *true_buffer;
       true_buffer = malloc(sys_w * sys_h * sizeof(uint32_t));
       for(int i=0;i<sys_w*sys_h;i++){
-        true_buffer[i] = s->format->palette->colors[(int)*(s->pixels + i)].val;
+        uint32_t r_pixel = s->format->palette->colors[(int)*(s->pixels + i)].r;
+        uint32_t g_pixel = s->format->palette->colors[(int)*(s->pixels + i)].g;
+        uint32_t b_pixel = s->format->palette->colors[(int)*(s->pixels + i)].b;
+        // true_buffer[i] = s->format->palette->colors[(int)*(s->pixels + i)].val;
+        true_buffer[i] = (r_pixel << 16) | (g_pixel << 8) | b_pixel;
       }
       NDL_DrawRect(true_buffer, x, y, sys_w, sys_h);
       free(true_buffer);
