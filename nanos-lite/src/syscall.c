@@ -3,12 +3,14 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <time.h>
+#include <proc.h>
 
 int fs_open(const char *pathname, int flags, int mode);
 size_t fs_read(int fd, void *buf, size_t len);
 size_t fs_write(int fd, const void *buf, size_t len);
 size_t fs_lseek(int fd, size_t offset, int whence);
 int fs_close(int fd);
+void naive_uload(PCB *pcb, const char *filename);
 
 void syscall_trace(uintptr_t NO)
 {
@@ -37,6 +39,7 @@ void do_syscall(Context *c) {
   struct timeval *now;
   //struct timezone *tz;
   int whence;
+  char *fname;
 
   switch (a[0]) {
     case 0:// EXIT
@@ -72,18 +75,6 @@ void do_syscall(Context *c) {
       buf = (char*)a[2];
       count = a[3];
       suc_cnt = 0;
-      // if((fd == 1) || (fd == 2))
-      // {
-      //   for(int i=0;i< count;i++)
-      //   {
-      //     putch(*(buf + i));
-      //     suc_cnt++;
-      //   }
-      // }
-      // else
-      // {
-      //   suc_cnt = fs_write(fd, buf, count);
-      // }
       suc_cnt = fs_write(fd, buf, count);
       c->GPRx = suc_cnt;
       //printf("count %d suc_num %d\n",count , c->GPR2);
@@ -106,6 +97,11 @@ void do_syscall(Context *c) {
       //printf("syscall brk\n");
       //printf("inc %lx\n",c->GPR2);
       c->GPRx = 0;
+      break;
+    case 13://SYS_execve
+      fname = (char *)a[1];
+      c->GPRx = 0;
+      naive_uload(NULL,fname);
       break;
     case 19://gettimeofday
       //printf("syscall gettimeofday!\n");
