@@ -43,7 +43,8 @@ void do_syscall(Context *c) {
 
   switch (a[0]) {
     case 0:// EXIT
-      halt(a[1]);
+      //halt(a[1]);
+      naive_uload(NULL, "/bin/menu");
       break;
     case 1://YIELD
       yield();
